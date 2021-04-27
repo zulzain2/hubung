@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MeetingLog;
 use Illuminate\Http\Request;
 
 class MeetController extends Controller
@@ -14,7 +15,12 @@ class MeetController extends Controller
     public function index()
     {
         $topBarTitle = 'Meet';
-        return view('meet.index')->with(compact('topBarTitle'));
+
+        $meetinglogs = MeetingLog::where([
+			['id_users', '=' , auth()->user()->id]
+		])->orderByDesc('datetime')->get();
+
+        return view('meet.index')->with(compact('topBarTitle' , 'meetinglogs'));
     }
 
     /**
@@ -92,20 +98,17 @@ class MeetController extends Controller
             'datetime' 			=> 'required',
         ]);
 
-         
+        $add = New MeetingLog;
+        $add->id_users = auth()->user()->id;
+        $add->room_name = $request->room_name;
+        $add->display_name = $request->display_name;
+        $add->datetime = date('Y-m-d H:i:s' , strtotime($request->datetime));
+        $add->save();
+       
+        $meetinglog = MeetingLog::where([
+			['id_users', '=' , auth()->user()->id]
+		])->orderByDesc('datetime')->get();
 
-        $branch_id = $request->branch_id;
-        
-        if($branch_id == "")
-		{
-			$branch_id = $request->id_company;
-        }
-        
-        $areas = Area::where([
-			['id_status', '=' , '1'],
-			['id_company' , '=' , $branch_id]
-		])->orderBy('area')->get();
-
-        return json_encode($areas);
+        return json_encode($meetinglog);
     }
 }

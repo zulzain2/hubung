@@ -22,20 +22,20 @@
             </div>
             <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                 <i class="fa fa-user color-blue-dark"></i>
-                <input id="usrName" type="name" class="form-control validate-name" placeholder="Enter your name">
+                <input id="usrName" type="name" class="form-control validate-name" placeholder="Enter display name" value="{{auth()->user()->name}}">
                 <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
                 <i class="fa fa-times disabled invalid color-red-dark"></i>
                 <i class="fa fa-check disabled valid color-green-dark"></i>
                 <em>(required)</em>
             </div>
-            <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+            {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                 <i class="fas fa-envelope-open color-blue-dark"></i>
                 <input id="usrEmail" type="email" class="form-control validate-text" placeholder="Enter your email address">
                 <label class="color-theme opacity-50 text-uppercase font-700 font-10">Email</label>
                 <i class="fa fa-times disabled invalid color-red-dark"></i>
                 <i class="fa fa-check disabled valid color-green-dark"></i>
                 <em>(optional)</em>
-            </div>
+            </div> --}}
 
         
 
@@ -78,7 +78,19 @@
             <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
             <div id="meeting-log" class="list-group list-custom-large mb-4">
                 
-               <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                @if (count($meetinglogs) > 0)
+                    @foreach ($meetinglogs as $meetinglog)
+                        <a href="#">
+                            <span>{{$meetinglog->room_name}}</span>
+                            <strong>as {{$meetinglog->display_name}}</strong>
+                            <span class="badge bg-blue-dark">{{date('j F Y g:i a' , strtotime($meetinglog->datetime))}}</span>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    @endforeach
+                @else
+                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                @endif
+               
 
             </div>
         </div>

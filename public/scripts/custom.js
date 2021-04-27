@@ -139,13 +139,20 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     + currentdate.getHours() + ":"  
                                     + currentdate.getMinutes() + ":" 
                                     + currentdate.getSeconds();
-                                 
+
+                    var datetimefordb =  currentdate.getFullYear() + "-"
+                                    + (currentdate.getMonth()+1)  + "-" 
+                                    + currentdate.getDate() + " "  
+                                    + currentdate.getHours() + ":"  
+                                    + currentdate.getMinutes() + ":" 
+                                    + currentdate.getSeconds();
+
                 const dataMeetingLog = new URLSearchParams();
 				dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
                 dataMeetingLog.append('display_name', data.displayName);
-				dataMeetingLog.append('datetime', datetime);
+				dataMeetingLog.append('datetime', datetimefordb);
 
-                fetch("store/meetinglog", {
+                fetch("fetch/meetinglog", {
 					method: 'post',
 					credentials: "same-origin",
 					headers: {
@@ -158,46 +165,33 @@ document['addEventListener']('DOMContentLoaded', () => {
 				}).then(function(resultsJSON){
 
 					const results = resultsJSON
-					selectArea.html('')
-					selectArea.append(`
-						<option value="">-- Select Your Working Area --</option>
-					`)
-					if (results.length) {
-						// selectArea.removeAttr('disabled')
 
-						results.map(area => {
-							selectArea.append(`
-								<option value='${area.id}'>${area.area}</option>
-							`)
-						})
+                    if (results.length) {
+                        $('#meeting-log').html('');
+                        results.map(meetinglog => {
 
-						selectArea.trigger("chosen:updated");
-					} else {
-						// selectArea.attr('disabled', 'disabled')
+                            var d = new Date(meetinglog.datetime);
 
-						results.map(area => {
-							selectArea.append(`
-								<option value='${area.id}'>${area.area}</option>
-							`)
-						})
-						selectArea.trigger("chosen:updated");
-					}
+                            $('#meeting-log').append(`
+                                <a href="#">
+                                    <span>${meetinglog.room_name}</span>
+                                    <strong>as ${meetinglog.display_name}</strong>
+                                    <span class="badge bg-blue-dark">${meetinglog.datetime}</span>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            `)
+                        })
+
+                    }
+                    else{
+
+                    }
+
 				})
 				.catch(function(err) {
 					console.log(err);
 				});
-
-
-                    $('#meeting-log').append(`
-                        <a href="#">
-                            <span>`+decodeURIComponent(data.roomName)+`</span>
-                            <strong>as `+data.displayName+`</strong>
-                            <span class="badge bg-blue-dark">`+datetime+`</span>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    `);
-
-                    
+                 
                 }
             });
         });
