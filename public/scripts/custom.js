@@ -12,8 +12,8 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x4 = 'Sticky';
     var _0xce56x5 = 1;
     var _0xce56x6 = false;
-    var _0xce56x7 = 'https://communication.test/';
-    var _0xce56x8 = 'https://communication.test/_service-worker.js';
+    var _0xce56x7 = ''+$('meta[name="domain"]').attr('content')+'';
+    var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
 
     function _0xce56x9() {
      
