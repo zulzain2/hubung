@@ -170,13 +170,17 @@ document['addEventListener']('DOMContentLoaded', () => {
                         $('#meeting-log').html('');
                         results.map(meetinglog => {
 
-                            var d = new Date(meetinglog.datetime);
+                            
+
+                            let now = new Date(meetinglog.datetime);
+                            
+                            var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
 
                             $('#meeting-log').append(`
                                 <a href="#">
                                     <span>${meetinglog.room_name}</span>
                                     <strong>as ${meetinglog.display_name}</strong>
-                                    <span class="badge bg-blue-dark">${meetinglog.datetime}</span>
+                                    <span class="badge bg-blue-dark">${dateStringWithTime}</span>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
                             `)
