@@ -115,9 +115,9 @@
                     <div class="divider mt-4 mb-3"></div>
 
                     <div class="d-flex">
-                        <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-start"><a href="{{URL::to('register')}}" class="color-theme">Create Account</a></div>
+                        <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-start"><a href="register" class="color-theme">Create Account</a></div>
                         @if (Route::has('password.request'))
-                            <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-end"><a href="{{URL::to('forgot-password')}}" class="color-theme">Forgot Credentials</a></div>
+                            <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-end"><a href="forgot-password" class="color-theme">Forgot Credentials</a></div>
                         @endif
                     </div>
                 </div>

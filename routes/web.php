@@ -24,12 +24,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect('/home');
     });
-    
+
     Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
     Route::resource('chat', 'App\Http\Controllers\ChatController');
 
+    Route::post('/fetch/meetinglog', 'App\Http\Controllers\MeetController@storeMeetingLog');
     Route::resource('meet', 'App\Http\Controllers\MeetController');
+
+
+    
 
 });
 

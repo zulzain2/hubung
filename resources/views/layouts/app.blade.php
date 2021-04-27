@@ -5,7 +5,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#000">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- <meta name="theme-color" content="#000"> --}}
 <title>MaGICX Communication</title>
 
 <!-- App favicon -->
@@ -21,7 +22,7 @@
 </head>
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
 
-{{-- <div id="preloader"><div class="spinner-border color-highlight" role="status"></div></div> --}}
+<div id="preloader"></div>
 
 <div id="page">
     <div class="header header-fixed header-logo-center">
@@ -41,10 +42,10 @@
         <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a>
     </div>
     <div id="footer-bar" class="footer-bar-1">
-      
-        <a id="home" href="{{URL::to('/home')}}"><i class="fa fa-home"></i><span>Home</span></a>
-        <a id="chat" href="{{URL::to('/chat')}}"><i class="fas fa-comments"></i><span>Chat</span></a>
-        <a id="meet" href="{{URL::to('/meet')}}"><i class="fas fa-video"></i><span>Meeting</span></a>
+
+        <a id="home" href="home" class="active-nav"><i class="fa fa-home"></i><span>Home</span></a>
+        <a id="chat" href="chat"><i class="fas fa-comments"></i><span>Chat</span></a>
+        <a id="meet" href="meet"><i class="fas fa-video"></i><span>Meeting</span></a>
         <a id="file" href="index-search.html"><i class="fas fa-folder"></i><span>My File</span></a>
         <a id="setting" href="#" data-menu="menu-settings"><i class="fa fa-cog"></i><span>Settings</span></a>
 
@@ -89,57 +90,14 @@
         </div>
     </div>
 
+
+    
+
 </div>
 
 <script type="text/javascript" src="{{URL::to('scripts/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript">
-  $(document).ready(function() {
-      
-    if (window.location.href.indexOf("chat") > -1) {
-        
-        $('#home').removeClass('active-nav');
-        $('#chat').addClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
-    }
-    else if(window.location.href.indexOf("meet") > -1)
-    {
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').addClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
-    }
-    else if(window.location.href.indexOf("file") > -1)
-    {
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').addClass('active-nav');
-        $('#setting').removeClass('active-nav');
-    }
-    else if(window.location.href.indexOf("setting") > -1)
-    {
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').addClass('active-nav');
-    }
-    else
-    {
-        $('#home').addClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
-    }
-  });
-</script>
+<script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
 
 @stack('scripts')
 

@@ -1,7 +1,13 @@
 var CACHE_NAME = 'Sticky-Cache-V421-LTR';
 var REQUIRED_FILES = [
-    '/chat',
-    '/meet'
+    // '/login',
+    // '/register',
+    // '/forgot-password',
+    // '/home',
+    // '/chat',
+    // '/meet',
+    'scripts/external_api.js',
+    'scripts/jquery-3.6.0.min.js'
 ];
 self['addEventListener']('install', function(_0xf25cx3) {
     _0xf25cx3['waitUntil'](caches['open'](CACHE_NAME)['then'](function(_0xf25cx4) {

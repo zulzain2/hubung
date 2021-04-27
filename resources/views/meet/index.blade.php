@@ -79,7 +79,7 @@
             <div id="meeting-log" class="list-group list-custom-large mb-4">
                 
                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-               
+
             </div>
         </div>
     </div>
@@ -103,93 +103,5 @@
 
 
 @push('scripts')
-<script src='https://meet.tvetxr.ga/external_api.js'></script>
-
-
-<script>
-    $(document).ready(function() {
-
-                    
-       
-
-        $('#toggle-id').change(function() {
-            // this will contain a reference to the checkbox   
-            if (this.checked) {
-                // the checkbox is now checked 
-                $('#password_meeting').show();
-            } else {
-                // the checkbox is now no longer checked
-                $('#password_meeting').hide();
-            }
-        });
-
-
-
-        $('#start-meeting').on('click' , function(){
-
-            // $('#meet_iframe').show();
-            $('#initialize-meeting').hide();
-
-            let meetingName = $('#meetingName').val();
-            let usrName = $('#usrName').val();
-            let usrEmail = $('#usrEmail').val();
-
-            const domain = 'meet.tvetxr.ga';
-            const options = {
-                roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
-                width: '100%',
-                height: '100%',
-                parentNode: document.querySelector('#meet_iframe'),
-                userInfo: {
-                    email: usrEmail ? usrEmail : '',
-                    displayName: usrName ? usrName : 'Fellow MaGICXian',
-                },
-                configOverwrite:{
-                    disableDeepLinking: true,
-                    apiLogLevels: ['log'],
-                },
-            };
-            const apiObj = new JitsiMeetExternalAPI(domain, options);
-            
-            apiObj.addEventListeners({
-                readyToClose: function () {
-
-                    const _0xce56x32 = document['querySelectorAll']('.menu-active');
-        
-                    for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                        _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                    };
-
-                    $('#meet_iframe').empty();
-                    // $('#meet_iframe').hide();
-                    $('#initialize-meeting').show();
-                },
-
-                log: function(data) {
-                
-                    
-                    var logstr = data.args  + '';
-                    if (logstr.includes('entered')) {
-                        var arrlog = logstr.split(",")
-                        var rooNameArr = arrlog[4].split("@")
-
-                        $('#meeting-log').append(`
-                        <a href="#">
-                            <span>`+decodeURIComponent(rooNameArr[0])+`</span>
-                            <strong>`+rooNameArr[1]+`</strong>
-                            <span class="badge bg-blue-dark">`+arrlog[0]+`</span>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    `);
-                    }
-                   
-                }
-            });
-        })
-        
-
-
-    });
-</script>
-
+<script type="text/javascript" src="{{URL::to('scripts/external_api.js')}}"></script>
 @endpush

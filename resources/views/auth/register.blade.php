@@ -134,7 +134,7 @@
                             <div class="divider"></div>
 
                             <p class="text-center">
-                                <a href="{{URL::to('login')}}" class="color-theme opacity-50 font-12">Already Registered? Sign in Here</a>
+                                <a href="login" class="color-theme opacity-50 font-12">Already Registered? Sign in Here</a>
                             </p>
                             <br>
 

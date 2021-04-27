@@ -82,4 +82,30 @@ class MeetController extends Controller
     {
         //
     }
+
+
+    public function storeMeetingLog(Request $request)
+    {
+        $request->validate([
+            'room_name' 	=> 'required',
+            'display_name' 		=> 'required',
+            'datetime' 			=> 'required',
+        ]);
+
+         
+
+        $branch_id = $request->branch_id;
+        
+        if($branch_id == "")
+		{
+			$branch_id = $request->id_company;
+        }
+        
+        $areas = Area::where([
+			['id_status', '=' , '1'],
+			['id_company' , '=' , $branch_id]
+		])->orderBy('area')->get();
+
+        return json_encode($areas);
+    }
 }

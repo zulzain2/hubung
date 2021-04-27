@@ -57,7 +57,7 @@
                                 <input data-toggle-theme="" type="checkbox" class="ios-input" id="switch-dark-mode">
                                 <label class="custom-control-label" for="switch-dark-mode"></label>
                             </div>
-                            
+
                             <h1 class="text-center"><i class="fa fa-question-circle fa-3x color-highlight mt-3"></i></h1>
                             <h1 class="pt-3 mt-3 text-center font-900 font-40 text-uppercase">Forgot</h1>
                             <p class="text-center color-highlight font-11">Let's get you back into your account</p>
@@ -74,7 +74,7 @@
                             <div class="divider"></div>
 
                             <p class="text-center">
-                                <a href="{{URL::to('login')}}" class="color-theme opacity-50 font-12">Back to Login</a>
+                                <a href="login" class="color-theme opacity-50 font-12">Back to Login</a>
                             </p>
                             <br>
                         </div>
