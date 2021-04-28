@@ -29,7 +29,7 @@
 </head>
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
 
-<div id="preloader"></div>
+<div id="preloader" style="background-color:transparent"></div>
 
 <div id="page">
     <div class="header header-fixed header-logo-center">
