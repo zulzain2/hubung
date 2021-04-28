@@ -116,6 +116,6 @@
 
 @push('scripts')
 
-
+    <script type="text/javascript" src="{{URL::to('scripts/external_api.js')}}"></script>
 
 @endpush
