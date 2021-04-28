@@ -170,8 +170,59 @@
 <script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
+<script type="text/javascript" src="{{URL::to('scripts/sw_initialize.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/external_api.js')}}"></script>
 
+<script>
+    $(document).ready(function () {
+    var _0xce56x4 = 'Sticky';
+
+    const _0xce56x51 = document['querySelectorAll']('[data-toggle-theme]');
+
+function _0xce56x52() {
+    document['body']['classList']['add']('theme-dark');
+    document['body']['classList']['remove']('theme-light', 'detect-theme');
+    for (let _0xce56xa = 0; _0xce56xa < _0xce56x51['length']; _0xce56xa++) {
+        _0xce56x51[_0xce56xa]['checked'] = 'checked'
+    };
+    localStorage['setItem'](_0xce56x4 + '-Theme', 'dark-mode')
+}
+
+function _0xce56x53() {
+    document['body']['classList']['add']('theme-light');
+    document['body']['classList']['remove']('theme-dark', 'detect-theme');
+    for (let _0xce56xa = 0; _0xce56xa < _0xce56x51['length']; _0xce56xa++) {
+        _0xce56x51[_0xce56xa]['checked'] = false
+    };
+    localStorage['setItem'](_0xce56x4 + '-Theme', 'light-mode')
+}
+
+function _0xce56x54() {
+            var _0xce56x55 = document['querySelectorAll']('.btn, .header, #footer-bar, .menu-box, .menu-active');
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x55['length']; _0xce56xa++) {
+                _0xce56x55[_0xce56xa]['style']['transition'] = 'all 0s ease'
+            }
+        }
+       
+
+const _0xce56x5c = document['querySelectorAll']('[data-toggle-theme]');
+        _0xce56x5c['forEach']((_0xce56xc) => {
+            return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
+                if (document['body']['className'] == 'theme-light') {
+                   
+                    _0xce56x52()
+                } else {
+                    if (document['body']['className'] == 'theme-dark') {
+                        
+                        _0xce56x53()
+                    }
+                };
+                
+            })
+        });
+       
+    });
+</script>
 
 @stack('scripts')
 
