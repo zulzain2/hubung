@@ -83,22 +83,22 @@
                 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
-            <div class="list-group list-custom-large">
-                <a data-menu="menu-highlights" href="#">
-                <i class="fa font-14 fa-tint bg-green-dark rounded-s"></i>
+            <div class="list-group list-custom-small">
+                <a data-menu="menu-highlights" href="#" class="pb-2 pt-2 ms-n1">
+                <i class="fa font-12 fa-tint bg-green-dark rounded-s me-3"></i>
                 <span>Page Highlight</span>
-                <strong>16 Colors Highlights Included</strong>
+                {{-- <strong>16 Colors Highlights Included</strong> --}}
            
                 <i class="fa fa-angle-right"></i>
                 </a>
-                <a data-menu="menu-backgrounds" href="#" class="border-0">
-                <i class="fa font-14 fa-cog bg-blue-dark rounded-s"></i>
+                <a data-menu="menu-backgrounds" href="#" class="border-0 pb-2 pt-2 ms-n1">
+                <i class="fa font-12 fa-cog bg-blue-dark rounded-s me-3"></i>
                 <span>Background Color</span>
-                <strong>10 Page Gradients Included</strong>
+                {{-- <strong>10 Page Gradients Included</strong> --}}
            
                 <i class="fa fa-angle-right"></i>
                 </a>
-                </div>
+            </div>
             <div class="list-group list-custom-small">
                 
             

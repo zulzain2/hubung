@@ -3,9 +3,9 @@ var REQUIRED_FILES = [
     // '/login',
     // '/register',
     // '/forgot-password',
-    // '/home',
-    // '/chat',
-    // '/meet',
+    '/home',
+    '/chat',
+    '/meet',
     'scripts/external_api.js',
     'scripts/jquery-3.6.0.min.js'
 ];

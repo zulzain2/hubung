@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com/">
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i|Source+Sans+Pro:300,300i,400,400i,600,600i,700,700i,900,900i&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{URL::to('fonts/css/fontawesome-all.min.css')}}">
-<link rel="manifest" href="{{URL::to('_manifest.json')}}" data-pwa-version="set_in_manifest_and_pwa_js">
+{{-- <link rel="manifest" href="{{URL::to('_manifest.json')}}" data-pwa-version="set_in_manifest_and_pwa_js"> --}}
 <link rel="apple-touch-icon" sizes="180x180" href="{{URL::to('app/icons/icon-192x192.png')}}">
 @stack('styles')
 </head>
@@ -56,7 +56,7 @@
 <script type="text/javascript" src="{{URL::to('scripts/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
-<script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
+<script type="text/javascript" src="{{URL::to('scripts/custom_guest.js')}}"></script>
 
 @stack('scripts')
 
