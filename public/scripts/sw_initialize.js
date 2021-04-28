@@ -10,7 +10,45 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
 
     function _0xce56x9() {
-      
+        let _0xce56x10c = {
+            Android: function() {
+                return navigator['userAgent']['match'](/Android/i)
+            },
+            iOS: function() {
+                return navigator['userAgent']['match'](/iPhone|iPad|iPod/i)
+            },
+            any: function() {
+                return (_0xce56x10c.Android() || _0xce56x10c['iOS']())
+            }
+        };
+        const _0xce56x10d = document['getElementsByClassName']('show-android');
+        const _0xce56x10e = document['getElementsByClassName']('show-ios');
+        const _0xce56x10f = document['getElementsByClassName']('show-no-device');
+        if (!_0xce56x10c['any']()) {
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10e['length']; _0xce56xa++) {
+                _0xce56x10e[_0xce56xa]['classList']['add']('disabled')
+            };
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10d['length']; _0xce56xa++) {
+                _0xce56x10d[_0xce56xa]['classList']['add']('disabled')
+            }
+        };
+        if (_0xce56x10c['iOS']()) {
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10f['length']; _0xce56xa++) {
+                _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
+            };
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10d['length']; _0xce56xa++) {
+                _0xce56x10d[_0xce56xa]['classList']['add']('disabled')
+            }
+        };
+        if (_0xce56x10c.Android()) {
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10e['length']; _0xce56xa++) {
+                _0xce56x10e[_0xce56xa]['classList']['add']('disabled')
+            };
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10f['length']; _0xce56xa++) {
+                _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
+            }
+        };
+        
             if (_0xce56x2 === true) {
                 var _0xce56x110 = document['getElementsByTagName']('html')[0];
                 if (!_0xce56x110['classList']['contains']('isPWA')) {

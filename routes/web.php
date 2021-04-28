@@ -24,18 +24,18 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
 
-    Route::get('/', function () {
-        return redirect('/home');
-    });
 
-    Route::get('/home', 'App\Http\Controllers\HomeController@index');
+Route::get('/', function () {
+    return redirect('/home');
+})->middleware(['auth']);
 
-    Route::resource('chat', 'App\Http\Controllers\ChatController');
+Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
-    Route::post('/fetch/meetinglog', 'App\Http\Controllers\MeetController@storeMeetingLog');
-    Route::resource('meet', 'App\Http\Controllers\MeetController');
+Route::resource('chat', 'App\Http\Controllers\ChatController');
 
-});
+Route::post('/fetch/meetinglog', 'App\Http\Controllers\MeetController@storeMeetingLog');
+Route::resource('meet', 'App\Http\Controllers\MeetController');
+
+
 

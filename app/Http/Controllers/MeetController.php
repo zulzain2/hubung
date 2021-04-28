@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class MeetController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth')->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,11 +20,11 @@ class MeetController extends Controller
     {
         $topBarTitle = 'Meet';
 
-        $meetinglogs = MeetingLog::where([
-			['id_users', '=' , auth()->user()->id]
-		])->orderByDesc('datetime')->get();
+        // $meetinglogs = MeetingLog::where([
+		// 	['id_users', '=' , auth()->user()->id]
+		// ])->orderByDesc('datetime')->get();
 
-        return view('meet.index')->with(compact('topBarTitle' , 'meetinglogs'));
+        return view('meet.index')->with(compact('topBarTitle'));
     }
 
     /**

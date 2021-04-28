@@ -37,7 +37,7 @@
                 </div>
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                     <i class="fa fa-user color-blue-dark"></i>
-                    <input id="usrName" type="name" class="form-control validate-name" placeholder="Enter display name" value="{{auth()->user()->name}}">
+                    <input id="usrName" type="name" class="form-control validate-name" placeholder="Enter display name" value="">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                     <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -168,7 +168,7 @@
             <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
             <div id="meeting-log" class="list-group list-custom-large mb-4">
                 
-                @if (count($meetinglogs) > 0)
+                {{-- @if (count($meetinglogs) > 0)
                     @foreach ($meetinglogs as $meetinglog)
                         <a href="#">
                             <span>{{$meetinglog->room_name}}</span>
@@ -177,9 +177,9 @@
                             <i class="fa fa-angle-right"></i>
                         </a>
                     @endforeach
-                @else
+                @else --}}
                     <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                @endif
+                {{-- @endif --}}
                
 
             </div>
