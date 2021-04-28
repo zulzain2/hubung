@@ -323,6 +323,7 @@ document['addEventListener']('DOMContentLoaded', () => {
         };
         var _0xce56x1f = document['getElementsByClassName']('splide');
         if (_0xce56x1f['length']) {
+            
             var _0xce56x20 = document['querySelectorAll']('.single-slider');
             if (_0xce56x20['length']) {
                 _0xce56x20['forEach'](function(_0xce56xb) {
@@ -374,7 +375,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         perMove: 1
                     })['mount']()
                 })
-            }
+            };
         };
         const _0xce56x28 = document['querySelectorAll']('a[href=\"#\"]');
         _0xce56x28['forEach']((_0xce56xc) => {
