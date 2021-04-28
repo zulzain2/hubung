@@ -20,7 +20,7 @@
     <div class="card card-style">
         <div class="content my-2">
             <div class="list-group list-custom-large">
-            <a href="{{URL::to('chat/13')}}">
+            <a href="chat/13">
                 <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
     
                 <span>UTM HSSE</span>

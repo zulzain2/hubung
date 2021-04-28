@@ -48,7 +48,7 @@ class ChatController extends Controller
     public function show($id)
     {
         $topBarTitle = 'Chat Show';
-        $topBarPrevUrl = URL::to('chat');
+        $topBarPrevUrl = 'chat';
         return view('chat.show')->with(compact('topBarTitle' , 'topBarPrevUrl'));
     }
 
