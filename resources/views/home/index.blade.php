@@ -30,27 +30,27 @@
     <div class="col-4 pe-2">
     <div class="card card-style mx-0 mb-3">
     <div class="p-3">
-    <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Pending</h4>
-    <h1 class="font-700 font-34 color-red-dark  mb-0">29</h1>
-    <i class="fa fa-arrow-right float-end mt-n3 opacity-20"></i>
+    <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Chat</h4>
+    <h1 class="font-700 font-34 color-red-dark  mb-0">3 <small class="font-14">Unread</small></h1>
+  
     </div>
     </div>
     </div>
     <div class="col-4 ps-2 pe-2">
     <div class="card card-style mx-0 mb-3">
     <div class="p-3">
-    <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Assigned</h4>
-    <h1 class="font-700 font-34 color-blue-dark mb-0">15</h1>
-    <i class="fa fa-arrow-right float-end mt-n3 opacity-20"></i>
+    <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Meet</h4>
+    <h1 class="font-700 font-34 color-blue-dark mb-0">2 <small class="font-14">Upcoming</small> </h1>
+    
     </div>
     </div>
     </div>
     <div class="col-4 ps-2">
     <div class="card card-style mx-0 mb-3">
     <div class="p-3">
-    <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Compete</h4>
-    <h1 class="font-700 font-34 color-green-dark mb-0">17</h1>
-    <i class="fa fa-arrow-right float-end mt-n3 opacity-20"></i>
+    <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">File</h4>
+    <h1 class="font-700 font-18 color-green-dark mb-0">5.4/15 <small class="font-14">GB</small></h1>
+  
     </div>
     </div>
     </div>
@@ -60,7 +60,7 @@
     <div class="card card-style">
         <div class="d-flex px-3 py-3">
         <div class="align-self-center">
-            <a href="#" class="icon icon-xs rounded-xs color-white bg-blue-dark me-3"><i class="fas fa-comments"></i></a>
+            <a href="#" class="icon icon-xs rounded-xs color-white bg-red-dark me-3"><i class="fas fa-comments"></i></a>
         </div>
         <div class="align-self-center">
         <h5>Chat</h5>
@@ -75,7 +75,7 @@
         <div class="card card-style">
             <div class="d-flex px-3 py-3">
             <div class="align-self-center">
-            <a href="#" class="icon icon-xs rounded-xs color-white bg-mint-dark me-3"><i class="fas fa-video"></i></a>
+            <a href="#" class="icon icon-xs rounded-xs color-white bg-blue-dark me-3"><i class="fas fa-video"></i></a>
             </div>
             <div class="align-self-center">
             <h5>Meet</h5>
@@ -90,7 +90,7 @@
             <div class="card card-style">
                 <div class="d-flex px-3 py-3">
                 <div class="align-self-center">
-                <a href="#" class="icon icon-xs rounded-xs color-white bg-teal-dark me-3"><i class="fas fa-folder-open"></i></a>
+                <a href="#" class="icon icon-xs rounded-xs color-white bg-green-dark me-3"><i class="fas fa-folder-open"></i></a>
                 </div>
                 <div class="align-self-center">
                 <h5>File</h5>
