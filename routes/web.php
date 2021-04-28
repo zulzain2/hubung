@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
+Route::get('/fetch/csrf', function () {
+    $token = csrf_token();
+    return json_encode($token);
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
@@ -31,9 +36,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/fetch/meetinglog', 'App\Http\Controllers\MeetController@storeMeetingLog');
     Route::resource('meet', 'App\Http\Controllers\MeetController');
-
-
-    
 
 });
 

@@ -178,7 +178,22 @@ document['addEventListener']('DOMContentLoaded', () => {
             });
         });
 
+        
 
+  
+
+
+        // fetch fresh data
+        fetch('/fetch/csrf').then(function(response) {
+        return response.json();
+        }).then(function(data) {
+
+            const results = data
+
+            document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
+            $('.csrftoken').val(results);
+        
+        });
 
 
 
