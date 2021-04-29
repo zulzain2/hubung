@@ -20,29 +20,152 @@
     <div class="card card-style">
         <div class="content my-2">
             <div class="list-group list-custom-large">
+
+                
+
             <a href="chat/13">
+
+                <div class="ph-item ph-no-space ph-no-border pt-2">
+                    <div class="col-4 ph-col-2 mb-1">
+                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                    </div>
+                    <div>
+                        <div class="ph-row pt-1">
+                            <div class="ph-col-10 "></div>
+                            <div class="ph-col-2 empty"></div>
+                            <div class="ph-col-12"></div>
+                            <div class="ph-col-4"></div>
+                            <div class="ph-col-8 empty"></div>
+                        </div>
+                    </div>
+                </div>
+{{--                 
                 <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
     
                 <span>UTM HSSE</span>
                 <strong>A powerful Mobile Template</strong>
                 <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                <span class="badge bg-red-dark"><small>1</small></span>
+                <span class="badge bg-red-dark"><small>1</small></span> --}}
             </a>
             <a href="#">
-                <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+
+                <div class="ph-item ph-no-space ph-no-border pt-2">
+                    <div class="col-4 ph-col-2 mb-1">
+                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                    </div>
+                    <div>
+                        <div class="ph-row pt-1">
+                            <div class="ph-col-10 "></div>
+                            <div class="ph-col-2 empty"></div>
+                            <div class="ph-col-12"></div>
+                            <div class="ph-col-4"></div>
+                            <div class="ph-col-8 empty"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
     
                 <span>UTM HSSE</span>
                 <strong>A powerful Mobile Template</strong>
                 <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                <span class="badge bg-red-dark"><small>1</small></span>
+                <span class="badge bg-red-dark"><small>1</small></span> --}}
             </a>
             <a href="#">
-                <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+
+                <div class="ph-item ph-no-space ph-no-border pt-2">
+                    <div class="col-4 ph-col-2 mb-1">
+                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                    </div>
+                    <div>
+                        <div class="ph-row pt-1">
+                            <div class="ph-col-10 "></div>
+                            <div class="ph-col-2 empty"></div>
+                            <div class="ph-col-12"></div>
+                            <div class="ph-col-4"></div>
+                            <div class="ph-col-8 empty"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
     
                 <span>UTM HSSE</span>
                 <strong>A powerful Mobile Template</strong>
                 <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                <span class="badge bg-red-dark"><small>1</small></span>
+                <span class="badge bg-red-dark"><small>1</small></span> --}}
+            </a>
+            <a href="#">
+
+                <div class="ph-item ph-no-space ph-no-border pt-2">
+                    <div class="col-4 ph-col-2 mb-1">
+                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                    </div>
+                    <div>
+                        <div class="ph-row pt-1">
+                            <div class="ph-col-10 "></div>
+                            <div class="ph-col-2 empty"></div>
+                            <div class="ph-col-12"></div>
+                            <div class="ph-col-4"></div>
+                            <div class="ph-col-8 empty"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+    
+                <span>UTM HSSE</span>
+                <strong>A powerful Mobile Template</strong>
+                <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                <span class="badge bg-red-dark"><small>1</small></span> --}}
+            </a>
+            <a href="#" >
+
+                <div class="ph-item ph-no-space ph-no-border pt-2">
+                    <div class="col-4 ph-col-2 mb-1">
+                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                    </div>
+                    <div>
+                        <div class="ph-row pt-1">
+                            <div class="ph-col-10 "></div>
+                            <div class="ph-col-2 empty"></div>
+                            <div class="ph-col-12"></div>
+                            <div class="ph-col-4"></div>
+                            <div class="ph-col-8 empty"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+    
+                <span>UTM HSSE</span>
+                <strong>A powerful Mobile Template</strong>
+                <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                <span class="badge bg-red-dark"><small>1</small></span> --}}
+            </a>
+            <a href="#" style="border-bottom: none;">
+
+                <div class="ph-item ph-no-space ph-no-border pt-2">
+                    <div class="col-4 ph-col-2 mb-1">
+                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                    </div>
+                    <div>
+                        <div class="ph-row pt-1">
+                            <div class="ph-col-10 "></div>
+                            <div class="ph-col-2 empty"></div>
+                            <div class="ph-col-12"></div>
+                            <div class="ph-col-4"></div>
+                            <div class="ph-col-8 empty"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+    
+                <span>UTM HSSE</span>
+                <strong>A powerful Mobile Template</strong>
+                <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                <span class="badge bg-red-dark"><small>1</small></span> --}}
             </a>
             </div>
         </div>

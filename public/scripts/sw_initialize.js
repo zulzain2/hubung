@@ -48,7 +48,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
             }
         };
-        
+
             if (_0xce56x2 === true) {
                 var _0xce56x110 = document['getElementsByTagName']('html')[0];
                 if (!_0xce56x110['classList']['contains']('isPWA')) {
@@ -93,7 +93,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             document['getElementById']('menu-install-pwa-android')['classList']['add']('menu-active');
                                             document['querySelectorAll']('.menu-hider')[0]['classList']['add']('menu-active')
                                         }
-                                    }, 3500)
+                                    }, 1000)
                                 }
                                 var _0xce56x116;
                                 window['addEventListener']('beforeinstallprompt', (_0xce56xb) => {
@@ -136,7 +136,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                         document['getElementById']('menu-install-pwa-ios')['classList']['add']('menu-active');
                                         document['querySelectorAll']('.menu-hider')[0]['classList']['add']('menu-active')
                                     }
-                                }, 3500)
+                                }, 1000)
                             }
                         }
                     }
