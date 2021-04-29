@@ -36,8 +36,8 @@
 
 
 
-var CACHE_STATIC_NAME = 'static-v15';
-var CACHE_DYNAMIC_NAME = 'dynamic-v2';
+var CACHE_STATIC_NAME = 'static-v15-v2';
+var CACHE_DYNAMIC_NAME = 'dynamic-v2-v2';
 var STATIC_FILES = [
     '/offline.html',
     '/home',
