@@ -16,8 +16,9 @@
             <a href="#" class="disabled"><i class="fa fa-times-circle color-red-dark"></i></a>
         </div>
     </div>
-    
+ 
     <div class="card card-style">
+           <div class="ph-item ph-no-space ph-no-border pt-2">
         <div class="content my-2">
             <div class="list-group list-custom-large">
 
@@ -25,22 +26,27 @@
 
             <a href="chat/13">
 
-                <div class="ph-item ph-no-space ph-no-border pt-2">
-                    <div class="col-4 ph-col-2 mb-1">
-                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
-                    </div>
-                    <div>
-                        <div class="ph-row pt-1">
-                            <div class="ph-col-10 "></div>
-                            <div class="ph-col-2 empty"></div>
-                            <div class="ph-col-12"></div>
-                            <div class="ph-col-4"></div>
-                            <div class="ph-col-8 empty"></div>
+             
+                    <div class="row mt-3 mb-3">
+                        <div class="col-3">
+                            <div class="ph-col-12">
+                                <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="ph-row">
+                                <div class="ph-col-10"></div>
+                                <div class="ph-col-2 empty"></div>
+                                <div class="ph-col-12"></div>
+                                <div class="ph-col-6"></div>
+                                <div class="ph-col-6 empty"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-{{--                 
-                <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+                   
+    
+                
+                {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
     
                 <span>UTM HSSE</span>
                 <strong>A powerful Mobile Template</strong>
@@ -49,17 +55,19 @@
             </a>
             <a href="#">
 
-                <div class="ph-item ph-no-space ph-no-border pt-2">
-                    <div class="col-4 ph-col-2 mb-1">
-                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-3">
+                        <div class="ph-col-12">
+                            <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="ph-row pt-1">
-                            <div class="ph-col-10 "></div>
+                    <div class="col-9">
+                        <div class="ph-row">
+                            <div class="ph-col-10"></div>
                             <div class="ph-col-2 empty"></div>
                             <div class="ph-col-12"></div>
-                            <div class="ph-col-4"></div>
-                            <div class="ph-col-8 empty"></div>
+                            <div class="ph-col-6"></div>
+                            <div class="ph-col-6 empty"></div>
                         </div>
                     </div>
                 </div>
@@ -73,17 +81,19 @@
             </a>
             <a href="#">
 
-                <div class="ph-item ph-no-space ph-no-border pt-2">
-                    <div class="col-4 ph-col-2 mb-1">
-                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-3">
+                        <div class="ph-col-12">
+                            <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="ph-row pt-1">
-                            <div class="ph-col-10 "></div>
+                    <div class="col-9">
+                        <div class="ph-row">
+                            <div class="ph-col-10"></div>
                             <div class="ph-col-2 empty"></div>
                             <div class="ph-col-12"></div>
-                            <div class="ph-col-4"></div>
-                            <div class="ph-col-8 empty"></div>
+                            <div class="ph-col-6"></div>
+                            <div class="ph-col-6 empty"></div>
                         </div>
                     </div>
                 </div>
@@ -97,17 +107,19 @@
             </a>
             <a href="#">
 
-                <div class="ph-item ph-no-space ph-no-border pt-2">
-                    <div class="col-4 ph-col-2 mb-1">
-                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-3">
+                        <div class="ph-col-12">
+                            <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="ph-row pt-1">
-                            <div class="ph-col-10 "></div>
+                    <div class="col-9">
+                        <div class="ph-row">
+                            <div class="ph-col-10"></div>
                             <div class="ph-col-2 empty"></div>
                             <div class="ph-col-12"></div>
-                            <div class="ph-col-4"></div>
-                            <div class="ph-col-8 empty"></div>
+                            <div class="ph-col-6"></div>
+                            <div class="ph-col-6 empty"></div>
                         </div>
                     </div>
                 </div>
@@ -121,21 +133,22 @@
             </a>
             <a href="#" >
 
-                <div class="ph-item ph-no-space ph-no-border pt-2">
-                    <div class="col-4 ph-col-2 mb-1">
-                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-3">
+                        <div class="ph-col-12">
+                            <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="ph-row pt-1">
-                            <div class="ph-col-10 "></div>
+                    <div class="col-9">
+                        <div class="ph-row">
+                            <div class="ph-col-10"></div>
                             <div class="ph-col-2 empty"></div>
                             <div class="ph-col-12"></div>
-                            <div class="ph-col-4"></div>
-                            <div class="ph-col-8 empty"></div>
+                            <div class="ph-col-6"></div>
+                            <div class="ph-col-6 empty"></div>
                         </div>
                     </div>
                 </div>
-
                 {{-- <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
     
                 <span>UTM HSSE</span>
@@ -145,17 +158,19 @@
             </a>
             <a href="#" style="border-bottom: none;">
 
-                <div class="ph-item ph-no-space ph-no-border pt-2">
-                    <div class="col-4 ph-col-2 mb-1">
-                        <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-3">
+                        <div class="ph-col-12">
+                            <div class="ph-avatar" style="width:50px;min-width:50px"></div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="ph-row pt-1">
-                            <div class="ph-col-10 "></div>
+                    <div class="col-9">
+                        <div class="ph-row">
+                            <div class="ph-col-10"></div>
                             <div class="ph-col-2 empty"></div>
                             <div class="ph-col-12"></div>
-                            <div class="ph-col-4"></div>
-                            <div class="ph-col-8 empty"></div>
+                            <div class="ph-col-6"></div>
+                            <div class="ph-col-6 empty"></div>
                         </div>
                     </div>
                 </div>
@@ -170,7 +185,7 @@
             </div>
         </div>
     </div>
-
+</div>
 
 
 
