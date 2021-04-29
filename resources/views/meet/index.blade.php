@@ -106,6 +106,51 @@
                 </div>
             </div>
             <div data-bs-parent="#tab-group-1" class="collapse" id="tab-3" style="">
+
+                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                    <i class="fas fa-home color-blue-dark"></i>
+                    <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
+                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                    <em>(required)</em>
+                </div>
+
+                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                    <i class="fas fa-home color-blue-dark"></i>
+                    <input id="meetingNameJoin" type="date" class="form-control validate-name" placeholder="Enter meeting name">
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Date</label>
+                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                    <em>(required)</em>
+                </div>
+
+                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                    <i class="fas fa-home color-blue-dark"></i>
+                    <input id="meetingNameJoin" type="time" class="form-control validate-name" placeholder="Enter meeting name">
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Start</label>
+                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                    <em>(required)</em>
+                </div>
+
+                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                    <i class="fas fa-home color-blue-dark"></i>
+                    <input id="meetingNameJoin" type="time" class="form-control validate-name" placeholder="Enter meeting name">
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">End</label>
+                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                    <em>(required)</em>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <a href="#" id="join-meeting" data-menu="portfolio-2" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Schedule Meeting</a>
+                        
+
+                    </div>
+                </div>
+
                 <h3 class="text-center"> Schedule Meeting</h3>
                 <p></p>
                 
