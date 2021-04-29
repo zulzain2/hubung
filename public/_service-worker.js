@@ -36,8 +36,8 @@
 
 
 
-var CACHE_STATIC_NAME = 'static-v15-v2';
-var CACHE_DYNAMIC_NAME = 'dynamic-v2-v2';
+var CACHE_STATIC_NAME = 'static-v15-v3';
+var CACHE_DYNAMIC_NAME = 'dynamic-v2-v3';
 var STATIC_FILES = [
     '/offline.html',
     '/home',
@@ -70,6 +70,7 @@ var EXCLUDE_ROUTES = [
 
 self.addEventListener('install', function (event) {
   // console.log('[Service Worker] Installing Service Worker ...', event);
+  self.skipWaiting()
   event.waitUntil(
     caches.open(CACHE_STATIC_NAME)
       .then(function (cache) {
