@@ -32,15 +32,19 @@
                     <div class="p-3">
                         <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Chat</h4>
 
-                        <div class="ph-item ph-no-space ph-no-border">
-                            <div class="ph-col-12">
+                        
+                            <div class="ph-col-12 mb-0">
                                 <div class="ph-row">
-                                    <div class="ph-col-2 big"></div>
+                                    <div class="ph-col-12">
+                                        <div class="ph-item ph-no-space ph-no-border mb-2 mt-0"></div>
+                                    </div>
+                                    <div class="ph-col-10">
+                                        <div class="ph-item ph-no-space ph-no-border mb-2 mt-0"></div>
+                                    </div>
                                     <div class="ph-col-2 empty"></div>
-                                    <div class="ph-col-8 big"></div>
                                 </div>
                             </div>
-                        </div>
+                      
 
                         {{-- <h1 class="font-700 font-34 color-red-dark  mb-0">3 <small class="font-14">Unread</small></h1> --}}
 
@@ -53,13 +57,15 @@
                     <div class="p-3">
                         <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">Meet</h4>
 
-                        <div class="ph-item ph-no-space ph-no-border">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-2 big"></div>
-                                    <div class="ph-col-2 empty"></div>
-                                    <div class="ph-col-8 big"></div>
+                        <div class="ph-col-12 mb-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12">
+                                    <div class="ph-item ph-no-space ph-no-border mb-2 mt-0"></div>
                                 </div>
+                                <div class="ph-col-10">
+                                    <div class="ph-item ph-no-space ph-no-border mb-2 mt-0"></div>
+                                </div>
+                                <div class="ph-col-2 empty"></div>
                             </div>
                         </div>
 
@@ -73,11 +79,15 @@
                     <div class="p-3">
                         <h4 class="font-700 text-uppercase font-12 opacity-50 mt-n2">File</h4>
 
-                        <div class="ph-item ph-no-space ph-no-border">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-12 big"></div>
+                        <div class="ph-col-12 mb-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12">
+                                    <div class="ph-item ph-no-space ph-no-border mb-2 mt-0"></div>
                                 </div>
+                                <div class="ph-col-10">
+                                    <div class="ph-item ph-no-space ph-no-border mb-2 mt-0"></div>
+                                </div>
+                                <div class="ph-col-2 empty"></div>
                             </div>
                         </div>
 
@@ -92,17 +102,18 @@
     
 
     <div class="card card-style">
-        <div class="row px-3 py-3 m-0">
+        <div class="row px-3 py-3 m-0 pb-4">
             <div class="col-2 align-self-center">
                 <a href="#" class="icon icon-xs rounded-xs color-white bg-red-dark me-3"><i class="fas fa-comments"></i></a>
             </div>
             <div class="col-8 align-self-center">
                 <h5>Chat</h5>
 
-                <div class="ph-item ph-no-space ph-no-border">
-                    <div class="ph-col-12 px-0">
-                        <div class="ph-row">
-                            <div class="ph-col-12 big"></div>
+            
+                <div class="ph-col-12 px-0">
+                    <div class="ph-row">
+                        <div class="ph-col-12 big">
+                            <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
                         </div>
                     </div>
                 </div>
@@ -112,11 +123,12 @@
             </div>
             <div class="col-2 align-self-center">
                 
-                
-                <div class="ph-item ph-no-space ph-no-border">
-                    <div class="ph-col-12 px-0 pt-4">
-                        <div class="ph-row">
-                            <div class="ph-col-12 big"></div>
+                <h5><br></h5>
+
+                <div class="ph-col-12 px-0 ">
+                    <div class="ph-row">
+                        <div class="ph-col-12 big">
+                            <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
                         </div>
                     </div>
                 </div>
@@ -127,31 +139,36 @@
         </div>
     </div>
 
+
     <div class="card card-style">
-        <div class="row px-3 py-3 m-0">
+        <div class="row px-3 py-3 m-0 pb-4">
             <div class="col-2 align-self-center">
                 <a href="#" class="icon icon-xs rounded-xs color-white bg-blue-dark me-3"><i class="fas fa-video"></i></a>
             </div>
             <div class="col-8 align-self-center">
                 <h5>Meet</h5>
 
-                <div class="ph-item ph-no-space ph-no-border">
+            
                     <div class="ph-col-12 px-0">
                         <div class="ph-row">
-                            <div class="ph-col-12 big"></div>
+                            <div class="ph-col-12 big">
+                                <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+           
 
                 {{-- <p class="mb-0 mt-n2 opacity-50 font-11">2 Upcoming</p> --}}
 
             </div>
             <div class="col-2 align-self-center">
+                
+                <h5><br></h5>
 
-                <div class="ph-item ph-no-space ph-no-border">
-                    <div class="ph-col-12 px-0 pt-4">
-                        <div class="ph-row">
-                            <div class="ph-col-12 big"></div>
+                <div class="ph-col-12 px-0 ">
+                    <div class="ph-row">
+                        <div class="ph-col-12 big">
+                            <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
                         </div>
                     </div>
                 </div>
@@ -163,39 +180,43 @@
     </div>
 
     <div class="card card-style">
-        <div class="row px-3 py-3 m-0">
+        <div class="row px-3 py-3 m-0 pb-4">
             <div class="col-2 align-self-center">
                 <a href="#" class="icon icon-xs rounded-xs color-white bg-green-dark me-3"><i class="fas fa-folder-open"></i></a>
             </div>
             <div class="col-8 align-self-center">
                 <h5>File</h5>
 
-                <div class="ph-item ph-no-space ph-no-border">
+            
                     <div class="ph-col-12 px-0">
                         <div class="ph-row">
-                            <div class="ph-col-12 big"></div>
+                            <div class="ph-col-12 big">
+                                <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+           
 
                 {{-- <p class="mb-0 mt-n2 opacity-50 font-11">2 Upcoming</p> --}}
 
             </div>
             <div class="col-2 align-self-center">
                 
-                <div class="ph-item ph-no-space ph-no-border">
-                    <div class="ph-col-12 px-0 pt-4">
-                        <div class="ph-row">
-                            <div class="ph-col-12 big"></div>
+                <h5><br></h5>
+
+                <div class="ph-col-12 px-0 ">
+                    <div class="ph-row">
+                        <div class="ph-col-12 big">
+                            <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
                         </div>
                     </div>
                 </div>
 
                 {{-- <a href="#" class="btn btn-xxs bg-highlight text-uppercase font-800">GO</a> --}}
+
             </div>
         </div>
     </div>
-
 
 
 
