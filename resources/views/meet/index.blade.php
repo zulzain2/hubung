@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         {{-- <button id="start-meeting" type="button" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</button> --}}
-                        <a href="#" id="start-meeting" data-menu="portfolio-2" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
+                        <a href="#" id="start-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
                         
 
                     </div>
@@ -88,6 +88,7 @@
             <div data-bs-parent="#tab-group-1" class="collapse" id="tab-2" style="">
                 <h3 class="text-center"> Join Meeting</h3>
                 <p></p>
+
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                     <i class="fas fa-home color-blue-dark"></i>
                     <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
@@ -97,15 +98,27 @@
                     <em>(required)</em>
                 </div>
 
+                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                    <i class="fa fa-user color-blue-dark"></i>
+                    <input id="usrNameJoin" type="name" class="form-control validate-name" placeholder="Enter display name" value="">
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
+                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                    <em>(required)</em>
+                </div>
+
                 <div class="row">
                     <div class="col-12 text-center">
-                        <a href="#" id="join-meeting" data-menu="portfolio-2" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Join Meeting</a>
+                        <a href="#" id="join-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Join Meeting</a>
                         
 
                     </div>
                 </div>
             </div>
             <div data-bs-parent="#tab-group-1" class="collapse" id="tab-3" style="">
+
+                <h3 class="text-center"> Schedule Meeting</h3>
+                <p></p>
 
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                     <i class="fas fa-home color-blue-dark"></i>
@@ -151,10 +164,9 @@
                     </div>
                 </div>
 
-                <h3 class="text-center"> Schedule Meeting</h3>
-                <p></p>
+               <hr><br>
                 
-                <div class="calendar bg-theme shadow-xl rounded-m">
+                <div class="calendar bg-theme shadow-xl rounded-m mx-0 mw-100">
                     <div class="cal-footer">
                     <h6 class="cal-sub-title uppercase bold bg-highlight color-white">Schedule Box</h6>
                     <span class="cal-message mt-3 mb-3">
@@ -223,15 +235,78 @@
                         </a>
                     @endforeach
                 @else --}}
-                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                    {{-- <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p> --}}
                 {{-- @endif --}}
                
+
+                <div class="row m-0 pb-1 mt-3">
+                    <div class="col-6 align-self-center">
+                        <div class="ph-col-12 px-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12 big">
+                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2 align-self-center"></div>
+
+                    <div class="col-4 align-self-center">
+                        <div class="ph-col-12 px-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12 big">
+                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row m-0 pb-1">
+                    <div class="col-4 align-self-center">
+                        <div class="ph-col-12 px-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12">
+                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 "></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-0 pb-1">
+                    <div class="col-8 align-self-center">
+                        <div class="ph-col-12 px-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12">
+                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 "></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-0 pb-1">
+                    <div class="col-12 align-self-center">
+                        <div class="ph-col-12 px-0">
+                            <div class="ph-row">
+                                <div class="ph-col-12">
+                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 "></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>
     </div>
 </div>
     
+
 
 
 
@@ -248,9 +323,3 @@
 
 @endsection
 
-
-@push('scripts')
-
-
-
-@endpush

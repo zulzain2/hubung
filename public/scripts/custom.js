@@ -15,69 +15,206 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
 
     function _0xce56x9() {
-     
-        if (window.location.href.indexOf("chat") > -1) 
-        {
-            $('#home').removeClass('active-nav');
-            $('#chat').addClass('active-nav');
-            $('#meet').removeClass('active-nav');
-            $('#file').removeClass('active-nav');
-            $('#setting').removeClass('active-nav');
-        }
-        else if(window.location.href.indexOf("meet") > -1)
-        {
-            $('#home').removeClass('active-nav');
-            $('#chat').removeClass('active-nav');
-            $('#meet').addClass('active-nav');
-            $('#file').removeClass('active-nav');
-            $('#setting').removeClass('active-nav');
-        }
-        else if(window.location.href.indexOf("file") > -1)
-        {
-            $('#home').removeClass('active-nav');
-            $('#chat').removeClass('active-nav');
-            $('#meet').removeClass('active-nav');
-            $('#file').addClass('active-nav');
-            $('#setting').removeClass('active-nav');
-        }
-        else if(window.location.href.indexOf("setting") > -1)
-        {
-            $('#home').removeClass('active-nav');
-            $('#chat').removeClass('active-nav');
-            $('#meet').removeClass('active-nav');
-            $('#file').removeClass('active-nav');
-            $('#setting').addClass('active-nav');
-        }
-        else
-        {
-            $('#home').addClass('active-nav');
-            $('#chat').removeClass('active-nav');
-            $('#meet').removeClass('active-nav');
-            $('#file').removeClass('active-nav');
-            $('#setting').removeClass('active-nav');
-        }
 
+        // fetch csrf token and append back to selected element
+        fetch('/fetch/csrf').then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            const results = data
 
-
-        $('#toggle-id').change(function() {
-            // this will contain a reference to the checkbox   
-            if (this.checked) {
-                // the checkbox is now checked 
-                $('#password_meeting').show();
-            } else {
-                // the checkbox is now no longer checked
-                $('#password_meeting').hide();
-            }
+            document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
+            $('.csrftoken').val(results);
+        }).catch(function(err) {
+            console.log('Error CSRF: ' + err);
         });
 
-        $('#start-meeting').on('click' , function(){
-            
-            $('#initialize-meeting').hide();
+        if (document.querySelector('#check-auth')) {
+            // fetch auth status and if no auth kick user to login
+            fetch('/fetch/checkAuth').then(function(response) { 
+                return response.json();
+            }).then(function(data) {
+                const results = data
 
-            let meetingName = $('#meetingName').val();
-            let usrName = $('#usrName').val();
-            let usrEmail = $('#usrEmail').val();
+                if(results === 'true')
+                {
 
+                }
+                else
+                {
+                    window.location.href = 'login';
+                }
+            }).catch(function(err) {
+                console.log('Error Check Auth: ' + err);
+            });
+        }
+        
+        if (document.querySelector('#footer-bar')) {
+            if (window.location.href.indexOf("chat") > -1) 
+            {
+                $('#home').removeClass('active-nav');
+                $('#chat').addClass('active-nav');
+                $('#meet').removeClass('active-nav');
+                $('#file').removeClass('active-nav');
+                $('#setting').removeClass('active-nav');
+            }
+            else if(window.location.href.indexOf("meet") > -1)
+            {
+                $('#home').removeClass('active-nav');
+                $('#chat').removeClass('active-nav');
+                $('#meet').addClass('active-nav');
+                $('#file').removeClass('active-nav');
+                $('#setting').removeClass('active-nav');
+            }
+            else if(window.location.href.indexOf("file") > -1)
+            {
+                $('#home').removeClass('active-nav');
+                $('#chat').removeClass('active-nav');
+                $('#meet').removeClass('active-nav');
+                $('#file').addClass('active-nav');
+                $('#setting').removeClass('active-nav');
+            }
+            else if(window.location.href.indexOf("setting") > -1)
+            {
+                $('#home').removeClass('active-nav');
+                $('#chat').removeClass('active-nav');
+                $('#meet').removeClass('active-nav');
+                $('#file').removeClass('active-nav');
+                $('#setting').addClass('active-nav');
+            }
+            else
+            {
+                $('#home').addClass('active-nav');
+                $('#chat').removeClass('active-nav');
+                $('#meet').removeClass('active-nav');
+                $('#file').removeClass('active-nav');
+                $('#setting').removeClass('active-nav');
+            }
+        }
+
+        if (document.querySelector('#toggle-id')) {
+            $('#toggle-id').change(function() {
+                // this will contain a reference to the checkbox   
+                if (this.checked) {
+                    // the checkbox is now checked 
+                    $('#password_meeting').show();
+                } else {
+                    // the checkbox is now no longer checked
+                    $('#password_meeting').hide();
+                }
+            });
+        }
+
+        
+        if (document.querySelector('#meeting-log')) {
+
+            var networkDataReceived = false;
+
+            // fetch fresh meeting log
+            var networkUpdate = fetch('/fetch/meetingLog')
+            .then(function(response) { 
+                return response.json();
+            }).then(function(data){
+                networkDataReceived = true;
+                
+                updateMeetingLog(data);
+
+            })
+            .catch(function(err) {
+                console.log('Error Meeting Log: ' + err);
+            });
+
+
+            // fetch cached meeting log
+            caches.match('/fetch/meetingLog')
+            .then(function(response) {
+                if (!response) throw Error("No data");
+                return response.json();
+            }).then(function(data) {
+                // don't overwrite newer network data
+                if (!networkDataReceived) {
+                
+                    updateMeetingLog(data)
+
+                }
+            }).catch(function() {
+                // we didn't get cached data, the network is our last hope:
+                return networkUpdate;
+            }).catch(function(err) {
+                console.log('Error Meeting Log: ' + err);
+            });
+
+
+
+            function updateMeetingLog(data){
+                var results = data
+
+                if (results.length) {
+                    $('#meeting-log').html('');
+                    results.map(meetinglog => {
+
+                        let now = new Date(meetinglog.datetime);
+                        
+                        var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                        $('#meeting-log').append(`
+                            <a href="#">
+                                <span>${meetinglog.room_name}</span>
+                                <strong>as ${meetinglog.display_name}</strong>
+                                <span class="badge bg-blue-dark">${dateStringWithTime}</span>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        `)
+                    })
+
+                }
+                else{
+
+                }
+            }
+
+        }
+
+       if (document.querySelector('#start-meeting')) {
+            $('#start-meeting').on('click' , function(){
+                    
+                if (navigator.onLine) {
+                    $('#portfolio-2').addClass('menu-active');
+                    $('#initialize-meeting').hide();
+
+                    var meetingName = $('#meetingName').val();
+                    var usrName = $('#usrName').val();
+                
+        
+                    initializeMeeting(meetingName, usrName);
+                
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+            });
+
+            $('#join-meeting').on('click' , function(){
+                    
+                if (navigator.onLine) {
+                    $('#portfolio-2').addClass('menu-active');
+                    $('#initialize-meeting').hide();
+
+                    var meetingName = $('#meetingNameJoin').val();
+                    var usrName = $('#usrNameJoin').val();
+                 
+        
+                    initializeMeeting(meetingName, usrName);
+                
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+            });
+       }
+       
+        function initializeMeeting(meetingName, usrName) {
             const domain = 'meet.tvetxr.ga';
             const options = {
                 roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
@@ -85,7 +222,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                 height: '100%',
                 parentNode: document.querySelector('#meet_iframe'),
                 userInfo: {
-                    email: usrEmail ? usrEmail : '',
                     displayName: usrName ? usrName : 'Fellow MaGICXian',
                 },
                 configOverwrite:{
@@ -126,29 +262,27 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     + currentdate.getSeconds();
 
                 const dataMeetingLog = new URLSearchParams();
-				dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
+                dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
                 dataMeetingLog.append('display_name', data.displayName);
-				dataMeetingLog.append('datetime', datetimefordb);
+                dataMeetingLog.append('datetime', datetimefordb);
 
-                fetch("fetch/meetinglog", {
-					method: 'post',
-					credentials: "same-origin",
-					headers: {
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					body: dataMeetingLog,
-				})
-				.then(function(response){
-					return response.json();
-				}).then(function(resultsJSON){
+                fetch("fetch/storeMeetingLog", {
+                    method: 'post',
+                    credentials: "same-origin",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: dataMeetingLog,
+                })
+                .then(function(response){
+                    return response.json();
+                }).then(function(resultsJSON){
 
-					const results = resultsJSON
+                    const results = resultsJSON
 
                     if (results.length) {
                         $('#meeting-log').html('');
                         results.map(meetinglog => {
-
-                            
 
                             let now = new Date(meetinglog.datetime);
                             
@@ -169,35 +303,14 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                     }
 
-				})
-				.catch(function(err) {
-					console.log(err);
-				});
-                 
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+                
                 }
             });
-        });
-
-        
-
-  
-
-
-        // fetch fresh data
-        fetch('/fetch/csrf').then(function(response) {
-        return response.json();
-        }).then(function(data) {
-
-            const results = data
-
-            document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
-            $('.csrftoken').val(results);
-        
-        });
-
-
-
-
+        }
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -1450,140 +1563,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('add-to-home')[0]['classList']['remove']('add-to-home-visible')
             })
         });
-        // let _0xce56x10c = {
-        //     Android: function() {
-        //         return navigator['userAgent']['match'](/Android/i)
-        //     },
-        //     iOS: function() {
-        //         return navigator['userAgent']['match'](/iPhone|iPad|iPod/i)
-        //     },
-        //     any: function() {
-        //         return (_0xce56x10c.Android() || _0xce56x10c['iOS']())
-        //     }
-        // };
-        // const _0xce56x10d = document['getElementsByClassName']('show-android');
-        // const _0xce56x10e = document['getElementsByClassName']('show-ios');
-        // const _0xce56x10f = document['getElementsByClassName']('show-no-device');
-        // if (!_0xce56x10c['any']()) {
-        //     for (let _0xce56xa = 0; _0xce56xa < _0xce56x10e['length']; _0xce56xa++) {
-        //         _0xce56x10e[_0xce56xa]['classList']['add']('disabled')
-        //     };
-        //     for (let _0xce56xa = 0; _0xce56xa < _0xce56x10d['length']; _0xce56xa++) {
-        //         _0xce56x10d[_0xce56xa]['classList']['add']('disabled')
-        //     }
-        // };
-        // if (_0xce56x10c['iOS']()) {
-        //     for (let _0xce56xa = 0; _0xce56xa < _0xce56x10f['length']; _0xce56xa++) {
-        //         _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
-        //     };
-        //     for (let _0xce56xa = 0; _0xce56xa < _0xce56x10d['length']; _0xce56xa++) {
-        //         _0xce56x10d[_0xce56xa]['classList']['add']('disabled')
-        //     }
-        // };
-        // if (_0xce56x10c.Android()) {
-        //     for (let _0xce56xa = 0; _0xce56xa < _0xce56x10e['length']; _0xce56xa++) {
-        //         _0xce56x10e[_0xce56xa]['classList']['add']('disabled')
-        //     };
-        //     for (let _0xce56xa = 0; _0xce56xa < _0xce56x10f['length']; _0xce56xa++) {
-        //         _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
-        //     }
-        // };
-
-        
-            // if (_0xce56x2 === true) {
-            //     var _0xce56x110 = document['getElementsByTagName']('html')[0];
-            //     if (!_0xce56x110['classList']['contains']('isPWA')) {
-            //         if ('serviceWorker' in navigator) {
-            //             window['addEventListener']('load', function() {
-            //                 navigator['serviceWorker']['register'](_0xce56x8, {
-            //                     scope: _0xce56x7
-            //                 })
-            //             })
-            //         };
-            //         var _0xce56x111 = _0xce56x5 * 24;
-            //         var _0xce56x9d = Date['now']();
-            //         var _0xce56x112 = localStorage['getItem'](_0xce56x4 + '-PWA-Timeout-Value');
-            //         if (_0xce56x112 == null) {
-            //             localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d)
-            //         } else {
-            //             if (_0xce56x9d - _0xce56x112 > _0xce56x111 * 60 * 60 * 1000) {
-            //                 localStorage['removeItem'](_0xce56x4 + '-PWA-Prompt');
-            //                 localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d)
-            //             }
-            //         };
-            //         const _0xce56x113 = document['querySelectorAll']('.pwa-dismiss');
-            //         _0xce56x113['forEach']((_0xce56xc) => {
-            //             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
-            //                 const _0xce56x114 = document['querySelectorAll']('#menu-install-pwa-android, #menu-install-pwa-ios');
-            //                 for (let _0xce56xa = 0; _0xce56xa < _0xce56x114['length']; _0xce56xa++) {
-            //                     _0xce56x114[_0xce56xa]['classList']['remove']('menu-active')
-            //                 };
-            //                 localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d);
-            //                 localStorage['setItem'](_0xce56x4 + '-PWA-Prompt', 'install-rejected');
-            //                 console['log']('PWA Install Rejected. Will Show Again in ' + (_0xce56x5) + ' Days')
-            //             })
-            //         });
-            //         const _0xce56x114 = document['querySelectorAll']('#menu-install-pwa-android, #menu-install-pwa-ios');
-            //         if (_0xce56x114['length']) {
-            //             if (_0xce56x10c.Android()) {
-            //                 if (localStorage['getItem'](_0xce56x4 + '-PWA-Prompt') != 'install-rejected') {
-            //                     function _0xce56x115() {
-            //                         setTimeout(function() {
-            //                             if (!window['matchMedia']('(display-mode: fullscreen)')['matches']) {
-            //                                 console['log']('Triggering PWA Window for Android');
-            //                                 document['getElementById']('menu-install-pwa-android')['classList']['add']('menu-active');
-            //                                 document['querySelectorAll']('.menu-hider')[0]['classList']['add']('menu-active')
-            //                             }
-            //                         }, 3500)
-            //                     }
-            //                     var _0xce56x116;
-            //                     window['addEventListener']('beforeinstallprompt', (_0xce56xb) => {
-            //                         _0xce56xb['preventDefault']();
-            //                         _0xce56x116 = _0xce56xb;
-            //                         _0xce56x115()
-            //                     })
-            //                 };
-            //                 const _0xce56x117 = document['querySelectorAll']('.pwa-install');
-            //                 _0xce56x117['forEach']((_0xce56xc) => {
-            //                     return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
-            //                         _0xce56x116['prompt']();
-            //                         _0xce56x116['userChoice']['then']((_0xce56x118) => {
-            //                             if (_0xce56x118['outcome'] === 'accepted') {
-            //                                 console['log']('Added')
-            //                             } else {
-            //                                 localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d);
-            //                                 localStorage['setItem'](_0xce56x4 + '-PWA-Prompt', 'install-rejected');
-            //                                 setTimeout(function() {
-            //                                     if (!window['matchMedia']('(display-mode: fullscreen)')['matches']) {
-            //                                         document['getElementById']('menu-install-pwa-android')['classList']['remove']('menu-active');
-            //                                         document['querySelectorAll']('.menu-hider')[0]['classList']['remove']('menu-active')
-            //                                     }
-            //                                 }, 50)
-            //                             };
-            //                             _0xce56x116 = null
-            //                         })
-            //                     })
-            //                 });
-            //                 window['addEventListener']('appinstalled', (_0xce56x119) => {
-            //                     document['getElementById']('menu-install-pwa-android')['classList']['remove']('menu-active');
-            //                     document['querySelectorAll']('.menu-hider')[0]['classList']['remove']('menu-active')
-            //                 })
-            //             };
-            //             if (_0xce56x10c['iOS']()) {
-            //                 if (localStorage['getItem'](_0xce56x4 + '-PWA-Prompt') != 'install-rejected') {
-            //                     setTimeout(function() {
-            //                         if (!window['matchMedia']('(display-mode: fullscreen)')['matches']) {
-            //                             console['log']('Triggering PWA Window for iOS');
-            //                             document['getElementById']('menu-install-pwa-ios')['classList']['add']('menu-active');
-            //                             document['querySelectorAll']('.menu-hider')[0]['classList']['add']('menu-active')
-            //                         }
-            //                     }, 3500)
-            //                 }
-            //             }
-            //         }
-            //     };
-            //     _0xce56x110['setAttribute']('class', 'isPWA')
-            // };
+      
       
         
 
@@ -1691,20 +1671,154 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         }
+
+        let _0xce56x10c = {
+            Android: function() {
+                return navigator['userAgent']['match'](/Android/i)
+            },
+            iOS: function() {
+                return navigator['userAgent']['match'](/iPhone|iPad|iPod/i)
+            },
+            any: function() {
+                return (_0xce56x10c.Android() || _0xce56x10c['iOS']())
+            }
+        };
+        const _0xce56x10d = document['getElementsByClassName']('show-android');
+        const _0xce56x10e = document['getElementsByClassName']('show-ios');
+        const _0xce56x10f = document['getElementsByClassName']('show-no-device');
+        if (!_0xce56x10c['any']()) {
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10e['length']; _0xce56xa++) {
+                _0xce56x10e[_0xce56xa]['classList']['add']('disabled')
+            };
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10d['length']; _0xce56xa++) {
+                _0xce56x10d[_0xce56xa]['classList']['add']('disabled')
+            }
+        };
+        if (_0xce56x10c['iOS']()) {
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10f['length']; _0xce56xa++) {
+                _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
+            };
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10d['length']; _0xce56xa++) {
+                _0xce56x10d[_0xce56xa]['classList']['add']('disabled')
+            }
+        };
+        if (_0xce56x10c.Android()) {
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10e['length']; _0xce56xa++) {
+                _0xce56x10e[_0xce56xa]['classList']['add']('disabled')
+            };
+            for (let _0xce56xa = 0; _0xce56xa < _0xce56x10f['length']; _0xce56xa++) {
+                _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
+            }
+        };
+
+        if (_0xce56x2 === true) {
+            var _0xce56x110 = document['getElementsByTagName']('html')[0];
+            if (!_0xce56x110['classList']['contains']('isPWA')) {
+                if ('serviceWorker' in navigator) {
+                    window['addEventListener']('load', function() {
+                        navigator['serviceWorker']['register'](_0xce56x8, {
+                            scope: _0xce56x7
+                        })
+                    })
+                };
+                var _0xce56x111 = _0xce56x5 * 24;
+                var _0xce56x9d = Date['now']();
+                var _0xce56x112 = localStorage['getItem'](_0xce56x4 + '-PWA-Timeout-Value');
+                if (_0xce56x112 == null) {
+                    localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d)
+                } else {
+                    if (_0xce56x9d - _0xce56x112 > _0xce56x111 * 60 * 60 * 1000) {
+                        localStorage['removeItem'](_0xce56x4 + '-PWA-Prompt');
+                        localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d)
+                    }
+                };
+                const _0xce56x113 = document['querySelectorAll']('.pwa-dismiss');
+                _0xce56x113['forEach']((_0xce56xc) => {
+                    return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
+                        const _0xce56x114 = document['querySelectorAll']('#menu-install-pwa-android, #menu-install-pwa-ios');
+                        for (let _0xce56xa = 0; _0xce56xa < _0xce56x114['length']; _0xce56xa++) {
+                            _0xce56x114[_0xce56xa]['classList']['remove']('menu-active')
+                        };
+                        localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d);
+                        localStorage['setItem'](_0xce56x4 + '-PWA-Prompt', 'install-rejected');
+                        console['log']('PWA Install Rejected. Will Show Again in ' + (_0xce56x5) + ' Days')
+                    })
+                });
+                const _0xce56x114 = document['querySelectorAll']('#menu-install-pwa-android, #menu-install-pwa-ios');
+                if (_0xce56x114['length']) {
+                    if (_0xce56x10c.Android()) {
+                        if (localStorage['getItem'](_0xce56x4 + '-PWA-Prompt') != 'install-rejected') {
+                            function _0xce56x115() {
+                                setTimeout(function() {
+                                    if (!window['matchMedia']('(display-mode: fullscreen)')['matches']) {
+                                        console['log']('Triggering PWA Window for Android');
+                                        document['getElementById']('menu-install-pwa-android')['classList']['add']('menu-active');
+                                        document['querySelectorAll']('.menu-hider')[0]['classList']['add']('menu-active')
+                                    }
+                                }, 1000)
+                            }
+                            var _0xce56x116;
+                            window['addEventListener']('beforeinstallprompt', (_0xce56xb) => {
+                                _0xce56xb['preventDefault']();
+                                _0xce56x116 = _0xce56xb;
+                                _0xce56x115()
+                            })
+                        };
+                        const _0xce56x117 = document['querySelectorAll']('.pwa-install');
+                        _0xce56x117['forEach']((_0xce56xc) => {
+                            return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
+                                _0xce56x116['prompt']();
+                                _0xce56x116['userChoice']['then']((_0xce56x118) => {
+                                    if (_0xce56x118['outcome'] === 'accepted') {
+                                        console['log']('Added')
+                                    } else {
+                                        localStorage['setItem'](_0xce56x4 + '-PWA-Timeout-Value', _0xce56x9d);
+                                        localStorage['setItem'](_0xce56x4 + '-PWA-Prompt', 'install-rejected');
+                                        setTimeout(function() {
+                                            if (!window['matchMedia']('(display-mode: fullscreen)')['matches']) {
+                                                document['getElementById']('menu-install-pwa-android')['classList']['remove']('menu-active');
+                                                document['querySelectorAll']('.menu-hider')[0]['classList']['remove']('menu-active')
+                                            }
+                                        }, 50)
+                                    };
+                                    _0xce56x116 = null
+                                })
+                            })
+                        });
+                        window['addEventListener']('appinstalled', (_0xce56x119) => {
+                            document['getElementById']('menu-install-pwa-android')['classList']['remove']('menu-active');
+                            document['querySelectorAll']('.menu-hider')[0]['classList']['remove']('menu-active')
+                        })
+                    };
+                    if (_0xce56x10c['iOS']()) {
+                        if (localStorage['getItem'](_0xce56x4 + '-PWA-Prompt') != 'install-rejected') {
+                            setTimeout(function() {
+                                if (!window['matchMedia']('(display-mode: fullscreen)')['matches']) {
+                                    console['log']('Triggering PWA Window for iOS');
+                                    document['getElementById']('menu-install-pwa-ios')['classList']['add']('menu-active');
+                                    document['querySelectorAll']('.menu-hider')[0]['classList']['add']('menu-active')
+                                }
+                            }, 1000)
+                        }
+                    }
+                }
+            };
+            _0xce56x110['setAttribute']('class', 'isPWA')
+        };
     }
     if ('scrollRestoration' in window['history']) {
         window['history']['scrollRestoration'] = 'manual'
     };
     if (_0xce56x3 === true) {
         if (window['location']['protocol'] !== 'file:') {
-            const _0xce56x129 = {
+            const swupOtions = {
                 containers: ['#page'],
                 cache: false,
                 animateHistoryBrowsing: false,
                 plugins: [new SwupPreloadPlugin()],
                 linkSelector: 'a:not(.external-link):not(.default-link):not([href^=\"https\"]):not([href^=\"http\"]):not([data-gallery])'
             };
-            const _0xce56x12a = new Swup(_0xce56x129);
+            const swup = new Swup(swupOtions);
             document['addEventListener']('swup:pageView', (_0xce56xb) => {
                 _0xce56x9()
             })

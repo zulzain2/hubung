@@ -3,7 +3,7 @@
 @push('styles')
 
 <style>
-    #footer-chat {
+    /* #footer-chat {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -17,7 +17,7 @@
     display: flex;
     text-align: center;
     transition: all 350ms ease;
-}
+} */
 </style>
 
     
@@ -129,7 +129,7 @@
 
 
 
-@push('scripts')
+{{-- @push('scripts')
 
 <script>
     $(document).ready(function() {
@@ -137,4 +137,4 @@
     });
     </script>
 
-@endpush
+@endpush --}}

@@ -44,8 +44,6 @@
 
 @section('content')
 
-<div id="page">
-    <div class="page-content">
 
         <table style="width:100%;height:100vh">
             <tr>
@@ -82,9 +80,7 @@
                 </td>
             </tr>
         </table>
-        
-    </div>
-</div>
+
 
     
 @endsection

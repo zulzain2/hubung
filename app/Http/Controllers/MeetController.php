@@ -93,6 +93,15 @@ class MeetController extends Controller
         //
     }
 
+    public function meetingLog()
+    {
+       
+        $meetinglog = MeetingLog::where([
+			['id_users', '=' , auth()->user()->id]
+		])->orderByDesc('datetime')->get();
+
+        return json_encode($meetinglog);
+    }
 
     public function storeMeetingLog(Request $request)
     {

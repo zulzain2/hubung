@@ -7,7 +7,7 @@
 "name" : "Communication",
 "scope" : "./",
 "display" : "fullscreen",
-"start_url" : "./",
+"start_url" : "./home",
 "short_name" : "Communication",
 "description" : "",
 "orientation" : "portrait",

@@ -36,8 +36,8 @@
 
 
 
-var CACHE_STATIC_NAME = 'static-v15-v5';
-var CACHE_DYNAMIC_NAME = 'dynamic-v2-v5';
+var CACHE_STATIC_NAME = 'static-v1';
+var CACHE_DYNAMIC_NAME = 'dynamic-v1';
 var STATIC_FILES = [
     '/offline.html',
     '/home',
@@ -48,11 +48,14 @@ var STATIC_FILES = [
 ];
 
 var EXCLUDE_ROUTES = [
-    '/login',
-    '/register',
-    '/forgot-password',
-    '/logout',
-    '/fetch/csrf'
+    // '/login',
+    // '/register',
+    // '/forgot-password',
+    // '/logout',
+    
+    // '/fetch/csrf',
+    // '/fetch/checkAuth',
+    // '/fetch/meetingLog'
 ];
 
 // function trimCache(cacheName, maxItems) {
@@ -115,7 +118,8 @@ self.addEventListener('fetch', function(event) {
         event.respondWith(
           caches.match(event.request)
         );
-      } else {
+    } 
+    else {
         event.respondWith(
             caches.open(CACHE_DYNAMIC_NAME).then(function(cache) {
               return fetch(event.request)
@@ -134,15 +138,16 @@ self.addEventListener('fetch', function(event) {
                   return caches.open(CACHE_STATIC_NAME)
                     .then(function (cache) {
                       if (event.request.headers.get('accept').includes('text/html')) {
+                        
+
                         return cache.match('/offline.html');
+                        
                       }
                     });
                 });
             })
           );
       }
-
-    
   });
 
 // self.addEventListener('fetch', function (event) {

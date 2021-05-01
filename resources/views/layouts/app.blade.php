@@ -65,7 +65,7 @@
             
         @endif
         
-        <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a>
+        {{-- <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a> --}}
     </div>
     <div id="footer-bar" class="footer-bar-1">
 
@@ -123,10 +123,11 @@
             
                     
                 <form method="POST" action="{{ route('logout') }}">
-                {{-- @csrf --}}
-                <input class="csrftoken" type="hidden" name="_token" value="">
+
+                    <input class="csrftoken" type="hidden" name="_token" value="">
                     
                     <button type="submit" class="btn btn-xxs w-100 rounded-s btn-full mb-3 text-uppercase font-900 shadow-s bg-red-dark" style="margin-top:10px"><i class="fas fa-sign-out-alt " style="line-height: 25px;"></i>&nbsp;&nbsp;Log Out</button>
+                
                 </form>
 
             </div>
@@ -181,68 +182,27 @@
         </div>
         </div>
 
+        
 
-    
+        <div id='check-auth'></div>
 
+       
 </div>
+
+<div id="menu-offline" class="menu menu-box-modal rounded-m" data-menu-width="310" data-menu-height="270">
+    <h1 class="text-center color-theme mt-4">No Connection</h1>
+    <p class="ps-3 pe-3 text-center color-theme opacity-60">
+    This action requires an internet connection to work. Please connect turn on your WiFi or Celluar Data to Enable this action.
+    </p>
+    <a href="#" class="close-menu btn btn-m font-900 text-uppercase bg-highlight rounded-sm btn-center-l">Close Message</a>
+    <p class="text-center font-9 color-theme mt-3">Continue with other task.</p>
+    </div>
 
 <script type="text/javascript" src="{{URL::to('scripts/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
-<script type="text/javascript" src="{{URL::to('scripts/sw_initialize.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/external_api.js')}}"></script>
-
-<script>
-    $(document).ready(function () {
-    var _0xce56x4 = 'Sticky';
-
-    const _0xce56x51 = document['querySelectorAll']('[data-toggle-theme]');
-
-    function _0xce56x52() {
-        document['body']['classList']['add']('theme-dark');
-        document['body']['classList']['remove']('theme-light', 'detect-theme');
-        for (let _0xce56xa = 0; _0xce56xa < _0xce56x51['length']; _0xce56xa++) {
-            _0xce56x51[_0xce56xa]['checked'] = 'checked'
-        };
-        localStorage['setItem'](_0xce56x4 + '-Theme', 'dark-mode')
-    }
-
-    function _0xce56x53() {
-        document['body']['classList']['add']('theme-light');
-        document['body']['classList']['remove']('theme-dark', 'detect-theme');
-        for (let _0xce56xa = 0; _0xce56xa < _0xce56x51['length']; _0xce56xa++) {
-            _0xce56x51[_0xce56xa]['checked'] = false
-        };
-        localStorage['setItem'](_0xce56x4 + '-Theme', 'light-mode')
-    }
-
-    function _0xce56x54() {
-            var _0xce56x55 = document['querySelectorAll']('.btn, .header, #footer-bar, .menu-box, .menu-active');
-            for (let _0xce56xa = 0; _0xce56xa < _0xce56x55['length']; _0xce56xa++) {
-                _0xce56x55[_0xce56xa]['style']['transition'] = 'all 0s ease'
-            }
-        }
-       
-
-    const _0xce56x5c = document['querySelectorAll']('[data-toggle-theme]');
-        _0xce56x5c['forEach']((_0xce56xc) => {
-            return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
-                if (document['body']['className'] == 'theme-light') {
-                   
-                    _0xce56x52()
-                } else {
-                    if (document['body']['className'] == 'theme-dark') {
-                        
-                        _0xce56x53()
-                    }
-                };
-                
-            })
-        });
-       
-    });
-</script>
 
 @stack('scripts')
 

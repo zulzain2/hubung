@@ -64,71 +64,68 @@
 
 @section('content')
 
-<div id="page">
-    <div class="page-content">
 
-<table style="width:100%;height:100vh">
-    <tr>
-        <td>
-            <div class="card card-style">
-                <div class="content mt-4 mb-0">
-                
-                    <div class="custom-control scale-switch ios-switch" style="text-align: right;margin-right: unset;position: unset;padding-left: unset;">
-                        <input data-toggle-theme="" type="checkbox" class="ios-input" id="switch-dark-mode">
-                        <label class="custom-control-label" for="switch-dark-mode"></label>
+
+        <table style="width:100%;height:100vh">
+            <tr>
+                <td>
+                    <div class="card card-style">
+                        <div class="content mt-4 mb-0">
+                        
+                            <div class="custom-control scale-switch ios-switch" style="text-align: right;margin-right: unset;position: unset;padding-left: unset;">
+                                <input data-toggle-theme="" type="checkbox" class="ios-input" id="switch-dark-mode">
+                                <label class="custom-control-label" for="switch-dark-mode"></label>
+                            </div>
+                    
+                            <h1 class="text-center font-900 font-40 text-uppercase mb-0">Login</h1>
+
+                            <p class="bottom-0 text-center color-highlight font-11">Let's get you logged in</p>
+
+                            <!-- Session Status -->
+                            <x-auth-session-status class="mb-4 color-highlight" :status="session('status')" />
+
+                            <!-- Validation Errors -->
+                            <x-auth-validation-errors class="mb-4 color-highlight" :errors="$errors" />
+
+                            <form method="POST" action="{{ route('login') }}">
+                                <input class="csrftoken" type="hidden" name="_token" value="">
+
+                                <div class="input-style no-borders has-icon validate-field mb-4">
+                                    <i class="fa fa-user"></i>
+                                    <input type="email" class="form-control validate-text" id="email" name="email" placeholder="Email">
+                                    <label class="color-blue-dark font-10 mt-1">Email</label>
+                                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                                    <em>(required)</em>
+                                </div>
+
+                                <div class="input-style no-borders has-icon validate-field mb-4">
+                                    <i class="fa fa-lock"></i>
+                                    <input type="password" class="form-control validate-password" id="password" name="password" placeholder="Password">
+                                    <label class="color-blue-dark font-10 mt-1">Password</label>
+                                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                                    <em>(required)</em>
+                                </div>
+
+                                <button type="submit" class="btn btn-m mt-2 mb-4 btn-full bg-green-dark text-uppercase font-900 w-100">Login</button>
+                            </form>
+
+                            <div class="divider mt-4 mb-3"></div>
+
+                            <div class="d-flex">
+                                <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-start"><a href="register" class="color-theme">Create Account</a></div>
+                                @if (Route::has('password.request'))
+                                    <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-end"><a href="forgot-password" class="color-theme">Forgot Credentials</a></div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
+                </td>
+            </tr>
+        </table>
             
-                    <h1 class="text-center font-900 font-40 text-uppercase mb-0">Login</h1>
-
-                    <p class="bottom-0 text-center color-highlight font-11">Let's get you logged in</p>
-
-                    <!-- Session Status -->
-                    <x-auth-session-status class="mb-4 color-highlight" :status="session('status')" />
-
-                    <!-- Validation Errors -->
-                    <x-auth-validation-errors class="mb-4 color-highlight" :errors="$errors" />
-
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="input-style no-borders has-icon validate-field mb-4">
-                            <i class="fa fa-user"></i>
-                            <input type="email" class="form-control validate-text" id="email" name="email" placeholder="Email">
-                            <label class="color-blue-dark font-10 mt-1">Email</label>
-                            <i class="fa fa-times disabled invalid color-red-dark"></i>
-                            <i class="fa fa-check disabled valid color-green-dark"></i>
-                            <em>(required)</em>
-                        </div>
-
-                        <div class="input-style no-borders has-icon validate-field mb-4">
-                            <i class="fa fa-lock"></i>
-                            <input type="password" class="form-control validate-password" id="password" name="password" placeholder="Password">
-                            <label class="color-blue-dark font-10 mt-1">Password</label>
-                            <i class="fa fa-times disabled invalid color-red-dark"></i>
-                            <i class="fa fa-check disabled valid color-green-dark"></i>
-                            <em>(required)</em>
-                        </div>
-
-                        <button type="submit" class="btn btn-m mt-2 mb-4 btn-full bg-green-dark text-uppercase font-900 w-100">Login</button>
-                    </form>
-
-                    <div class="divider mt-4 mb-3"></div>
-
-                    <div class="d-flex">
-                        <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-start"><a href="register" class="color-theme">Create Account</a></div>
-                        @if (Route::has('password.request'))
-                            <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-end"><a href="forgot-password" class="color-theme">Forgot Credentials</a></div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </td>
-    </tr>
-</table>
-    
-
-
-</div>
+    </div>
 </div>
 
     

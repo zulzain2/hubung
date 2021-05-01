@@ -67,8 +67,6 @@
 
 @section('content')
 
-<div id="page">
-    <div class="page-content">
 
         <table style="width:100%;height:100vh">
             <tr>
@@ -89,7 +87,7 @@
                             <x-auth-validation-errors class="mb-4 color-highlight" :errors="$errors" />
 
                             <form method="POST" action="{{ route('register') }}">
-                                @csrf
+                                <input class="csrftoken" type="hidden" name="_token" value="">
 
                                 <div class="input-style no-borders has-icon validate-field">
                                     <i class="fa fa-user"></i>
@@ -143,9 +141,7 @@
                 </td>
             </tr>
         </table>
-        
-    </div>
-</div>
+
 
     
 @endsection
