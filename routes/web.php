@@ -44,6 +44,10 @@ Route::get('/', function () {
     return redirect('/home');
 })->middleware(['auth']);
 
+Route::get('/offline', function () {
+    return view('offline.index');
+});
+
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
 Route::resource('chat', 'App\Http\Controllers\ChatController');

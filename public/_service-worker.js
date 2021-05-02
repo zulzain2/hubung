@@ -39,12 +39,12 @@
 var CACHE_STATIC_NAME = 'static-v1';
 var CACHE_DYNAMIC_NAME = 'dynamic-v1';
 var STATIC_FILES = [
-    '/offline.html',
+    '/offline',
     '/home',
     '/chat',
     '/meet',
-    'scripts/external_api.js',
-    'scripts/jquery-3.6.0.min.js'
+    '/scripts/external_api.js',
+    '/scripts/jquery-3.6.0.min.js'
 ];
 
 var EXCLUDE_ROUTES = [
@@ -140,7 +140,7 @@ self.addEventListener('fetch', function(event) {
                       if (event.request.headers.get('accept').includes('text/html')) {
                         
 
-                        return cache.match('/offline.html');
+                        return cache.match('/offline');
                         
                       }
                     });

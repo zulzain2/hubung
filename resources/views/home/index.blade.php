@@ -99,47 +99,6 @@
         </div>
     </div>
 
-    
-
-    <div class="card card-style">
-        <div class="row px-3 py-3 m-0 pb-4">
-            <div class="col-2 align-self-center">
-                <a href="#" class="icon icon-xs rounded-xs color-white bg-red-dark me-3"><i class="fas fa-comments"></i></a>
-            </div>
-            <div class="col-8 align-self-center">
-                <h5>Chat</h5>
-
-            
-                <div class="ph-col-12 px-0">
-                    <div class="ph-row">
-                        <div class="ph-col-12 big">
-                            <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- <p class="mb-0 mt-n2 opacity-50 font-11">2 Upcoming</p> --}}
-
-            </div>
-            <div class="col-2 align-self-center">
-                
-                <h5><br></h5>
-
-                <div class="ph-col-12 px-0 ">
-                    <div class="ph-row">
-                        <div class="ph-col-12 big">
-                            <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- <a href="#" class="btn btn-xxs bg-highlight text-uppercase font-800">GO</a> --}}
-
-            </div>
-        </div>
-    </div>
-
-
     <div class="card card-style">
         <div class="row px-3 py-3 m-0 pb-4">
             <div class="col-2 align-self-center">
@@ -178,6 +137,190 @@
             </div>
         </div>
     </div>
+
+    <div class="splide single-slider slider-no-arrows slider-no-dots" id="single-slider-cta">
+        <div class="splide__track">
+        <div class="splide__list">
+        <div class="splide__slide">
+            <div class="card card-style bg-18" data-card-height="300">
+                <div class="card-top mt-4 mx-3">
+                <img src="images/avatars/1s.png" class="float-start border border-white bg-yellow-light rounded-circle me-n3" width="35">
+                <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
+                <img src="images/avatars/4s.png" class="float-start border border-white bg-mint-dark rounded-circle me-n3" width="35">
+                <img src="images/avatars/5s.png" class="float-start border border-white bg-highlight rounded-circle me-n3" width="35">
+                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+135 others</span>
+                </div>
+                <div class="card-top">
+                <strong class="float-end text-center">
+                <div class="bg-theme rounded-sm color-theme shadow-xl text-center m-3 overflow-hidden">
+                <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
+                <span class="font-23 font-800 d-block mb-n3 line-height-s">28</span><br>
+                </div>
+                </strong>
+                </div>
+                <div class="card-bottom no-click">
+                <div class="content">
+                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Outdoor Events</span>
+                <h1 class="color-white mt-1">Factory Airsoft</h1>
+                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">Over 150 Participants Have RSVP'ed.</h2>
+                </div>
+                </div>
+                <div class="card-bottom">
+                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">Join</a>
+                </div>
+                <div class="card-overlay bg-gradient"></div>
+                </div>
+        </div>
+        <div class="splide__slide">
+            <div class="card card-style bg-18" data-card-height="300">
+                <div class="card-top mt-4 mx-3">
+                <img src="images/avatars/1s.png" class="float-start border border-white bg-yellow-light rounded-circle me-n3" width="35">
+                <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
+                <img src="images/avatars/4s.png" class="float-start border border-white bg-mint-dark rounded-circle me-n3" width="35">
+                <img src="images/avatars/5s.png" class="float-start border border-white bg-highlight rounded-circle me-n3" width="35">
+                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+135 others</span>
+                </div>
+                <div class="card-top">
+                <strong class="float-end text-center">
+                <div class="bg-theme rounded-sm color-theme shadow-xl text-center m-3 overflow-hidden">
+                <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
+                <span class="font-23 font-800 d-block mb-n3 line-height-s">28</span><br>
+                </div>
+                </strong>
+                </div>
+                <div class="card-bottom no-click">
+                <div class="content">
+                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Outdoor Events</span>
+                <h1 class="color-white mt-1">Factory Airsoft</h1>
+                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">Over 150 Participants Have RSVP'ed.</h2>
+                </div>
+                </div>
+                <div class="card-bottom">
+                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">Join</a>
+                </div>
+                <div class="card-overlay bg-gradient"></div>
+                </div>
+        </div>
+        <div class="splide__slide">
+            <div class="card card-style bg-18" data-card-height="300">
+                <div class="card-top mt-4 mx-3">
+                <img src="images/avatars/1s.png" class="float-start border border-white bg-yellow-light rounded-circle me-n3" width="35">
+                <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
+                <img src="images/avatars/4s.png" class="float-start border border-white bg-mint-dark rounded-circle me-n3" width="35">
+                <img src="images/avatars/5s.png" class="float-start border border-white bg-highlight rounded-circle me-n3" width="35">
+                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+135 others</span>
+                </div>
+                <div class="card-top">
+                <strong class="float-end text-center">
+                <div class="bg-theme rounded-sm color-theme shadow-xl text-center m-3 overflow-hidden">
+                <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
+                <span class="font-23 font-800 d-block mb-n3 line-height-s">28</span><br>
+                </div>
+                </strong>
+                </div>
+                <div class="card-bottom no-click">
+                <div class="content">
+                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Outdoor Events</span>
+                <h1 class="color-white mt-1">Factory Airsoft</h1>
+                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">Over 150 Participants Have RSVP'ed.</h2>
+                </div>
+                </div>
+                <div class="card-bottom">
+                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">Join</a>
+                </div>
+                <div class="card-overlay bg-gradient"></div>
+                </div>
+        </div>
+        
+        </div>
+        </div>
+        </div>
+
+   
+
+
+        <div class="card card-style">
+            <div class="row px-3 py-3 m-0 pb-4">
+                <div class="col-2 align-self-center">
+                    <a href="#" class="icon icon-xs rounded-xs color-white bg-red-dark me-3"><i class="fas fa-comments"></i></a>
+                </div>
+                <div class="col-8 align-self-center">
+                    <h5>Chat</h5>
+    
+                
+                    <div class="ph-col-12 px-0">
+                        <div class="ph-row">
+                            <div class="ph-col-12 big">
+                                <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    {{-- <p class="mb-0 mt-n2 opacity-50 font-11">2 Upcoming</p> --}}
+    
+                </div>
+                <div class="col-2 align-self-center">
+                    
+                    <h5><br></h5>
+    
+                    <div class="ph-col-12 px-0 ">
+                        <div class="ph-row">
+                            <div class="ph-col-12 big">
+                                <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    {{-- <a href="#" class="btn btn-xxs bg-highlight text-uppercase font-800">GO</a> --}}
+    
+                </div>
+            </div>
+        </div>
+
+    <div class="content">
+        <h4 class="pb-2 mt-n2">Unread Chat</h4>
+        <div class="d-flex mb-3">
+        <div>
+        <img src="images/pictures/18l.jpg" class="rounded-sm me-3" width="55">
+        </div>
+        <div>
+        <span class="color-highlight font-300 d-block pt-2 text-uppercase font-10">28 August 2025</span>
+        <strong class="color-theme font-16 d-block mt-n2">Paintball at the Park</strong>
+        <span class="font-11 d-block mb-n1"><i class="fa fa-map-marker pe-2"></i>Texas National Park, Texas</span>
+        </div>
+        <div class="align-self-center ms-auto">
+        <a href="#" data-menu="menu-event-sample" class="btn btn-s bg-green-dark rounded-sm font-700 text-uppercase">BUY</a>
+        </div>
+        </div>
+        <div class="d-flex mb-3">
+        <div>
+        <img src="images/pictures/22l.jpg" class="rounded-sm me-3" width="55">
+        </div>
+        <div>
+        <span class="color-highlight font-300 d-block pt-2 text-uppercase font-10">28 August 2025</span>
+        <strong class="color-theme font-16 d-block mt-n2">Coffee Airsoft</strong>
+        <span class="font-11 d-block mb-n1"><i class="fa fa-map-marker pe-2"></i>New York Coffe Shop</span>
+        </div>
+        <div class="align-self-center ms-auto">
+        <a href="#" data-menu="menu-event-sample" class="btn btn-xs bg-blue-dark rounded-sm text-uppercase font-700">Join</a>
+        </div>
+        </div>
+        <div class="d-flex">
+        <div>
+        <img src="images/pictures/4l.jpg" class="rounded-sm me-3" width="55">
+        </div>
+        <div>
+        <span class="color-highlight font-300 d-block pt-2 text-uppercase font-10">28 August 2025</span>
+        <strong class="color-theme font-16 d-block mt-n2">Hide & Seek</strong>
+        <span class="font-11 d-block mb-n1"><i class="fa fa-map-marker pe-2"></i>Steel Meel Detroit</span>
+        </div>
+        <div class="align-self-center ms-auto">
+        <a href="#" class="icon icon-xxs bg-green-dark rounded-m"><i class="fa fa-check"></i></a>
+        <a href="#" class="icon icon-xxs bg-red-dark rounded-m"><i class="fa fa-times"></i></a>
+        </div>
+        </div>
+        </div>
+
 
     <div class="card card-style">
         <div class="row px-3 py-3 m-0 pb-4">
@@ -219,6 +362,83 @@
     </div>
 
 
+        <div class="splide double-slider slider-no-arrows slider-no-dots" id="double-slider-home-1">
+            <div class="splide__track">
+            <div class="splide__list">
+            <div class="splide__slide">
+                <a href="#" data-menu="menu-event-sample" class="card card-style mx-3 bg-3 mb-n3" data-card-height="250">
+                    <div class="card-top m-3">
+                    <span class="btn btn-xxs bg-theme text-uppercase float-end rounded-sm font-800">Join</span>
+                    </div>
+                    <div class="card-bottom p-3 mb-4 pb-4">
+                    <h2 class="color-white">Taste Experience</h2>
+                    <p class="mb-0 mt-n2 opacity-50 font-10 color-white">10:30 AM at Jake's Place</p>
+                    </div>
+                    <div class="card-bottom p-3">
+                    <div class="float-end">
+                    <img src="images/avatars/1s.png" class="border border-white bg-yellow-light rounded-circle me-n3" width="25">
+                    <img src="images/avatars/6s.png" class="border border-white bg-pink-dark rounded-circle me-n3" width="25">
+                    <img src="images/avatars/5s.png" class="border border-white bg-highlight rounded-circle" width="25">
+                    </div>
+                    </div>
+                    <div class="card-overlay bg-gradient"></div>
+                    </a>
+                    <div class="bg-theme rounded-sm mt-n3 ms-4 overflow-hidden under-slider-btn d-inline-block shadow-l text-center">
+                    <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
+                    <span class="font-20 font-800 d-block mb-n3 line-height-s">28</span><br>
+                    </div>
+            </div>
+            <div class="splide__slide">
+                <a href="#" data-menu="menu-event-sample" class="card card-style mx-3 bg-20 mb-n3" data-card-height="250">
+                    <div class="card-top m-3">
+                    <span class="btn btn-xxs bg-theme text-uppercase float-end rounded-sm font-800">Join</span>
+                    </div>
+                    <div class="card-bottom p-3 mb-4 pb-4">
+                    <h2 class="color-white">Selling 101 & Marketing</h2>
+                    <p class="mb-0 mt-n2 opacity-50 font-10 color-white">Invite Only Based Event</p>
+                    </div>
+                    <div class="card-bottom p-3">
+                    <div class="float-end">
+                    <img src="images/avatars/1s.png" class="border border-white bg-yellow-light rounded-circle me-n3" width="25">
+                    <img src="images/avatars/6s.png" class="border border-white bg-pink-dark rounded-circle me-n3" width="25">
+                    <img src="images/avatars/5s.png" class="border border-white bg-highlight rounded-circle" width="25">
+                    </div>
+                    </div>
+                    <div class="card-overlay bg-gradient"></div>
+                    </a>
+                    <div class="bg-theme rounded-sm mt-n3 ms-4 overflow-hidden under-slider-btn d-inline-block shadow-l text-center">
+                    <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">OCT</span>
+                    <span class="font-20 font-800 d-block mb-n3 line-height-s">04</span><br>
+                    </div>
+            </div>
+            <div class="splide__slide">
+                <a href="#" data-menu="menu-event-sample" class="card card-style mx-3 bg-3 mb-n3" data-card-height="250">
+                    <div class="card-top m-3">
+                    <span class="btn btn-xxs bg-theme text-uppercase float-end rounded-sm font-800">Join</span>
+                    </div>
+                    <div class="card-bottom p-3 mb-4 pb-4">
+                    <h2 class="color-white">Taste Experience</h2>
+                    <p class="mb-0 mt-n2 opacity-50 font-10 color-white">10:30 AM at Jake's Place</p>
+                    </div>
+                    <div class="card-bottom p-3">
+                    <div class="float-end">
+                    <img src="images/avatars/1s.png" class="border border-white bg-yellow-light rounded-circle me-n3" width="25">
+                    <img src="images/avatars/6s.png" class="border border-white bg-pink-dark rounded-circle me-n3" width="25">
+                    <img src="images/avatars/5s.png" class="border border-white bg-highlight rounded-circle" width="25">
+                    </div>
+                    </div>
+                    <div class="card-overlay bg-gradient"></div>
+                    </a>
+                    <div class="bg-theme rounded-sm mt-n3 ms-4 overflow-hidden under-slider-btn d-inline-block shadow-l text-center">
+                    <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
+                    <span class="font-20 font-800 d-block mb-n3 line-height-s">28</span><br>
+                    </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+    
 
 
 @endsection

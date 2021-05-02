@@ -160,7 +160,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             <a href="#">
                                 <span>${meetinglog.room_name}</span>
                                 <strong>as ${meetinglog.display_name}</strong>
-                                <span class="badge bg-blue-dark">${dateStringWithTime}</span>
+                                <span class="badge bg-highlight">${dateStringWithTime}</span>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         `)
@@ -292,7 +292,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 <a href="#">
                                     <span>${meetinglog.room_name}</span>
                                     <strong>as ${meetinglog.display_name}</strong>
-                                    <span class="badge bg-blue-dark">${dateStringWithTime}</span>
+                                    <span class="badge bg-highlight">${dateStringWithTime}</span>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
                             `)
@@ -437,7 +437,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x20['forEach'](function(_0xce56xb) {
                     var _0xce56x21 = new Splide('#' + _0xce56xb['id'], {
                         type: 'loop',
-                        autoplay: true,
+                        autoplay: false,
                         interval: 4000,
                         perPage: 1
                     })['mount']();
@@ -460,7 +460,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x24['forEach'](function(_0xce56xb) {
                     var _0xce56x25 = new Splide('#' + _0xce56xb['id'], {
                         type: 'loop',
-                        autoplay: true,
+                        autoplay: false,
                         interval: 4000,
                         arrows: false,
                         perPage: 2
@@ -472,7 +472,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x26['forEach'](function(_0xce56xb) {
                     var _0xce56x27 = new Splide('#' + _0xce56xb['id'], {
                         type: 'loop',
-                        autoplay: true,
+                        autoplay: false,
                         padding: {
                             left: '0px',
                             right: '80px'
