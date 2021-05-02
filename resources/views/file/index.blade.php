@@ -8,12 +8,7 @@
 @section('content')
 
 <div class="card card-style">
-    <div class="content">
-    <h4 class="mb-0">Select your View</h4>
-    <p>
-    Each view can support multiple design elements inside it.
-    </p>
-    </div>
+    
     <div class="divider mb-0"></div>
     <div class="gallery-view-controls">
     <a href="#" class="color-highlight gallery-view-1"><i class="fa fa-th"></i></a>
@@ -73,5 +68,61 @@
     </div>
     </div>
     </div>
+
+
+
+    
+
+    @endsection
+
+    @section('content2')
+
+ 
+    <a href="#" data-menu="menu-upload" class="btn btn-3d btn-m mb-3 rounded-xl text-uppercase font-900 shadow-s border-highlight  bg-highlight" style="
+        position: fixed; 
+        width: 50px; 
+        height: 50px; 
+        bottom: 60px; 
+        right: 20px; 
+        background-color: rgb(0, 204, 153); 
+        color: rgb(255, 255, 255); 
+        border-radius: 50px; text-align: 
+        center; box-shadow: rgb(153, 153, 153) 2px 2px 3px;">
+
+        <i class="fas fa-plus" style="
+            margin-top: 5px;
+            margin-left: -1.5px;
+            font-size: 18px;
+            text-align: center;"></i>
+    </a>
+
+
+    <div id="menu-upload" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="255" data-menu-effect="menu-parallax">
+        <div class="menu-title text-center mt-4">
+            <h4>Create New</h4>
+        </div>
+        <div class="list-group list-custom-small ps-2 me-4">
+        <a href="#">
+        <i class="font-14 fa fa-file color-gray-dark"></i>
+        <span class="font-13">File</span>
+        <i class="fa fa-angle-right"></i>
+        </a>
+        <a href="#">
+        <i class="font-14 fa fa-image color-gray-dark"></i>
+        <span class="font-13">Photo</span>
+        <i class="fa fa-angle-right"></i>
+        </a>
+        <a href="#">
+        <i class="font-14 fa fa-video color-gray-dark"></i>
+        <span class="font-13">Video</span>
+        <i class="fa fa-angle-right"></i>
+        </a>
+        <a href="#">
+        <i class="font-14 fa fa-user color-gray-dark"></i>
+        <span class="font-13">Camera</span>
+        <i class="fa fa-angle-right"></i>
+        </a>
+        </div>
+        </div>
 
     @endsection
