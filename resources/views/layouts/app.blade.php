@@ -72,7 +72,7 @@
         <a id="home" href="home" class="active-nav"><i class="fa fa-home"></i><span>Home</span></a>
         <a id="chat" href="chat"><i class="fas fa-comments"></i><span>Chat</span></a>
         <a id="meet" href="meet"><i class="fas fa-video"></i><span>Meeting</span></a>
-        <a id="file" href="index-search.html"><i class="fas fa-folder"></i><span>My File</span></a>
+        <a id="file" href="file"><i class="fas fa-folder"></i><span>My File</span></a>
         <a id="setting" href="#" data-menu="menu-settings"><i class="fa fa-cog"></i><span>Settings</span></a>
 
     </div>

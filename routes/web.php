@@ -56,5 +56,7 @@ Route::get('/fetch/meetingLog', 'App\Http\Controllers\MeetController@meetingLog'
 Route::post('/fetch/storeMeetingLog', 'App\Http\Controllers\MeetController@storeMeetingLog');
 Route::resource('meet', 'App\Http\Controllers\MeetController');
 
+Route::resource('file', 'App\Http\Controllers\FileController');
+
 
 

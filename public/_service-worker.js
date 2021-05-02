@@ -36,13 +36,14 @@
 
 
 
-var CACHE_STATIC_NAME = 'static-v2';
-var CACHE_DYNAMIC_NAME = 'dynamic-v2';
+var CACHE_STATIC_NAME = 'static-v4';
+var CACHE_DYNAMIC_NAME = 'dynamic-v4';
 var STATIC_FILES = [
     '/offline',
     '/home',
     '/chat',
     '/meet',
+    '/file',
     '/scripts/external_api.js',
     '/scripts/jquery-3.6.0.min.js'
 ];
