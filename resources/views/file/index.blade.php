@@ -78,22 +78,25 @@
     @section('content2')
 
  
-    <a href="#" data-menu="menu-upload" class="btn btn-3d btn-m mb-3 rounded-xl text-uppercase font-900 shadow-s border-highlight  bg-highlight" style="
+    <a href="#" data-menu="menu-upload" class="btn px-0 mb-3 rounded-xl text-uppercase font-900 shadow-s border-highlight  bg-highlight" style="
         position: fixed; 
         width: 50px; 
         height: 50px; 
         bottom: 60px; 
         right: 20px; 
-        background-color: rgb(0, 204, 153); 
-        color: rgb(255, 255, 255); 
-        border-radius: 50px; text-align: 
-        center; box-shadow: rgb(153, 153, 153) 2px 2px 3px;">
+        border-radius: 50px; 
+        writing-mode: vertical-rl;">
 
-        <i class="fas fa-plus" style="
-            margin-top: 5px;
-            margin-left: -1.5px;
-            font-size: 18px;
-            text-align: center;"></i>
+        <table style="width:100%;height:100%;background-color: #1b1d2100!important;border:none">
+            <tr>
+                <td style="text-align:center;vertical-align:middle;background-color: #1b1d2100!important;border:none">
+                    <i class="fas fa-plus" style="
+                    font-size: 18px;
+                    text-align: center;"></i>
+                </td>
+            </tr>
+        </table>
+       
     </a>
 
 
