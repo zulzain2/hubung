@@ -33,6 +33,16 @@ Route::get('/fetch/checkAuth', function () {
     
 });
 
+Route::get('/fetch/user', function () {
+    if (Auth::check()) {
+        return json_encode(auth()->user());
+    }
+    else
+    {
+        return json_encode('false');
+    }
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

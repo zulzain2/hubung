@@ -7,12 +7,7 @@
 
 @section('content')
 
-<div id="initialize-meeting">
-    {{-- <div class="card card-style">
-        <div class="content mb-0">
-            
-        </div>
-    </div> --}}
+<div id="meeting-index">
 
     <div class="card card-style bg-theme pb-0">
         <div class="content" id="tab-group-1">
@@ -23,97 +18,86 @@
             </div>
 
             <div class="clearfix mb-3"></div>
-
-            <div data-bs-parent="#tab-group-1" class="collapse show" id="tab-1" style="">
-                <h3 class="text-center"> Create Meeting</h3>
-                <p></p>
-                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-home color-blue-dark"></i>
-                    <input id="meetingName" type="name" class="form-control validate-name" placeholder="Enter meeting name">
-                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(required)</em>
-                </div>
-                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fa fa-user color-blue-dark"></i>
-                    <input id="usrName" type="name" class="form-control validate-name" placeholder="Enter display name" value="">
-                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(required)</em>
-                </div>
-                {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-envelope-open color-blue-dark"></i>
-                    <input id="usrEmail" type="email" class="form-control validate-text" placeholder="Enter your email address">
-                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Email</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(optional)</em>
-                </div> --}}
-
-            
-
-                <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id" data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample4">
-                    <div class="pt-1">
-                        <h5 class="font-600">Password Protected</h5>
-                    </div>
-                    <div class="ms-auto me-4 pe-2">
-                        <div class="custom-control android-switch">
-                            <input type="checkbox" class="android-input" id="toggle-id">
-                            <label class="custom-control-label" for="toggle-id"></label>
-                        </div>
-                    </div>
-                </div>
-            
-
-                <div id="password_meeting" class="input-style input-style-always-active has-borders has-icon validate-field mb-4" style="display:none">
-                    <i class="fas fa-key color-blue-dark"></i>
-                    <input type="name" class="form-control validate-name" placeholder="Enter room password">
-                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(optional)</em>
-                </div>
-            
-                <div class="row">
-                    <div class="col-12 text-center">
-                        {{-- <button id="start-meeting" type="button" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</button> --}}
-                        <a href="#" id="start-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
+                <div data-bs-parent="#tab-group-1" class="collapse show" id="tab-1" style="">
+                    <form action="" method="get" id="createMeetingForm">
+                        <h3 class="text-center"> Create Meeting</h3>
+                        <p></p>
                         
+                        <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                            <i class="fas fa-home color-blue-dark"></i>
+                            <input id="meetingName" type="name" class="form-control validate-name" placeholder="Enter meeting name" required>
+                            <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
+                            <i class="fa fa-times disabled invalid color-red-dark"></i>
+                            <i class="fa fa-check disabled valid color-green-dark"></i>
+                            <em>(required)</em>
+                        </div>
+                        {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                            <i class="fa fa-user color-blue-dark"></i> --}}
+                            <input id="usrName" type="hidden" class="form-control validate-name usrName" placeholder="Enter display name">
+                            {{-- <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
+                            <i class="fa fa-times disabled invalid color-red-dark"></i>
+                            <i class="fa fa-check disabled valid color-green-dark"></i>
+                            <em>(required)</em>
+                        </div> --}}
 
-                    </div>
+                        <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id" data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample4">
+                            <div class="pt-1">
+                                <h5 class="font-600">Password Protected</h5>
+                            </div>
+                            <div class="ms-auto me-4 pe-2">
+                                <div class="custom-control android-switch">
+                                    <input type="checkbox" class="android-input" id="toggle-id">
+                                    <label class="custom-control-label" for="toggle-id"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="password_meeting" class="input-style input-style-always-active has-borders has-icon validate-field mb-4" style="display:none">
+                            <i class="fas fa-key color-blue-dark"></i>
+                            <input type="name" class="form-control validate-name" placeholder="Enter room password">
+                            <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
+                            <i class="fa fa-times disabled invalid color-red-dark"></i>
+                            <i class="fa fa-check disabled valid color-green-dark"></i>
+                            <em>(optional)</em>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                {{-- <button id="start-meeting" type="button" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</button> --}}
+                                <a href="#" id="start-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
             <div data-bs-parent="#tab-group-1" class="collapse" id="tab-2" style="">
                 <h3 class="text-center"> Join Meeting</h3>
                 <p></p>
 
-                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-home color-blue-dark"></i>
-                    <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
-                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(required)</em>
-                </div>
-
-                <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fa fa-user color-blue-dark"></i>
-                    <input id="usrNameJoin" type="name" class="form-control validate-name" placeholder="Enter display name" value="">
-                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(required)</em>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <a href="#" id="join-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Join Meeting</a>
-                        
-
+                <form action="#" id="joinMeetingForm">
+                    <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                        <i class="fas fa-home color-blue-dark"></i>
+                        <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
+                        <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
+                        <i class="fa fa-times disabled invalid color-red-dark"></i>
+                        <i class="fa fa-check disabled valid color-green-dark"></i>
+                        <em>(required)</em>
                     </div>
-                </div>
+
+                    {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+                        <i class="fa fa-user color-blue-dark"></i> --}}
+                        <input id="usrNameJoin" type="hidden" class="form-control validate-name usrName" placeholder="Enter display name" value="">
+                        {{-- <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
+                        <i class="fa fa-times disabled invalid color-red-dark"></i>
+                        <i class="fa fa-check disabled valid color-green-dark"></i>
+                        <em>(required)</em>
+                    </div> --}}
+
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <a href="#" id="join-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Join Meeting</a>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div data-bs-parent="#tab-group-1" class="collapse" id="tab-3" style="">
 
@@ -317,8 +301,67 @@
 
 @section('content2')
 
+<div id="toast-1" class="toast toast-tiny toast-top bg-blue-dark fade hide text-center" data-bs-delay="1000" data-autohide="true" style="z-index:9999"><i class="far fa-copy"></i>&nbsp;&nbsp;Copied</div>
+
+<div id="toast-2" class="toast toast-tiny toast-top bg-red-dark fade hide text-center" data-bs-delay="1000" data-autohide="true" style="z-index:9999"><i class="fa fa-times me-3"></i>&nbsp;&nbsp;Copied Error</div>
+
 <div id="portfolio-2" class="menu menu-box-right" data-menu-width="cover" data-menu-effect="menu-over" >
-    <div id="meet_iframe" style="width: 100%;height: 100vh;z-index:9999"></div>
+    <div id="meet_iframe" style="width: 100%;height: 100vh;z-index:999"></div>
+
+    {{-- <a href="#" id="inviteBtn" class="btn btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s bg-red-light" style="z-index:9999">Invite</a> --}}
+
+    <a href="#" id="inviteBtn" class="btn btn-3d btn-m btn-full rounded-xs text-uppercase font-900 shadow-s border-red-dark bg-highlight" style="z-index:9999">Invite</a>
+
+</div>
+
+
+<div id="menu-meeting-invitation" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="320" style="display: block; height: 405px;">
+    <div class="menu-title">
+        <h1>Invite More People</h1>
+        <p class="color-theme opacity-50">Share the meeting link to invite others</p>
+        <a href="#" class="close-menu-meeting-invitation"><i class="fa fa-times"></i></a>
+    </div>
+    <div class="divider divider-margins mb-1 mt-3"></div>
+    <div class="content">
+        <div class="row mb-0">
+            <div class="col-2">
+                <span class="icon icon-xl rounded-xl bg-gray-dark"><i class="fas fa-video font-30"></i></span>
+            </div>
+            <div class="col-10 ps-4">
+                <div class="d-flex">
+                    <div><p class="font-700 color-theme ps-2">Meeting Name</p></div>
+                    <div class="ms-auto"><p id="invite-meeting-name"></p></div>
+                </div>
+                <div class="d-flex">
+                    <div><p class="font-700 color-theme ps-2">Invitor</p></div>
+                    <div class="ms-auto"><p id="invite-invitor"></p></div>
+                </div>
+            </div>
+        </div>
+        <div class="divider mt-3 mb-3"></div>
+        <div class="row mb-0">
+            <div class="col-3"><h4 class="font-14">Share Link</h4></div>
+            <div class="col-8"><h4 id="invite-link" class="font-14 text-end"></h4></div>
+            <div class="col-1">
+                <!-- Trigger -->
+                <a href="#" class="copy-btn" data-clipboard-target="#invite-link">
+                    <i class="far fa-copy"></i>
+                </a>
+               
+            </div>
+            <div class="divider divider-margins w-100 mt-2 mb-2"></div>
+            <div class="col-6"><h4 class="font-14 mt-1">Share Invitation</h4></div>
+            <div class="col-6"><h4 class="font-14 text-end mt-1">
+                <i class="far fa-copy"></i>&nbsp;
+                <i class="far fa-envelope"></i>&nbsp;
+                <i class="fab fa-google"></i>&nbsp;
+                <i class="fab fa-windows"></i>&nbsp;
+                <i class="fab fa-yahoo"></i>&nbsp;
+
+            </h4></div>
+            <div class="divider divider-margins w-100 mt-2 mb-2"></div>
+        </div>
+    </div>
 </div>
 
 @endsection

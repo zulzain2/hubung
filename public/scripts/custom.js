@@ -13,6 +13,7 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x6 = false;
     var _0xce56x7 = ''+$('meta[name="domain"]').attr('content')+'';
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
+    var apiObj = null;
 
     function _0xce56x9() {
 
@@ -20,7 +21,7 @@ document['addEventListener']('DOMContentLoaded', () => {
         fetch('/fetch/csrf').then(function(response) {
             return response.json();
         }).then(function(data) {
-            const results = data
+            var results = data
 
             document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
             $('.csrftoken').val(results);
@@ -33,7 +34,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             fetch('/fetch/checkAuth').then(function(response) { 
                 return response.json();
             }).then(function(data) {
-                const results = data
+                var results = data
 
                 if(results === 'true')
                 {
@@ -90,23 +91,31 @@ document['addEventListener']('DOMContentLoaded', () => {
                 $('#setting').removeClass('active-nav');
             }
         }
+ 
 
-        if (document.querySelector('#toggle-id')) {
-            $('#toggle-id').change(function() {
-                // this will contain a reference to the checkbox   
-                if (this.checked) {
-                    // the checkbox is now checked 
-                    $('#password_meeting').show();
-                } else {
-                    // the checkbox is now no longer checked
-                    $('#password_meeting').hide();
-                }
-            });
-        }
 
+       if (document.querySelector('#meeting-index')) {
+
+        var clipboard = new ClipboardJS('.copy-btn');
+
+            clipboard.on('success', function(e) {
         
-        if (document.querySelector('#meeting-log')) {
+                var toastID = document.getElementById('toast-1');
+                toastID = new bootstrap.Toast(toastID);
+                toastID.show();
 
+                e.clearSelection();
+            });
+            
+            clipboard.on('error', function(e) {
+          
+                var toastID = document.getElementById('toast-2');
+                toastID = new bootstrap.Toast(toastID);
+                toastID.show();
+
+            });
+
+            ///////////////////////////////////////////////////////////////////////
             var networkDataReceived = false;
 
             // fetch fresh meeting log
@@ -122,7 +131,6 @@ document['addEventListener']('DOMContentLoaded', () => {
             .catch(function(err) {
                 console.log('Error Meeting Log: ' + err);
             });
-
 
             // fetch cached meeting log
             caches.match('/fetch/meetingLog')
@@ -142,8 +150,6 @@ document['addEventListener']('DOMContentLoaded', () => {
             }).catch(function(err) {
                 console.log('Error Meeting Log: ' + err);
             });
-
-
 
             function updateMeetingLog(data){
                 var results = data
@@ -171,19 +177,54 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                 }
             }
+            ///////////////////////////////////////////////////////////////////////
 
-        }
 
-       if (document.querySelector('#start-meeting')) {
+            ///////////////////////////////////////////////////////////////////////
+            // fetch user and append back to selected element
+            fetch('/fetch/user').then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                var results = data
+
+                if(results === 'false')
+                {
+
+                }
+                else
+                {
+                    $('.usrName').val(results.name);
+                }
+
+            }).catch(function(err) {
+                console.log('Error User: ' + err);
+            });
+
+            $('#toggle-id').change(function() {
+                // this will contain a reference to the checkbox   
+                if (this.checked) {
+                    // the checkbox is now checked 
+                    $('#password_meeting').show();
+                } else {
+                    // the checkbox is now no longer checked
+                    $('#password_meeting').hide();
+                }
+            });
+
             $('#start-meeting').on('click' , function(){
                     
                 if (navigator.onLine) {
+                    
+                    // $("#createMeetingForm").validate({
+                    //     debug: true
+                    //   });
+
+                    // console.log($("#createMeetingForm").valid());
                     $('#portfolio-2').addClass('menu-active');
-                    $('#initialize-meeting').hide();
+                
 
                     var meetingName = $('#meetingName').val();
                     var usrName = $('#usrName').val();
-                
         
                     initializeMeeting(meetingName, usrName);
                 
@@ -193,16 +234,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                     $('.menu-hider').addClass('menu-active');
                 } 
             });
-
+         
             $('#join-meeting').on('click' , function(){
                     
                 if (navigator.onLine) {
                     $('#portfolio-2').addClass('menu-active');
-                    $('#initialize-meeting').hide();
+                
 
                     var meetingName = $('#meetingNameJoin').val();
                     var usrName = $('#usrNameJoin').val();
-                 
         
                     initializeMeeting(meetingName, usrName);
                 
@@ -212,105 +252,141 @@ document['addEventListener']('DOMContentLoaded', () => {
                     $('.menu-hider').addClass('menu-active');
                 } 
             });
+          
+            $('#inviteBtn').on('click' , function() {
+                $('#menu-meeting-invitation').addClass('menu-active');
+            });
+    
+            $('.close-menu-meeting-invitation').on('click' , function() {
+                $('#menu-meeting-invitation').removeClass('menu-active');
+            });
+         
+            function initializeMeeting(meetingName, usrName) {
+                var domain = 'meet.tvetxr.ga';
+                var options = {
+                    roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
+                    width: '100%',
+                    height: '100%',
+                    parentNode: document.querySelector('#meet_iframe'),
+                    userInfo: {
+                        displayName: usrName ? usrName : 'Fellow MaGICXian',
+                    },
+                    configOverwrite:{
+                        prejoinPageEnabled: true,
+                        disableDeepLinking: true,
+                        apiLogLevels: ['log'],                    
+                    },
+                    interfaceConfigOverwrite: {
+                        // TOOLBAR_BUTTONS: [
+                        //     'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
+                        //     'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                        //     'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                        //     'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                        //     'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
+                        // ],
+                        TOOLBAR_BUTTONS: [
+                            'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                            'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                            'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
+                        ],
+                    },
+                };
+                apiObj = new JitsiMeetExternalAPI(domain, options);
+                
+                apiObj.addEventListeners({
+                    readyToClose: function () {
+    
+                        var _0xce56x32 = document['querySelectorAll']('.menu-active');
+            
+                        for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
+                            _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
+                        };
+    
+                        apiObj.dispose();
+    
+                     
+                    },
+    
+                    videoConferenceJoined: function(data) {
+    
+                        $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
+                        $('#invite-invitor').html(data.displayName);
+                        $('#invite-link').html(window.location.hostname + '/' + data.roomName);
+
+                        var currentdate = new Date(); 
+                        var datetime =  currentdate.getDate() + "/"
+                                        + (currentdate.getMonth()+1)  + "/" 
+                                        + currentdate.getFullYear() + " @ "  
+                                        + currentdate.getHours() + ":"  
+                                        + currentdate.getMinutes() + ":" 
+                                        + currentdate.getSeconds();
+    
+                        var datetimefordb =  currentdate.getFullYear() + "-"
+                                        + (currentdate.getMonth()+1)  + "-" 
+                                        + currentdate.getDate() + " "  
+                                        + currentdate.getHours() + ":"  
+                                        + currentdate.getMinutes() + ":" 
+                                        + currentdate.getSeconds();
+    
+                        var dataMeetingLog = new URLSearchParams();
+                        dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
+                        dataMeetingLog.append('display_name', data.displayName);
+                        dataMeetingLog.append('datetime', datetimefordb);
+    
+                        fetch("fetch/storeMeetingLog", {
+                            method: 'post',
+                            credentials: "same-origin",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            body: dataMeetingLog,
+                        })
+                        .then(function(response){
+                            return response.json();
+                        }).then(function(resultsJSON){
+        
+                            var results = resultsJSON
+        
+                            if (results.length) {
+                                $('#meeting-log').html('');
+                                results.map(meetinglog => {
+        
+                                    let now = new Date(meetinglog.datetime);
+                                    
+                                    var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+        
+                                    $('#meeting-log').append(`
+                                        <a href="#">
+                                            <span>${meetinglog.room_name}</span>
+                                            <strong>as ${meetinglog.display_name}</strong>
+                                            <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    `)
+                                })
+        
+                            }
+                            else{
+        
+                            }
+        
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                    
+                    
+    
+                    }
+                });
+            }
+            ///////////////////////////////////////////////////////////////////////
+           
        }
        
-        function initializeMeeting(meetingName, usrName) {
-            const domain = 'meet.tvetxr.ga';
-            const options = {
-                roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
-                width: '100%',
-                height: '100%',
-                parentNode: document.querySelector('#meet_iframe'),
-                userInfo: {
-                    displayName: usrName ? usrName : 'Fellow MaGICXian',
-                },
-                configOverwrite:{
-                    disableDeepLinking: true,
-                    apiLogLevels: ['log'],
-                },
-            };
-            const apiObj = new JitsiMeetExternalAPI(domain, options);
-            
-            apiObj.addEventListeners({
-                readyToClose: function () {
-
-                    const _0xce56x32 = document['querySelectorAll']('.menu-active');
         
-                    for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                        _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                    };
-
-                    $('#meet_iframe').empty();
-                    $('#initialize-meeting').show();
-                },
-
-                videoConferenceJoined: function(data) {
-
-                    var currentdate = new Date(); 
-                    var datetime =  currentdate.getDate() + "/"
-                                    + (currentdate.getMonth()+1)  + "/" 
-                                    + currentdate.getFullYear() + " @ "  
-                                    + currentdate.getHours() + ":"  
-                                    + currentdate.getMinutes() + ":" 
-                                    + currentdate.getSeconds();
-
-                    var datetimefordb =  currentdate.getFullYear() + "-"
-                                    + (currentdate.getMonth()+1)  + "-" 
-                                    + currentdate.getDate() + " "  
-                                    + currentdate.getHours() + ":"  
-                                    + currentdate.getMinutes() + ":" 
-                                    + currentdate.getSeconds();
-
-                const dataMeetingLog = new URLSearchParams();
-                dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
-                dataMeetingLog.append('display_name', data.displayName);
-                dataMeetingLog.append('datetime', datetimefordb);
-
-                fetch("fetch/storeMeetingLog", {
-                    method: 'post',
-                    credentials: "same-origin",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: dataMeetingLog,
-                })
-                .then(function(response){
-                    return response.json();
-                }).then(function(resultsJSON){
-
-                    const results = resultsJSON
-
-                    if (results.length) {
-                        $('#meeting-log').html('');
-                        results.map(meetinglog => {
-
-                            let now = new Date(meetinglog.datetime);
-                            
-                            var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                            $('#meeting-log').append(`
-                                <a href="#">
-                                    <span>${meetinglog.room_name}</span>
-                                    <strong>as ${meetinglog.display_name}</strong>
-                                    <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            `)
-                        })
-
-                    }
-                    else{
-
-                    }
-
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
-                
-                }
-            });
-        }
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
