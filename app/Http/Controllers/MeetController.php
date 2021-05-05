@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class MeetController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except('index' , 'indexpublic');
     }
 
     /**
@@ -25,6 +25,11 @@ class MeetController extends Controller
 		// ])->orderByDesc('datetime')->get();
 
         return view('meet.index')->with(compact('topBarTitle'));
+    }
+
+    public function indexpublic()
+    {
+        return view('meet.public.index');
     }
 
     /**

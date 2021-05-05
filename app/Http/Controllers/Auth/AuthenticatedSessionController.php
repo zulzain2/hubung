@@ -32,7 +32,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if($request->getRequestUri() == '/login' && $request->prevUrl)
+        {
+            return redirect($request->prevUrl);
+        }
+        else
+        {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+       
     }
 
     /**

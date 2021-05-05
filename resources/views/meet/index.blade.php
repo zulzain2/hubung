@@ -203,11 +203,11 @@
         </div>
     </div>
 
-    <div class="card card-style">
+    <div id="meeting-log" class="card card-style">
         <div class="content mb-0">
             <h1>Meeting Log</h1>
             <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
-            <div id="meeting-log" class="list-group list-custom-large mb-4">
+            <div id="meeting-log-list" class="list-group list-custom-large mb-4">
                 
                 {{-- @if (count($meetinglogs) > 0)
                     @foreach ($meetinglogs as $meetinglog)

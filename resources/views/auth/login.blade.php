@@ -108,6 +108,9 @@
                                     <em>(required)</em>
                                 </div>
 
+                                
+                                <input type="hidden" id="prevUrl" name="prevUrl" value="">
+
                                 <button type="submit" class="btn btn-m mt-2 mb-4 btn-full bg-green-dark text-uppercase font-900 w-100">Login</button>
                             </form>
 
@@ -133,5 +136,12 @@
 
 
 @push('scripts')
-
+<script>
+    var url = new URL(window.location.href);
+    var prevUrl = url.searchParams.get("prevUrl");
+    if(prevUrl){
+        $('#prevUrl').val(prevUrl);
+    }
+    
+</script>
 @endpush

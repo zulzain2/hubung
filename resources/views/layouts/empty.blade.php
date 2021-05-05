@@ -25,8 +25,8 @@
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
     <div id="preloader"></div>
 
-    <div id="page">
-        <div class="page-content">
+    <div id="page" class="mb-0 pb-0">
+        <div class="page-content mb-0 pb-0">
 
             <input type="hidden" name="allow_sw" id="allow_sw" value="false">
             
@@ -64,7 +64,7 @@
     <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
     <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
 
-   
+    @stack('scripts')
 
 </div>
 

@@ -49,14 +49,7 @@ var STATIC_FILES = [
 ];
 
 var EXCLUDE_ROUTES = [
-    // '/login',
-    // '/register',
-    // '/forgot-password',
-    // '/logout',
-    
-    // '/fetch/csrf',
-    // '/fetch/checkAuth',
-    // '/fetch/meetingLog'
+    '/meet/*'
 ];
 
 // function trimCache(cacheName, maxItems) {

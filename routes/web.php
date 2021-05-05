@@ -62,6 +62,7 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
 Route::resource('chat', 'App\Http\Controllers\ChatController');
 
+Route::get('/meetroom', 'App\Http\Controllers\MeetController@indexpublic');
 Route::get('/fetch/meetingLog', 'App\Http\Controllers\MeetController@meetingLog');
 Route::post('/fetch/storeMeetingLog', 'App\Http\Controllers\MeetController@storeMeetingLog');
 Route::resource('meet', 'App\Http\Controllers\MeetController');

@@ -15,7 +15,7 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
     var apiObj = null;
 
-    function _0xce56x9() {
+    function _init() {
 
         // fetch csrf token and append back to selected element
         fetch('/fetch/csrf').then(function(response) {
@@ -42,8 +42,9 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
                 else
                 {
-                    window.location.href = 'login';
+                    window.location.href = 'login?prevUrl='+window.location.pathname+'';
                 }
+
             }).catch(function(err) {
                 console.log('Error Check Auth: ' + err);
             });
@@ -96,7 +97,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
        if (document.querySelector('#meeting-index')) {
 
-        var clipboard = new ClipboardJS('.copy-btn');
+            var clipboard = new ClipboardJS('.copy-btn');
 
             clipboard.on('success', function(e) {
         
@@ -116,67 +117,68 @@ document['addEventListener']('DOMContentLoaded', () => {
             });
 
             ///////////////////////////////////////////////////////////////////////
-            var networkDataReceived = false;
+            if (document.querySelector('#meeting-log')) {
+                var networkDataReceived = false;
 
-            // fetch fresh meeting log
-            var networkUpdate = fetch('/fetch/meetingLog')
-            .then(function(response) { 
-                return response.json();
-            }).then(function(data){
-                networkDataReceived = true;
-                
-                updateMeetingLog(data);
+                // fetch fresh meeting log
+                var networkUpdate = fetch('/fetch/meetingLog')
+                .then(function(response) { 
+                    return response.json();
+                }).then(function(data){
+                    networkDataReceived = true;
+                    
+                    updateMeetingLog(data);
+                })
+                .catch(function(err) {
+                    console.log('Error Meeting Log: ' + err);
+                });
 
-            })
-            .catch(function(err) {
-                console.log('Error Meeting Log: ' + err);
-            });
+                // fetch cached meeting log
+                caches.match('/fetch/meetingLog')
+                .then(function(response) {
+                    if (!response) throw Error("No data");
+                    return response.json();
+                }).then(function(data) {
+                    // don't overwrite newer network data
+                    if (!networkDataReceived) {
+                    
+                        updateMeetingLog(data)
 
-            // fetch cached meeting log
-            caches.match('/fetch/meetingLog')
-            .then(function(response) {
-                if (!response) throw Error("No data");
-                return response.json();
-            }).then(function(data) {
-                // don't overwrite newer network data
-                if (!networkDataReceived) {
-                
-                    updateMeetingLog(data)
+                    }
+                }).catch(function() {
+                    // we didn't get cached data, the network is our last hope:
+                    return networkUpdate;
+                }).catch(function(err) {
+                    console.log('Error Meeting Log: ' + err);
+                });
 
+                function updateMeetingLog(data){
+                    var results = data
+
+                    if (results.length) {
+                        $('#meeting-log-list').html('');
+                        results.map(meetinglog => {
+
+                            let now = new Date(meetinglog.datetime);
+                            
+                            var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                            $('#meeting-log-list').append(`
+                                <a href="#">
+                                    <span>${meetinglog.room_name}</span>
+                                    <strong>as ${meetinglog.display_name}</strong>
+                                    <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            `)
+                        })
+
+                    }
+                    else{
+
+                    }
                 }
-            }).catch(function() {
-                // we didn't get cached data, the network is our last hope:
-                return networkUpdate;
-            }).catch(function(err) {
-                console.log('Error Meeting Log: ' + err);
-            });
-
-            function updateMeetingLog(data){
-                var results = data
-
-                if (results.length) {
-                    $('#meeting-log').html('');
-                    results.map(meetinglog => {
-
-                        let now = new Date(meetinglog.datetime);
-                        
-                        var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                        $('#meeting-log').append(`
-                            <a href="#">
-                                <span>${meetinglog.room_name}</span>
-                                <strong>as ${meetinglog.display_name}</strong>
-                                <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        `)
-                    })
-
-                }
-                else{
-
-                }
-            }
+            };
             ///////////////////////////////////////////////////////////////////////
 
 
@@ -195,22 +197,20 @@ document['addEventListener']('DOMContentLoaded', () => {
                 {
                     $('.usrName').val(results.name);
                 }
-
             }).catch(function(err) {
                 console.log('Error User: ' + err);
             });
 
+            // for offline checkbox
             $('#toggle-id').change(function() {
-                // this will contain a reference to the checkbox   
                 if (this.checked) {
-                    // the checkbox is now checked 
                     $('#password_meeting').show();
                 } else {
-                    // the checkbox is now no longer checked
                     $('#password_meeting').hide();
                 }
             });
 
+            //for start meeting button
             $('#start-meeting').on('click' , function(){
                     
                 if (navigator.onLine) {
@@ -235,6 +235,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 } 
             });
          
+            //for join meeting button
             $('#join-meeting').on('click' , function(){
                     
                 if (navigator.onLine) {
@@ -253,6 +254,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 } 
             });
           
+            //for invite meeting button while in meeting
             $('#inviteBtn').on('click' , function() {
                 $('#menu-meeting-invitation').addClass('menu-active');
             });
@@ -296,6 +298,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 apiObj = new JitsiMeetExternalAPI(domain, options);
                 
                 apiObj.addEventListeners({
+
                     readyToClose: function () {
     
                         var _0xce56x32 = document['querySelectorAll']('.menu-active');
@@ -308,20 +311,13 @@ document['addEventListener']('DOMContentLoaded', () => {
     
                      
                     },
-    
                     videoConferenceJoined: function(data) {
     
                         $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
                         $('#invite-invitor').html(data.displayName);
-                        $('#invite-link').html(window.location.hostname + '/' + data.roomName);
+                        $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
 
-                        var currentdate = new Date(); 
-                        var datetime =  currentdate.getDate() + "/"
-                                        + (currentdate.getMonth()+1)  + "/" 
-                                        + currentdate.getFullYear() + " @ "  
-                                        + currentdate.getHours() + ":"  
-                                        + currentdate.getMinutes() + ":" 
-                                        + currentdate.getSeconds();
+                        var currentdate = new Date();
     
                         var datetimefordb =  currentdate.getFullYear() + "-"
                                         + (currentdate.getMonth()+1)  + "-" 
@@ -350,14 +346,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                             var results = resultsJSON
         
                             if (results.length) {
-                                $('#meeting-log').html('');
+                                $('#meeting-log-list').html('');
                                 results.map(meetinglog => {
         
                                     let now = new Date(meetinglog.datetime);
                                     
                                     var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
         
-                                    $('#meeting-log').append(`
+                                    $('#meeting-log-list').append(`
                                         <a href="#">
                                             <span>${meetinglog.room_name}</span>
                                             <strong>as ${meetinglog.display_name}</strong>
@@ -376,8 +372,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                         .catch(function(err) {
                             console.log(err);
                         });
-                    
-                    
     
                     }
                 });
@@ -1882,9 +1876,11 @@ document['addEventListener']('DOMContentLoaded', () => {
             _0xce56x110['setAttribute']('class', 'isPWA')
         };
     }
+
     if ('scrollRestoration' in window['history']) {
         window['history']['scrollRestoration'] = 'manual'
     };
+
     if (_0xce56x3 === true) {
         if (window['location']['protocol'] !== 'file:') {
             const swupOtions = {
@@ -1896,9 +1892,10 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             const swup = new Swup(swupOtions);
             document['addEventListener']('swup:pageView', (_0xce56xb) => {
-                _0xce56x9()
+                _init()
             })
         }
     };
-    _0xce56x9()
+
+    _init();
 })
