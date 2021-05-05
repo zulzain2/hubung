@@ -12,9 +12,9 @@
     <div class="card card-style bg-theme pb-0">
         <div class="content" id="tab-group-1">
             <div class="tab-controls tabs-small tabs-rounded" data-highlight="bg-highlight">
-                <a href="#" data-active="" data-bs-toggle="collapse" data-bs-target="#tab-1" class="bg-highlight no-click" aria-expanded="true"><i class="far fa-plus-square"></i>&nbsp;&nbsp; Create</a>
-                <a href="#" data-bs-toggle="collapse" data-bs-target="#tab-2" aria-expanded="false" class="collapsed"><i class="fas fa-person-booth"></i>&nbsp;&nbsp; Join</a>
-                <a href="#" data-bs-toggle="collapse" data-bs-target="#tab-3" aria-expanded="false" class="collapsed"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp; Schedule</a>
+                <a href="#" id="meeting-tab-1" data-active="" data-bs-toggle="collapse" data-bs-target="#tab-1" class="bg-highlight no-click" aria-expanded="true"><i class="far fa-plus-square"></i>&nbsp;&nbsp; Create</a>
+                <a href="#" id="meeting-tab-2" data-bs-toggle="collapse" data-bs-target="#tab-2" aria-expanded="false" class="collapsed"><i class="fas fa-person-booth"></i>&nbsp;&nbsp; Join</a>
+                <a href="#" id="meeting-tab-3" data-bs-toggle="collapse" data-bs-target="#tab-3" aria-expanded="false" class="collapsed"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp; Schedule</a>
             </div>
 
             <div class="clearfix mb-3"></div>

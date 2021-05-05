@@ -51,8 +51,11 @@
 <div id="preloader" style="background-color:transparent"></div>
 
 <div id="page">
+    
     <div class="header header-fixed header-logo-center">
 
+        <div id='check-auth'></div>
+        
         @if (isset($topBarTitle))
             <a href="index.html" class="header-title">{{$topBarTitle}}</a>
         @else
@@ -181,10 +184,6 @@
         <a href="#" data-menu="menu-settings" class="mb-3 btn btn-full btn-m rounded-sm bg-highlight shadow-xl text-uppercase font-900 mt-4">Back to Settings</a>
         </div>
         </div>
-
-        
-
-        <div id='check-auth'></div>
 
        
 </div>

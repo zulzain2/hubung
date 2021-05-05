@@ -16,7 +16,7 @@ document['addEventListener']('DOMContentLoaded', () => {
     var apiObj = null;
 
     function _init() {
-
+       
         // fetch csrf token and append back to selected element
         fetch('/fetch/csrf').then(function(response) {
             return response.json();
@@ -29,7 +29,34 @@ document['addEventListener']('DOMContentLoaded', () => {
             console.log('Error CSRF: ' + err);
         });
 
+        if (document.querySelector('#meetPublic')) {
+            
+            var url = new URL(window.location.href);
+            var roomName = url.searchParams.get("roomName");
+        
+            if(roomName){
+                setTimeout(function() {
+                    $('#meetingNameJoin').val(''+roomName+'');
+                    $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
+                }, 150);
+               
+            }
+
+            $('body').removeClass('theme-light');
+            $('body').addClass('theme-dark');
+        };
+        
+
+        if (document.querySelector('#loginScript')) {
+            var url = new URL(window.location.href);
+            var prevUrl = url.searchParams.get("prevUrl");
+            if(prevUrl){
+                $('#prevUrl').val(prevUrl);
+            }
+        }
+
         if (document.querySelector('#check-auth')) {
+            
             // fetch auth status and if no auth kick user to login
             fetch('/fetch/checkAuth').then(function(response) { 
                 return response.json();
@@ -38,11 +65,28 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                 if(results === 'true')
                 {
-
+                    if(window.location.href.indexOf("meetroom") > -1)
+                    {
+                        console.log('Authenticated');
+                        var url = new URL(window.location.href);
+                        var roomName = url.searchParams.get("roomName");
+                        if(roomName){
+                            window.location.href = 'meet?roomName='+roomName+'';
+                        }
+                        
+                    }
                 }
                 else
                 {
-                    window.location.href = 'login?prevUrl='+window.location.pathname+'';
+                    if(window.location.href.indexOf("meetroom") > -1)
+                    {
+                        console.log('Unauthenticated');
+                    }
+                    else
+                    {
+                        window.location.href = 'login?prevUrl='+window.location.pathname+'';
+                    }
+                    
                 }
 
             }).catch(function(err) {
@@ -96,6 +140,29 @@ document['addEventListener']('DOMContentLoaded', () => {
 
 
        if (document.querySelector('#meeting-index')) {
+
+            var url = new URL(window.location.href);
+            var roomName = url.searchParams.get("roomName");
+            if(roomName)
+            {
+                setTimeout(function() {
+                    $('#meeting-tab-1').removeClass('bg-highlight no-click');
+                    $('#meetingNameJoin').val(roomName);
+                }, 150);
+                
+                $('#meeting-tab-1').addClass('collapsed');
+
+                $('#meeting-tab-2').removeClass('collapsed');
+                $('#meeting-tab-2').addClass('bg-highlight no-click');
+                
+                $('#tab-1').removeClass('show');
+                $('#tab-2').addClass('show');
+
+                
+                
+                console.log(roomName);
+                
+            }
 
             var clipboard = new ClipboardJS('.copy-btn');
 

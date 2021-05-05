@@ -127,21 +127,18 @@
                 </td>
             </tr>
         </table>
-            
-    </div>
-</div>
 
-    
+        <div id="loginScript"></div>
+            
+
+
+
 @endsection
 
 
 @push('scripts')
 <script>
-    var url = new URL(window.location.href);
-    var prevUrl = url.searchParams.get("prevUrl");
-    if(prevUrl){
-        $('#prevUrl').val(prevUrl);
-    }
+   
     
 </script>
 @endpush
