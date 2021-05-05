@@ -21,10 +21,12 @@ document['addEventListener']('DOMContentLoaded', () => {
         fetch('/fetch/csrf').then(function(response) {
             return response.json();
         }).then(function(data) {
+
             var results = data
 
             document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
             $('.csrftoken').val(results);
+
         }).catch(function(err) {
             console.log('Error CSRF: ' + err);
         });
@@ -157,11 +159,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                 
                 $('#tab-1').removeClass('show');
                 $('#tab-2').addClass('show');
-
-                
-                
-                console.log(roomName);
-                
             }
 
             var clipboard = new ClipboardJS('.copy-btn');
@@ -201,23 +198,23 @@ document['addEventListener']('DOMContentLoaded', () => {
                 });
 
                 // fetch cached meeting log
-                caches.match('/fetch/meetingLog')
-                .then(function(response) {
-                    if (!response) throw Error("No data");
-                    return response.json();
-                }).then(function(data) {
-                    // don't overwrite newer network data
-                    if (!networkDataReceived) {
+                // caches.match('/fetch/meetingLog')
+                // .then(function(response) {
+                //     if (!response) throw Error("No data");
+                //     return response.json();
+                // }).then(function(data) {
+                //     // don't overwrite newer network data
+                //     if (!networkDataReceived) {
                     
-                        updateMeetingLog(data)
+                //         updateMeetingLog(data)
 
-                    }
-                }).catch(function() {
-                    // we didn't get cached data, the network is our last hope:
-                    return networkUpdate;
-                }).catch(function(err) {
-                    console.log('Error Meeting Log: ' + err);
-                });
+                //     }
+                // }).catch(function() {
+                //     // we didn't get cached data, the network is our last hope:
+                //     return networkUpdate;
+                // }).catch(function(err) {
+                //     console.log('Error Meeting Log: ' + err);
+                // });
 
                 function updateMeetingLog(data){
                     var results = data
@@ -302,33 +299,40 @@ document['addEventListener']('DOMContentLoaded', () => {
                 } 
             });
          
-            //for join meeting button
-            $('#join-meeting').on('click' , function(){
+            setTimeout(function() {
+                //for join meeting button
+                $('#join-meeting').on('click' , function(){
+                        
+                    if (navigator.onLine) {
+                        $('#portfolio-2').addClass('menu-active');
                     
-                if (navigator.onLine) {
-                    $('#portfolio-2').addClass('menu-active');
-                
 
-                    var meetingName = $('#meetingNameJoin').val();
-                    var usrName = $('#usrNameJoin').val();
+                        var meetingName = $('#meetingNameJoin').val();
+                        var usrName = $('#usrNameJoin').val();
+            
+                        initializeMeeting(meetingName, usrName);
+                    
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+
+                //for invite meeting button while in meeting
+                $('#inviteBtn').on('click' , function() {
+                    $('#menu-meeting-invitation').addClass('menu-active');
+                });
         
-                    initializeMeeting(meetingName, usrName);
-                
-                } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
-                } 
-            });
+                $('.close-menu-meeting-invitation').on('click' , function() {
+                    $('#menu-meeting-invitation').removeClass('menu-active');
+                });
+
+            }, 150);
+
+            
           
-            //for invite meeting button while in meeting
-            $('#inviteBtn').on('click' , function() {
-                $('#menu-meeting-invitation').addClass('menu-active');
-            });
-    
-            $('.close-menu-meeting-invitation').on('click' , function() {
-                $('#menu-meeting-invitation').removeClass('menu-active');
-            });
+            
          
             function initializeMeeting(meetingName, usrName) {
                 var domain = 'meet.tvetxr.ga';

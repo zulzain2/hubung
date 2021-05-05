@@ -34,37 +34,41 @@
             
         </div>
 
-    <div id="menu-install-pwa-android" class="menu menu-box-bottom menu-box-detached rounded-l">
-        <div class="boxed-text-l mt-4 pb-3">
-            <img class="rounded-l mb-3" src="{{URL::to('/icons/icon-128x128.png')}}" alt="img" width="90" height="90">
-            <h4 class="mt-3">Install Communication on your Android</h4>
-            <p>
-            Install Communication on your android, and access it just like a regular app. It really is that simple!
-            </p>
-            <a href="#" class="pwa-install btn btn-s rounded-s shadow-l text-uppercase font-900 bg-highlight mb-2">Install Now</a><br>
-            <a href="#" class="pwa-dismiss close-menu color-gray-dark text-uppercase font-900 opacity-60 font-10 pt-2">Maybe later</a>
-            <div class="clear"></div>
+        @yield('content2') 
+
+        <div id="menu-install-pwa-android" class="menu menu-box-bottom menu-box-detached rounded-l">
+            <div class="boxed-text-l mt-4 pb-3">
+                <img class="rounded-l mb-3" src="{{URL::to('/icons/icon-128x128.png')}}" alt="img" width="90" height="90">
+                <h4 class="mt-3">Install Communication on your Android</h4>
+                <p>
+                Install Communication on your android, and access it just like a regular app. It really is that simple!
+                </p>
+                <a href="#" class="pwa-install btn btn-s rounded-s shadow-l text-uppercase font-900 bg-highlight mb-2">Install Now</a><br>
+                <a href="#" class="pwa-dismiss close-menu color-gray-dark text-uppercase font-900 opacity-60 font-10 pt-2">Maybe later</a>
+                <div class="clear"></div>
+            </div>
         </div>
-    </div>
         
-    <div id="menu-install-pwa-ios" class="menu menu-box-bottom menu-box-detached rounded-l">
-        <div class="boxed-text-xl mt-4 pb-3">
-            <img class="rounded-l mb-3" src="{{URL::to('/icons/icon-128x128.png')}}" alt="img" width="90" height="90">
-            <h4 class="mt-3">Install Communication on your IOS</h4>
-            <p class="mb-0 pb-0">
-            Install Communication, and access it like a regular app. Open your Safari menu and tap "Add to Home Screen".
-            </p>
-            <div class="clearfix pt-3"></div>
-            <a href="#" class="pwa-dismiss close-menu color-highlight text-uppercase font-700">Maybe later</a>
+        <div id="menu-install-pwa-ios" class="menu menu-box-bottom menu-box-detached rounded-l">
+            <div class="boxed-text-xl mt-4 pb-3">
+                <img class="rounded-l mb-3" src="{{URL::to('/icons/icon-128x128.png')}}" alt="img" width="90" height="90">
+                <h4 class="mt-3">Install Communication on your IOS</h4>
+                <p class="mb-0 pb-0">
+                Install Communication, and access it like a regular app. Open your Safari menu and tap "Add to Home Screen".
+                </p>
+                <div class="clearfix pt-3"></div>
+                <a href="#" class="pwa-dismiss close-menu color-highlight text-uppercase font-700">Maybe later</a>
+            </div>
         </div>
-    </div>
 
-    <script type="text/javascript" src="{{URL::to('scripts/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
+        <script type="text/javascript" src="{{URL::to('scripts/bootstrap.min.js')}}"></script>
+        <script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
+        <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
+        <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
+        <script type="text/javascript" src="{{URL::to('scripts/external_api.js')}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
 
-    @stack('scripts')
+        @stack('scripts')
 
 </div>
 

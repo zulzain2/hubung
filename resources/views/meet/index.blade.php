@@ -24,7 +24,7 @@
                         <p></p>
                         
                         <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                            <i class="fas fa-home color-blue-dark"></i>
+                            <i class="fas fa-home color-highlight"></i>
                             <input id="meetingName" type="name" class="form-control validate-name" placeholder="Enter meeting name" required>
                             <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
                             <i class="fa fa-times disabled invalid color-red-dark"></i>
@@ -53,7 +53,7 @@
                         </div>
 
                         <div id="password_meeting" class="input-style input-style-always-active has-borders has-icon validate-field mb-4" style="display:none">
-                            <i class="fas fa-key color-blue-dark"></i>
+                            <i class="fas fa-key color-highlight"></i>
                             <input type="name" class="form-control validate-name" placeholder="Enter room password">
                             <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
                             <i class="fa fa-times disabled invalid color-red-dark"></i>
@@ -75,7 +75,7 @@
 
                 <form action="#" id="joinMeetingForm">
                     <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                        <i class="fas fa-home color-blue-dark"></i>
+                        <i class="fas fa-home color-highlight"></i>
                         <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
                         <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
                         <i class="fa fa-times disabled invalid color-red-dark"></i>
@@ -105,7 +105,7 @@
                 <p></p>
 
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-home color-blue-dark"></i>
+                    <i class="fas fa-home color-highlight"></i>
                     <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
                     <i class="fa fa-times disabled invalid color-red-dark"></i>
@@ -114,8 +114,8 @@
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-home color-blue-dark"></i>
-                    <input id="meetingNameJoin" type="date" class="form-control validate-name" placeholder="Enter meeting name">
+                    <i class="far fa-calendar-alt color-highlight"></i>
+                    <input id="meetingNameJoin" type="date" class="form-control validate-name">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Date</label>
                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                     <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -123,8 +123,8 @@
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-home color-blue-dark"></i>
-                    <input id="meetingNameJoin" type="time" class="form-control validate-name" placeholder="Enter meeting name">
+                    <i class="far fa-clock color-highlight"></i>
+                    <input id="meetingNameJoin" type="time" class="form-control validate-name">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Start</label>
                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                     <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -132,8 +132,8 @@
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                    <i class="fas fa-home color-blue-dark"></i>
-                    <input id="meetingNameJoin" type="time" class="form-control validate-name" placeholder="Enter meeting name">
+                    <i class="far fa-clock color-highlight"></i>
+                    <input id="meetingNameJoin" type="time" class="form-control validate-name">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">End</label>
                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                     <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -208,82 +208,17 @@
             <h1>Meeting Log</h1>
             <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
             <div id="meeting-log-list" class="list-group list-custom-large mb-4">
-                
-                {{-- @if (count($meetinglogs) > 0)
-                    @foreach ($meetinglogs as $meetinglog)
-                        <a href="#">
-                            <span>{{$meetinglog->room_name}}</span>
-                            <strong>as {{$meetinglog->display_name}}</strong>
-                            <span class="badge bg-blue-dark">{{date('j F Y g:i a' , strtotime($meetinglog->datetime))}}</span>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    @endforeach
-                @else --}}
-                    {{-- <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p> --}}
-                {{-- @endif --}}
                
+                <br>
 
-                <div class="row m-0 pb-1 mt-3">
-                    <div class="col-6 align-self-center">
-                        <div class="ph-col-12 px-0">
-                            <div class="ph-row">
-                                <div class="ph-col-12 big">
-                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-2 align-self-center"></div>
-
-                    <div class="col-4 align-self-center">
-                        <div class="ph-col-12 px-0">
-                            <div class="ph-row">
-                                <div class="ph-col-12 big">
-                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 big"></div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border color-highlight text-center" role="status">
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
 
-
-                <div class="row m-0 pb-1">
-                    <div class="col-4 align-self-center">
-                        <div class="ph-col-12 px-0">
-                            <div class="ph-row">
-                                <div class="ph-col-12">
-                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 "></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row m-0 pb-1">
-                    <div class="col-8 align-self-center">
-                        <div class="ph-col-12 px-0">
-                            <div class="ph-row">
-                                <div class="ph-col-12">
-                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 "></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row m-0 pb-1">
-                    <div class="col-12 align-self-center">
-                        <div class="ph-col-12 px-0">
-                            <div class="ph-row">
-                                <div class="ph-col-12">
-                                    <div class="ph-item ph-no-space ph-no-border mb-0 mt-0 "></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <br>
+                
 
             </div>
         </div>
@@ -307,8 +242,6 @@
 
 <div id="portfolio-2" class="menu menu-box-right" data-menu-width="cover" data-menu-effect="menu-over" >
     <div id="meet_iframe" style="width: 100%;height: 100vh;z-index:999"></div>
-
-    {{-- <a href="#" id="inviteBtn" class="btn btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s bg-red-light" style="z-index:9999">Invite</a> --}}
 
     <a href="#" id="inviteBtn" class="btn btn-3d btn-m btn-full rounded-xs text-uppercase font-900 shadow-s border-red-dark bg-highlight" style="z-index:9999">Invite</a>
 
