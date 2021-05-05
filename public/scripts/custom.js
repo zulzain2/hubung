@@ -143,14 +143,13 @@ document['addEventListener']('DOMContentLoaded', () => {
 
        if (document.querySelector('#meeting-index')) {
 
+        setTimeout(function() {
             var url = new URL(window.location.href);
             var roomName = url.searchParams.get("roomName");
             if(roomName)
             {
-                setTimeout(function() {
-                    $('#meeting-tab-1').removeClass('bg-highlight no-click');
-                    $('#meetingNameJoin').val(roomName);
-                }, 150);
+                $('#meeting-tab-1').removeClass('bg-highlight no-click');
+                $('#meetingNameJoin').val(roomName);
                 
                 $('#meeting-tab-1').addClass('collapsed');
 
@@ -265,8 +264,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                 console.log('Error User: ' + err);
             });
 
-            // for offline checkbox
-            $('#toggle-id').change(function() {
+             // for offline checkbox
+             $('#toggle-id').change(function() {
                 if (this.checked) {
                     $('#password_meeting').show();
                 } else {
@@ -274,23 +273,42 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             });
 
+            // for offline checkbox
+            $('#toggle-id-schedule').change(function() {
+                if (this.checked) {
+                    $('#password_meeting_schedule').show();
+                } else {
+                    $('#password_meeting_schedule').hide();
+                }
+            });
+
+
             //for start meeting button
-            $('#start-meeting').on('click' , function(){
+            $('#start-meeting').on('click' , function(event){
                     
                 if (navigator.onLine) {
-                    
-                    // $("#createMeetingForm").validate({
-                    //     debug: true
-                    //   });
+                   
+                    var fsm = $("#createMeetingForm");
 
-                    // console.log($("#createMeetingForm").valid());
-                    $('#portfolio-2').addClass('menu-active');
+                    // Loop over them and prevent submission
+                    Array.prototype.slice.call(fsm)
+                    .forEach(function (form) {
+                        if (!form.checkValidity()) 
+                        {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        else
+                        {
+                            $('#portfolio-2').addClass('menu-active');
+
+                            var meetingName = $('#meetingName').val();
+                            var usrName = $('#usrName').val();
                 
-
-                    var meetingName = $('#meetingName').val();
-                    var usrName = $('#usrName').val();
-        
-                    initializeMeeting(meetingName, usrName);
+                            initializeMeeting(meetingName, usrName);
+                        }
+                            form.classList.add('was-validated')
+                    })
                 
                 } else {
                     var menuOffline = document.getElementById('menu-offline');
@@ -298,41 +316,53 @@ document['addEventListener']('DOMContentLoaded', () => {
                     $('.menu-hider').addClass('menu-active');
                 } 
             });
-         
-            setTimeout(function() {
-                //for join meeting button
-                $('#join-meeting').on('click' , function(){
-                        
-                    if (navigator.onLine) {
-                        $('#portfolio-2').addClass('menu-active');
-                    
-
-                        var meetingName = $('#meetingNameJoin').val();
-                        var usrName = $('#usrNameJoin').val();
-            
-                        initializeMeeting(meetingName, usrName);
-                    
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-                });
-
-                //for invite meeting button while in meeting
-                $('#inviteBtn').on('click' , function() {
-                    $('#menu-meeting-invitation').addClass('menu-active');
-                });
         
-                $('.close-menu-meeting-invitation').on('click' , function() {
-                    $('#menu-meeting-invitation').removeClass('menu-active');
-                });
+            //for join meeting button
+            $('#join-meeting').on('click' , function(){
+                    
+                if (navigator.onLine) {
 
-            }, 150);
+                    var fsm = $("#joinMeetingForm");
 
-            
-          
-            
+                    // Loop over them and prevent submission
+                    Array.prototype.slice.call(fsm)
+                    .forEach(function (form) {
+                        if (!form.checkValidity()) 
+                        {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        else
+                        {
+                            $('#portfolio-2').addClass('menu-active');
+                
+
+                            var meetingName = $('#meetingNameJoin').val();
+                            var usrName = $('#usrNameJoin').val();
+                
+                            initializeMeeting(meetingName, usrName);
+                        }
+                            form.classList.add('was-validated')
+                    })
+
+                    
+                
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+            });
+
+            //for invite meeting button while in meeting
+            $('#inviteBtn').on('click' , function() {
+                $('#menu-meeting-invitation').addClass('menu-active');
+            });
+    
+            $('.close-menu-meeting-invitation').on('click' , function() {
+                $('#menu-meeting-invitation').removeClass('menu-active');
+            });
+
          
             function initializeMeeting(meetingName, usrName) {
                 var domain = 'meet.tvetxr.ga';
@@ -447,6 +477,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     }
                 });
             }
+        }, 150);
             ///////////////////////////////////////////////////////////////////////
            
        }

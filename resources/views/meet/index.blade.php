@@ -17,18 +17,18 @@
                 <a href="#" id="meeting-tab-3" data-bs-toggle="collapse" data-bs-target="#tab-3" aria-expanded="false" class="collapsed"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp; Schedule</a>
             </div>
 
+            
+              
             <div class="clearfix mb-3"></div>
                 <div data-bs-parent="#tab-group-1" class="collapse show" id="tab-1" style="">
-                    <form action="" method="get" id="createMeetingForm">
+                    <form class="needs-validation" id="createMeetingForm" novalidate>
                         <h3 class="text-center"> Create Meeting</h3>
                         <p></p>
-                        
-                        <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
+
+                        <div class="input-style input-style-always-active has-borders has-icon mb-4">
                             <i class="fas fa-home color-highlight"></i>
-                            <input id="meetingName" type="name" class="form-control validate-name" placeholder="Enter meeting name" required>
+                            <input id="meetingName" type="name" class="form-control" placeholder="Enter meeting name" required>
                             <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
-                            <i class="fa fa-times disabled invalid color-red-dark"></i>
-                            <i class="fa fa-check disabled valid color-green-dark"></i>
                             <em>(required)</em>
                         </div>
                         {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
@@ -52,17 +52,16 @@
                             </div>
                         </div>
 
-                        <div id="password_meeting" class="input-style input-style-always-active has-borders has-icon validate-field mb-4" style="display:none">
+                        <div id="password_meeting" class="input-style input-style-always-active has-borders has-icon mb-4" style="display:none">
                             <i class="fas fa-key color-highlight"></i>
-                            <input type="name" class="form-control validate-name" placeholder="Enter room password">
+                            <input type="name" class="form-control" placeholder="Enter room password">
                             <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
-                            <i class="fa fa-times disabled invalid color-red-dark"></i>
-                            <i class="fa fa-check disabled valid color-green-dark"></i>
                             <em>(optional)</em>
                         </div>
                     
                         <div class="row">
                             <div class="col-12 text-center">
+                                {{-- <button type="submit">submit</button> --}}
                                 {{-- <button id="start-meeting" type="button" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</button> --}}
                                 <a href="#" id="start-meeting" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
                             </div>
@@ -73,13 +72,11 @@
                 <h3 class="text-center"> Join Meeting</h3>
                 <p></p>
 
-                <form action="#" id="joinMeetingForm">
+                <form class="needs-validation" novalidate id="joinMeetingForm">
                     <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                         <i class="fas fa-home color-highlight"></i>
-                        <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name">
+                        <input id="meetingNameJoin" type="name" class="form-control validate-name" placeholder="Enter meeting name" required>
                         <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting Name</label>
-                        <i class="fa fa-times disabled invalid color-red-dark"></i>
-                        <i class="fa fa-check disabled valid color-green-dark"></i>
                         <em>(required)</em>
                     </div>
 
@@ -138,6 +135,27 @@
                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                     <i class="fa fa-check disabled valid color-green-dark"></i>
                     <em>(required)</em>
+                </div>
+
+                <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id-schedule" data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample4">
+                    <div class="pt-1">
+                        <h5 class="font-600">Password Protected</h5>
+                    </div>
+                    <div class="ms-auto me-4 pe-2">
+                        <div class="custom-control android-switch">
+                            <input type="checkbox" class="android-input" id="toggle-id-schedule">
+                            <label class="custom-control-label" for="toggle-id-schedule"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="password_meeting_schedule" class="input-style input-style-always-active has-borders has-icon validate-field mb-4" style="display:none">
+                    <i class="fas fa-key color-highlight"></i>
+                    <input type="name" class="form-control validate-name" placeholder="Enter room password">
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
+                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                    <em>(optional)</em>
                 </div>
 
                 <div class="row">

@@ -199,7 +199,6 @@
 
 <script type="text/javascript" src="{{URL::to('scripts/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/jquery-3.6.0.min.js')}}"></script>
-<script type="text/javascript" src="{{URL::to('plugins/validate/jquery.validate.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/moment.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/custom.js')}}"></script>
 <script type="text/javascript" src="{{URL::to('scripts/external_api.js')}}"></script>
