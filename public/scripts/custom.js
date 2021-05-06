@@ -31,6 +31,27 @@ document['addEventListener']('DOMContentLoaded', () => {
             console.log('Error CSRF: ' + err);
         });
 
+        function snackbar(type , message) { //type : sucess , warning , error
+
+            if(type === 'success'){
+                type = 'snackbar-sucess';
+                message = '<i class="fa fa-check me-3"></i>'+message+'';
+            }
+            else if(type === 'warning') {
+                type = 'snackbar-warning';
+                message = '<i class="fa fa-info me-3"></i>'+message+'';
+            }
+            else if(type === 'error') {
+                type = 'snackbar-error';
+                message = '<i class="fa fa-times me-3"></i>'+message+'';
+            }
+            
+            var snackID = document.getElementById(type);
+            snackID.innerHTML = message;
+            snackID = new bootstrap.Toast(snackID);
+            snackID.show();
+        }
+
         if (document.querySelector('#meetPublic')) {
             
             var url = new URL(window.location.href);
@@ -248,6 +269,58 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             ///////////////////////////////////////////////////////////////////////
 
+            ///////////////////////////////////////////////////////////////////////
+            if (document.querySelector('#schedule-log')) {
+                var networkDataReceived = false;
+
+                // fetch fresh schedule log
+                var networkUpdate = fetch('/fetch/scheduleLog')
+                .then(function(response) { 
+                    return response.json();
+                }).then(function(data){
+                    networkDataReceived = true;
+                    
+                    updateScheduleLog(data);
+                })
+                .catch(function(err) {
+                    console.log('Error Schedule Log: ' + err);
+                });
+
+                function updateScheduleLog(data){
+                    var results = data
+
+                    if (results.length) {
+                        $('#schedule-log-list').html('');
+                        results.map(scheduleLog => {
+
+                            let start = new Date(scheduleLog.datetime);
+                            let end = new Date(scheduleLog.end_datetime);
+                            
+                            var date = moment(start).format('MMMM Do');
+                            var time = moment(start).format('h:mm a');
+                            var time_end = moment(end).format('h:mm a');
+
+                            $('#schedule-log-list').append(`
+                                <div class="cal-schedule">
+                                    <em>${date}<br>${time}</em>
+                                    <strong>${scheduleLog.room_name}</strong>
+                                    <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                </div>
+                            `)
+                        })
+
+                    }
+                    else{
+                        $('#schedule-log-list').html('');
+
+                        $('#schedule-log-list').append(`
+                            <p class="text-center mx-4"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                        `);
+                    }
+                }
+            };
+            ///////////////////////////////////////////////////////////////////////
+
 
             ///////////////////////////////////////////////////////////////////////
             // fetch user and append back to selected element
@@ -322,7 +395,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             });
         
             //for join meeting button
-            $('#join-meeting').on('click' , function(){
+            $('#join-meeting').on('click' , function(event){
                     
                 if (navigator.onLine) {
 
@@ -339,7 +412,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                         else
                         {
                             $('#portfolio-2').addClass('menu-active');
-                
 
                             var meetingName = $('#meetingNameJoin').val();
                             var usrName = $('#usrNameJoin').val();
@@ -349,8 +421,93 @@ document['addEventListener']('DOMContentLoaded', () => {
                             form.classList.add('was-validated')
                     })
 
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+            });
+
+            $('a').on('classChange', function() {
+                if ($(this).hasClass("off-btn")) {
+                    $(this).after(`<div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
+                     <span class="sr-only">Loading...</span>
+                    </div>`);
+                } else {
+                    $('.spin-temp').remove();
+                }
+            });
+
+            //for join meeting button
+            $('#schedule-meeting').on('click' , function(event){
                     
-                
+                if (navigator.onLine) {
+
+                    var fsm = $("#scheduleMeetingForm");
+
+                    // Loop over them and prevent submission
+                     Array.prototype.slice.call(fsm)
+                    .forEach(function (form) {
+                        if (!form.checkValidity()) 
+                        {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        else
+                        {
+                            
+                            $('#schedule-meeting').addClass('off-btn').trigger('classChange');
+
+                            var meetingName = $('#meetingNameSchedule').val();
+                            var meetingDate = $('#meetingDateSchedule').val();
+                            var meetingStart = $('#meetingStartSchedule').val();
+                            var meetingEnd = $('#meetingEndSchedule').val();
+
+                            var dataMeetingSchedule = new URLSearchParams();
+                            dataMeetingSchedule.append('meeting_name', meetingName);
+                            dataMeetingSchedule.append('meeting_date', meetingDate);
+                            dataMeetingSchedule.append('meeting_start', meetingStart);
+                            dataMeetingSchedule.append('meeting_end', meetingEnd);
+        
+                            fetch("fetch/storeMeetingSchedule", {
+                                method: 'post',
+                                credentials: "same-origin",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                body: dataMeetingSchedule,
+                            })
+                            .then(function(response){
+                                return response.json();
+                            }).then(function(resultsJSON){
+            
+                                var results = resultsJSON
+
+                                        if(results.status == '200'){
+                                            // let now = new Date(meetinglog.datetime);
+                                        
+                                            // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                            snackbar('success' , results.message)
+                                            $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
+                                            
+                                        }
+                                        else{
+                                           
+                                        }
+            
+                                
+            
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            });
+                                
+                         
+                        }
+                            form.classList.add('was-validated')
+                    })
+
                 } else {
                     var menuOffline = document.getElementById('menu-offline');
                     menuOffline.classList.add("menu-active");
