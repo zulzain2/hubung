@@ -238,7 +238,11 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                     }
                     else{
+                        $('#meeting-log-list').html('');
 
+                        $('#meeting-log-list').append(`
+                            <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                        `);
                     }
                 }
             };
@@ -466,7 +470,11 @@ document['addEventListener']('DOMContentLoaded', () => {
         
                             }
                             else{
-        
+                                $('#meeting-log-list').html('');
+
+                                $('#meeting-log-list').append(`
+                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                                `);
                             }
         
                         })
