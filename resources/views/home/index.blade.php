@@ -138,6 +138,7 @@
         </div>
     </div>
 
+    <h4 class="pb-2 mt-n2 mx-3">Upcoming Meeting</h4>
     <div class="splide single-slider slider-no-arrows slider-no-dots" id="single-slider-cta">
         <div class="splide__track">
         <div class="splide__list">
@@ -148,7 +149,7 @@
                 <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
                 <img src="images/avatars/4s.png" class="float-start border border-white bg-mint-dark rounded-circle me-n3" width="35">
                 <img src="images/avatars/5s.png" class="float-start border border-white bg-highlight rounded-circle me-n3" width="35">
-                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+135 others</span>
+                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+6 others</span>
                 </div>
                 <div class="card-top">
                 <strong class="float-end text-center">
@@ -160,13 +161,13 @@
                 </div>
                 <div class="card-bottom no-click">
                 <div class="content">
-                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Outdoor Events</span>
-                <h1 class="color-white mt-1">Factory Airsoft</h1>
-                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">Over 150 Participants Have RSVP'ed.</h2>
+                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Online Meeting</span>
+                <h1 class="color-white mt-1">HSE Meeting</h1>
+                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">4 people have confirmed their attended.</h2>
                 </div>
                 </div>
                 <div class="card-bottom">
-                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">Join</a>
+                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">View</a>
                 </div>
                 <div class="card-overlay bg-gradient"></div>
                 </div>
@@ -178,7 +179,7 @@
                 <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
                 <img src="images/avatars/4s.png" class="float-start border border-white bg-mint-dark rounded-circle me-n3" width="35">
                 <img src="images/avatars/5s.png" class="float-start border border-white bg-highlight rounded-circle me-n3" width="35">
-                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+135 others</span>
+                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+10 others</span>
                 </div>
                 <div class="card-top">
                 <strong class="float-end text-center">
@@ -190,13 +191,13 @@
                 </div>
                 <div class="card-bottom no-click">
                 <div class="content">
-                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Outdoor Events</span>
-                <h1 class="color-white mt-1">Factory Airsoft</h1>
-                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">Over 150 Participants Have RSVP'ed.</h2>
+                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Online Meeting</span>
+                <h1 class="color-white mt-1">UMW Meeting</h1>
+                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">6 people have confirmed their attended.</h2>
                 </div>
                 </div>
                 <div class="card-bottom">
-                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">Join</a>
+                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">View</a>
                 </div>
                 <div class="card-overlay bg-gradient"></div>
                 </div>
@@ -208,7 +209,7 @@
                 <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
                 <img src="images/avatars/4s.png" class="float-start border border-white bg-mint-dark rounded-circle me-n3" width="35">
                 <img src="images/avatars/5s.png" class="float-start border border-white bg-highlight rounded-circle me-n3" width="35">
-                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+135 others</span>
+                <span href="#" class="float-start color-white pt-1 ps-4 font-12">+8 others</span>
                 </div>
                 <div class="card-top">
                 <strong class="float-end text-center">
@@ -220,13 +221,13 @@
                 </div>
                 <div class="card-bottom no-click">
                 <div class="content">
-                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Outdoor Events</span>
-                <h1 class="color-white mt-1">Factory Airsoft</h1>
-                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">Over 150 Participants Have RSVP'ed.</h2>
+                <span class="bg-highlight px-2 py-1 font-10 rounded-xs text-uppercase font-600">Online Meeting</span>
+                <h1 class="color-white mt-1">UAT Phase 1</h1>
+                <h2 class="color-white opacity-50 font-13 mt-n2 font-400">2 people have confirmed their attended.</h2>
                 </div>
                 </div>
                 <div class="card-bottom">
-                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">Join</a>
+                <a href="#" data-menu="menu-event-sample" class="btn btn-m text-uppercase rounded-sm bg-highlight float-end mx-3 my-4 font-700">View</a>
                 </div>
                 <div class="card-overlay bg-gradient"></div>
                 </div>
@@ -277,49 +278,66 @@
             </div>
         </div>
 
-    <div class="content">
-        <h4 class="pb-2 mt-n2">Unread Chat</h4>
-        <div class="d-flex mb-3">
-        <div>
-        <img src="images/pictures/18l.jpg" class="rounded-sm me-3" width="55">
+   
+        <h4 class="pb-2 mt-n2 mx-3">Unread Chat</h4>
+        <div class="card card-style" style="height: 300px;overflow-y: scroll;">
+        <div class="content mx-2 my-1">
+            <div class="list-group list-custom-large">
+                <a href="chat/13" class="pb-2">
+                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+        
+                    <span>UTM HSSE</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                </a>
+            </div>
         </div>
-        <div>
-        <span class="color-highlight font-300 d-block pt-2 text-uppercase font-10">28 August 2025</span>
-        <strong class="color-theme font-16 d-block mt-n2">Paintball at the Park</strong>
-        <span class="font-11 d-block mb-n1"><i class="fa fa-map-marker pe-2"></i>Texas National Park, Texas</span>
+        <div class="content mx-2 my-1">
+            <div class="list-group list-custom-large">
+                <a href="chat/13" class="pb-2">
+                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+        
+                    <span>UTM HSSE</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                </a>
+            </div>
         </div>
-        <div class="align-self-center ms-auto">
-        <a href="#" data-menu="menu-event-sample" class="btn btn-s bg-green-dark rounded-sm font-700 text-uppercase">BUY</a>
+        <div class="content mx-2 my-1">
+            <div class="list-group list-custom-large">
+                <a href="chat/13" class="pb-2">
+                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+        
+                    <span>UTM HSSE</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                </a>
+            </div>
         </div>
+        <div class="content mx-2 my-1">
+            <div class="list-group list-custom-large">
+                <a href="chat/13" class="pb-2">
+                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+        
+                    <span>UTM HSSE</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                </a>
+            </div>
         </div>
-        <div class="d-flex mb-3">
-        <div>
-        <img src="images/pictures/22l.jpg" class="rounded-sm me-3" width="55">
+        <div class="content mx-2 my-1">
+            <div class="list-group list-custom-large">
+                <a href="chat/13" class="pb-2" style="border-bottom: none;">
+                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;" class="preload-img img-fluid rounded-circle">
+        
+                    <span>UTM HSSE</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                </a>
+            </div>
         </div>
-        <div>
-        <span class="color-highlight font-300 d-block pt-2 text-uppercase font-10">28 August 2025</span>
-        <strong class="color-theme font-16 d-block mt-n2">Coffee Airsoft</strong>
-        <span class="font-11 d-block mb-n1"><i class="fa fa-map-marker pe-2"></i>New York Coffe Shop</span>
-        </div>
-        <div class="align-self-center ms-auto">
-        <a href="#" data-menu="menu-event-sample" class="btn btn-xs bg-blue-dark rounded-sm text-uppercase font-700">Join</a>
-        </div>
-        </div>
-        <div class="d-flex">
-        <div>
-        <img src="images/pictures/4l.jpg" class="rounded-sm me-3" width="55">
-        </div>
-        <div>
-        <span class="color-highlight font-300 d-block pt-2 text-uppercase font-10">28 August 2025</span>
-        <strong class="color-theme font-16 d-block mt-n2">Hide & Seek</strong>
-        <span class="font-11 d-block mb-n1"><i class="fa fa-map-marker pe-2"></i>Steel Meel Detroit</span>
-        </div>
-        <div class="align-self-center ms-auto">
-        <a href="#" class="icon icon-xxs bg-green-dark rounded-m"><i class="fa fa-check"></i></a>
-        <a href="#" class="icon icon-xxs bg-red-dark rounded-m"><i class="fa fa-times"></i></a>
-        </div>
-        </div>
-        </div>
+    </div>
+  
 
 
     <div class="card card-style">
@@ -361,7 +379,7 @@
         </div>
     </div>
 
-
+    <h4 class="pb-2 mt-n2 mx-3">Recently Uploaded</h4>
         <div class="splide double-slider slider-no-arrows slider-no-dots" id="double-slider-home-1">
             <div class="splide__track">
             <div class="splide__list">

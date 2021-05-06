@@ -60,8 +60,9 @@ Route::get('/offline', function () {
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
 
-Route::resource('chat', 'App\Http\Controllers\ChatController');
+Route::resource('notification', 'App\Http\Controllers\NotificationController');
 
+Route::resource('chat', 'App\Http\Controllers\ChatController');
 
 Route::get('/meetroom', 'App\Http\Controllers\MeetController@indexpublic');
 Route::post('/fetch/storeMeetingSchedule', 'App\Http\Controllers\MeetController@storeMeetingSchedule');

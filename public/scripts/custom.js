@@ -120,6 +120,7 @@ document['addEventListener']('DOMContentLoaded', () => {
         if (document.querySelector('#footer-bar')) {
             if (window.location.href.indexOf("chat") > -1) 
             {
+                $('#notification').removeClass('color-highlight');
                 $('#home').removeClass('active-nav');
                 $('#chat').addClass('active-nav');
                 $('#meet').removeClass('active-nav');
@@ -128,6 +129,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
             else if(window.location.href.indexOf("meet") > -1)
             {
+                $('#notification').removeClass('color-highlight');
                 $('#home').removeClass('active-nav');
                 $('#chat').removeClass('active-nav');
                 $('#meet').addClass('active-nav');
@@ -136,6 +138,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
             else if(window.location.href.indexOf("file") > -1)
             {
+                $('#notification').removeClass('color-highlight');
                 $('#home').removeClass('active-nav');
                 $('#chat').removeClass('active-nav');
                 $('#meet').removeClass('active-nav');
@@ -144,15 +147,17 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
             else if(window.location.href.indexOf("setting") > -1)
             {
+                $('#notification').removeClass('color-highlight');
                 $('#home').removeClass('active-nav');
                 $('#chat').removeClass('active-nav');
                 $('#meet').removeClass('active-nav');
                 $('#file').removeClass('active-nav');
                 $('#setting').addClass('active-nav');
             }
-            else
+            else if(window.location.href.indexOf("notification") > -1)
             {
-                $('#home').addClass('active-nav');
+                $('#notification').addClass('color-highlight');
+                $('#home').removeClass('active-nav');
                 $('#chat').removeClass('active-nav');
                 $('#meet').removeClass('active-nav');
                 $('#file').removeClass('active-nav');
@@ -490,13 +495,27 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                             snackbar('success' , results.message)
                                             $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                            let date_meet = new Date(meetingDate);
+                                            let start = new Date(''+meetingDate+' '+meetingStart+'');
+                                            let end = new Date(''+meetingDate+' '+meetingEnd+'');
+                                            
+                                            var date = moment(date_meet).format('MMMM Do');
+                                            var time = moment(start).format('h:mm a');
+                                            var time_end = moment(end).format('h:mm a');
+
+                                            $('#schedule-log-list').prepend(`
+                                                <div class="cal-schedule">
+                                                    <em>${date}<br>${time}</em>
+                                                    <strong>${meetingName}</strong>
+                                                    <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                                </div>
+                                            `)
                                             
                                         }
                                         else{
                                            
                                         }
-            
-                                
             
                             })
                             .catch(function(err) {

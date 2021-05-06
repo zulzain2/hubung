@@ -46,7 +46,8 @@
             background-color: rgba(255, 255, 255, 0);
 
         }
-        .off-btn{
+
+        .off-btn {
             pointer-events: none;
             opacity: 0.5;
         }
@@ -77,7 +78,9 @@
 
             @endif
 
-            {{-- <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a> --}}
+            <a href="notification" class="header-icon header-icon-4">
+                <i id="notification" class="fas fa-bell"></i>
+            </a>
         </div>
         <div id="footer-bar" class="footer-bar-1">
 
@@ -238,23 +241,24 @@
             </div>
         </div>
 
+        <div id="menu-offline" class="menu menu-box-modal rounded-m" data-menu-width="310" data-menu-height="270">
+            <h1 class="text-center color-theme mt-4">No Connection</h1>
+            <p class="ps-3 pe-3 text-center color-theme opacity-60">
+                This action requires an internet connection to work. Please connect turn on your WiFi or Celluar Data to
+                Enable this action.
+            </p>
+            <a href="#" class="close-menu btn btn-m font-900 text-uppercase bg-highlight rounded-sm btn-center-l">Close
+                Message</a>
+            <p class="text-center font-9 color-theme mt-3">Continue with other task.</p>
+        </div>
+
+        <div id="snackbar-sucess" class="snackbar-toast bg-green-dark" data-bs-delay="1200" data-bs-autohide="true">
+        </div>
+        <div id="snackbar-warning" class="snackbar-toast bg-yellow-dark" data-bs-delay="1200" data-bs-autohide="true">
+        </div>
+        <div id="snackbar-error" class="snackbar-toast bg-red-dark" data-bs-delay="1200" data-bs-autohide="true"></div>
 
     </div>
-
-    <div id="menu-offline" class="menu menu-box-modal rounded-m" data-menu-width="310" data-menu-height="270">
-        <h1 class="text-center color-theme mt-4">No Connection</h1>
-        <p class="ps-3 pe-3 text-center color-theme opacity-60">
-            This action requires an internet connection to work. Please connect turn on your WiFi or Celluar Data to
-            Enable this action.
-        </p>
-        <a href="#" class="close-menu btn btn-m font-900 text-uppercase bg-highlight rounded-sm btn-center-l">Close
-            Message</a>
-        <p class="text-center font-9 color-theme mt-3">Continue with other task.</p>
-    </div>
-
-    <div id="snackbar-sucess" class="snackbar-toast bg-green-dark" data-bs-delay="1200" data-bs-autohide="true"></div>
-    <div id="snackbar-warning" class="snackbar-toast bg-yellow-dark" data-bs-delay="1200" data-bs-autohide="true"></div>
-    <div id="snackbar-error" class="snackbar-toast bg-red-dark" data-bs-delay="1200" data-bs-autohide="true"></div>
 
     <script type="text/javascript" src="{{ URL::to('scripts/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::to('scripts/jquery-3.6.0.min.js') }}"></script>
