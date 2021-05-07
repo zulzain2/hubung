@@ -2074,7 +2074,17 @@ document['addEventListener']('DOMContentLoaded', () => {
                     window['addEventListener']('load', function() {
                         navigator['serviceWorker']['register'](_0xce56x8, {
                             scope: _0xce56x7
-                        })
+                        }).then(function(registration) {
+                            // registration worked
+                            console.log('Registration succeeded.');
+                            $('#updateApp').on('click' , function(){
+                                console.log('update');
+                                registration.update();
+                            });
+                          }).catch(function(error) {
+                            // registration failed
+                            console.log('Registration failed with ' + error);
+                          });
                     })
                 };
                 var _0xce56x111 = _0xce56x5 * 24;

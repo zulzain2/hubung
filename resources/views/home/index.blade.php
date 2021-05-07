@@ -24,6 +24,8 @@
         </div>
     </div>
 
+    <a href="#" id="updateApp" class="btn btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s bg-red-light">Update App</a>
+
     <div class="content">
         <div class="row mb-n2">
 

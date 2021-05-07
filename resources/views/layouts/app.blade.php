@@ -28,9 +28,9 @@
 
 
     <style>
-        body {
+        /* body {
             overscroll-behavior-y: contain;
-        }
+        } */
 
         .ph-no-space {
             padding: unset;
