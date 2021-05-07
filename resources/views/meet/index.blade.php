@@ -71,7 +71,7 @@
                                 {{-- <button type="submit">submit</button> --}}
                                 {{-- <button id="start-meeting" type="button" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</button> --}}
                                 <a href="#" id="start-meeting"
-                                    class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i
+                                    class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-highlight bg-highlight"><i
                                         class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                         <div class="row">
                             <div class="col-12 text-center">
                                 <a href="#" id="join-meeting"
-                                    class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i
+                                    class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-highlight bg-highlight"><i
                                         class="fas fa-play"></i>&nbsp;&nbsp;Join Meeting</a>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
                         <div class="row">
                             <div class="col-12 text-center">
                                 <a href="#" id="schedule-meeting"
-                                    class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i
+                                    class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-highlight bg-highlight"><i
                                         class="fas fa-play"></i>&nbsp;&nbsp;Schedule Meeting</a>
                             </div>
                         </div>
