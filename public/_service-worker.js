@@ -44,8 +44,8 @@ var STATIC_FILES = [
     '/chat',
     '/meet',
     '/file',
-    '/scripts/external_api.js',
-    '/scripts/jquery-3.6.0.min.js'
+    '/scripts/plugins/meet/external_api.js',
+    '/scripts/plugins/jquery/jquery-3.6.0.min.js'
 ];
 
 var EXCLUDE_ROUTES = [

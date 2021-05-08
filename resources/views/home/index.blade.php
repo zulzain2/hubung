@@ -6,6 +6,9 @@
 
 @section('content')
 
+<div g-component="SampleComponent">
+   
+</div>
 
     <div class="card card-style">
         <div class="content mt-0 mb-0">
@@ -23,8 +26,6 @@
             </div>
         </div>
     </div>
-
-    <a href="#" id="updateApp" class="btn btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s bg-red-light">Update App</a>
 
     <div class="content">
         <div class="row mb-n2">
@@ -145,7 +146,7 @@
         <div class="splide__track">
         <div class="splide__list">
         <div class="splide__slide">
-            <div class="card card-style bg-18" data-card-height="300">
+            <div class="card card-style bg-21" data-card-height="300">
                 <div class="card-top mt-4 mx-3">
                 <img src="images/avatars/1s.png" class="float-start border border-white bg-yellow-light rounded-circle me-n3" width="35">
                 <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">
@@ -175,7 +176,7 @@
                 </div>
         </div>
         <div class="splide__slide">
-            <div class="card card-style bg-18" data-card-height="300">
+            <div class="card card-style bg-16" data-card-height="300">
                 <div class="card-top mt-4 mx-3">
                 <img src="images/avatars/1s.png" class="float-start border border-white bg-yellow-light rounded-circle me-n3" width="35">
                 <img src="images/avatars/2s.png" class="float-start border border-white bg-blue-dark rounded-circle me-n3" width="35">

@@ -4,7 +4,33 @@ setTimeout(function() {
         _0xce56x1['classList']['add']('preloader-hide')
     }
 }, 150);
+
+
+function snackbar(type , message) { //type : sucess , warning , error
+
+    if(type === 'success'){
+        type = 'snackbar-sucess';
+        message = '<i class="fa fa-check me-3"></i>'+message+'';
+    }
+    else if(type === 'warning') {
+        type = 'snackbar-warning';
+        message = '<i class="fa fa-info me-3"></i>'+message+'';
+    }
+    else if(type === 'error') {
+        type = 'snackbar-error';
+        message = '<i class="fa fa-times me-3"></i>'+message+'';
+    }
+    
+    var snackID = document.getElementById(type);
+    snackID.innerHTML = message;
+    snackID = new bootstrap.Toast(snackID);
+    snackID.show();
+}
+
+
+
 document['addEventListener']('DOMContentLoaded', () => {
+   
     'use strict';
     let _0xce56x2 = true;
     let _0xce56x3 = true;
@@ -15,8 +41,27 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
     var apiObj = null;
 
+    var clipboard = new ClipboardJS('.copy-btn');
+
+    clipboard.on('success', function(e) {
+
+        var toastID = document.getElementById('toast-1');
+        toastID = new bootstrap.Toast(toastID);
+        toastID.show();
+
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function(e) {
+
+        var toastID = document.getElementById('toast-2');
+        toastID = new bootstrap.Toast(toastID);
+        toastID.show();
+
+    });
+
     function _init() {
-       
+
         // fetch csrf token and append back to selected element
         fetch('/fetch/csrf').then(function(response) {
             return response.json();
@@ -30,53 +75,6 @@ document['addEventListener']('DOMContentLoaded', () => {
         }).catch(function(err) {
             console.log('Error CSRF: ' + err);
         });
-
-        function snackbar(type , message) { //type : sucess , warning , error
-
-            if(type === 'success'){
-                type = 'snackbar-sucess';
-                message = '<i class="fa fa-check me-3"></i>'+message+'';
-            }
-            else if(type === 'warning') {
-                type = 'snackbar-warning';
-                message = '<i class="fa fa-info me-3"></i>'+message+'';
-            }
-            else if(type === 'error') {
-                type = 'snackbar-error';
-                message = '<i class="fa fa-times me-3"></i>'+message+'';
-            }
-            
-            var snackID = document.getElementById(type);
-            snackID.innerHTML = message;
-            snackID = new bootstrap.Toast(snackID);
-            snackID.show();
-        }
-
-        if (document.querySelector('#meetPublic')) {
-            
-            var url = new URL(window.location.href);
-            var roomName = url.searchParams.get("roomName");
-        
-            if(roomName){
-                setTimeout(function() {
-                    $('#meetingNameJoin').val(''+roomName+'');
-                    $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
-                }, 150);
-               
-            }
-
-            $('body').removeClass('theme-light');
-            $('body').addClass('theme-dark');
-        };
-        
-
-        if (document.querySelector('#loginScript')) {
-            var url = new URL(window.location.href);
-            var prevUrl = url.searchParams.get("prevUrl");
-            if(prevUrl){
-                $('#prevUrl').val(prevUrl);
-            }
-        }
 
         if (document.querySelector('#check-auth')) {
             
@@ -96,7 +94,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                         if(roomName){
                             window.location.href = 'meet?roomName='+roomName+'';
                         }
-                        
                     }
                 }
                 else
@@ -109,12 +106,20 @@ document['addEventListener']('DOMContentLoaded', () => {
                     {
                         window.location.href = 'login?prevUrl='+window.location.pathname+'';
                     }
-                    
                 }
 
             }).catch(function(err) {
                 console.log('Error Check Auth: ' + err);
             });
+        }
+
+        // redirect user back to prev url if unauthenticated
+        if (document.querySelector('#loginScript')) {
+            var url = new URL(window.location.href);
+            var prevUrl = url.searchParams.get("prevUrl");
+            if(prevUrl){
+                $('#prevUrl').val(prevUrl);
+            }
         }
         
         if (document.querySelector('#footer-bar')) {
@@ -166,384 +171,396 @@ document['addEventListener']('DOMContentLoaded', () => {
         }
  
 
-
-       if (document.querySelector('#meeting-index')) {
-
-        setTimeout(function() {
-            var url = new URL(window.location.href);
-            var roomName = url.searchParams.get("roomName");
-            if(roomName)
-            {
-                $('#meeting-tab-1').removeClass('bg-highlight no-click');
-                $('#meetingNameJoin').val(roomName);
-                
-                $('#meeting-tab-1').addClass('collapsed');
-
-                $('#meeting-tab-2').removeClass('collapsed');
-                $('#meeting-tab-2').addClass('bg-highlight no-click');
-                
-                $('#tab-1').removeClass('show');
-                $('#tab-2').addClass('show');
-            }
-
-            var clipboard = new ClipboardJS('.copy-btn');
-
-            clipboard.on('success', function(e) {
-        
-                var toastID = document.getElementById('toast-1');
-                toastID = new bootstrap.Toast(toastID);
-                toastID.show();
-
-                e.clearSelection();
-            });
+        if (document.querySelector('#meeting-index')) {
             
-            clipboard.on('error', function(e) {
-          
-                var toastID = document.getElementById('toast-2');
-                toastID = new bootstrap.Toast(toastID);
-                toastID.show();
-
-            });
-
-            ///////////////////////////////////////////////////////////////////////
-            if (document.querySelector('#meeting-log')) {
-                var networkDataReceived = false;
-
-                // fetch fresh meeting log
-                var networkUpdate = fetch('/fetch/meetingLog')
-                .then(function(response) { 
-                    return response.json();
-                }).then(function(data){
-                    networkDataReceived = true;
+            setTimeout(function() {
+            
+                ///////////////////////////////////////////////////////////////////////
+                if (document.querySelector('#meetPublic')) {
+                        
+                    var url = new URL(window.location.href);
+                    var roomName = url.searchParams.get("roomName");
+                
+                    if(roomName){
+                        setTimeout(function() {
+                            $('#meetingNameJoin').val(''+roomName+'');
+                            $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
+                        }, 150);
                     
-                    updateMeetingLog(data);
-                })
-                .catch(function(err) {
-                    console.log('Error Meeting Log: ' + err);
-                });
+                    }
 
-                // fetch cached meeting log
-                // caches.match('/fetch/meetingLog')
-                // .then(function(response) {
-                //     if (!response) throw Error("No data");
-                //     return response.json();
-                // }).then(function(data) {
-                //     // don't overwrite newer network data
-                //     if (!networkDataReceived) {
+                    $('body').removeClass('theme-light');
+                    $('body').addClass('theme-dark');
+                };
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                var url = new URL(window.location.href);
+                var roomName = url.searchParams.get("roomName");
+                if(roomName)
+                {
+                    $('#meeting-tab-1').removeClass('bg-highlight no-click');
+                    $('#meetingNameJoin').val(roomName);
                     
-                //         updateMeetingLog(data)
+                    $('#meeting-tab-1').addClass('collapsed');
 
-                //     }
-                // }).catch(function() {
-                //     // we didn't get cached data, the network is our last hope:
-                //     return networkUpdate;
-                // }).catch(function(err) {
-                //     console.log('Error Meeting Log: ' + err);
-                // });
+                    $('#meeting-tab-2').removeClass('collapsed');
+                    $('#meeting-tab-2').addClass('bg-highlight no-click');
+                    
+                    $('#tab-1').removeClass('show');
+                    $('#tab-2').addClass('show');
+                }
+                ///////////////////////////////////////////////////////////////////////
 
-                function updateMeetingLog(data){
-                    var results = data
+                ///////////////////////////////////////////////////////////////////////
+                if (document.querySelector('#meeting-log')) {
+                    var networkDataReceived = false;
 
-                    if (results.length) {
-                        $('#meeting-log-list').html('');
-                        results.map(meetinglog => {
+                    // fetch fresh meeting log
+                    var networkUpdate = fetch('/fetch/meetingLog')
+                    .then(function(response) { 
+                        return response.json();
+                    }).then(function(data){
+                        networkDataReceived = true;
+                        
+                        updateMeetingLog(data);
+                    })
+                    .catch(function(err) {
+                        console.log('Error Meeting Log: ' + err);
+                    });
 
-                            let now = new Date(meetinglog.datetime);
-                            
-                            var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+                    // fetch cached meeting log
+                    // caches.match('/fetch/meetingLog')
+                    // .then(function(response) {
+                    //     if (!response) throw Error("No data");
+                    //     return response.json();
+                    // }).then(function(data) {
+                    //     // don't overwrite newer network data
+                    //     if (!networkDataReceived) {
+                        
+                    //         updateMeetingLog(data)
+
+                    //     }
+                    // }).catch(function() {
+                    //     // we didn't get cached data, the network is our last hope:
+                    //     return networkUpdate;
+                    // }).catch(function(err) {
+                    //     console.log('Error Meeting Log: ' + err);
+                    // });
+
+                    function updateMeetingLog(data){
+                        var results = data
+
+                        if (results.length) {
+                            $('#meeting-log-list').html('');
+                            results.map(meetinglog => {
+
+                                let now = new Date(meetinglog.datetime);
+                                
+                                var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                $('#meeting-log-list').append(`
+                                    <a href="#">
+                                        <span>${meetinglog.room_name}</span>
+                                        <strong>as ${meetinglog.display_name}</strong>
+                                        <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                `)
+                            })
+
+                        }
+                        else{
+                            $('#meeting-log-list').html('');
 
                             $('#meeting-log-list').append(`
-                                <a href="#">
-                                    <span>${meetinglog.room_name}</span>
-                                    <strong>as ${meetinglog.display_name}</strong>
-                                    <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            `)
-                        })
-
+                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                            `);
+                        }
                     }
-                    else{
-                        $('#meeting-log-list').html('');
+                };
+                ///////////////////////////////////////////////////////////////////////
 
-                        $('#meeting-log-list').append(`
-                            <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                        `);
-                    }
-                }
-            };
-            ///////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////
+                if (document.querySelector('#schedule-log')) {
+                    var networkDataReceived = false;
 
-            ///////////////////////////////////////////////////////////////////////
-            if (document.querySelector('#schedule-log')) {
-                var networkDataReceived = false;
+                    // fetch fresh schedule log
+                    var networkUpdate = fetch('/fetch/scheduleLog')
+                    .then(function(response) { 
+                        return response.json();
+                    }).then(function(data){
+                        networkDataReceived = true;
+                        
+                        updateScheduleLog(data);
+                    })
+                    .catch(function(err) {
+                        console.log('Error Schedule Log: ' + err);
+                    });
 
-                // fetch fresh schedule log
-                var networkUpdate = fetch('/fetch/scheduleLog')
-                .then(function(response) { 
-                    return response.json();
-                }).then(function(data){
-                    networkDataReceived = true;
-                    
-                    updateScheduleLog(data);
-                })
-                .catch(function(err) {
-                    console.log('Error Schedule Log: ' + err);
-                });
+                    function updateScheduleLog(data){
+                        var results = data
 
-                function updateScheduleLog(data){
-                    var results = data
+                        if (results.length) {
+                            $('#schedule-log-list').html('');
+                            results.map(scheduleLog => {
 
-                    if (results.length) {
-                        $('#schedule-log-list').html('');
-                        results.map(scheduleLog => {
+                                let start = new Date(scheduleLog.datetime);
+                                let end = new Date(scheduleLog.end_datetime);
+                                
+                                var date = moment(start).format('MMMM Do');
+                                var time = moment(start).format('h:mm a');
+                                var time_end = moment(end).format('h:mm a');
 
-                            let start = new Date(scheduleLog.datetime);
-                            let end = new Date(scheduleLog.end_datetime);
-                            
-                            var date = moment(start).format('MMMM Do');
-                            var time = moment(start).format('h:mm a');
-                            var time_end = moment(end).format('h:mm a');
+                                $('#schedule-log-list').append(`
+                                    <div class="cal-schedule">
+                                        <em>${date}<br>${time}</em>
+                                        <strong>${scheduleLog.room_name}</strong>
+                                        <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                    </div>
+                                `)
+                            })
+
+                        }
+                        else{
+                            $('#schedule-log-list').html('');
 
                             $('#schedule-log-list').append(`
-                                <div class="cal-schedule">
-                                    <em>${date}<br>${time}</em>
-                                    <strong>${scheduleLog.room_name}</strong>
-                                    <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
-                                </div>
-                            `)
+                                <p class="text-center mx-4"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                            `);
+                        }
+                    }
+                };
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                // fetch user and append back to selected element
+                fetch('/fetch/user').then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    var results = data
+
+                    if(results === 'false')
+                    {
+
+                    }
+                    else
+                    {
+                        $('.usrName').val(results.name);
+                    }
+                }).catch(function(err) {
+                    console.log('Error User: ' + err);
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                // for offline checkbox
+                $('#toggle-id').change(function() {
+                    if (this.checked) {
+                        $('#password_meeting').show();
+                    } else {
+                        $('#password_meeting').hide();
+                    }
+                });
+
+                $('#toggle-id-schedule').change(function() {
+                    if (this.checked) {
+                        $('#password_meeting_schedule').show();
+                    } else {
+                        $('#password_meeting_schedule').hide();
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                //for start meeting button
+                $('#start-meeting').on('click' , function(event){
+                        
+                    if (navigator.onLine) {
+                    
+                        var fsm = $("#createMeetingForm");
+
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(fsm)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                $('#portfolio-2').addClass('menu-active');
+
+                                var meetingName = $('#meetingName').val();
+                                var usrName = $('#usrName').val();
+                    
+                                initializeMeeting(meetingName, usrName);
+                            }
+                                form.classList.add('was-validated')
+                        })
+                    
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                //for join meeting button
+                $('#join-meeting').on('click' , function(event){
+                        
+                    if (navigator.onLine) {
+
+                        var fsm = $("#joinMeetingForm");
+
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(fsm)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                $('#portfolio-2').addClass('menu-active');
+
+                                var meetingName = $('#meetingNameJoin').val();
+                                var usrName = $('#usrNameJoin').val();
+                    
+                                initializeMeeting(meetingName, usrName);
+                            }
+                                form.classList.add('was-validated')
                         })
 
-                    }
-                    else{
-                        $('#schedule-log-list').html('');
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+                ///////////////////////////////////////////////////////////////////////
 
-                        $('#schedule-log-list').append(`
-                            <p class="text-center mx-4"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
-                        `);
-                    }
-                }
-            };
-            ///////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////
+                //for schedule meeting button
+                $('#schedule-meeting').on('click' , function(event){
+                        
+                    if (navigator.onLine) {
 
+                        var fsm = $("#scheduleMeetingForm");
 
-            ///////////////////////////////////////////////////////////////////////
-            // fetch user and append back to selected element
-            fetch('/fetch/user').then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                var results = data
-
-                if(results === 'false')
-                {
-
-                }
-                else
-                {
-                    $('.usrName').val(results.name);
-                }
-            }).catch(function(err) {
-                console.log('Error User: ' + err);
-            });
-
-             // for offline checkbox
-             $('#toggle-id').change(function() {
-                if (this.checked) {
-                    $('#password_meeting').show();
-                } else {
-                    $('#password_meeting').hide();
-                }
-            });
-
-            // for offline checkbox
-            $('#toggle-id-schedule').change(function() {
-                if (this.checked) {
-                    $('#password_meeting_schedule').show();
-                } else {
-                    $('#password_meeting_schedule').hide();
-                }
-            });
-
-
-            //for start meeting button
-            $('#start-meeting').on('click' , function(event){
-                    
-                if (navigator.onLine) {
-                   
-                    var fsm = $("#createMeetingForm");
-
-                    // Loop over them and prevent submission
-                    Array.prototype.slice.call(fsm)
-                    .forEach(function (form) {
-                        if (!form.checkValidity()) 
-                        {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        else
-                        {
-                            $('#portfolio-2').addClass('menu-active');
-
-                            var meetingName = $('#meetingName').val();
-                            var usrName = $('#usrName').val();
-                
-                            initializeMeeting(meetingName, usrName);
-                        }
-                            form.classList.add('was-validated')
-                    })
-                
-                } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
-                } 
-            });
-        
-            //for join meeting button
-            $('#join-meeting').on('click' , function(event){
-                    
-                if (navigator.onLine) {
-
-                    var fsm = $("#joinMeetingForm");
-
-                    // Loop over them and prevent submission
-                    Array.prototype.slice.call(fsm)
-                    .forEach(function (form) {
-                        if (!form.checkValidity()) 
-                        {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        else
-                        {
-                            $('#portfolio-2').addClass('menu-active');
-
-                            var meetingName = $('#meetingNameJoin').val();
-                            var usrName = $('#usrNameJoin').val();
-                
-                            initializeMeeting(meetingName, usrName);
-                        }
-                            form.classList.add('was-validated')
-                    })
-
-                } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
-                } 
-            });
-
-            $('a').on('classChange', function() {
-                if ($(this).hasClass("off-btn")) {
-                    $(this).after(`<div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
-                     <span class="sr-only">Loading...</span>
-                    </div>`);
-                } else {
-                    $('.spin-temp').remove();
-                }
-            });
-
-            //for join meeting button
-            $('#schedule-meeting').on('click' , function(event){
-                    
-                if (navigator.onLine) {
-
-                    var fsm = $("#scheduleMeetingForm");
-
-                    // Loop over them and prevent submission
-                     Array.prototype.slice.call(fsm)
-                    .forEach(function (form) {
-                        if (!form.checkValidity()) 
-                        {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        else
-                        {
-                            
-                            $('#schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                            var meetingName = $('#meetingNameSchedule').val();
-                            var meetingDate = $('#meetingDateSchedule').val();
-                            var meetingStart = $('#meetingStartSchedule').val();
-                            var meetingEnd = $('#meetingEndSchedule').val();
-
-                            var dataMeetingSchedule = new URLSearchParams();
-                            dataMeetingSchedule.append('meeting_name', meetingName);
-                            dataMeetingSchedule.append('meeting_date', meetingDate);
-                            dataMeetingSchedule.append('meeting_start', meetingStart);
-                            dataMeetingSchedule.append('meeting_end', meetingEnd);
-        
-                            fetch("fetch/storeMeetingSchedule", {
-                                method: 'post',
-                                credentials: "same-origin",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                body: dataMeetingSchedule,
-                            })
-                            .then(function(response){
-                                return response.json();
-                            }).then(function(resultsJSON){
-            
-                                var results = resultsJSON
-
-                                        if(results.status == '200'){
-                                            // let now = new Date(meetinglog.datetime);
-                                        
-                                            // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                            snackbar('success' , results.message)
-                                            $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                            let date_meet = new Date(meetingDate);
-                                            let start = new Date(''+meetingDate+' '+meetingStart+'');
-                                            let end = new Date(''+meetingDate+' '+meetingEnd+'');
-                                            
-                                            var date = moment(date_meet).format('MMMM Do');
-                                            var time = moment(start).format('h:mm a');
-                                            var time_end = moment(end).format('h:mm a');
-
-                                            $('#schedule-log-list').prepend(`
-                                                <div class="cal-schedule">
-                                                    <em>${date}<br>${time}</em>
-                                                    <strong>${meetingName}</strong>
-                                                    <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
-                                                </div>
-                                            `)
-                                            
-                                        }
-                                        else{
-                                           
-                                        }
-            
-                            })
-                            .catch(function(err) {
-                                console.log(err);
-                            });
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(fsm)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
                                 
-                         
-                        }
-                            form.classList.add('was-validated')
-                    })
+                                $('#schedule-meeting').addClass('off-btn').trigger('classChange');
 
-                } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
-                } 
-            });
+                                var meetingName = $('#meetingNameSchedule').val();
+                                var meetingDate = $('#meetingDateSchedule').val();
+                                var meetingStart = $('#meetingStartSchedule').val();
+                                var meetingEnd = $('#meetingEndSchedule').val();
 
-            //for invite meeting button while in meeting
-            $('#inviteBtn').on('click' , function() {
-                $('#menu-meeting-invitation').addClass('menu-active');
-            });
-    
-            $('.close-menu-meeting-invitation').on('click' , function() {
-                $('#menu-meeting-invitation').removeClass('menu-active');
-            });
+                                var dataMeetingSchedule = new URLSearchParams();
+                                dataMeetingSchedule.append('meeting_name', meetingName);
+                                dataMeetingSchedule.append('meeting_date', meetingDate);
+                                dataMeetingSchedule.append('meeting_start', meetingStart);
+                                dataMeetingSchedule.append('meeting_end', meetingEnd);
 
-         
+                                fetch("fetch/storeMeetingSchedule", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: dataMeetingSchedule,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+                
+                                    var results = resultsJSON
+
+                                            if(results.status == '200'){
+                                                // let now = new Date(meetinglog.datetime);
+                                            
+                                                // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                                snackbar('success' , results.message)
+                                                $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                                let date_meet = new Date(meetingDate);
+                                                let start = new Date(''+meetingDate+' '+meetingStart+'');
+                                                let end = new Date(''+meetingDate+' '+meetingEnd+'');
+                                                
+                                                var date = moment(date_meet).format('MMMM Do');
+                                                var time = moment(start).format('h:mm a');
+                                                var time_end = moment(end).format('h:mm a');
+
+                                                $('#schedule-log-list').prepend(`
+                                                    <div class="cal-schedule">
+                                                        <em>${date}<br>${time}</em>
+                                                        <strong>${meetingName}</strong>
+                                                        <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                                    </div>
+                                                `)
+                                                
+                                            }
+                                            else{
+                                            
+                                            }
+                
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+                                    
+                            
+                            }
+                                form.classList.add('was-validated')
+                        })
+
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+
+                $('a').on('classChange', function() {
+                    if ($(this).hasClass("off-btn")) {
+                        $(this).after(`<div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
+                        <span class="sr-only">Loading...</span>
+                        </div>`);
+                    } else {
+                        $('.spin-temp').remove();
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                //for invite meeting button while in meeting
+                $('#inviteBtn').on('click' , function() {
+                    $('#menu-meeting-invitation').addClass('menu-active');
+                });
+
+                $('.close-menu-meeting-invitation').on('click' , function() {
+                    $('#menu-meeting-invitation').removeClass('menu-active');
+                }); 
+                ///////////////////////////////////////////////////////////////////////
+
+            }, 150);
+
+
             function initializeMeeting(meetingName, usrName) {
                 var domain = 'meet.tvetxr.ga';
                 var options = {
@@ -581,37 +598,37 @@ document['addEventListener']('DOMContentLoaded', () => {
                 apiObj.addEventListeners({
 
                     readyToClose: function () {
-    
+
                         var _0xce56x32 = document['querySelectorAll']('.menu-active');
-            
+
                         for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
                             _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
                         };
-    
+
                         apiObj.dispose();
-    
-                     
+
+                    
                     },
                     videoConferenceJoined: function(data) {
-    
+
                         $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
                         $('#invite-invitor').html(data.displayName);
                         $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
 
                         var currentdate = new Date();
-    
+
                         var datetimefordb =  currentdate.getFullYear() + "-"
                                         + (currentdate.getMonth()+1)  + "-" 
                                         + currentdate.getDate() + " "  
                                         + currentdate.getHours() + ":"  
                                         + currentdate.getMinutes() + ":" 
                                         + currentdate.getSeconds();
-    
+
                         var dataMeetingLog = new URLSearchParams();
                         dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
                         dataMeetingLog.append('display_name', data.displayName);
                         dataMeetingLog.append('datetime', datetimefordb);
-    
+
                         fetch("fetch/storeMeetingLog", {
                             method: 'post',
                             credentials: "same-origin",
@@ -623,17 +640,17 @@ document['addEventListener']('DOMContentLoaded', () => {
                         .then(function(response){
                             return response.json();
                         }).then(function(resultsJSON){
-        
+
                             var results = resultsJSON
-        
+
                             if (results.length) {
                                 $('#meeting-log-list').html('');
                                 results.map(meetinglog => {
-        
+
                                     let now = new Date(meetinglog.datetime);
                                     
                                     var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-        
+
                                     $('#meeting-log-list').append(`
                                         <a href="#">
                                             <span>${meetinglog.room_name}</span>
@@ -643,7 +660,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                         </a>
                                     `)
                                 })
-        
+
                             }
                             else{
                                 $('#meeting-log-list').html('');
@@ -652,21 +669,19 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
                                 `);
                             }
-        
+
                         })
                         .catch(function(err) {
                             console.log(err);
                         });
-    
+
                     }
                 });
             }
-        }, 150);
-            ///////////////////////////////////////////////////////////////////////
-           
-       }
+
+        }
        
-        
+
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -676,6 +691,7 @@ document['addEventListener']('DOMContentLoaded', () => {
         document['querySelectorAll']('.menu')['forEach']((_0xce56xc) => {
             _0xce56xc['style']['display'] = 'block'
         });
+        
         var _0xce56xe = document['querySelectorAll']('input');
         if (_0xce56xe['length']) {
             var _0xce56xf = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
@@ -685,22 +701,23 @@ document['addEventListener']('DOMContentLoaded', () => {
             var _0xce56x13 = /^(0|[1-9]\d*)$/;
             var _0xce56x14 = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
             var _0xce56x15 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
-
+        
             function _0xce56x16(_0xce56xc) {
                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
             }
-
+        
             function _0xce56x17(_0xce56xc) {
                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled')
             }
-
+        
             function _0xce56x18(_0xce56xc) {
                 _0xce56xc['parentElement']['querySelectorAll']('em')[0]['classList']['remove']('disabled');
                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
             }
+        
             var _0xce56x19 = document['querySelectorAll']('.input-style input:not([type=\"date\"])');
             _0xce56x19['forEach']((_0xce56xc) => {
                 return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
@@ -715,6 +732,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     }
                 })
             });
+        
             var _0xce56x1a = document['querySelectorAll']('.input-style textarea');
             _0xce56x1a['forEach']((_0xce56xc) => {
                 return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
@@ -727,6 +745,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     }
                 })
             });
+        
             var _0xce56x1b = document['querySelectorAll']('.input-style select');
             _0xce56x1b['forEach']((_0xce56xc) => {
                 return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
@@ -742,6 +761,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     }
                 })
             });
+        
             var _0xce56x1c = document['querySelectorAll']('.input-style input[type=\"date\"]');
             _0xce56x1c['forEach']((_0xce56xc) => {
                 return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
@@ -750,6 +770,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
                 })
             });
+        
             var _0xce56x1d = document['querySelectorAll']('.validate-field input, .validator-field textarea');
             if (_0xce56x1d['length']) {
                 _0xce56x1d['forEach']((_0xce56xc) => {
@@ -785,6 +806,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             }
         };
+        
         var _0xce56x1f = document['getElementsByClassName']('splide');
         if (_0xce56x1f['length']) {
             
@@ -811,6 +833,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     })
                 })
             };
+        
             var _0xce56x24 = document['querySelectorAll']('.double-slider');
             if (_0xce56x24['length']) {
                 _0xce56x24['forEach'](function(_0xce56xb) {
@@ -823,6 +846,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     })['mount']()
                 })
             };
+        
             var _0xce56x26 = document['querySelectorAll']('.tripple-slider');
             if (_0xce56x26['length']) {
                 _0xce56x26['forEach'](function(_0xce56xb) {
@@ -841,6 +865,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             };
         };
+        
         const _0xce56x28 = document['querySelectorAll']('a[href=\"#\"]');
         _0xce56x28['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -848,6 +873,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 return false
             })
         });
+        
         var _0xce56x29 = document['querySelectorAll']('.map-full');
         if (_0xce56x29['length']) {
             var _0xce56x2a = document['querySelectorAll']('.show-map');
@@ -863,6 +889,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('hide-map')[0]['classList']['add']('disabled')
             })
         };
+        
         var _0xce56x2c = document['querySelectorAll']('.todo-list a');
         _0xce56x2c['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -874,8 +901,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56xc['querySelector']('i:last-child')['classList']['toggle']('color-green-dark')
             })
         });
+        
         var _0xce56x2d = document['querySelectorAll']('.menu');
         if (_0xce56x2d['length']) {
+        
             var _0xce56x2e = document['querySelectorAll']('.menu-box-left, .menu-box-right');
             _0xce56x2e['forEach'](function(_0xce56xb) {
                 if (_0xce56xb['getAttribute']('data-menu-width') === 'cover') {
@@ -884,6 +913,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56xb['style']['width'] = (_0xce56xb['getAttribute']('data-menu-width')) + 'px'
                 }
             });
+        
             var _0xce56x2f = document['querySelectorAll']('.menu-box-bottom, .menu-box-top, .menu-box-modal');
             _0xce56x2f['forEach'](function(_0xce56xb) {
                 if (_0xce56xb['getAttribute']('data-menu-width') === 'cover') {
@@ -894,6 +924,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56xb['style']['height'] = (_0xce56xb['getAttribute']('data-menu-height')) + 'px'
                 }
             });
+        
             var _0xce56x30 = document['querySelectorAll']('[data-menu]');
             var _0xce56x31 = document['querySelectorAll']('.header, #footer-bar, .page-content');
             _0xce56x30['forEach']((_0xce56xc) => {
@@ -974,6 +1005,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x3d = document['querySelectorAll']('[data-back-button]');
         if (_0xce56x3d['length']) {
             _0xce56x3d['forEach']((_0xce56xc) => {
@@ -984,6 +1016,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x3e = document['querySelectorAll']('.back-to-top-icon, .back-to-top-badge, .back-to-top');
         if (_0xce56x3e['length']) {
             _0xce56x3e['forEach']((_0xce56xc) => {
@@ -995,8 +1028,9 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x3f = document['getElementsByClassName']('card');
-
+        
         function _0xce56x40() {
             var _0xce56x41, _0xce56x42, _0xce56x43;
             var _0xce56x43 = document['querySelectorAll']('.header:not(.header-transparent)')[0];
@@ -1023,10 +1057,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         }
+        
         if (_0xce56x3f['length']) {
             _0xce56x40();
             window['addEventListener']('resize', _0xce56x40)
         };
+        
         var _0xce56x49 = document['querySelectorAll']('[data-change-highlight]');
         _0xce56x49['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -1047,6 +1083,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 localStorage['setItem'](_0xce56x4 + '-Highlight', _0xce56x4a)
             })
         });
+        
         var _0xce56x4d = localStorage['getItem'](_0xce56x4 + '-Highlight');
         if (_0xce56x4d) {
             document['body']['setAttribute']('data-highlight', _0xce56x4d);
@@ -1060,6 +1097,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['body']['setAttribute']('data-highlight', 'highlight-' + _0xce56x4d)
             }
         };
+        
         var _0xce56x4e = document['querySelectorAll']('[data-change-background]');
         _0xce56x4e['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -1068,12 +1106,13 @@ document['addEventListener']('DOMContentLoaded', () => {
                 localStorage['setItem'](_0xce56x4 + '-Gradient', _0xce56x4f)
             })
         });
+        
         var _0xce56x50 = localStorage['getItem'](_0xce56x4 + '-Gradient');
         if (_0xce56x50) {
             document['body']['setAttribute']('data-gradient', 'body-' + _0xce56x50 + '')
         };
         const _0xce56x51 = document['querySelectorAll']('[data-toggle-theme]');
-
+        
         function _0xce56x52() {
             document['body']['classList']['add']('theme-dark');
             document['body']['classList']['remove']('theme-light', 'detect-theme');
@@ -1082,7 +1121,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             localStorage['setItem'](_0xce56x4 + '-Theme', 'dark-mode')
         }
-
+        
         function _0xce56x53() {
             document['body']['classList']['add']('theme-light');
             document['body']['classList']['remove']('theme-dark', 'detect-theme');
@@ -1091,21 +1130,21 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             localStorage['setItem'](_0xce56x4 + '-Theme', 'light-mode')
         }
-
+        
         function _0xce56x54() {
             var _0xce56x55 = document['querySelectorAll']('.btn, .header, #footer-bar, .menu-box, .menu-active');
             for (let _0xce56xa = 0; _0xce56xa < _0xce56x55['length']; _0xce56xa++) {
                 _0xce56x55[_0xce56xa]['style']['transition'] = 'all 0s ease'
             }
         }
-
+        
         function _0xce56x56() {
             var _0xce56x57 = document['querySelectorAll']('.btn, .header, #footer-bar, .menu-box, .menu-active');
             for (let _0xce56xa = 0; _0xce56xa < _0xce56x57['length']; _0xce56xa++) {
                 _0xce56x57[_0xce56xa]['style']['transition'] = ''
             }
         }
-
+        
         function _0xce56x58() {
             const _0xce56x59 = window['matchMedia']('(prefers-color-scheme: dark)')['matches'];
             const _0xce56x5a = window['matchMedia']('(prefers-color-scheme: light)')['matches'];
@@ -1123,6 +1162,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x53()
             }
         }
+        
         const _0xce56x5c = document['querySelectorAll']('[data-toggle-theme]');
         _0xce56x5c['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -1140,18 +1180,22 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }, 350)
             })
         });
+        
         if (localStorage['getItem'](_0xce56x4 + '-Theme') == 'dark-mode') {
             for (let _0xce56xa = 0; _0xce56xa < _0xce56x51['length']; _0xce56xa++) {
                 _0xce56x51[_0xce56xa]['checked'] = 'checked'
             };
             document['body']['className'] = 'theme-dark'
         };
+        
         if (localStorage['getItem'](_0xce56x4 + '-Theme') == 'light-mode') {
             document['body']['className'] = 'theme-light'
         };
+        
         if (document['body']['className'] == 'detect-theme') {
             _0xce56x58()
         };
+        
         const _0xce56x5d = document['querySelectorAll']('.detect-dark-mode');
         _0xce56x5d['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -1162,6 +1206,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }, 50)
             })
         });
+        
         const _0xce56x5e = document['querySelectorAll']('.accordion-btn');
         if (_0xce56x5e['length']) {
             _0xce56x5e['forEach']((_0xce56xc) => {
@@ -1170,10 +1215,11 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x60 = document['getElementsByClassName']('upload-file');
         if (_0xce56x60['length']) {
             _0xce56x60[0]['addEventListener']('change', _0xce56x61, false);
-
+        
             function _0xce56x61(_0xce56x5f) {
                 if (this['files'] && this['files'][0]) {
                     var _0xce56x62 = document['getElementById']('image-data');
@@ -1189,6 +1235,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('upload-file-type')[0]['innerHTML'] = _0xce56x63[0]['type']
             }
         };
+        
         var _0xce56x65 = document['querySelectorAll']('.get-location');
         if (_0xce56x65['length']) {
             var _0xce56x66 = document['getElementsByClassName']('location-support')[0];
@@ -1199,10 +1246,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56x66['innerHTML'] = 'Your browser and device <strong class=\"color-red2-dark\">support</strong> Geolocation.'
                 }
             };
-
+        
             function _0xce56x67() {
                 const _0xce56x68 = document['querySelector']('.location-coordinates');
-
+        
                 function _0xce56x69(_0xce56x6a) {
                     const _0xce56x6b = _0xce56x6a['coords']['latitude'];
                     const _0xce56x6c = _0xce56x6a['coords']['longitude'];
@@ -1218,7 +1265,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     document['getElementsByClassName']('location-button')[0]['setAttribute']('href', _0xce56x73);
                     document['getElementsByClassName']('location-button')[0]['classList']['remove']('disabled')
                 }
-
+        
                 function _0xce56x74() {
                     _0xce56x68['textContent'] = 'Unable to retrieve your location'
                 }
@@ -1229,6 +1276,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     navigator['geolocation']['getCurrentPosition'](_0xce56x69, _0xce56x74)
                 }
             }
+        
             var _0xce56x75 = document['getElementsByClassName']('get-location')[0];
             if (typeof(_0xce56x75) != 'undefined' && _0xce56x75 != null) {
                 _0xce56x75['addEventListener']('click', function() {
@@ -1237,6 +1285,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             }
         };
+        
         const _0xce56x76 = document['querySelectorAll']('.card-scale');
         if (_0xce56x76['length']) {
             _0xce56x76['forEach']((_0xce56xc) => {
@@ -1250,6 +1299,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x77 = document['querySelectorAll']('.card-hide');
         if (_0xce56x77['length']) {
             _0xce56x77['forEach']((_0xce56xc) => {
@@ -1263,6 +1313,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x78 = document['querySelectorAll']('.card-rotate');
         if (_0xce56x78['length']) {
             _0xce56x78['forEach']((_0xce56xc) => {
@@ -1276,6 +1327,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x79 = document['querySelectorAll']('.card-grayscale');
         if (_0xce56x79['length']) {
             _0xce56x79['forEach']((_0xce56xc) => {
@@ -1289,6 +1341,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         const _0xce56x7a = document['querySelectorAll']('.card-blur');
         if (_0xce56x7a['length']) {
             _0xce56x7a['forEach']((_0xce56xc) => {
@@ -1302,6 +1355,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56x7b = document['querySelectorAll']('.check-visited');
         if (_0xce56x7b['length']) {
             function _0xce56x7c() {
@@ -1323,6 +1377,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
             _0xce56x7c()
         };
+        
         var _0xce56x81 = document['querySelectorAll']('.scroll-ad, .header-auto-show');
         if (_0xce56x81['length']) {
             var _0xce56x82 = document['querySelectorAll']('.scroll-ad');
@@ -1332,15 +1387,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                     function _0xce56x84() {
                         _0xce56x82[0]['classList']['add']('scroll-ad-visible')
                     }
-
+        
                     function _0xce56x85() {
                         _0xce56x82[0]['classList']['remove']('scroll-ad-visible')
                     }
-
+        
                     function _0xce56x86() {
                         _0xce56x83[0]['classList']['add']('header-active')
                     }
-
+        
                     function _0xce56x87() {
                         _0xce56x83[0]['classList']['remove']('header-active')
                     }
@@ -1361,6 +1416,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             })
         };
+        
         var _0xce56x8d = document['querySelectorAll']('.stepper-add');
         var _0xce56x8e = document['querySelectorAll']('.stepper-sub');
         if (_0xce56x8d['length']) {
@@ -1377,6 +1433,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56x90 = document['querySelectorAll']('[data-trigger-switch]:not([data-toggle-theme])');
         if (_0xce56x90['length']) {
             _0xce56x90['forEach']((_0xce56xc) => {
@@ -1387,6 +1444,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56x93 = document['querySelectorAll']('.classic-toggle');
         if (_0xce56x93['length']) {
             _0xce56x93['forEach']((_0xce56xc) => {
@@ -1396,6 +1454,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56x94 = document['querySelectorAll']('[data-toast]');
         if (_0xce56x94['length']) {
             _0xce56x94['forEach']((_0xce56xc) => {
@@ -1407,12 +1466,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56x97 = []['slice']['call'](document['querySelectorAll']('[data-bs-toggle=\"dropdown\"]'));
         if (_0xce56x97['length']) {
             var _0xce56x98 = _0xce56x97['map'](function(_0xce56x99) {
                 return new bootstrap.Dropdown(_0xce56x99)
             })
         };
+        
         var _0xce56x9a = document['querySelectorAll']('.show-business-opened, .show-business-closed, .working-hours');
         if (_0xce56x9a['length']) {
             var _0xce56x9b = new Date();
@@ -1464,6 +1525,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             })
         };
+        
         var _0xce56xa6 = document['querySelectorAll']('[data-vibrate]');
         if (_0xce56xa6['length']) {
             var _0xce56xa7 = document['getElementsByClassName']('start-vibrating')[0];
@@ -1482,6 +1544,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56xaa = document['querySelectorAll']('[data-timed-ad]');
         if (_0xce56xaa['length']) {
             _0xce56xaa['forEach']((_0xce56xc) => {
@@ -1501,6 +1564,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56xaf = document['querySelectorAll']('[data-auto-show-ad]');
         if (_0xce56xaf['length']) {
             var _0xce56xb0 = _0xce56xaf[0]['getAttribute']('data-auto-show-ad');
@@ -1523,6 +1587,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56xb0 -= 1
             }, 1000)
         };
+        
         var _0xce56xb4 = document['querySelectorAll']('.reading-progress-text');
         if (_0xce56xb4['length']) {
             var _0xce56xb5 = _0xce56xb4[0]['innerHTML']['split'](' ')['length'];
@@ -1531,6 +1596,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             document['getElementsByClassName']('reading-progress-words')[0]['innerHTML'] = _0xce56xb5;
             document['getElementsByClassName']('reading-progress-time')[0]['innerHTML'] = _0xce56xb6 + ':' + _0xce56xb7
         };
+        
         var _0xce56xb8 = document['querySelectorAll']('.text-size-changer');
         if (_0xce56xb8['length']) {
             var _0xce56xb9 = document['querySelectorAll']('.text-size-increase');
@@ -1555,6 +1621,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56xbe = document['querySelectorAll']('.qr-image');
         if (_0xce56xbe['length']) {
             var _0xce56xbf = window['location']['href'];
@@ -1574,19 +1641,21 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             }
         };
+        
         if (window['location']['protocol'] === 'file:') {
             var _0xce56xc5 = document['querySelectorAll']('a');
             _0xce56xc5['forEach']((_0xce56xc) => {
                 return _0xce56xc['addEventListener']('mouseover', (_0xce56x5f) => {})
             })
         };
+        
         var _0xce56xc6 = document['querySelectorAll']('[data-search]');
         if (_0xce56xc6['length']) {
             var _0xce56xc7 = document['querySelectorAll']('.search-results');
             var _0xce56xc8 = document['querySelectorAll']('.search-no-results');
             var _0xce56xc9 = document['querySelectorAll']('.search-results div')[0]['childElementCount'];
             var _0xce56xca = document['querySelectorAll']('.search-trending');
-
+        
             function _0xce56xcb() {
                 var _0xce56xcc = _0xce56xc6[0]['value'];
                 if (_0xce56xcc != '') {
@@ -1642,6 +1711,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56xd2 = document['querySelectorAll']('.shareToFacebook, .shareToTwitter, .shareToLinkedIn');
         if (_0xce56xd2['length']) {
             var _0xce56xd3 = window['location']['href'];
@@ -1665,6 +1735,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 return _0xce56xd5['setAttribute']('href', 'https://www.linkedin.com/shareArticle?mini=true&url=' + _0xce56xd3 + '&title=' + _0xce56xd4 + '&summary=&source=')
             })
         };
+        
         var _0xce56xd6 = document['querySelectorAll']('.contact-form');
         if (_0xce56xd6['length']) {
             var _0xce56xd7 = document['getElementById']('contactForm');
@@ -1731,6 +1802,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         };
+        
         var _0xce56xe1 = document['querySelectorAll']('[data-bs-toggle=\"collapse\"]:not(.no-effect)');
         if (_0xce56xe1['length']) {
             _0xce56xe1['forEach']((_0xce56xc) => {
@@ -1741,6 +1813,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
+        
         var _0xce56xe2 = document['querySelectorAll']('.tab-controls a');
         if (_0xce56xe2['length']) {
             _0xce56xe2['forEach'](function(_0xce56xb) {
@@ -1763,7 +1836,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-
+        
         function _0xce56x34(_0xce56xe5, _0xce56xe6, _0xce56xe7) {
             setTimeout(function() {
                 if (_0xce56xe6 === 'show') {
@@ -1773,6 +1846,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }, _0xce56xe7)
         }
+        
         var _0xce56xe8 = document['querySelectorAll']('[data-auto-activate]');
         if (_0xce56xe8['length']) {
             setTimeout(function() {
@@ -1780,12 +1854,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56xd[0]['classList']['add']('menu-active')
             }, 0)
         };
+        
         var _0xce56xe9 = document['getElementById']('copyright-year');
         if (_0xce56xe9) {
             var _0xce56xea = new Date();
             const _0xce56xeb = _0xce56xea['getFullYear']();
             _0xce56xe9['textContent'] = _0xce56xeb
         };
+        
         var _0xce56xec = document['querySelectorAll']('.check-age');
         if (_0xce56xec['length']) {
             _0xce56xec[0]['addEventListener']('click', function() {
@@ -1815,6 +1891,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 return true
             })
         };
+        
         var _0xce56xf7 = document['querySelectorAll']('.offline-message');
         if (!_0xce56xf7['length']) {
             const _0xce56xf8 = document['createElement']('p');
@@ -1826,7 +1903,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             document['getElementsByTagName']('body')[0]['appendChild'](_0xce56xf8);
             document['getElementsByTagName']('body')[0]['appendChild'](_0xce56xf9)
         };
-
+        
         function _0xce56xfa() {
             var _0xce56xfb = document['querySelectorAll']('a');
             _0xce56xfb['forEach'](function(_0xce56xb) {
@@ -1847,7 +1924,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         }
-
+        
         function _0xce56xfe() {
             var _0xce56xff = document['querySelectorAll']('[data-link]');
             _0xce56xff['forEach'](function(_0xce56xb) {
@@ -1858,9 +1935,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             })
         }
+        
         var _0xce56x100 = document['getElementsByClassName']('offline-message')[0];
         var _0xce56x101 = document['getElementsByClassName']('online-message')[0];
-
+        
         function _0xce56x102() {
             _0xce56xfe();
             _0xce56x101['classList']['add']('online-message-active');
@@ -1869,7 +1947,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }, 2000);
             console['info']('Connection: Online')
         }
-
+        
         function _0xce56x103() {
             _0xce56xfa();
             _0xce56x100['classList']['add']('offline-message-active');
@@ -1878,6 +1956,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }, 2000);
             console['info']('Connection: Offline')
         }
+        
         var _0xce56x104 = document['querySelectorAll']('.simulate-offline');
         var _0xce56x105 = document['querySelectorAll']('.simulate-online');
         if (_0xce56x104['length']) {
@@ -1888,15 +1967,16 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x102()
             })
         };
-
+        
         function _0xce56x106(_0xce56x5f) {
             var _0xce56x107 = navigator['onLine'] ? 'online' : 'offline';
             _0xce56x102()
         }
-
+        
         function _0xce56x108(_0xce56x5f) {
             _0xce56x103()
         }
+        
         window['addEventListener']('online', _0xce56x106);
         window['addEventListener']('offline', _0xce56x108);
         const _0xce56x109 = document['querySelectorAll']('.simulate-iphone-badge');
@@ -1919,10 +1999,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('add-to-home')[0]['classList']['remove']('add-to-home-visible')
             })
         });
-      
-      
         
-
         if (_0xce56x6 === true) {
             caches['delete']('workbox-runtime')['then'](function() {});
             sessionStorage['clear']();
@@ -1931,10 +2008,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                     caches['delete'](_0xce56x11b)
                 })
             })
+        
         };
+        
         var _0xce56x11c = new LazyLoad();
         var _0xce56x11d, _0xce56x11e, _0xce56x11f, _0xce56x120;
-        var _0xce56x121 = 'plugins/';
+        var _0xce56x121 = 'scripts/plugins/';
         let _0xce56x122 = [{
             id: 'uniqueID',
             plug: 'pluginName/plugin.js',
@@ -2027,7 +2106,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         }
-
+        
         let _0xce56x10c = {
             Android: function() {
                 return navigator['userAgent']['match'](/Android/i)
@@ -2066,7 +2145,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
             }
         };
-
+        
         if (_0xce56x2 === true) {
             var _0xce56x110 = document['getElementsByTagName']('html')[0];
             if (!_0xce56x110['classList']['contains']('isPWA')) {
@@ -2077,14 +2156,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                         }).then(function(registration) {
                             // registration worked
                             console.log('Registration succeeded.');
-                            $('#updateApp').on('click' , function(){
-                                console.log('update');
-                                registration.update();
-                            });
-                          }).catch(function(error) {
+                            // $('#updateApp').on('click' , function(){
+                            //     console.log('update');
+                            //     registration.update();
+                            // });
+                            }).catch(function(error) {
                             // registration failed
                             console.log('Registration failed with ' + error);
-                          });
+                            });
                     })
                 };
                 var _0xce56x111 = _0xce56x5 * 24;
@@ -2171,27 +2250,29 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             _0xce56x110['setAttribute']('class', 'isPWA')
         };
+     
     }
 
     if ('scrollRestoration' in window['history']) {
         window['history']['scrollRestoration'] = 'manual'
     };
 
-    if (_0xce56x3 === true) {
-        if (window['location']['protocol'] !== 'file:') {
-            const swupOtions = {
-                containers: ['#page'],
-                cache: false,
-                animateHistoryBrowsing: false,
-                plugins: [new SwupPreloadPlugin()],
-                linkSelector: 'a:not(.external-link):not(.default-link):not([href^=\"https\"]):not([href^=\"http\"]):not([data-gallery])'
-            };
-            const swup = new Swup(swupOtions);
-            document['addEventListener']('swup:pageView', (_0xce56xb) => {
-                _init()
-            })
-        }
-    };
-
+    if (window['location']['protocol'] !== 'file:') {
+        const swupOtions = {
+            containers: ['#page'],
+            cache: false,
+            animateHistoryBrowsing: false,
+            plugins: [
+                new SwupPreloadPlugin()
+            ],
+            linkSelector: 'a:not(.external-link):not(.default-link):not([href^=\"https\"]):not([href^=\"http\"]):not([data-gallery])',
+        };
+        const swup = new Swup(swupOtions);
+        document['addEventListener']('swup:pageView', (_0xce56xb) => {
+            _init()
+        })
+    }
+  
     _init();
 })
+
