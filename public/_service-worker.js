@@ -116,29 +116,31 @@ self.addEventListener('fetch', function(event) {
     else {
         event.respondWith(
             caches.open(CACHE_DYNAMIC_NAME).then(function(cache) {
-              return fetch(event.request)
-              .then(function(response) {
-                  if (isInArray(event.request.url, EXCLUDE_ROUTES))
-                  {
-                      
-                  }
-                  else
-                  {
-                      cache.put(event.request, response.clone());
-                  }
-                      return response;
-              })
-              .catch(function (err) {
-                  return caches.open(CACHE_STATIC_NAME)
-                    .then(function (cache) {
-                      if (event.request.headers.get('accept').includes('text/html')) {
+              
+                return fetch(event.request)
+                .then(function(response) {
+                    if (isInArray(event.request.url, EXCLUDE_ROUTES))
+                    {
                         
-
-                        return cache.match('/offline');
-                        
-                      }
-                    });
-                });
+                    }
+                    else
+                    {
+                        cache.put(event.request, response.clone());
+                    }
+                        return response;
+                })
+                .catch(function (err) {
+                    return caches.open(CACHE_STATIC_NAME)
+                      .then(function (cache) {
+                        if (event.request.headers.get('accept').includes('text/html')) {
+                          
+  
+                          return cache.match('/offline');
+                          
+                        }
+                      });
+                  });
+              
             })
           );
       }

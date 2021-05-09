@@ -83,7 +83,7 @@
                 <a class="text-center" data-gallery="gallery-1" href="images/pictures/18t.jpg" title="Pots and Stuff">
                         <div class="rounded-m preload-img ">
                             <img src="images/empty.png"
-                                data-src="https://drive-thirdparty.googleusercontent.com/128/type/application/pdf"
+                                data-src="images/document/svg/pdf.svg"
                                 class="p-2 rounded-m preload-img w-75" alt="img">
                         </div>
                         <p class="text-center mx-0">Senarai.pdf</p>
@@ -97,7 +97,7 @@
                     title="Delicious Strawberries">
                     <div class="rounded-m preload-img">
                         <img src="images/empty.png"
-                            data-src="https://drive-thirdparty.googleusercontent.com/128/type/application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            data-src="images/document/svg/doc.svg"
                             class="p-2 rounded-m preload-img w-75" alt="img">
                     </div>
                         <p class="text-center mx-0">proposal.docx</p>
@@ -110,7 +110,7 @@
                 <a class="text-center" data-gallery="gallery-1" href="images/pictures/15t.jpg" title="A Beautiful Camera">
                     <div class="rounded-m preload-img">
                         <img src="images/empty.png"
-                            data-src="https://drive-thirdparty.googleusercontent.com/128/type/application/vnd.google-apps.spreadsheet"
+                            data-src="images/document/svg/xls.svg"
                             class="p-2 rounded-m preload-img w-75" alt="img">
                     </div>
                         <p class="text-center mx-0">stats.xls</p>
