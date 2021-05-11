@@ -1,5 +1,5 @@
-var CACHE_STATIC_NAME = 'static-v16';
-var CACHE_DYNAMIC_NAME = 'dynamic-v16';
+var CACHE_STATIC_NAME = 'static-v17';
+var CACHE_DYNAMIC_NAME = 'dynamic-v17';
 var STATIC_FILES = [
     '/offline',
     '/home',
