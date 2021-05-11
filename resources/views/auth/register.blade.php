@@ -86,10 +86,30 @@
                             <!-- Validation Errors -->
                             <x-auth-validation-errors class="mb-4 color-highlight" :errors="$errors" />
 
-                            <form method="POST" action="{{ route('register') }}">
+                            {{-- <form method="POST" action="{{ route('register') }}"> --}}
+                            <form class="needs-validation" id="registerForm" novalidate>
+
                                 <input class="csrftoken" type="hidden" name="_token" value="">
 
-                                <div class="input-style no-borders has-icon validate-field">
+                                <label for="nick_name" class="color-green-dark text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Nick Name</label>
+                                <div class="input-style input-style-always-active no-borders no-icon mb-4">
+                                    <input type="text" id="nick_name" name="nick_name" class="form-control text-center" placeholder="Input nick name" required>
+                                    
+                                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                                    <em></em>
+                                </div>
+
+                                <label for="phone_number" class="color-green-dark text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Phone Number</label>
+                                <div class="input-style input-style-always-active no-borders no-icon mb-4">
+                                    <input type="tel" pattern="[0-9]{11}" id="phone_number" name="phone_number" class="form-control text-center" placeholder="Input phone no. eg. 01234567890" required>
+                                    
+                                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                                    <em></em>
+                                </div>
+
+                                {{-- <div class="input-style no-borders has-icon validate-field">
                                     <i class="fa fa-user"></i>
                                     <input type="text" class="form-control validate-name" id="name" name="name" placeholder="Name">
                                     <label class="color-blue-dark font-10 mt-1">Name</label>
@@ -123,16 +143,18 @@
                                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                                     <i class="fa fa-check disabled valid color-green-dark"></i>
                                     <em>(required)</em>
-                                </div>
+                                </div> --}}
 
-                                <button type="submit" class="btn btn-m btn-full w-100 rounded-s shadow-l bg-green-dark text-uppercase font-900 mt-4">Create account</button>
+                                <input class="" type="hidden" id="type" name="type" value="register">
+
+                                <a href="#" id="registerBtn" class="btn btn-m btn-full w-100 rounded-s shadow-l bg-green-dark text-uppercase font-900 mt-4">Create account</a>
 
                             </form>
 
                             <div class="divider"></div>
 
                             <p class="text-center">
-                                <a href="login" class="color-theme opacity-50 font-12">Already Registered? Sign in Here</a>
+                                <a href="login" class="color-theme opacity-50 font-12">Already Registered? Connect Here</a>
                             </p>
                             <br>
 
@@ -141,9 +163,6 @@
                 </td>
             </tr>
         </table>
-
-
-    
 @endsection
 
 

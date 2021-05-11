@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Validator;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -19,28 +21,59 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-
+ 
     /**
      * Handle an incoming authentication request.
      *
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function store(Request $request)
     {
-        $request->authenticate();
+        // $request->authenticate();
 
-        $request->session()->regenerate();
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required',
+        ]);
 
-        if($request->getRequestUri() == '/login' && $request->prevUrl)
-        {
-            return redirect($request->prevUrl);
+        if($validator->fails()){
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
         }
-        else
-        {
-            return redirect()->intended(RouteServiceProvider::HOME);
-        }
+
+        $user = User::where('phone_number', $request->phone_number)->get()->first();
+
+        $otp = rand(1000,9999);
+        $otp_expired = date("Y-m-d h:i:s", time() + 300);
+        
+        $user->otp = $otp;
+        $user->otp_expired = $otp_expired;
+        $user->save();
+
+        // Auth::loginUsingId($user->id);
+
+        // $request->session()->regenerate();
+
+        // if($request->getRequestUri() == '/login' && $request->prevUrl)
+        // {
+        //     return redirect($request->prevUrl);
+        // }
+        // else
+        // {
+        //     return redirect()->intended(RouteServiceProvider::HOME);
+        // }
        
+        $data = [
+            'status' => '200', 
+            'message' => 'Successfully request OTP' ,
+            'user_id' => $user->id,
+        ];
+        return json_encode($data);
     }
 
     /**

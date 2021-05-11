@@ -8,7 +8,7 @@
 
 
     <div class="search-page">
-        <div class="search-box search-header bg-theme card-style me-3 ms-3">
+        <div class="search-box search-header bg-theme card-style me-3 ms-3 mb-3">
             <i class="fa fa-search"></i>
             {{-- <input type="text" class="border-0" placeholder="What are you looking for? " data-search=""> --}}
             <input type="text" class="border-0" placeholder="What are you looking for? ">
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="card card-style">
+  
         {{-- <div class="ph-item ph-no-space ph-no-border pt-2"> --}}
             <div class="content my-2">
                 <div class="list-group list-custom-large">
@@ -191,7 +191,7 @@
                 </div>
             </div>
         {{-- </div> --}}
-    </div>
+    
 
 
 

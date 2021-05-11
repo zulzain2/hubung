@@ -29,6 +29,20 @@ function snackbar(type , message) { //type : sucess , warning , error
 
 
 
+function menu(idElement,  action, speed) {
+    if(action === 'show')
+    {
+        $('#'+idElement+'').addClass('menu-active');
+        $('.menu-hider').addClass('menu-active');
+    }
+    else if(action === 'hide'){
+        $('#'+idElement+'').removeClass('menu-active');
+        $('.menu-hider').removeClass('menu-active');
+    }
+    
+}
+
+
 document['addEventListener']('DOMContentLoaded', () => {
    
     'use strict';
@@ -41,26 +55,68 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
     var apiObj = null;
 
-    var clipboard = new ClipboardJS('.copy-btn');
-
-    clipboard.on('success', function(e) {
-
-        var toastID = document.getElementById('toast-1');
-        toastID = new bootstrap.Toast(toastID);
-        toastID.show();
-
-        e.clearSelection();
-    });
-
-    clipboard.on('error', function(e) {
-
-        var toastID = document.getElementById('toast-2');
-        toastID = new bootstrap.Toast(toastID);
-        toastID.show();
-
-    });
-
     function _init() {
+
+        setTimeout(function() {
+
+            var clipboard = new ClipboardJS('.copy-btn');
+
+            clipboard.on('success', function(e) {
+
+                var toastID = document.getElementById('toast-1');
+                toastID = new bootstrap.Toast(toastID);
+                toastID.show();
+
+                e.clearSelection();
+            });
+
+            clipboard.on('error', function(e) {
+
+                var toastID = document.getElementById('toast-2');
+                toastID = new bootstrap.Toast(toastID);
+                toastID.show();
+
+            });
+    
+            $('a').on('classChange', function() {
+                if ($(this).hasClass("off-btn")) {
+                    $(this).append(`
+                    <div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
+                    <span class="sr-only">Loading...</span>
+                    </div>`);
+                } else {
+                    $('.spin-temp').remove();
+                }
+            });
+
+            if (document.querySelector('.digit-group')) {
+                $('.digit-group').find('input').each(function() {
+                    $(this).attr('maxlength', 1);
+                    $(this).on('keyup', function(e) {
+                        var parent = $($(this).parent());
+                        
+                        if(e.keyCode === 8 || e.keyCode === 37) {
+                            var prev = parent.find('input#' + $(this).data('previous'));
+                            
+                            if(prev.length) {
+                                $(prev).select();
+                            }
+                        } else if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 39) {
+                            var next = parent.find('input#' + $(this).data('next'));
+                            
+                            if(next.length) {
+                                $(next).select();
+                            } else {
+                                if(parent.data('autosubmit')) {
+                                    parent.submit();
+                                }
+                            }
+                        }
+                    });
+                });
+            };
+
+        }, 150);
 
         // fetch csrf token and append back to selected element
         fetch('/fetch/csrf').then(function(response) {
@@ -536,15 +592,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     } 
                 });
 
-                $('a').on('classChange', function() {
-                    if ($(this).hasClass("off-btn")) {
-                        $(this).after(`<div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
-                        <span class="sr-only">Loading...</span>
-                        </div>`);
-                    } else {
-                        $('.spin-temp').remove();
-                    }
-                });
+                
                 ///////////////////////////////////////////////////////////////////////
 
                 ///////////////////////////////////////////////////////////////////////
@@ -681,7 +729,299 @@ document['addEventListener']('DOMContentLoaded', () => {
 
         }
        
+        ///////////////////////////////////////////////////////////////////////
+        //for connect user button
+        setTimeout(function() {
+            $('#connectBtn').on('click' , function(event){
+                
+                    if (navigator.onLine) {
+                
+                        var form = $("#connectForm");
+        
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(form)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                $('#connectBtn').addClass('off-btn').trigger('classChange');
+        
+                                var datas = {};
+                                var datas = new URLSearchParams();
+                                $.each($('#connectForm').serializeArray(), function(i, field) {
+                                    datas.append(field.name, field.value);
+                                });
+                                console.log(datas);
+                                fetch("/login", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: datas,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+                                    console.log(resultsJSON);
+                                    var results = resultsJSON
 
+                                            if(results.status == '200'){
+                                                
+                                                $('#connectBtn').removeClass('off-btn').trigger('classChange');
+
+                                                window.location.href = '/registerOtp?tempuser_id='+results.user_id+'&type=login';
+
+                                            }
+                                            else{
+                                                if(results.type == 'Validation Error')
+                                                {
+                                                    $('#connectBtn').removeClass('off-btn').trigger('classChange');
+
+                                                    if (results.error_list) {
+                                                             var p = results.error_list;
+                                                        for (var key in p) {
+                                                            if (p.hasOwnProperty(key)) {
+                                                               
+                                                                // console.log(key + " -> " + p[key]);
+
+                                                                $('#validationErrorList').append(`
+                                                                    <a href="#">
+                    
+                                                                    <span>${p[key]}</span>
+                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                
+                                                                    </a>
+                                                                `)
+
+                                                            }
+                                                        }
+                                                 
+                                                    } else {
+                                                      
+                                                    }
+
+                                                    menu('validationError', 'show', 250);
+                                                }
+                                            }
+                
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+        
+                            }
+                                form.classList.add('was-validated')
+                        })
+                    
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+            });
+        }, 150);
+        ///////////////////////////////////////////////////////////////////////
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //for register user button
+        setTimeout(function() {
+            $('#registerBtn').on('click' , function(event){
+                
+                    if (navigator.onLine) {
+                
+                        var form = $("#registerForm");
+        
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(form)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                $('#registerBtn').addClass('off-btn').trigger('classChange');
+        
+                                var datas = {};
+                                var datas = new URLSearchParams();
+                                $.each($('#registerForm').serializeArray(), function(i, field) {
+                                    datas.append(field.name, field.value);
+                                });
+                                console.log(datas);
+                                fetch("/register", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: datas,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+                                    console.log(resultsJSON);
+                                    var results = resultsJSON
+
+                                            if(results.status == '200'){
+                                                
+                                                $('#registerBtn').removeClass('off-btn').trigger('classChange');
+
+                                                window.location.href = '/registerOtp?tempuser_id='+results.user_id+'&type=register';
+
+                                            }
+                                            else{
+                                                if(results.type == 'Validation Error')
+                                                {
+                                                    $('#registerBtn').removeClass('off-btn').trigger('classChange');
+
+                                                    if (results.error_list) {
+                                                             var p = results.error_list;
+                                                        for (var key in p) {
+                                                            if (p.hasOwnProperty(key)) {
+                                                               
+                                                                // console.log(key + " -> " + p[key]);
+
+                                                                $('#validationErrorList').append(`
+                                                                    <a href="#">
+                    
+                                                                    <span>${p[key]}</span>
+                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                
+                                                                    </a>
+                                                                `)
+
+                                                            }
+                                                        }
+                                                 
+                                                    } else {
+                                                      
+                                                    }
+
+                                                    menu('validationError', 'show', 250);
+                                                }
+                                            }
+                
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+        
+                            }
+                                form.classList.add('was-validated')
+                        })
+                    
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+            });
+        }, 150);
+        ///////////////////////////////////////////////////////////////////////
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //for register otp user button
+        setTimeout(function() {
+            $('#registerOtpBtn').on('click' , function(event){
+                if (navigator.onLine) {
+                
+                    var form = $("#registerOtpForm");
+    
+                    // Loop over them and prevent submission
+                    Array.prototype.slice.call(form)
+                    .forEach(function (form) {
+                        if (!form.checkValidity()) 
+                        {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        else
+                        {
+                            $('#registerOtpBtn').addClass('off-btn').trigger('classChange');
+    
+                            var datas = {};
+                            var datas = new URLSearchParams();
+                            $.each($('#registerOtpForm').serializeArray(), function(i, field) {
+                                datas.append(field.name, field.value);
+                            });
+                            console.log(datas);
+                            fetch("/registerOtp", {
+                                method: 'post',
+                                credentials: "same-origin",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                body: datas,
+                            })
+                            .then(function(response){
+                                return response.json();
+                            }).then(function(resultsJSON){
+                                console.log(resultsJSON);
+                                var results = resultsJSON
+
+                                        if(results.status === '200'){
+                                            
+                                            $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+
+                                            window.location.href = '/home';
+
+                                        }
+                                        else{
+
+                                            if(results.type === 'Expired OTP')
+                                            {
+                                                $('#digit-1').val('');
+                                                $('#digit-2').val('');
+                                                $('#digit-3').val('');
+                                                $('#digit-4').val('');
+                                                $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                snackbar(results.status , results.message)
+
+                                                setTimeout(function() {
+                                                    window.history.back();
+                                                }, 3000);
+                                            }
+                                            else if (results.type == 'Invalid OTP'){
+                                                $('#digit-1').val('');
+                                                $('#digit-2').val('');
+                                                $('#digit-3').val('');
+                                                $('#digit-4').val('');
+                                                $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                snackbar(results.status , results.message)
+                                            }
+                                            else if(results.type == 'Validation Error')
+                                            {
+                                                $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                snackbar(results.status , results.message)
+                                            }
+
+                                        }
+            
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            });
+    
+                        }
+                            form.classList.add('was-validated')
+                    })
+                
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+            });
+        }, 150);
+        ///////////////////////////////////////////////////////////////////////
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -2153,17 +2493,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     window['addEventListener']('load', function() {
                         navigator['serviceWorker']['register'](_0xce56x8, {
                             scope: _0xce56x7
-                        }).then(function(registration) {
-                            // registration worked
-                            console.log('Registration succeeded.');
-                            // $('#updateApp').on('click' , function(){
-                            //     console.log('update');
-                            //     registration.update();
-                            // });
-                            }).catch(function(error) {
-                            // registration failed
-                            console.log('Registration failed with ' + error);
-                            });
+                        });
                     })
                 };
                 var _0xce56x111 = _0xce56x5 * 24;
@@ -2257,21 +2587,24 @@ document['addEventListener']('DOMContentLoaded', () => {
         window['history']['scrollRestoration'] = 'manual'
     };
 
-    if (window['location']['protocol'] !== 'file:') {
-        const swupOtions = {
-            containers: ['#page'],
-            cache: false,
-            animateHistoryBrowsing: false,
-            plugins: [
-                new SwupPreloadPlugin()
-            ],
-            linkSelector: 'a:not(.external-link):not(.default-link):not([href^=\"https\"]):not([href^=\"http\"]):not([data-gallery])',
-        };
-        const swup = new Swup(swupOtions);
-        document['addEventListener']('swup:pageView', (_0xce56xb) => {
-            _init()
-        })
+    if (_0xce56x3 === true) {
+        if (window['location']['protocol'] !== 'file:') {
+            const swupOtions = {
+                containers: ['#page'],
+                cache: false,
+                animateHistoryBrowsing: false,
+                plugins: [
+                    new SwupPreloadPlugin()
+                ],
+                linkSelector: 'a:not(.external-link):not(.default-link):not([href^=\"https\"]):not([href^=\"http\"]):not([data-gallery])',
+            };
+            const swup = new Swup(swupOtions);
+            document['addEventListener']('swup:pageView', (_0xce56xb) => {
+                _init()
+            })
+        }
     }
+    
   
     _init();
 })

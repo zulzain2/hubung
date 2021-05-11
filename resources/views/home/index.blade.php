@@ -6,10 +6,6 @@
 
 @section('content')
 
-    <div g-component="SampleComponent">
-
-    </div>
-
     <div class="card card-style">
         <div class="content mt-0 mb-0">
             <div class="list-group list-custom-large">
@@ -103,7 +99,7 @@
     </div>
 
     <div class="card card-style">
-        <div class="row px-3 py-3 m-0 pb-4">
+        <div class="row px-3 py-3 m-0">
             <div class="col-2 align-self-center">
                 <a href="#" class="icon icon-xs rounded-xs color-white bg-blue-dark me-3"><i class="fas fa-video"></i></a>
             </div>
@@ -265,7 +261,7 @@
 
 
     <div class="card card-style">
-        <div class="row px-3 py-3 m-0 pb-4">
+        <div class="row px-3 py-3 m-0">
             <div class="col-2 align-self-center">
                 <a href="#" class="icon icon-xs rounded-xs color-white bg-red-dark me-3"><i class="fas fa-comments"></i></a>
             </div>
@@ -370,7 +366,7 @@
 
 
     <div class="card card-style">
-        <div class="row px-3 py-3 m-0 pb-4">
+        <div class="row px-3 py-3 m-0">
             <div class="col-2 align-self-center">
                 <a href="#" class="icon icon-xs rounded-xs color-white bg-green-dark me-3"><i
                         class="fas fa-folder-open"></i></a>

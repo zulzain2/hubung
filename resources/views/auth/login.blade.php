@@ -77,9 +77,9 @@
                                 <label class="custom-control-label" for="switch-dark-mode"></label>
                             </div>
                     
-                            <h1 class="text-center font-900 font-40 text-uppercase mb-0">Login</h1>
+                            <h1 class="text-center font-900 font-40 text-uppercase mb-0">Connect</h1>
 
-                            <p class="bottom-0 text-center color-highlight font-11">Let's get you logged in</p>
+                            <p class="bottom-0 text-center color-highlight font-11">Let's get you connect back</p>
 
                             <!-- Session Status -->
                             <x-auth-session-status class="mb-4 color-highlight" :status="session('status')" />
@@ -87,10 +87,21 @@
                             <!-- Validation Errors -->
                             <x-auth-validation-errors class="mb-4 color-highlight" :errors="$errors" />
 
-                            <form method="POST" action="{{ route('login') }}">
-                                <input class="csrftoken" type="hidden" name="_token" value="">
+                            <form class="needs-validation" id="connectForm" novalidate>
 
-                                <div class="input-style no-borders has-icon validate-field mb-4">
+                                <input class="csrftoken" type="hidden" name="_token" value="">
+                                
+
+                                <label for="phone_number" class="color-green-dark text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Phone Number</label>
+                                <div class="input-style input-style-always-active no-borders no-icon mb-4">
+                                    <input type="tel" pattern="[0-9]{11}" id="phone_number" name="phone_number" class="form-control text-center" placeholder="Input phone no. eg. 01234567890" required>
+                                    
+                                    <i class="fa fa-times disabled invalid color-red-dark"></i>
+                                    <i class="fa fa-check disabled valid color-green-dark"></i>
+                                    <em></em>
+                                </div>
+
+                                {{-- <div class="input-style no-borders has-icon validate-field mb-4">
                                     <i class="fa fa-user"></i>
                                     <input type="email" class="form-control validate-text" id="email" name="email" placeholder="Email">
                                     <label class="color-blue-dark font-10 mt-1">Email</label>
@@ -106,21 +117,22 @@
                                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                                     <i class="fa fa-check disabled valid color-green-dark"></i>
                                     <em>(required)</em>
-                                </div>
+                                </div> --}}
 
-                                
+                                <input class="" type="hidden" id="type" name="type" value="login">
                                 <input type="hidden" id="prevUrl" name="prevUrl" value="">
 
-                                <button type="submit" class="btn btn-m mt-2 mb-4 btn-full bg-green-dark text-uppercase font-900 w-100">Login</button>
+                                <a href="#" id="connectBtn" class="btn btn-m btn-full w-100 rounded-s shadow-l bg-green-dark text-uppercase font-900 mt-4">GO</a>
+                                {{-- <button type="submit" class="btn btn-m mt-2 mb-4 btn-full bg-green-dark text-uppercase font-900 w-100">GO</button> --}}
                             </form>
 
                             <div class="divider mt-4 mb-3"></div>
 
                             <div class="d-flex">
-                                <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-start"><a href="register" class="color-theme">Create Account</a></div>
-                                @if (Route::has('password.request'))
+                                <div class="w-100 font-11 pb-2 color-theme opacity-60 pb-3 text-center"><a href="register" class="color-theme">Dont have account? Register Now</a></div>
+                                {{-- @if (Route::has('password.request'))
                                     <div class="w-50 font-11 pb-2 color-theme opacity-60 pb-3 text-end"><a href="forgot-password" class="color-theme">Forgot Credentials</a></div>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                     </div>

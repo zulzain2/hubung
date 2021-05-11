@@ -265,7 +265,6 @@
     <script type="text/javascript" src="{{ URL::to('scripts/plugins/moment/moment.js') }}"></script>
     <script type="text/javascript" src="{{ URL::to('scripts/plugins/meet/external_api.js') }}"></script>
     <script type="text/javascript" src="{{ URL::to('scripts/plugins/clipboard/clipboard.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ URL::to('scripts/custom.js') }}"></script>
 
 
