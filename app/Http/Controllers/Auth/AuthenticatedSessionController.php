@@ -48,6 +48,17 @@ class AuthenticatedSessionController extends Controller
 
         $user = User::where('phone_number', $request->phone_number)->get()->first();
 
+        if(!$user)
+        {
+            $data = [
+                'status' => 'error', 
+                'type' => 'Phone Not Register',
+                'message' => 'Phone number is not registered.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
+
         $otp = rand(1000,9999);
         $otp_expired = date("Y-m-d h:i:s", time() + 300);
         

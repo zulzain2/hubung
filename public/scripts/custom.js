@@ -773,7 +773,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             if(results.status == '200'){
                                                 
                                                 $('#connectBtn').removeClass('off-btn').trigger('classChange');
-
                                                 window.location.href = '/registerOtp?tempuser_id='+results.user_id+'&type=login';
 
                                             }
@@ -781,31 +780,37 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 if(results.type == 'Validation Error')
                                                 {
                                                     $('#connectBtn').removeClass('off-btn').trigger('classChange');
-
                                                     if (results.error_list) {
-                                                             var p = results.error_list;
-                                                        for (var key in p) {
-                                                            if (p.hasOwnProperty(key)) {
-                                                               
-                                                                // console.log(key + " -> " + p[key]);
-
-                                                                $('#validationErrorList').append(`
-                                                                    <a href="#">
-                    
-                                                                    <span>${p[key]}</span>
-                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                            var p = results.error_list;
+                                                            $('#validationErrorList').html('');
+                                                            for (var key in p) {
+                                                                if (p.hasOwnProperty(key)) {
                                                                 
-                                                                    </a>
-                                                                `)
+                                                                    // console.log(key + " -> " + p[key]);
 
+                                                                    $('#validationErrorList').append(`
+                                                                        <a href="#">
+                        
+                                                                        <span>${p[key]}</span>
+                                                                        <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                    
+                                                                        </a>
+                                                                    `)
+
+                                                                }
                                                             }
-                                                        }
-                                                 
+                                                            
                                                     } else {
-                                                      
+                                                       
                                                     }
 
                                                     menu('validationError', 'show', 250);
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    $('#connectBtn').removeClass('off-btn').trigger('classChange');
+                                                    snackbar(results.status , results.message)
                                                 }
                                             }
                 
@@ -901,10 +906,13 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                         }
                                                  
                                                     } else {
-                                                      
+                                                        snackbar(results.status , results.message)
                                                     }
-
-                                                    menu('validationError', 'show', 250);
+                                                }
+                                                else
+                                                {
+                                                    $('#registerBtn').removeClass('off-btn').trigger('classChange');
+                                                    snackbar(results.status , results.message)
                                                 }
                                             }
                 
@@ -1000,6 +1008,33 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             else if(results.type == 'Validation Error')
                                             {
                                                 $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                if (results.error_list) {
+                                                        var p = results.error_list;
+                                                        $('#validationErrorList').html('');
+                                                        for (var key in p) {
+                                                            if (p.hasOwnProperty(key)) {
+                                                            
+                                                                // console.log(key + " -> " + p[key]);
+
+                                                                $('#validationErrorList').append(`
+                                                                    <a href="#">
+                    
+                                                                    <span>${p[key]}</span>
+                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                
+                                                                    </a>
+                                                                `)
+
+                                                            }
+                                                        }
+                                                        
+                                                } else {
+                                                
+                                                }
+
+                                                menu('validationError', 'show', 250);
+                                            }
+                                            else{
                                                 snackbar(results.status , results.message)
                                             }
 
