@@ -33,10 +33,10 @@
 
                     <form method="get" id="registerOtpForm" class="digit-group" data-group-name="digits" data-autosubmit="false" autocomplete="off">
                         <div class="text-center" >
-                            <input type="text" class="text-center" id="digit1" name="digit1" data-next="digit2" style="width: 15vw;"/>
-                            <input type="text" class="text-center" id="digit2" name="digit2" data-next="digit3" data-previous="digit-1" style="width: 15vw;"/>
-                            <input type="text" class="text-center" id="digit3" name="digit3" data-next="digit4" data-previous="digit-2" style="width: 15vw;"/>
-                            <input type="text" class="text-center" id="digit4" name="digit4" data-previous="digit3" style="width: 15vw;"/>
+                            <input type="number" class="text-center" id="digit1" name="digit1" data-next="digit2" style="width: 15vw;"/>
+                            <input type="number" class="text-center" id="digit2" name="digit2" data-next="digit3" data-previous="digit-1" style="width: 15vw;"/>
+                            <input type="number" class="text-center" id="digit3" name="digit3" data-next="digit4" data-previous="digit-2" style="width: 15vw;"/>
+                            <input type="number" class="text-center" id="digit4" name="digit4" data-previous="digit3" style="width: 15vw;"/>
                         </div>
                         <input type="hidden" name="type" id="type" value="{{isset($type) ? $type : ''}}">
                         <input type="hidden" id="tempuser_id" name="tempuser_id" value="{{isset($tempuser) ? $tempuser->id : ''}}">
