@@ -204,6 +204,16 @@
                             </span>
                             <div class="divider mb-0"></div>
                             <div id="schedule-log-list">
+
+                                <br>
+            
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border color-highlight text-center" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+            
+                                <br>
                             {{-- <div class="cal-schedule">
                                 <em>08:00 PM<br>10:00 AM</em>
                                 <strong>Closing Hours</strong>
