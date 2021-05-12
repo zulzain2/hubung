@@ -193,7 +193,7 @@
                 </div>
                 <div data-bs-parent="#tab-group-2" class="collapse show" id="schedule" style="">
                     
-                    <div id="schedule-log" class="card card-style">
+                    <div id="schedule-log" class="">
                         <div class="content mb-0">
                             <h1>Meeting Schedule</h1>
                             <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
@@ -255,7 +255,7 @@
                     </div>
                 </div>
                 <div data-bs-parent="#tab-group-2" class="collapse" id="log" style="">
-                    <div id="meeting-log" class="card card-style">
+                    <div id="meeting-log" class="">
                         <div class="content mb-0">
                             <h1>Meeting Log</h1>
                             <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
