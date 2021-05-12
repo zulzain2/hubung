@@ -12,7 +12,7 @@ var STATIC_FILES = [
 
 var EXCLUDE_ROUTES = [
   '/',
-  '/registerOtp'
+  '/verifyOtp'
 ];
 
 // function trimCache(cacheName, maxItems) {

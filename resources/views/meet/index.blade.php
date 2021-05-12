@@ -175,8 +175,6 @@
                         </div>
                     </form>
 
-                    {{-- <hr><br> --}}
-
                 </div>
 
 
@@ -184,77 +182,98 @@
         </div>
 
 
-        <div id="schedule-log" class="calendar bg-theme shadow-xl rounded-m">
-            <div class="cal-footer">
-                <h6 class="cal-sub-title uppercase bold bg-highlight color-white">Meeting Schedule</h6>
-                <span class="cal-message mt-3 mb-3">
-                    <i class="fa fa-bell font-18 color-green-dark"></i>
-                    <strong class="color-gray-dark">All scheduled meeting comes with reminder.</strong>
-                    <strong class="color-gray-dark">On start of meeting, notification will be sent.</strong>
-                </span>
-                <div class="divider mb-0"></div>
-                <div id="schedule-log-list">
-                {{-- <div class="cal-schedule">
-                    <em>08:00 PM<br>10:00 AM</em>
-                    <strong>Closing Hours</strong>
-                    <span><i class="fa fa-map-marker"></i>Envato Headquarters</span>
+        <div class="card card-style bg-theme pb-0">
+            <div class="content" id="tab-group-2">
+                <div class="tab-controls tabs-small tabs-rounded" data-highlight="bg-highlight">
+                    <a href="#" id="meeting-schedule" data-active="" data-bs-toggle="collapse" data-bs-target="#schedule"
+                        class="bg-highlight no-click" aria-expanded="true"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;
+                        Schedule</a>
+                    <a href="#" id="meeting-log" data-bs-toggle="collapse" data-bs-target="#log" aria-expanded="false"
+                        class="collapsed"><i class="fas fa-stream"></i> &nbsp;&nbsp; Log</a>
                 </div>
-                <div class="cal-schedule">
-                    <em>10:00 AM<br>12:00 AM</em>
-                    <strong>Meeting with Board</strong>
-                    <span><i class="fa fa-building"></i>Office, Envato Headquarters</span>
-                </div>
-                <div class="cal-schedule">
-                    <em>12:00 AM<br>02:00 PM</em>
-                    <strong>Lunch</strong>
-                    <span><i class="fa fa-shopping-bag"></i>McDonalds, Town Hall</span>
-                </div>
-                <div class="cal-schedule">
-                    <em>02:00 PM<br>05:00 PM</em>
-                    <strong>Quarter Report</strong>
-                    <span><i class="fa fa-building"></i>Office, Envato Headquarters</span>
-                </div>
-                <div class="cal-schedule">
-                    <em>05:00 PM<br>07:00 PM</em>
-                    <strong>Get Wife from Work</strong>
-                    <span><i class="fa fa-car"></i>Wife's Work Headquarters</span>
-                </div>
-                <div class="cal-schedule">
-                    <em>07:00 PM<br>09:00 PM</em>
-                    <strong>Watch Movie</strong>
-                    <span><i class="fa fa-at"></i>with <u class="color-green-dark">John Doe</u>, <u
-                            class="color-orange-dark">Carla Black</u></span>
-                </div>
-                <div class="cal-schedule">
-                    <em>09:00 PM<br>10:00 PM</em>
-                    <strong>Call David</strong>
-                    <span><i class="fa fa-phone"></i>Call David's Office Number</span>
-                </div> --}}
-                </div>
-            </div>
-        </div>
-
-
-        <div id="meeting-log" class="card card-style">
-            <div class="content mb-0">
-                <h1>Meeting Log</h1>
-                <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
-                <div id="meeting-log-list" class="list-group list-custom-large mb-4">
-
-                    <br>
-
-                    <div class="d-flex justify-content-center">
-                        <div class="spinner-border color-highlight text-center" role="status">
-                            <span class="sr-only">Loading...</span>
+                <div data-bs-parent="#tab-group-2" class="collapse show" id="schedule" style="">
+                    
+                    <div id="schedule-log" class="card card-style">
+                        <div class="content mb-0">
+                            <h1>Meeting Schedule</h1>
+                            <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
+                            <span class="cal-message mt-3 mb-3">
+                                <i class="fa fa-bell font-18 color-green-dark"></i>
+                                <strong class="color-gray-dark">All scheduled meeting comes with reminder.</strong>
+                                <strong class="color-gray-dark">On start of meeting, notification will be sent.</strong>
+                            </span>
+                            <div class="divider mb-0"></div>
+                            <div id="schedule-log-list">
+                            {{-- <div class="cal-schedule">
+                                <em>08:00 PM<br>10:00 AM</em>
+                                <strong>Closing Hours</strong>
+                                <span><i class="fa fa-map-marker"></i>Envato Headquarters</span>
+                            </div>
+                            <div class="cal-schedule">
+                                <em>10:00 AM<br>12:00 AM</em>
+                                <strong>Meeting with Board</strong>
+                                <span><i class="fa fa-building"></i>Office, Envato Headquarters</span>
+                            </div>
+                            <div class="cal-schedule">
+                                <em>12:00 AM<br>02:00 PM</em>
+                                <strong>Lunch</strong>
+                                <span><i class="fa fa-shopping-bag"></i>McDonalds, Town Hall</span>
+                            </div>
+                            <div class="cal-schedule">
+                                <em>02:00 PM<br>05:00 PM</em>
+                                <strong>Quarter Report</strong>
+                                <span><i class="fa fa-building"></i>Office, Envato Headquarters</span>
+                            </div>
+                            <div class="cal-schedule">
+                                <em>05:00 PM<br>07:00 PM</em>
+                                <strong>Get Wife from Work</strong>
+                                <span><i class="fa fa-car"></i>Wife's Work Headquarters</span>
+                            </div>
+                            <div class="cal-schedule">
+                                <em>07:00 PM<br>09:00 PM</em>
+                                <strong>Watch Movie</strong>
+                                <span><i class="fa fa-at"></i>with <u class="color-green-dark">John Doe</u>, <u
+                                        class="color-orange-dark">Carla Black</u></span>
+                            </div>
+                            <div class="cal-schedule">
+                                <em>09:00 PM<br>10:00 PM</em>
+                                <strong>Call David</strong>
+                                <span><i class="fa fa-phone"></i>Call David's Office Number</span>
+                            </div> --}}
+                            </div>
                         </div>
                     </div>
-
-                    <br>
-
-
                 </div>
+                <div data-bs-parent="#tab-group-2" class="collapse" id="log" style="">
+                    <div id="meeting-log" class="card card-style">
+                        <div class="content mb-0">
+                            <h1>Meeting Log</h1>
+                            <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.</p>
+                            <div id="meeting-log-list" class="list-group list-custom-large mb-4">
+            
+                                <br>
+            
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border color-highlight text-center" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+            
+                                <br>
+            
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
+
+        
+
+
+        
     </div>
 
 @endsection

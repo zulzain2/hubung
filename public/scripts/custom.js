@@ -1,3 +1,6 @@
+
+var swup = {};
+
 setTimeout(function() {
     var _0xce56x1 = document['getElementById']('preloader');
     if (_0xce56x1) {
@@ -148,7 +151,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                         var url = new URL(window.location.href);
                         var roomName = url.searchParams.get("roomName");
                         if(roomName){
-                            window.location.href = 'meet?roomName='+roomName+'';
+                            // window.location.href = 'meet?roomName='+roomName+'';
+                            swup.loadPage({
+                                url: 'meet?roomName='+roomName+'',
+                                method: 'GET',
+                                customTransition: '' 
+                              });
                         }
                     }
                 }
@@ -160,7 +168,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                     }
                     else
                     {
-                        window.location.href = 'login?prevUrl='+window.location.pathname+'';
+                        // window.location.href = 'login?prevUrl='+window.location.pathname+'';
+                        swup.loadPage({
+                            url: 'login?prevUrl='+window.location.pathname+'',
+                            method: 'GET',
+                            customTransition: '' 
+                          });
                     }
                 }
 
@@ -382,7 +395,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             $('#schedule-log-list').html('');
 
                             $('#schedule-log-list').append(`
-                                <p class="text-center mx-4"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                                <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
                             `);
                         }
                     }
@@ -550,6 +563,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 // let now = new Date(meetinglog.datetime);
                                             
                                                 // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+                                                $('#emptyScheduleLog').remove();
 
                                                 snackbar('success' , results.message)
                                                 $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
@@ -561,6 +575,11 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 var date = moment(date_meet).format('MMMM Do');
                                                 var time = moment(start).format('h:mm a');
                                                 var time_end = moment(end).format('h:mm a');
+
+                                                $('#meetingNameSchedule').val('');
+                                                $('#meetingDateSchedule').val('');
+                                                $('#meetingStartSchedule').val('');
+                                                $('#meetingEndSchedule').val('');
 
                                                 $('#schedule-log-list').prepend(`
                                                     <div class="cal-schedule">
@@ -773,7 +792,13 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             if(results.status == '200'){
                                                 
                                                 $('#connectBtn').removeClass('off-btn').trigger('classChange');
-                                                window.location.href = '/registerOtp?tempuser_id='+results.user_id+'&type=login';
+                                                // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=login';
+
+                                                swup.loadPage({
+                                                    url: '/verifyOtp?tempuser_id='+results.user_id+'&type=login&prevUrl='+results.prevUrl+'', 
+                                                    method: 'GET',
+                                                    customTransition: '' 
+                                                  });
 
                                             }
                                             else{
@@ -878,7 +903,13 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 
                                                 $('#registerBtn').removeClass('off-btn').trigger('classChange');
 
-                                                window.location.href = '/registerOtp?tempuser_id='+results.user_id+'&type=register';
+                                                // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=register';
+
+                                                swup.loadPage({
+                                                    url: '/verifyOtp?tempuser_id='+results.user_id+'&type=register', 
+                                                    method: 'GET',
+                                                    customTransition: '' 
+                                                  });
 
                                             }
                                             else{
@@ -938,10 +969,10 @@ document['addEventListener']('DOMContentLoaded', () => {
         ///////////////////////////////////////////////////////////////////////
         //for register otp user button
         setTimeout(function() {
-            $('#registerOtpBtn').on('click' , function(event){
+            $('#verifyOtpBtn').on('click' , function(event){
                 if (navigator.onLine) {
                 
-                    var form = $("#registerOtpForm");
+                    var form = $("#verifyOtpForm");
     
                     // Loop over them and prevent submission
                     Array.prototype.slice.call(form)
@@ -953,15 +984,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                         }
                         else
                         {
-                            $('#registerOtpBtn').addClass('off-btn').trigger('classChange');
+                            $('#verifyOtpBtn').addClass('off-btn').trigger('classChange');
     
                             var datas = {};
                             var datas = new URLSearchParams();
-                            $.each($('#registerOtpForm').serializeArray(), function(i, field) {
+                            $.each($('#verifyOtpForm').serializeArray(), function(i, field) {
                                 datas.append(field.name, field.value);
                             });
                             console.log(datas);
-                            fetch("/registerOtp", {
+                            fetch("/verifyOtp", {
                                 method: 'post',
                                 credentials: "same-origin",
                                 headers: {
@@ -977,9 +1008,28 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                         if(results.status === '200'){
                                             
-                                            $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                            $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
 
-                                            window.location.href = '/home';
+                                            // window.location.href = '/home';
+
+                                            if(results.prevUrl)
+                                            {
+                                                swup.loadPage({
+                                                    url: results.prevUrl, 
+                                                    method: 'GET',
+                                                    customTransition: '' 
+                                                  });
+                                            }
+                                            else
+                                            {
+                                                swup.loadPage({
+                                                    url: '/home', 
+                                                    method: 'GET',
+                                                    customTransition: '' 
+                                                  });
+                                            }
+
+                                            
 
                                         }
                                         else{
@@ -990,7 +1040,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 $('#digit-2').val('');
                                                 $('#digit-3').val('');
                                                 $('#digit-4').val('');
-                                                $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
                                                 snackbar(results.status , results.message)
 
                                                 setTimeout(function() {
@@ -1002,12 +1052,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 $('#digit-2').val('');
                                                 $('#digit-3').val('');
                                                 $('#digit-4').val('');
-                                                $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
                                                 snackbar(results.status , results.message)
                                             }
                                             else if(results.type == 'Validation Error')
                                             {
-                                                $('#registerOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
                                                 if (results.error_list) {
                                                         var p = results.error_list;
                                                         $('#validationErrorList').html('');
@@ -2633,7 +2683,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 ],
                 linkSelector: 'a:not(.external-link):not(.default-link):not([href^=\"https\"]):not([href^=\"http\"]):not([data-gallery])',
             };
-            const swup = new Swup(swupOtions);
+            swup = new Swup(swupOtions);
             document['addEventListener']('swup:pageView', (_0xce56xb) => {
                 _init()
             })

@@ -70,19 +70,24 @@ class AuthenticatedSessionController extends Controller
 
         // $request->session()->regenerate();
 
-        // if($request->getRequestUri() == '/login' && $request->prevUrl)
-        // {
-        //     return redirect($request->prevUrl);
-        // }
+        $prevUrl = '';
+
+        if($request->getRequestUri() == '/login' && $request->prevUrl)
+        {
+            // return redirect($request->prevUrl);
+            $prevUrl = $request->prevUrl;
+        }
         // else
         // {
-        //     return redirect()->intended(RouteServiceProvider::HOME);
+            // return redirect()->intended(RouteServiceProvider::HOME);
+            
         // }
-       
+ 
         $data = [
             'status' => '200', 
-            'message' => 'Successfully request OTP' ,
+            'message' => 'Successfully request OTP',
             'user_id' => $user->id,
+            'prevUrl' => $prevUrl,
         ];
         return json_encode($data);
     }
@@ -102,6 +107,131 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function createOtp(Request $request)
+    {
+        if($request->type)
+        {
+            if($request->type == 'login')
+            {
+                $type = $request->type;
+                $tempuser = User::find($request->tempuser_id); 
+            }
+            else if ($request->type == 'register') 
+            {
+                $type = $request->type;
+                $tempuser = UserTemporary::find($request->tempuser_id);
+            }
+
+            $prevUrl = $request->prevUrl;
+
+            return view('auth.register_otp')->with(compact('tempuser' , 'type' , 'prevUrl'));
+        }
+  
+    }
+
+    public function storeOtp(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'digit1' => 'required',
+            'digit2' => 'required',
+            'digit3' => 'required',
+            'digit4' => 'required',
+            'tempuser_id' => 'required'
+        ]);
+
+        if($validator->fails()){
+        $data = [
+            'status' => 'error', 
+            'type' => 'Validation Error',
+            'message' => 'Validation error, please check back your input.' ,
+            'error_list' => $validator->messages() ,
+        ];
+        return json_encode($data);
+        }
+
+        $prevUrl = $request->prevUrl;
+
+        if($request->type == 'login')
+        {
+            $user = User::find($request->tempuser_id);
+
+            $dbtimestamp = strtotime($user->otp_expired);
+            if (($dbtimestamp - time()) > (5 * 60)) {
+                $data = [
+                    'status' => 'error', 
+                    'type' => 'Expired OTP',
+                    'message' => 'Otp has expired, you`ll redirect back.' ,
+                    'error_list' => '' ,
+                ];
+                return json_encode($data);
+            }
+    
+            if($user->otp != ($request->digit1.$request->digit2.$request->digit3.$request->digit4))
+            {
+                $data = [
+                    'status' => 'error', 
+                    'type' => 'Invalid OTP',
+                    'message' => 'Wrong otp, please try again.' ,
+                    'error_list' => '' ,
+                ];
+                return json_encode($data);
+            }
+    
+            Auth::login($user);
+    
+            $data = [
+                'status' => '200', 
+                'message' => 'Successfully connect to system',
+                'prevUrl' => $prevUrl,
+            ];
+            return json_encode($data);
+        }
+        else if($request->type == 'register')
+        {
+            $tempuser = UserTemporary::find($request->tempuser_id);
+
+            $dbtimestamp = strtotime($tempuser->otp_expired);
+            if (($dbtimestamp - time()) > (5 * 60)) {
+                $data = [
+                    'status' => 'error', 
+                    'type' => 'Expired OTP',
+                    'message' => 'Otp has expired, you`ll redirect back.' ,
+                    'error_list' => '' ,
+                ];
+                return json_encode($data);
+            }
+    
+            if($tempuser->otp != ($request->digit1.$request->digit2.$request->digit3.$request->digit4))
+            {
+                $data = [
+                    'status' => 'error', 
+                    'type' => 'Invalid OTP',
+                    'message' => 'Wrong otp, please try again.' ,
+                    'error_list' => '' ,
+                ];
+                return json_encode($data);
+            }
+    
+            $user = New User;
+            $user->nick_name = $tempuser->nick_name;
+            $user->phone_number = $tempuser->phone_number;
+            $user->save();
+    
+            $tempuser->delete();
+    
+            event(new Registered($user));
+    
+            Auth::login($user);
+    
+            $data = [
+                'status' => '200', 
+                'message' => 'Successfully register new user'
+            ];
+            return json_encode($data);
+        }
+
     }
     
 }

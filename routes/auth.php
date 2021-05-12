@@ -17,18 +17,18 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware('guest');
 
-Route::get('/registerOtp', [RegisteredUserController::class, 'createOtp'])
-                ->middleware('guest')
-                ->name('registerOtp');
-
-Route::post('/registerOtp', [RegisteredUserController::class, 'storeOtp'])
-                ->middleware('guest');
-
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
                 ->middleware('guest')
                 ->name('login');
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+                ->middleware('guest');
+
+Route::get('/verifyOtp', [AuthenticatedSessionController::class, 'createOtp'])
+                ->middleware('guest')
+                ->name('verifyOtp');
+
+Route::post('/verifyOtp', [AuthenticatedSessionController::class, 'storeOtp'])
                 ->middleware('guest');
 
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])

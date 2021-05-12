@@ -26,7 +26,7 @@
                     <em></em>
                 </div>
               
-                <a id="loginFirst" href="#" class="btn btn-3d btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s border-red-dark bg-red-light">Login First</a>
+                <a id="loginFirst" href="#" class="btn btn-3d btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s border-red-dark bg-red-light">Connect First</a>
                 <br>
 
                 <div class="divider-icon divider-margins bg-highlight"><i class="font-17"><strong>OR</strong></i></div>
