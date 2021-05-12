@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @push('styles')
+
+@endpush
+
+@section('content')
+
+
 <style>
     .header-clear-medium{
     margin-top: 8vh !important;
@@ -10,12 +16,6 @@
     padding-bottom: 0px !important;
     }
 </style>
-@endpush
-
-@section('content')
-
-
-    
 
   <div class="row" style="height: 100%;margin-bottom: 0px;">
       <div class="col-md-4 col-lg-4 col-sm-12">

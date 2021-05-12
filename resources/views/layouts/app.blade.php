@@ -52,9 +52,11 @@
             opacity: 0.5;
         }
 
-     
+       
+        
+</style>
 
-    </style>
+    
     @stack('styles')
 </head>
 
