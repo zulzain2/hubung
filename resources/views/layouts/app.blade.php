@@ -52,6 +52,8 @@
             opacity: 0.5;
         }
 
+     
+
     </style>
     @stack('styles')
 </head>
