@@ -109,6 +109,7 @@
 
         <script type="text/javascript" src="{{ URL::to('scripts/custom.js') }}"></script>
    
+     
 
         @stack('scripts')
 

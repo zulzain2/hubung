@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// FCM API
+Route::post('/fcm/setToken',   'App\Http\Controllers\ApiController@setFcmToken');
+Route::post('/fcm/unsetToken',   'App\Http\Controllers\ApiController@unsetFcmToken');
+Route::post('/updateNotificationStatus',   'App\Http\Controllers\ApiController@updateNotificationStatus');

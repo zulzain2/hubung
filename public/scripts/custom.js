@@ -284,12 +284,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 $('#connectBtn').removeClass('off-btn').trigger('classChange');
                                                 // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=login';
 
-                                                // execute inside the "flutterInAppWebViewPlatformReady" event listener
-                                                window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
-                                                        const args = {user_id: results.user_id};
-                                                        window.flutter_inappwebview.callHandler('fcmHandler', ...args);
-                                                });
-
                                                 swup.loadPage({
                                                     url: '/verifyOtp?tempuser_id='+results.user_id+'&type=login&prevUrl='+results.prevUrl+'', 
                                                     method: 'GET',
@@ -345,7 +339,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         })
                     
 
-                        
+
                     } else {
                         var menuOffline = document.getElementById('menu-offline');
                         menuOffline.classList.add("menu-active");
@@ -508,7 +502,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             
                                             $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
 
-                                            // window.location.href = '/home';
+                                            // Flutter function - Save FCM Token & Device Info 
+                                            if(window.flutter_inappwebview)
+                                            {
+                                                const args = [results.user_id];
+                                                window.flutter_inappwebview.callHandler('fcmHandler', ...args);
+                                            }
 
                                             if(results.prevUrl)
                                             {

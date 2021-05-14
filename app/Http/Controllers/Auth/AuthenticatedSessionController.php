@@ -185,6 +185,7 @@ class AuthenticatedSessionController extends Controller
                 'status' => '200', 
                 'message' => 'Successfully connect to system',
                 'prevUrl' => $prevUrl,
+                'user_id' => $user->id,
             ];
             return json_encode($data);
         }
@@ -227,7 +228,8 @@ class AuthenticatedSessionController extends Controller
     
             $data = [
                 'status' => '200', 
-                'message' => 'Successfully register new user'
+                'message' => 'Successfully register new user',
+                'user_id' => $user->id,
             ];
             return json_encode($data);
         }
