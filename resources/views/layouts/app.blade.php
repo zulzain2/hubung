@@ -62,7 +62,9 @@
 
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
 
-    <div id="preloader" style="background-color:transparent"></div>
+    <div id="preloader" style="background-color:transparent">
+        {{-- <div class="spinner-border color-highlight" role="status"></div> --}}
+    </div>
 
     <div id="page">
 

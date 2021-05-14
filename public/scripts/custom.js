@@ -1,4 +1,3 @@
-
 var swup = {};
 
 setTimeout(function() {
@@ -8,7 +7,7 @@ setTimeout(function() {
     }
 }, 150);
 
-
+//to show/hide snackbar
 function snackbar(type , message) { //type : sucess , warning , error
 
     if(type === 'success'){
@@ -30,9 +29,8 @@ function snackbar(type , message) { //type : sucess , warning , error
     snackID.show();
 }
 
-
-
-function menu(idElement,  action, speed) {
+//to show/hide any action sheets, modal or sidebar
+function menu(idElement,  action, speed) { //action : show , hide
     if(action === 'show')
     {
         $('#'+idElement+'').addClass('menu-active');
@@ -44,7 +42,6 @@ function menu(idElement,  action, speed) {
     }
     
 }
-
 
 document['addEventListener']('DOMContentLoaded', () => {
    
@@ -62,6 +59,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
         setTimeout(function() {
 
+            // clipboard initialization
             var clipboard = new ClipboardJS('.copy-btn');
 
             clipboard.on('success', function(e) {
@@ -81,6 +79,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
             });
     
+            // clicking on "a" tag append a loading spinner to it
             $('a').on('classChange', function() {
                 if ($(this).hasClass("off-btn")) {
                     $(this).append(`
@@ -239,515 +238,6 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
         }
  
-
-        if (document.querySelector('#meeting-index')) {
-            
-            setTimeout(function() {
-            
-                ///////////////////////////////////////////////////////////////////////
-                if (document.querySelector('#meetPublic')) {
-                        
-                    var url = new URL(window.location.href);
-                    var roomName = url.searchParams.get("roomName");
-                
-                    if(roomName){
-                        setTimeout(function() {
-                            $('#meetingNameJoin').val(''+roomName+'');
-                            $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
-                        }, 150);
-                    
-                    }
-
-                    $('body').removeClass('theme-light');
-                    $('body').addClass('theme-dark');
-                };
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                var url = new URL(window.location.href);
-                var roomName = url.searchParams.get("roomName");
-                if(roomName)
-                {
-                    $('#meeting-tab-1').removeClass('bg-highlight no-click');
-                    $('#meetingNameJoin').val(roomName);
-                    
-                    $('#meeting-tab-1').addClass('collapsed');
-
-                    $('#meeting-tab-2').removeClass('collapsed');
-                    $('#meeting-tab-2').addClass('bg-highlight no-click');
-                    
-                    $('#tab-1').removeClass('show');
-                    $('#tab-2').addClass('show');
-                }
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                if (document.querySelector('#meeting-log')) {
-                    var networkDataReceived = false;
-
-                    // fetch fresh meeting log
-                    var networkUpdate = fetch('/fetch/meetingLog')
-                    .then(function(response) { 
-                        return response.json();
-                    }).then(function(data){
-                        networkDataReceived = true;
-                        
-                        updateMeetingLog(data);
-                    })
-                    .catch(function(err) {
-                        console.log('Error Meeting Log: ' + err);
-                    });
-
-                    // fetch cached meeting log
-                    // caches.match('/fetch/meetingLog')
-                    // .then(function(response) {
-                    //     if (!response) throw Error("No data");
-                    //     return response.json();
-                    // }).then(function(data) {
-                    //     // don't overwrite newer network data
-                    //     if (!networkDataReceived) {
-                        
-                    //         updateMeetingLog(data)
-
-                    //     }
-                    // }).catch(function() {
-                    //     // we didn't get cached data, the network is our last hope:
-                    //     return networkUpdate;
-                    // }).catch(function(err) {
-                    //     console.log('Error Meeting Log: ' + err);
-                    // });
-
-                    function updateMeetingLog(data){
-                        var results = data
-
-                        if (results.length) {
-                            $('#meeting-log-list').html('');
-                            results.map(meetinglog => {
-
-                                let now = new Date(meetinglog.datetime);
-                                
-                                var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                $('#meeting-log-list').append(`
-                                    <a href="#">
-                                        <span>${meetinglog.room_name}</span>
-                                        <strong>as ${meetinglog.display_name}</strong>
-                                        <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                `)
-                            })
-
-                        }
-                        else{
-                            $('#meeting-log-list').html('');
-
-                            $('#meeting-log-list').append(`
-                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                            `);
-                        }
-                    }
-                };
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                if (document.querySelector('#schedule-log')) {
-                    var networkDataReceived = false;
-
-                    // fetch fresh schedule log
-                    var networkUpdate = fetch('/fetch/scheduleLog')
-                    .then(function(response) { 
-                        return response.json();
-                    }).then(function(data){
-                        networkDataReceived = true;
-                        
-                        updateScheduleLog(data);
-                    })
-                    .catch(function(err) {
-                        console.log('Error Schedule Log: ' + err);
-                    });
-
-                    function updateScheduleLog(data){
-                        var results = data
-
-                        if (results.length) {
-                            $('#schedule-log-list').html('');
-                            results.map(scheduleLog => {
-
-                                let start = new Date(scheduleLog.datetime);
-                                let end = new Date(scheduleLog.end_datetime);
-                                
-                                var date = moment(start).format('MMMM Do');
-                                var time = moment(start).format('h:mm a');
-                                var time_end = moment(end).format('h:mm a');
-
-                                $('#schedule-log-list').append(`
-                                    <div class="cal-schedule">
-                                        <em>${date}<br>${time}</em>
-                                        <strong>${scheduleLog.room_name}</strong>
-                                        <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
-                                    </div>
-                                `)
-                            })
-
-                        }
-                        else{
-                            $('#schedule-log-list').html('');
-
-                            $('#schedule-log-list').append(`
-                                <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
-                            `);
-                        }
-                    }
-                };
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                // fetch user and append back to selected element
-                fetch('/fetch/user').then(function(response) {
-                    return response.json();
-                }).then(function(data) {
-                    var results = data
-
-                    if(results === 'false')
-                    {
-
-                    }
-                    else
-                    {
-                        $('.usrName').val(results.name);
-                    }
-                }).catch(function(err) {
-                    console.log('Error User: ' + err);
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                // for offline checkbox
-                $('#toggle-id').change(function() {
-                    if (this.checked) {
-                        $('#password_meeting').show();
-                    } else {
-                        $('#password_meeting').hide();
-                    }
-                });
-
-                $('#toggle-id-schedule').change(function() {
-                    if (this.checked) {
-                        $('#password_meeting_schedule').show();
-                    } else {
-                        $('#password_meeting_schedule').hide();
-                    }
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for start meeting button
-                $('#start-meeting').on('click' , function(event){
-                        
-                    if (navigator.onLine) {
-                    
-                        var fsm = $("#createMeetingForm");
-
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(fsm)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                $('#portfolio-2').addClass('menu-active');
-
-                                var meetingName = $('#meetingName').val();
-                                var usrName = $('#usrName').val();
-                    
-                                initializeMeeting(meetingName, usrName);
-                            }
-                                form.classList.add('was-validated')
-                        })
-                    
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for join meeting button
-                $('#join-meeting').on('click' , function(event){
-                        
-                    if (navigator.onLine) {
-
-                        var fsm = $("#joinMeetingForm");
-
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(fsm)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                $('#portfolio-2').addClass('menu-active');
-
-                                var meetingName = $('#meetingNameJoin').val();
-                                var usrName = $('#usrNameJoin').val();
-                    
-                                initializeMeeting(meetingName, usrName);
-                            }
-                                form.classList.add('was-validated')
-                        })
-
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for schedule meeting button
-                $('#schedule-meeting').on('click' , function(event){
-                        
-                    if (navigator.onLine) {
-
-                        var fsm = $("#scheduleMeetingForm");
-
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(fsm)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                
-                                $('#schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                                var meetingName = $('#meetingNameSchedule').val();
-                                var meetingDate = $('#meetingDateSchedule').val();
-                                var meetingStart = $('#meetingStartSchedule').val();
-                                var meetingEnd = $('#meetingEndSchedule').val();
-
-                                var dataMeetingSchedule = new URLSearchParams();
-                                dataMeetingSchedule.append('meeting_name', meetingName);
-                                dataMeetingSchedule.append('meeting_date', meetingDate);
-                                dataMeetingSchedule.append('meeting_start', meetingStart);
-                                dataMeetingSchedule.append('meeting_end', meetingEnd);
-
-                                fetch("fetch/storeMeetingSchedule", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: dataMeetingSchedule,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-                
-                                    var results = resultsJSON
-
-                                            if(results.status == '200'){
-                                                // let now = new Date(meetinglog.datetime);
-                                            
-                                                // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-                                                $('#emptyScheduleLog').remove();
-
-                                                snackbar('success' , results.message)
-                                                $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                                let date_meet = new Date(meetingDate);
-                                                let start = new Date(''+meetingDate+' '+meetingStart+'');
-                                                let end = new Date(''+meetingDate+' '+meetingEnd+'');
-                                                
-                                                var date = moment(date_meet).format('MMMM Do');
-                                                var time = moment(start).format('h:mm a');
-                                                var time_end = moment(end).format('h:mm a');
-
-                                                $('#meetingNameSchedule').val('');
-                                                $('#meetingDateSchedule').val('');
-                                                $('#meetingStartSchedule').val('');
-                                                $('#meetingEndSchedule').val('');
-
-                                                $('#schedule-log-list').prepend(`
-                                                    <div class="cal-schedule">
-                                                        <em>${date}<br>${time}</em>
-                                                        <strong>${meetingName}</strong>
-                                                        <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
-                                                    </div>
-                                                `)
-                                                
-                                            }
-                                            else{
-                                            
-                                            }
-                
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-                                    
-                            
-                            }
-                                form.classList.add('was-validated')
-                        })
-
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-                });
-
-                
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for invite meeting button while in meeting
-                $('#inviteBtn').on('click' , function() {
-                    $('#menu-meeting-invitation').addClass('menu-active');
-                });
-
-                $('.close-menu-meeting-invitation').on('click' , function() {
-                    $('#menu-meeting-invitation').removeClass('menu-active');
-                }); 
-                ///////////////////////////////////////////////////////////////////////
-
-            }, 150);
-
-
-            function initializeMeeting(meetingName, usrName) {
-                var domain = 'meet.tvetxr.ga';
-                var options = {
-                    roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
-                    width: '100%',
-                    height: '100%',
-                    parentNode: document.querySelector('#meet_iframe'),
-                    userInfo: {
-                        displayName: usrName ? usrName : 'Fellow MaGICXian',
-                    },
-                    configOverwrite:{
-                        prejoinPageEnabled: true,
-                        disableDeepLinking: true,
-                        apiLogLevels: ['log'],                    
-                    },
-                    interfaceConfigOverwrite: {
-                        // TOOLBAR_BUTTONS: [
-                        //     'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
-                        //     'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                        //     'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                        //     'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
-                        //     'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
-                        // ],
-                        TOOLBAR_BUTTONS: [
-                            'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-                            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                            'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                            'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
-                        ],
-                    },
-                };
-                apiObj = new JitsiMeetExternalAPI(domain, options);
-                
-                apiObj.addEventListeners({
-
-                    readyToClose: function () {
-
-                        var _0xce56x32 = document['querySelectorAll']('.menu-active');
-
-                        for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                            _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                        };
-
-                        apiObj.dispose();
-
-                    
-                    },
-                    videoConferenceJoined: function(data) {
-
-                        $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
-                        $('#invite-invitor').html(data.displayName);
-                        $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
-
-                        var currentdate = new Date();
-
-                        var datetimefordb =  currentdate.getFullYear() + "-"
-                                        + (currentdate.getMonth()+1)  + "-" 
-                                        + currentdate.getDate() + " "  
-                                        + currentdate.getHours() + ":"  
-                                        + currentdate.getMinutes() + ":" 
-                                        + currentdate.getSeconds();
-
-                        var dataMeetingLog = new URLSearchParams();
-                        dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
-                        dataMeetingLog.append('display_name', data.displayName);
-                        dataMeetingLog.append('datetime', datetimefordb);
-
-                        fetch("fetch/storeMeetingLog", {
-                            method: 'post',
-                            credentials: "same-origin",
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            body: dataMeetingLog,
-                        })
-                        .then(function(response){
-                            return response.json();
-                        }).then(function(resultsJSON){
-
-                            var results = resultsJSON
-
-                            if (results.length) {
-                                $('#meeting-log-list').html('');
-                                results.map(meetinglog => {
-
-                                    let now = new Date(meetinglog.datetime);
-                                    
-                                    var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                    $('#meeting-log-list').append(`
-                                        <a href="#">
-                                            <span>${meetinglog.room_name}</span>
-                                            <strong>as ${meetinglog.display_name}</strong>
-                                            <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    `)
-                                })
-
-                            }
-                            else{
-                                $('#meeting-log-list').html('');
-
-                                $('#meeting-log-list').append(`
-                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                                `);
-                            }
-
-                        })
-                        .catch(function(err) {
-                            console.log(err);
-                        });
-
-                    }
-                });
-            }
-
-        }
-       
         ///////////////////////////////////////////////////////////////////////
         //for connect user button
         setTimeout(function() {
@@ -793,6 +283,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 
                                                 $('#connectBtn').removeClass('off-btn').trigger('classChange');
                                                 // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=login';
+
+                                                // execute inside the "flutterInAppWebViewPlatformReady" event listener
+                                                window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+                                                        const args = {user_id: results.user_id};
+                                                        window.flutter_inappwebview.callHandler('fcmHandler', ...args);
+                                                });
 
                                                 swup.loadPage({
                                                     url: '/verifyOtp?tempuser_id='+results.user_id+'&type=login&prevUrl='+results.prevUrl+'', 
@@ -848,6 +344,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 form.classList.add('was-validated')
                         })
                     
+
+                        
                     } else {
                         var menuOffline = document.getElementById('menu-offline');
                         menuOffline.classList.add("menu-active");
@@ -1107,6 +605,506 @@ document['addEventListener']('DOMContentLoaded', () => {
             });
         }, 150);
         ///////////////////////////////////////////////////////////////////////
+
+
+        if (document.querySelector('#meeting-index')) {
+            
+            setTimeout(function() {
+            
+                //append data to meet public page when parameters available in link
+                if (document.querySelector('#meetPublic')) {
+                        
+                    var url = new URL(window.location.href);
+                    var roomName = url.searchParams.get("roomName");
+                
+                    if(roomName){
+                        setTimeout(function() {
+                            $('#meetingNameJoin').val(''+roomName+'');
+                            $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
+                        }, 150);
+                    }
+
+                    $('body').removeClass('theme-light');
+                    $('body').addClass('theme-dark');
+                };
+                ///////////////////////////////////////////////////////////////////////
+
+                //make join meeting tab active when roomName parameters available in link
+                var url = new URL(window.location.href);
+                var roomName = url.searchParams.get("roomName");
+                if(roomName)
+                {
+                    $('#meeting-tab-1').removeClass('bg-highlight no-click');
+                    $('#meetingNameJoin').val(roomName);
+                    
+                    $('#meeting-tab-1').addClass('collapsed');
+
+                    $('#meeting-tab-2').removeClass('collapsed');
+                    $('#meeting-tab-2').addClass('bg-highlight no-click');
+                    
+                    $('#tab-1').removeClass('show');
+                    $('#tab-2').addClass('show');
+                }
+                ///////////////////////////////////////////////////////////////////////
+
+                //fetch data for meeting log
+                if (document.querySelector('#meeting-log')) {
+                    var networkDataReceived = false;
+
+                    // fetch fresh meeting log
+                    var networkUpdate = fetch('/fetch/meetingLog')
+                    .then(function(response) { 
+                        return response.json();
+                    }).then(function(data){
+                        networkDataReceived = true;
+                        
+                        updateMeetingLog(data);
+                    })
+                    .catch(function(err) {
+                        console.log('Error Meeting Log: ' + err);
+                    });
+
+                    // fetch cached meeting log
+                    // caches.match('/fetch/meetingLog')
+                    // .then(function(response) {
+                    //     if (!response) throw Error("No data");
+                    //     return response.json();
+                    // }).then(function(data) {
+                    //     // don't overwrite newer network data
+                    //     if (!networkDataReceived) {
+                        
+                    //         updateMeetingLog(data)
+
+                    //     }
+                    // }).catch(function() {
+                    //     // we didn't get cached data, the network is our last hope:
+                    //     return networkUpdate;
+                    // }).catch(function(err) {
+                    //     console.log('Error Meeting Log: ' + err);
+                    // });
+
+                    function updateMeetingLog(data){
+                        var results = data
+
+                        if (results.length) {
+                            $('#meeting-log-list').html('');
+                            results.map(meetinglog => {
+
+                                let now = new Date(meetinglog.datetime);
+                                
+                                var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                $('#meeting-log-list').append(`
+                                    <a href="#">
+                                        <span>${meetinglog.room_name}</span>
+                                        <strong>as ${meetinglog.display_name}</strong>
+                                        <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                `)
+                            })
+
+                        }
+                        else{
+                            $('#meeting-log-list').html('');
+
+                            $('#meeting-log-list').append(`
+                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                            `);
+                        }
+                    }
+                };
+                ///////////////////////////////////////////////////////////////////////
+
+                //fetch data for schedule meeting log
+                if (document.querySelector('#schedule-log')) {
+                    var networkDataReceived = false;
+
+                    // fetch fresh schedule log
+                    var networkUpdate = fetch('/fetch/scheduleLog')
+                    .then(function(response) { 
+                        return response.json();
+                    }).then(function(data){
+                        networkDataReceived = true;
+                        
+                        updateScheduleLog(data);
+                    })
+                    .catch(function(err) {
+                        console.log('Error Schedule Log: ' + err);
+                    });
+
+                    function updateScheduleLog(data){
+                        var results = data
+
+                        if (results.length) {
+                            $('#schedule-log-list').html('');
+                            results.map(scheduleLog => {
+
+                                let start = new Date(scheduleLog.datetime);
+                                let end = new Date(scheduleLog.end_datetime);
+                                
+                                var date = moment(start).format('MMMM Do');
+                                var time = moment(start).format('h:mm a');
+                                var time_end = moment(end).format('h:mm a');
+
+                                $('#schedule-log-list').append(`
+                                    <div class="cal-schedule">
+                                        <em>${date}<br>${time}</em>
+                                        <strong>${scheduleLog.room_name}</strong>
+                                        <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                    </div>
+                                `)
+                            })
+
+                        }
+                        else{
+                            $('#schedule-log-list').html('');
+
+                            $('#schedule-log-list').append(`
+                                <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                            `);
+                        }
+                    }
+                };
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                // fetch user and append back to selected element
+                fetch('/fetch/user').then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    var results = data
+
+                    if(results === 'false')
+                    {
+
+                    }
+                    else
+                    {
+                        $('.usrName').val(results.name);
+                    }
+                }).catch(function(err) {
+                    console.log('Error User: ' + err);
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                // for offline checkbox
+                $('#toggle-id').change(function() {
+                    if (this.checked) {
+                        $('#password_meeting').show();
+                    } else {
+                        $('#password_meeting').hide();
+                    }
+                });
+
+                $('#toggle-id-schedule').change(function() {
+                    if (this.checked) {
+                        $('#password_meeting_schedule').show();
+                    } else {
+                        $('#password_meeting_schedule').hide();
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                //for start meeting button
+                $('#start-meeting').on('click' , function(event){
+                        
+                    if (navigator.onLine) {
+                    
+                        var fsm = $("#createMeetingForm");
+
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(fsm)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                $('#portfolio-2').addClass('menu-active');
+
+                                var meetingName = $('#meetingName').val();
+                                var usrName = $('#usrName').val();
+                    
+                                initializeMeeting(meetingName, usrName);
+                            }
+                                form.classList.add('was-validated')
+                        })
+                    
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                //for join meeting button
+                $('#join-meeting').on('click' , function(event){
+                        
+                    if (navigator.onLine) {
+
+                        var fsm = $("#joinMeetingForm");
+
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(fsm)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                $('#portfolio-2').addClass('menu-active');
+
+                                var meetingName = $('#meetingNameJoin').val();
+                                var usrName = $('#usrNameJoin').val();
+                    
+                                initializeMeeting(meetingName, usrName);
+                            }
+                                form.classList.add('was-validated')
+                        })
+
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+                ///////////////////////////////////////////////////////////////////////
+
+                ///////////////////////////////////////////////////////////////////////
+                //for schedule meeting button
+                $('#schedule-meeting').on('click' , function(event){
+                        
+                    if (navigator.onLine) {
+
+                        var fsm = $("#scheduleMeetingForm");
+
+                        // Loop over them and prevent submission
+                        Array.prototype.slice.call(fsm)
+                        .forEach(function (form) {
+                            if (!form.checkValidity()) 
+                            {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            else
+                            {
+                                
+                                $('#schedule-meeting').addClass('off-btn').trigger('classChange');
+
+                                var meetingName = $('#meetingNameSchedule').val();
+                                var meetingDate = $('#meetingDateSchedule').val();
+                                var meetingStart = $('#meetingStartSchedule').val();
+                                var meetingEnd = $('#meetingEndSchedule').val();
+
+                                var dataMeetingSchedule = new URLSearchParams();
+                                dataMeetingSchedule.append('meeting_name', meetingName);
+                                dataMeetingSchedule.append('meeting_date', meetingDate);
+                                dataMeetingSchedule.append('meeting_start', meetingStart);
+                                dataMeetingSchedule.append('meeting_end', meetingEnd);
+
+                                fetch("fetch/storeMeetingSchedule", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: dataMeetingSchedule,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+                
+                                    var results = resultsJSON
+
+                                    if(results.status == '200'){
+                                        // let now = new Date(meetinglog.datetime);
+                                    
+                                        // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+                                        $('#emptyScheduleLog').remove();
+
+                                        snackbar('success' , results.message)
+                                        $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                        let date_meet = new Date(meetingDate);
+                                        let start = new Date(''+meetingDate+' '+meetingStart+'');
+                                        let end = new Date(''+meetingDate+' '+meetingEnd+'');
+                                        
+                                        var date = moment(date_meet).format('MMMM Do');
+                                        var time = moment(start).format('h:mm a');
+                                        var time_end = moment(end).format('h:mm a');
+
+                                        $('#meetingNameSchedule').val('');
+                                        $('#meetingDateSchedule').val('');
+                                        $('#meetingStartSchedule').val('');
+                                        $('#meetingEndSchedule').val('');
+
+                                        $('#schedule-log-list').prepend(`
+                                            <div class="cal-schedule">
+                                                <em>${date}<br>${time}</em>
+                                                <strong>${meetingName}</strong>
+                                                <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                            </div>
+                                        `)
+                                        
+                                    }
+                                    else{
+                                    
+                                    }
+                
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+                                    
+                            
+                            }
+                                form.classList.add('was-validated')
+                        })
+
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+                ///////////////////////////////////////////////////////////////////////
+            }, 150);
+
+
+            function initializeMeeting(meetingName, usrName) {
+                var domain = 'meet.tvetxr.ga';
+                var options = {
+                    roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
+                    width: '100%',
+                    height: '100%',
+                    parentNode: document.querySelector('#meet_iframe'),
+                    userInfo: {
+                        displayName: usrName ? usrName : 'Fellow MaGICXian',
+                    },
+                    configOverwrite:{
+                        prejoinPageEnabled: true,
+                        disableDeepLinking: true,
+                        apiLogLevels: ['log'],                    
+                    },
+                    interfaceConfigOverwrite: {
+                        TOOLBAR_BUTTONS: [
+                            'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                            'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                            'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
+                        ],
+                    },
+                };
+                apiObj = new JitsiMeetExternalAPI(domain, options);
+                
+                apiObj.addEventListeners({
+
+                    readyToClose: function () {
+
+                        var _0xce56x32 = document['querySelectorAll']('.menu-active');
+
+                        for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
+                            _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
+                        };
+
+                        apiObj.dispose();
+
+                    
+                    },
+                    videoConferenceJoined: function(data) {
+
+                        ///////////////////////////////////////////////////////////////////////
+                        //for invite meeting button while in meeting
+                        $('#inviteBtn').on('click' , function() {
+                            $('#menu-meeting-invitation').addClass('menu-active');
+                        });
+
+                        $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
+                        $('#invite-invitor').html(data.displayName);
+                        $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
+
+                        $('.close-menu-meeting-invitation').on('click' , function() {
+                            $('#menu-meeting-invitation').removeClass('menu-active');
+                        }); 
+                        ///////////////////////////////////////////////////////////////////////
+
+                        var currentdate = new Date();
+
+                        var datetimefordb =  currentdate.getFullYear() + "-"
+                                        + (currentdate.getMonth()+1)  + "-" 
+                                        + currentdate.getDate() + " "  
+                                        + currentdate.getHours() + ":"  
+                                        + currentdate.getMinutes() + ":" 
+                                        + currentdate.getSeconds();
+
+                        var dataMeetingLog = new URLSearchParams();
+                        dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
+                        dataMeetingLog.append('display_name', data.displayName);
+                        dataMeetingLog.append('datetime', datetimefordb);
+
+                        fetch("fetch/storeMeetingLog", {
+                            method: 'post',
+                            credentials: "same-origin",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            body: dataMeetingLog,
+                        })
+                        .then(function(response){
+                            return response.json();
+                        }).then(function(resultsJSON){
+
+                            var results = resultsJSON
+
+                            if (results.length) {
+                                $('#meeting-log-list').html('');
+                                results.map(meetinglog => {
+
+                                    let now = new Date(meetinglog.datetime);
+                                    
+                                    var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                    $('#meeting-log-list').append(`
+                                        <a href="#">
+                                            <span>${meetinglog.room_name}</span>
+                                            <strong>as ${meetinglog.display_name}</strong>
+                                            <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    `)
+                                })
+
+                            }
+                            else{
+                                $('#meeting-log-list').html('');
+
+                                $('#meeting-log-list').append(`
+                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                                `);
+                            }
+
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+
+                    }
+                });
+            }
+
+        }
+       
+        
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -2688,8 +2686,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _init()
             })
         }
-    }
-    
+    } 
   
     _init();
 })

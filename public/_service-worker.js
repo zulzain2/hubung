@@ -80,11 +80,11 @@ self.addEventListener('fetch', function(event) {
             .then(function (cache) {
               // cache.match(event.request)
               // .then(function (response) {
-                // if(response){
-                //   console.log('response');
-                //   return response;
-                // }
-                // else{
+              //   if(response){
+              //     console.log('response');
+              //     return response;
+              //   }
+              //   else{
                   return fetch(event.request)
                   .then(function(res) {
                       if (isInArray(event.request.url, EXCLUDE_ROUTES))
@@ -106,7 +106,7 @@ self.addEventListener('fetch', function(event) {
                           }
                         });
                     });
-                // }
+              //   }
               // })
             })
           );
