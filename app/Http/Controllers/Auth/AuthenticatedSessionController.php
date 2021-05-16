@@ -187,6 +187,16 @@ class AuthenticatedSessionController extends Controller
     
             Auth::login($user);
     
+            //FCM Kick In
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            foreach ($user->userdevices as $key => $device) {
+                Notification::notificationFCM($device->fcm_token , "TEST" , "BERLAGAKKK" , null , 'triggeredNotification' , '' , '');
+            }
+            
+        }
+        
             $data = [
                 'status' => 'success', 
                 'message' => 'Successfully connect to system',
