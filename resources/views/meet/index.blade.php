@@ -389,7 +389,9 @@
     </div>
 
     <div id="menu-meeting-schedule-config" class="menu menu-box-bottom menu-box-detached" style="display: block;">
-       
+        <div class="menu-title mt-n1 text-center">
+            <h3 class="mt-3">Options</h3>
+        </div>
         <div class="content mb-0 mt-0">
             <div class="list-group list-custom-small list-icon-0">
                 <a href="https://www.facebook.com/sharer/sharer.php?u=http://sticky.test/index.html"

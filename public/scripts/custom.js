@@ -40,7 +40,6 @@ function menu(idElement,  action, speed) { //action : show , hide
         $('#'+idElement+'').removeClass('menu-active');
         $('.menu-hider').removeClass('menu-active');
     }
-    
 }
 
 document['addEventListener']('DOMContentLoaded', () => {
@@ -90,6 +89,19 @@ document['addEventListener']('DOMContentLoaded', () => {
                     $('.spin-temp').remove();
                 }
             });
+
+            $('button').on('classChange', function() {
+                if ($(this).hasClass("off-btn")) {
+                    $(this).append(`
+                    <div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
+                    <span class="sr-only">Loading...</span>
+                    </div>`);
+                } else {
+                    $('.spin-temp').remove();
+                }
+            });
+
+            
 
             if (document.querySelector('.digit-group')) {
                 $('.digit-group').find('input').each(function() {
