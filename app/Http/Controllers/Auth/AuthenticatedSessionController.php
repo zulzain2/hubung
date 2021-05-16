@@ -222,6 +222,7 @@ class AuthenticatedSessionController extends Controller
             }
     
             $user = New User;
+            $user->name = $tempuser->nick_name;
             $user->nick_name = $tempuser->nick_name;
             $user->phone_number = $tempuser->phone_number;
             $user->save();
