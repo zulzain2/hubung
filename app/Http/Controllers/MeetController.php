@@ -138,6 +138,18 @@ class MeetController extends Controller
         $add->datetime = date('Y-m-d H:i:s' , strtotime($request->datetime));
         $add->status = 'P';
         $add->save();
+
+     
+
+        //FCM Kick In
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            foreach ($user->userdevices as $key => $device) {
+                Notification::notificationFCM($device->fcm_token , "TEST" , "BERLAGAKKK" , null , 'triggeredNotification' , '' , '');
+            }
+            
+        }
        
         $meetinglog = MeetingLog::where([
 			['id_users', '=' , auth()->user()->id]
