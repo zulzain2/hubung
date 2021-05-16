@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Scheduler;
 use App\Models\MeetingLog;
 use App\Models\Notification;
@@ -167,10 +168,10 @@ class MeetController extends Controller
         $noti->to_user =  auth()->user()->id;
         $noti->tiny_img_url = '';
         $noti->title = 'Meeting ['.$request->meeting_name.']';
-        $noti->desc =  ''.$request->meeting_name.' - You have meeting scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('j F Y' , strtotime($request->meeting_start)).' and will end on '.date('j F Y' , strtotime($request->meeting_end)).'';
+        $noti->desc =  ''.$request->meeting_name.' - You have meeting scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('g:i a' , strtotime($request->meeting_start)).' and will end on '.date('g:i a' , strtotime($request->meeting_end)).'';
         $noti->type = 'I';
         $noti->click_url = '/meet?roomName='.$request->meeting_name.'';
-        $noti->send_status = 'P';
+        $noti->send_status = 'S';
         $noti->status = '';
         $noti->module = 'meet';
         $noti->id_module = $add1->id;
@@ -185,7 +186,7 @@ class MeetController extends Controller
         $add2->created_by = auth()->user()->id;
         $add2->save();
 
-        $data = ['status' => '200', 'message' => 'Successfully scheduled meeting.'];
+        $data = ['status' => 'success', 'message' => 'Successfully scheduled meeting.'];
         return json_encode($data);
     }
 }

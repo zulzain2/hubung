@@ -31,6 +31,10 @@ Route::get('/verifyOtp', [AuthenticatedSessionController::class, 'createOtp'])
 Route::post('/verifyOtp', [AuthenticatedSessionController::class, 'storeOtp'])
                 ->middleware('guest');
 
+Route::post('/tryAgainOtp', [AuthenticatedSessionController::class, 'tryAgainOtp'])
+                ->middleware('guest');
+
+
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->middleware('guest')
                 ->name('password.request');

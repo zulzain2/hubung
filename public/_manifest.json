@@ -6,7 +6,7 @@
 "lang" : "en",
 "name" : "Communication",
 "scope" : "./",
-"display" : "standalone",
+"display" : "fullscreen",
 "start_url" : "./home",
 "short_name" : "Communication",
 "description" : "",

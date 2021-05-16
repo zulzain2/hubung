@@ -67,8 +67,9 @@
 
 @section('content')
 
-
-        <table style="width:100%;height:100vh">
+<div class="row">
+    <div class="col-xl-8 offset-xl-2 col-lg-12 col-sm-12">
+        <table style="width:100%;height:100vh;border: none;">
             <tr>
                 <td>
                     <div class="card card-style">
@@ -163,6 +164,8 @@
                 </td>
             </tr>
         </table>
+    </div>
+</div>
 @endsection
 
 

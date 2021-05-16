@@ -82,7 +82,7 @@ class RegisteredUserController extends Controller
         // return redirect(RouteServiceProvider::HOME);
 
         $data = [
-            'status' => '200', 
+            'status' => 'success', 
             'message' => 'Successfully request OTP' ,
             'user_id' => $user_temporary->id,
         ];

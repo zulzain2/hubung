@@ -6,8 +6,10 @@
 
 @section('content')
 
+<div class="row">
+    <div class="col-xl-8 offset-xl-2 col-lg-12 col-sm-12">
 
-<table style="border:none;width:100%">
+<table style="border:none;width:100%;border: none;">
     <tr>
         <td class="text-center" style="height:95vh;vertical-align:middle;">
             <div class="card card-style">
@@ -42,7 +44,9 @@
                         <input type="hidden" id="tempuser_id" name="tempuser_id" value="{{isset($tempuser) ? $tempuser->id : ''}}">
                         <input type="hidden" id="prevUrl" name="prevUrl" value="{{$prevUrl}}">
                     </form>
-                    <br><br><br>
+                    <br>
+                    <p>OTP will expired in 5 Minutes <br> <button id="tryAgainOtp" class="btn font-12 font-900 text-uppercase bg-red-dark btn-xxs rounded-sm" style="font-size: 10px !important;" disabled>Try Again ? <strong id='seconds-counter'> </strong></button></p>
+                    <br>                    
                     <a href="#" id="verifyOtpBtn" class="btn w-75 font-900 text-uppercase bg-red-dark btn-m rounded-sm">Continue &nbsp;&nbsp; <i class="fas fa-long-arrow-right"></i></a>
                     <br><br>
 
@@ -57,7 +61,8 @@
     </tr>
 </table>
 
-
+    </div>
+</div>
 @endsection
 
 @push('scripts')

@@ -279,7 +279,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     console.log(resultsJSON);
                                     var results = resultsJSON
 
-                                            if(results.status == '200'){
+                                            if(results.status == 'success'){
                                                 
                                                 $('#connectBtn').removeClass('off-btn').trigger('classChange');
                                                 // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=login';
@@ -391,7 +391,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     console.log(resultsJSON);
                                     var results = resultsJSON
 
-                                            if(results.status == '200'){
+                                            if(results.status == 'success'){
                                                 
                                                 $('#registerBtn').removeClass('off-btn').trigger('classChange');
 
@@ -498,7 +498,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 console.log(resultsJSON);
                                 var results = resultsJSON
 
-                                        if(results.status === '200'){
+                                        if(results.status === 'success'){
                                             
                                             $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
 
@@ -605,11 +605,147 @@ document['addEventListener']('DOMContentLoaded', () => {
         }, 150);
         ///////////////////////////////////////////////////////////////////////
 
+        ///////////////////////////////////////////////////////////////////////
+        //for connect user button
+        setTimeout(function() {
+
+            if (document.querySelector('#seconds-counter')) 
+            {
+                var seconds = 60;
+                var el = document.getElementById('seconds-counter');
+                console.log(el);
+
+                function incrementSeconds() {
+                    seconds -= 1;
+                    if(seconds >= 0)
+                    {
+                        el.innerHTML = ''+seconds+' Seconds';
+                    }
+                    if(seconds == 0){
+                        $('#tryAgainOtp').prop('disabled', false);
+                        $('#seconds-counter').hide();
+                    }
+                }
+
+                var cancel = setInterval(incrementSeconds, 1000);
+            }
+
+            $('#tryAgainOtp').on('click' , function(event){
+                if (navigator.onLine) {
+                
+                            $('#tryAgainOtp').addClass('off-btn').trigger('classChange');
+    
+                            var url = new URL(window.location.href);
+
+                            var  tryAgainOtp = new URLSearchParams();
+                             tryAgainOtp.append('user_id', url.searchParams.get("tempuser_id"));
+                             tryAgainOtp.append('type', url.searchParams.get("type"));
+
+                            fetch("/tryAgainOtp", {
+                                method: 'post',
+                                credentials: "same-origin",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                body: tryAgainOtp,
+                            })
+                            .then(function(response){
+                                return response.json();
+                            }).then(function(resultsJSON){
+                             
+                                var results = resultsJSON
+
+                                        if(results.status === 'success'){
+                                            
+                                            $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
+
+                                            snackbar(results.status , results.message)
+                                            
+                                            $('#seconds-counter').html('');
+                                            $('#seconds-counter').show();
+                                            $('#tryAgainOtp').prop('disabled', true);
+
+                                            var seconds = 60;
+                                            var el = document.getElementById('seconds-counter');
+                                            console.log(el);
+
+                                            function incrementSeconds() {
+                                                seconds -= 1;
+
+                                                if(seconds >= 0)
+                                                {
+                                                    el.innerHTML = ''+seconds+' Seconds';
+                                                }
+
+                                                if(seconds == 0){
+                                                    $('#tryAgainOtp').prop('disabled', false);
+                                                    $('#seconds-counter').hide();
+                                                }
+                                            }
+
+                                            var cancel = setInterval(incrementSeconds, 1000);                                 
+
+                                        }
+                                        else{
+
+                                            if(results.type == 'Validation Error')
+                                            {
+                                                $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
+
+                                                if (results.error_list) {
+                                                        var p = results.error_list;
+                                                        $('#validationErrorList').html('');
+                                                        for (var key in p) {
+                                                            if (p.hasOwnProperty(key)) {
+                                                            
+                                                                // console.log(key + " -> " + p[key]);
+
+                                                                $('#validationErrorList').append(`
+                                                                    <a href="#">
+                    
+                                                                    <span>${p[key]}</span>
+                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                
+                                                                    </a>
+                                                                `)
+
+                                                            }
+                                                        }
+                                                        
+                                                } else {
+                                                
+                                                }
+
+                                                menu('validationError', 'show', 250);
+                                            }
+                                            else{
+                                                snackbar(results.status , results.message)
+                                            }
+
+                                        }
+            
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            });
+    
+                        
+                
+                
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+            });
+        }, 550);
+        ///////////////////////////////////////////////////////////////////////
 
         if (document.querySelector('#meeting-index')) {
             
             setTimeout(function() {
             
+                ///////////////////////////////////////////////////////////////////////
                 //append data to meet public page when parameters available in link
                 if (document.querySelector('#meetPublic')) {
                         
@@ -628,6 +764,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 };
                 ///////////////////////////////////////////////////////////////////////
 
+                ///////////////////////////////////////////////////////////////////////
                 //make join meeting tab active when roomName parameters available in link
                 var url = new URL(window.location.href);
                 var roomName = url.searchParams.get("roomName");
@@ -646,6 +783,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
                 ///////////////////////////////////////////////////////////////////////
 
+                ///////////////////////////////////////////////////////////////////////
                 //fetch data for meeting log
                 if (document.querySelector('#meeting-log')) {
                     var networkDataReceived = false;
@@ -715,6 +853,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 };
                 ///////////////////////////////////////////////////////////////////////
 
+                ///////////////////////////////////////////////////////////////////////
                 //fetch data for schedule meeting log
                 if (document.querySelector('#schedule-log')) {
                     var networkDataReceived = false;
@@ -732,12 +871,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                         console.log('Error Schedule Log: ' + err);
                     });
 
-                    function updateScheduleLog(data){
+                    async function updateScheduleLog(data){
                         var results = data
 
                         if (results.length) {
                             $('#schedule-log-list').html('');
-                            results.map(scheduleLog => {
+                            await results.map(scheduleLog => {
 
                                 let start = new Date(scheduleLog.datetime);
                                 let end = new Date(scheduleLog.end_datetime);
@@ -747,13 +886,33 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 var time_end = moment(end).format('h:mm a');
 
                                 $('#schedule-log-list').append(`
-                                    <div class="cal-schedule">
+                                <div class="row mb-3">
+                                    <div class="col-3">
                                         <em>${date}<br>${time}</em>
-                                        <strong>${scheduleLog.room_name}</strong>
-                                        <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                        
                                     </div>
+                                    <div class="col-6">
+                                        <strong>${scheduleLog.room_name}</strong>
+                                        <br>
+                                        <span><i class="far fa-clock"></i> ${time} - ${time_end}</span>
+                                    </div>
+                                    <div class="col-3">                                              
+                                        <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="divider mb-3"></div>
+                                   
                                 `)
                             })
+
+                            $('.menu-meeting-schedule-config').on('click' , function(){
+                                menu('menu-meeting-schedule-config',  'show' , '')
+                            });
+
+                            $('.menu-meeting-share').on('click' , function(){
+                                menu('menu-meeting-share',  'show' , '')
+                            });
 
                         }
                         else{
@@ -766,6 +925,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                     }
                 };
                 ///////////////////////////////////////////////////////////////////////
+
+                
 
                 ///////////////////////////////////////////////////////////////////////
                 // fetch user and append back to selected element
@@ -924,7 +1085,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 
                                     var results = resultsJSON
 
-                                    if(results.status == '200'){
+                                    if(results.status == 'success'){
                                         // let now = new Date(meetinglog.datetime);
                                     
                                         // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');

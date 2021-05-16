@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
+use App\Models\Scheduler;
+use App\Models\MeetingLog;
+use App\Models\Notification;
 use Illuminate\Console\Command;
 
 class everyMinute extends Command
@@ -44,9 +48,8 @@ class everyMinute extends Command
             {
                 $params = json_decode($scheduler->params);
 
-                //Noti Kick In Yo
+                //Noti Kick In
                 $noti = New Notification;
-                $noti->id = Uuid::uuid4()->getHex();
                 $noti->to_user = $params->to_user;
                 $noti->tiny_img_url = $params->tiny_img_url;
                 $noti->title = $params->title;
@@ -58,17 +61,29 @@ class everyMinute extends Command
                 $noti->created_by = $params->created_by;
                 $noti->id_module = $params->id_module;
                 $noti->module = $params->module;
+    
+                //FCM Kick In
+                $user = User::find($noti->to_user);
+                if($user)
+                {
+                    foreach ($user->userdevices as $key => $device) {
+                        $noti->notificationFCM($device->fcm_token , $noti->title , $noti->desc , null , $noti->click_url , $noti->id_module , $noti->module);
+                    }
+                    
+                }
+
+                if($noti->module == 'meet'){
+                    $meetinglog = MeetingLog::find($params->id_module);
+                    $meetinglog->status = 'P';
+                    $meetinglog->save();
+                }
+                
+
                 $noti->save();
 
-                //FCM Kick In Yo
-                // $user = User::find($noti->to_user);
-                // if($user)
-                // {
-                //     $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , $noti->click_url , $noti->id_module , $noti->module);
-                // }
-
-                // $scheduler->is_triggered = 1;
-                // $scheduler->save();
+                $scheduler->is_triggered = 1;
+                $scheduler->save();
+                
 
                 echo "Operation Done";
             }

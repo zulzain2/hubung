@@ -84,7 +84,7 @@ class AuthenticatedSessionController extends Controller
         // }
  
         $data = [
-            'status' => '200', 
+            'status' => 'success', 
             'message' => 'Successfully request OTP',
             'user_id' => $user->id,
             'prevUrl' => $prevUrl,
@@ -182,7 +182,7 @@ class AuthenticatedSessionController extends Controller
             Auth::login($user);
     
             $data = [
-                'status' => '200', 
+                'status' => 'success', 
                 'message' => 'Successfully connect to system',
                 'prevUrl' => $prevUrl,
                 'user_id' => $user->id,
@@ -227,12 +227,74 @@ class AuthenticatedSessionController extends Controller
             Auth::login($user);
     
             $data = [
-                'status' => '200', 
+                'status' => 'success', 
                 'message' => 'Successfully register new user',
                 'user_id' => $user->id,
             ];
             return json_encode($data);
         }
+
+    }
+
+    public function tryAgainOtp(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'type' => 'required',
+        ]);
+
+        if($validator->fails()){
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
+
+        if($request->type == 'login')
+        {
+            $user = User::find($request->user_id);
+
+            $otp = rand(1000,9999);
+            $otp_expired = date("Y-m-d h:i:s", time() + 300);
+            
+            $user->otp = $otp;
+            $user->otp_expired = $otp_expired;
+            $user->save();
+
+            $data = [
+                'status' => 'success', 
+                'message' => 'Successfully send OTP',
+            ];
+        }
+        else if($request->type == 'register')
+        {
+            $tempuser = UserTemporary::find($request->user_id);
+
+            $otp = rand(1000,9999);
+            $otp_expired = date("Y-m-d h:i:s", time() + 300);
+            
+            $tempuser->otp = $otp;
+            $tempuser->otp_expired = $otp_expired;
+            $tempuser->save();
+
+            $data = [
+                'status' => 'success', 
+                'message' => 'Successfully send OTP',
+            ];
+        }
+        else
+        {
+            $data = [
+                'status' => 'error', 
+                'type' => 'Invalid Request',
+                'message' => 'Some data cannot be fetch, please try again.'
+            ];
+        }
+
+        return json_encode($data);
 
     }
     
