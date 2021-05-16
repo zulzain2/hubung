@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\UserTemporary;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -62,6 +64,41 @@ class AuthenticatedSessionController extends Controller
         $otp = rand(1000,9999);
         $otp_expired = date("Y-m-d h:i:s", time() + 300);
         
+        
+
+        /* regex for validating the length and the contact number is a number
+            it must be a number and must be between 8 to 12 inclusive */
+        $passedRegex = preg_match('/\d{8,13}/', $request->phone_number);
+        if (!$request->phone_number || !$passedRegex)
+            return '{"status":1,"error":"Mobile number invalid"}';
+
+        // Check if country code is already included in the mobile no
+        if ($request->phone_number[0] != 6)
+            $request->phone_number = "6$request->phone_number"; // if not, append
+
+        $ESMS_USERNAME     = 'magicxutm';
+        $ESMS_PASSWORD     = 'magicX2020';
+
+        $URL = 'https://api.esms.com.my/sms/send';
+
+        $data = array(
+            'user'	=> $ESMS_USERNAME,
+            'pass'	=> $ESMS_PASSWORD,
+            'to'	=> $request->phone_number,
+            'msg'	=> "RM0.00 Communication: Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired)).""
+        );
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded; charset=utf-8",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+
+        $context  = stream_context_create($options);
+        $result = file_get_contents($URL, false, $context);
+
         $user->otp = $otp;
         $user->otp_expired = $otp_expired;
         $user->save();
@@ -263,6 +300,41 @@ class AuthenticatedSessionController extends Controller
             $user->otp = $otp;
             $user->otp_expired = $otp_expired;
             $user->save();
+
+           
+            /* regex for validating the length and the contact number is a number
+                it must be a number and must be between 8 to 12 inclusive */
+            $passedRegex = preg_match('/\d{8,13}/', $request->phone_number);
+            if (!$request->phone_number || !$passedRegex)
+                return '{"status":1,"error":"Mobile number invalid"}';
+
+            // Check if country code is already included in the mobile no
+            if ($request->phone_number[0] != 6)
+                $request->phone_number = "6$request->phone_number"; // if not, append
+
+            $ESMS_USERNAME     = 'magicxutm';
+            $ESMS_PASSWORD     = 'magicX2020';
+
+            $URL = 'https://api.esms.com.my/sms/send';
+
+            $data = array(
+                'user'	=> $ESMS_USERNAME,
+                'pass'	=> $ESMS_PASSWORD,
+                'to'	=> $request->phone_number,
+                'msg'	=> "RM0.00 Communication: Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired)).""
+            );
+
+            $options = array(
+                'http' => array(
+                    'header'  => "Content-type: application/x-www-form-urlencoded; charset=utf-8",
+                    'method'  => 'POST',
+                    'content' => http_build_query($data)
+                )
+            );
+
+            $context  = stream_context_create($options);
+            $result = file_get_contents($URL, false, $context);
+
 
             $data = [
                 'status' => 'success', 

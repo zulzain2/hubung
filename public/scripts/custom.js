@@ -900,13 +900,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 $('#schedule-log-list').append(`
                                 <div class="row mb-3">
                                     <div class="col-3">
-                                        <em>${date}<br>${time}</em>
+                                        <small>${date}<br>${time}</small>
                                         
                                     </div>
                                     <div class="col-6">
-                                        <strong>${scheduleLog.room_name}</strong>
-                                        <br>
-                                        <span><i class="far fa-clock"></i> ${time} - ${time_end}</span>
+                                        <h5>${scheduleLog.room_name}</h5>
+                                        <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
                                     </div>
                                     <div class="col-3">                                              
                                         <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
@@ -1194,6 +1193,56 @@ document['addEventListener']('DOMContentLoaded', () => {
                     
                     },
                     videoConferenceJoined: function(data) {
+
+                        $('#meet_iframe').mousedown( function(event){
+
+                            console.log('1')
+                            $("#inviteBtn").css("bottom", "75px");
+        
+                        })
+                        
+                        $('#meet_iframe').mouseup( function(event){
+        
+                            console.log('2')
+                            setTimeout(() => {
+                                $("#inviteBtn").css("bottom", "calc((48px * 2) * -1)");
+                              }, 3500);
+        
+                        })
+                        
+                        $('#meet_iframe').mouseenter( function(event){
+        
+                            console.log('3')
+                            $("#inviteBtn").css("bottom", "75px");
+        
+                        })
+                        
+                        $('#meet_iframe').mouseleave( function(event){
+        
+                            console.log('4')
+                            setTimeout(() => {
+                                $("#inviteBtn").css("bottom", "calc((48px * 2) * -1)");
+                              }, 3500);
+        
+                        });
+
+                        var meetIframe = document.getElementById('meet_iframe');
+
+                        meetIframe.addEventListener('touchstart', function(e) {
+                          
+                            console.log('5')
+                            $("#inviteBtn").css("bottom", "75px");
+
+                        }, false);
+
+                        meetIframe.addEventListener('touchend', function(e) {
+                          
+                            console.log('6')
+                            setTimeout(() => {
+                                $("#inviteBtn").css("bottom", "calc((48px * 2) * -1)");
+                              }, 3500);
+
+                        }, false);
 
                         ///////////////////////////////////////////////////////////////////////
                         //for invite meeting button while in meeting
