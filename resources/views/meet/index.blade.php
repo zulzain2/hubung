@@ -426,28 +426,28 @@
             <div class="list-group list-custom-small list-icon-0">
                 <a href="https://www.facebook.com/sharer/sharer.php?u=http://sticky.test/index.html"
                     class="shareToFacebook external-link">
-                    <i class="font-18 far fa-copy color-facebook"></i>
+                    <i class="font-18 far fa-copy color-twitter"></i>
                     <span class="font-13">Copy Meeting Invitation</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
                 <a href="http://twitter.com/share?text=http://sticky.test/index.html" class="shareToTwitter external-link">
-                    <i class="font-18 far fa-envelope color-twitter"></i>
+                    <i class="font-18 far fa-envelope color-brown-dark"></i>
                     <span class="font-13">Your Default Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
                 <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://sticky.test/index.html&amp;title=StickyMobile BootStrap&amp;summary=&amp;source="
                     class="shareToLinkedIn external-link">
-                    <i class="font-18 fab fa-google color-linkedin"></i>
+                    <i class="font-18 fab fa-google color-google"></i>
                     <span class="font-13">Google Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
                 <a href="whatsapp://send?text=http://sticky.test/index.html" class="shareToWhatsApp external-link">
-                    <i class="font-18 fab fa-windows color-whatsapp"></i>
+                    <i class="font-18 fab fa-microsoft color-teal-dark"></i>
                     <span class="font-13">Outlook Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
                 <a href="mailto:?body=http://sticky.test/index.html" class="shareToMail external-link border-0">
-                    <i class="font-18 fab fa-yahoo color-mail"></i>
+                    <i class="font-18 fab fa-yahoo color-magenta-dark"></i>
                     <span class="font-13">Yahoo Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
