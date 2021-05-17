@@ -1118,13 +1118,32 @@ document['addEventListener']('DOMContentLoaded', () => {
                                         $('#meetingStartSchedule').val('');
                                         $('#meetingEndSchedule').val('');
 
-                                        $('#schedule-log-list').prepend(`
-                                            <div class="cal-schedule">
-                                                <em>${date}<br>${time}</em>
-                                                <strong>${meetingName}</strong>
-                                                <span><i class="far fa-clock"></i>${time} - ${time_end}</span>
+                                         $('#schedule-log-list').prepend(`
+                                            <div class="row mb-3">
+                                                <div class="col-3">
+                                                    <small>${date}<br>${time}</small>
+                                                    
+                                                </div>
+                                                <div class="col-6">
+                                                    <h5>${meetingName}</h5>
+                                                    <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
+                                                </div>
+                                                <div class="col-3">                                              
+                                                    <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
+                                                </div>
                                             </div>
+
+                                            <div class="divider mb-3"></div>
+                                            
                                         `)
+
+                                        $('.menu-meeting-schedule-config').on('click' , function(){
+                                            menu('menu-meeting-schedule-config',  'show' , '')
+                                        });
+            
+                                        $('.menu-meeting-share').on('click' , function(){
+                                            menu('menu-meeting-share',  'show' , '')
+                                        });
                                         
                                     }
                                     else{

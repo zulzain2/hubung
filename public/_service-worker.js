@@ -1,5 +1,5 @@
-var CACHE_STATIC_NAME = 'static-v20';
-var CACHE_DYNAMIC_NAME = 'dynamic-v20';
+var CACHE_STATIC_NAME = 'static-v21';
+var CACHE_DYNAMIC_NAME = 'dynamic-v21';
 var STATIC_FILES = [
     '/offline',
     '/home',
@@ -12,7 +12,8 @@ var STATIC_FILES = [
 
 var EXCLUDE_ROUTES = [
   '/',
-  '/verifyOtp'
+  '/verifyOtp',
+  '/phpmyadmin'
 ];
 
 // function trimCache(cacheName, maxItems) {
