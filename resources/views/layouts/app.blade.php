@@ -68,7 +68,7 @@
 
     <div id="page" >
 
-        <div class="header header-fixed header-logo-center" class="check-auth csrf-token">
+        <div class="header header-fixed header-logo-center check-auth csrf-token">
 
             @if (isset($topBarTitle))
                 <a href="index.html" class="header-title">{{ $topBarTitle }}</a>
