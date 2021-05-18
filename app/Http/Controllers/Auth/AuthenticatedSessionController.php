@@ -112,7 +112,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        // return redirect('/login');
+
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully Logout',
+        ];
+        return json_encode($data);
     }
 
     public function createOtp(Request $request)

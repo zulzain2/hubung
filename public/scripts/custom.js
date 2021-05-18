@@ -248,6 +248,55 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
             ///////////////////////////////////////////////////////////////////////
 
+
+            ///////////////////////////////////////////////////////////////////////
+            //for connect user button
+            $('#logoutBtn').on('click' , function(event){
+
+                if (navigator.onLine) {
+                    fetch("/logout", {
+                        method: 'post',
+                        credentials: "same-origin",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    })
+                    .then(function(response){
+                        return response.json();
+                    }).then(function(resultsJSON){
+                        console.log(resultsJSON);
+                        var results = resultsJSON
+
+                                if(results.status == 'success'){
+
+                                    $('.menu-hider').removeClass('menu-active');
+
+                                    swup.loadPage({
+                                        url: '/login', 
+                                        method: 'GET',
+                                        customTransition: '' 
+                                    });
+
+                                }
+                                else{
+
+                                }
+    
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+                } else {
+                    var menuOffline = document.getElementById('menu-offline');
+                    menuOffline.classList.add("menu-active");
+                    $('.menu-hider').addClass('menu-active');
+                } 
+
+
+            });
+            ///////////////////////////////////////////////////////////////////////
+
+
             ///////////////////////////////////////////////////////////////////////
             //for connect user button
             $('#connectBtn').on('click' , function(event){

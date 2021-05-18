@@ -145,16 +145,16 @@
 
 
 
-                    <form method="POST" action="{{ route('logout') }}">
+                    {{-- <form method="POST" action="{{ route('logout') }}"> --}}
 
-                        <input class="csrftoken" type="hidden" name="_token" value="">
+                        {{-- <input class="csrftoken" type="hidden" name="_token" value=""> --}}
 
-                        <button type="submit"
+                        <button type="button" id="logoutBtn"
                             class="btn btn-xxs w-100 rounded-s btn-full mb-3 text-uppercase font-900 shadow-s bg-red-dark"
                             style="margin-top:10px"><i class="fas fa-sign-out-alt "
                                 style="line-height: 25px;"></i>&nbsp;&nbsp;Log Out</button>
 
-                    </form>
+                    {{-- </form> --}}
 
                 </div>
             </div>

@@ -13,7 +13,7 @@ var STATIC_FILES = [
 var EXCLUDE_ROUTES = [
   '/',
   '/verifyOtp',
-  '/phpmyadmin'
+  '/logout'
 ];
 
 // function trimCache(cacheName, maxItems) {
