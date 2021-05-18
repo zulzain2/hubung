@@ -64,7 +64,7 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" id="loginPage">
     <div class="col-xl-8 offset-xl-2 col-lg-12 col-sm-12">
 
         <table style="width:100%;height:100vh;border: none;">
@@ -140,8 +140,6 @@
                 </td>
             </tr>
         </table>
-
-        <div id="loginScript"></div>
             
     </div>
 </div>

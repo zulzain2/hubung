@@ -42,6 +42,54 @@ function menu(idElement,  action, speed) { //action : show , hide
     }
 }
 
+// clipboard initialization
+function _initCopyBtn(){
+    var clipboard = new ClipboardJS('.copy-btn');
+
+    clipboard.on('success', function(e) {
+
+        var toastID = document.getElementById('toast-1');
+        toastID = new bootstrap.Toast(toastID);
+        toastID.show();
+
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function(e) {
+
+        var toastID = document.getElementById('toast-2');
+        toastID = new bootstrap.Toast(toastID);
+        toastID.show();
+
+    });
+}
+
+function _initBtnLoader(){
+    // clicking on "a/button" tag append a loading spinner to it
+    $('a').on('classChange', function() {
+        if ($(this).hasClass("off-btn")) {
+            $(this).append(`
+            <div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
+            <span class="sr-only">Loading...</span>
+            </div>`);
+        } else {
+            $('.spin-temp').remove();
+        }
+    });
+
+    $('button').on('classChange', function() {
+        if ($(this).hasClass("off-btn")) {
+            $(this).append(`
+            <div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
+            <span class="sr-only">Loading...</span>
+            </div>`);
+        } else {
+            $('.spin-temp').remove();
+        }
+    });
+}
+
+
 document['addEventListener']('DOMContentLoaded', () => {
    
     'use strict';
@@ -56,203 +104,152 @@ document['addEventListener']('DOMContentLoaded', () => {
 
     function _init() {
 
+            ///////////////////////////////////////////////////////////////////////
+            //for footer
+            if (document.querySelector('#footer-bar')) {
+                if (window.location.href.indexOf("home") > -1) 
+                {
+                    $('#notification').removeClass('color-highlight');
+                    $('#home').addClass('active-nav');
+                    $('#chat').removeClass('active-nav');
+                    $('#meet').removeClass('active-nav');
+                    $('#file').removeClass('active-nav');
+                    $('#setting').removeClass('active-nav');
+                }
+                else if (window.location.href.indexOf("chat") > -1) 
+                {
+                    $('#notification').removeClass('color-highlight');
+                    $('#home').removeClass('active-nav');
+                    $('#chat').addClass('active-nav');
+                    $('#meet').removeClass('active-nav');
+                    $('#file').removeClass('active-nav');
+                    $('#setting').removeClass('active-nav');
+                }
+                else if(window.location.href.indexOf("meet") > -1)
+                {
+                    $('#notification').removeClass('color-highlight');
+                    $('#home').removeClass('active-nav');
+                    $('#chat').removeClass('active-nav');
+                    $('#meet').addClass('active-nav');
+                    $('#file').removeClass('active-nav');
+                    $('#setting').removeClass('active-nav');
+                }
+                else if(window.location.href.indexOf("file") > -1)
+                {
+                    $('#notification').removeClass('color-highlight');
+                    $('#home').removeClass('active-nav');
+                    $('#chat').removeClass('active-nav');
+                    $('#meet').removeClass('active-nav');
+                    $('#file').addClass('active-nav');
+                    $('#setting').removeClass('active-nav');
+                }
+                else if(window.location.href.indexOf("setting") > -1)
+                {
+                    $('#notification').removeClass('color-highlight');
+                    $('#home').removeClass('active-nav');
+                    $('#chat').removeClass('active-nav');
+                    $('#meet').removeClass('active-nav');
+                    $('#file').removeClass('active-nav');
+                    $('#setting').addClass('active-nav');
+                }
+                else if(window.location.href.indexOf("notification") > -1)
+                {
+                    $('#notification').addClass('color-highlight');
+                    $('#home').removeClass('active-nav');
+                    $('#chat').removeClass('active-nav');
+                    $('#meet').removeClass('active-nav');
+                    $('#file').removeClass('active-nav');
+                    $('#setting').removeClass('active-nav');
+                }
+            }
+            ///////////////////////////////////////////////////////////////////////
+
         setTimeout(function() {
 
-            // clipboard initialization
-            var clipboard = new ClipboardJS('.copy-btn');
+            ///////////////////////////////////////////////////////////////////////
+            // for append csrf-token
+            if (document.querySelector('.csrf-token')) {
+                ///////////////////////////////////////////////////////////////////////
+                // fetch csrf token and append back to selected element
+                fetch('/fetch/csrf').then(function(response) {
+                    return response.json();
+                }).then(function(data) {
 
-            clipboard.on('success', function(e) {
+                    var results = data
 
-                var toastID = document.getElementById('toast-1');
-                toastID = new bootstrap.Toast(toastID);
-                toastID.show();
+                    document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
+                    $('.csrftoken').val(results);
 
-                e.clearSelection();
-            });
-
-            clipboard.on('error', function(e) {
-
-                var toastID = document.getElementById('toast-2');
-                toastID = new bootstrap.Toast(toastID);
-                toastID.show();
-
-            });
-    
-            // clicking on "a" tag append a loading spinner to it
-            $('a').on('classChange', function() {
-                if ($(this).hasClass("off-btn")) {
-                    $(this).append(`
-                    <div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
-                    <span class="sr-only">Loading...</span>
-                    </div>`);
-                } else {
-                    $('.spin-temp').remove();
-                }
-            });
-
-            $('button').on('classChange', function() {
-                if ($(this).hasClass("off-btn")) {
-                    $(this).append(`
-                    <div class="spin-temp spinner-border spinner-border-sm color-gray-light" role="status" style="margin-left:10px">
-                    <span class="sr-only">Loading...</span>
-                    </div>`);
-                } else {
-                    $('.spin-temp').remove();
-                }
-            });
-
-            
-
-            if (document.querySelector('.digit-group')) {
-                $('.digit-group').find('input').each(function() {
-                    $(this).attr('maxlength', 1);
-                    $(this).on('keyup', function(e) {
-                        var parent = $($(this).parent());
-                        
-                        if(e.keyCode === 8 || e.keyCode === 37) {
-                            var prev = parent.find('input#' + $(this).data('previous'));
-                            
-                            if(prev.length) {
-                                $(prev).select();
-                            }
-                        } else if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 39) {
-                            var next = parent.find('input#' + $(this).data('next'));
-                            
-                            if(next.length) {
-                                $(next).select();
-                            } else {
-                                if(parent.data('autosubmit')) {
-                                    parent.submit();
-                                }
-                            }
-                        }
-                    });
+                }).catch(function(err) {
+                    console.log('Error CSRF: ' + err);
                 });
-            };
+                ///////////////////////////////////////////////////////////////////////
+            }
+            ///////////////////////////////////////////////////////////////////////  
 
-        }, 150);
+            ///////////////////////////////////////////////////////////////////////
+            // for checking user auth
+            if (document.querySelector('.check-auth')) {
+                
+                // fetch auth status and if no auth kick user to login
+                fetch('/fetch/checkAuth').then(function(response) { 
+                    return response.json();
+                }).then(function(data) {
+                    var results = data
 
-        // fetch csrf token and append back to selected element
-        fetch('/fetch/csrf').then(function(response) {
-            return response.json();
-        }).then(function(data) {
-
-            var results = data
-
-            document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
-            $('.csrftoken').val(results);
-
-        }).catch(function(err) {
-            console.log('Error CSRF: ' + err);
-        });
-
-        if (document.querySelector('#check-auth')) {
-            
-            // fetch auth status and if no auth kick user to login
-            fetch('/fetch/checkAuth').then(function(response) { 
-                return response.json();
-            }).then(function(data) {
-                var results = data
-
-                if(results === 'true')
-                {
-                    if(window.location.href.indexOf("meetroom") > -1)
+                    if(results === 'true')
                     {
-                        console.log('Authenticated');
-                        var url = new URL(window.location.href);
-                        var roomName = url.searchParams.get("roomName");
-                        if(roomName){
-                            // window.location.href = 'meet?roomName='+roomName+'';
-                            swup.loadPage({
-                                url: 'meet?roomName='+roomName+'',
-                                method: 'GET',
-                                customTransition: '' 
-                              });
+                        if(window.location.href.indexOf("meetroom") > -1)
+                        {
+                            console.log('Authenticated');
+                            var url = new URL(window.location.href);
+                            var roomName = url.searchParams.get("roomName");
+                            if(roomName){
+                                // window.location.href = 'meet?roomName='+roomName+'';
+                                swup.loadPage({
+                                    url: 'meet?roomName='+roomName+'',
+                                    method: 'GET',
+                                    customTransition: '' 
+                                });
+                            }
                         }
-                    }
-                }
-                else
-                {
-                    if(window.location.href.indexOf("meetroom") > -1)
-                    {
-                        console.log('Unauthenticated');
                     }
                     else
                     {
-                        // window.location.href = 'login?prevUrl='+window.location.pathname+'';
-                        swup.loadPage({
-                            url: 'login?prevUrl='+window.location.pathname+'',
-                            method: 'GET',
-                            customTransition: '' 
-                          });
+                        if(window.location.href.indexOf("meetroom") > -1)
+                        {
+                            console.log('Unauthenticated');
+                        }
+                        else
+                        {
+                            // window.location.href = 'login?prevUrl='+window.location.pathname+'';
+                            swup.loadPage({
+                                url: 'login?prevUrl='+window.location.pathname+'',
+                                method: 'GET',
+                                customTransition: '' 
+                            });
+                        }
                     }
-                }
 
-            }).catch(function(err) {
-                console.log('Error Check Auth: ' + err);
-            });
-        }
-
-        // redirect user back to prev url if unauthenticated
-        if (document.querySelector('#loginScript')) {
-            var url = new URL(window.location.href);
-            var prevUrl = url.searchParams.get("prevUrl");
-            if(prevUrl){
-                $('#prevUrl').val(prevUrl);
+                }).catch(function(err) {
+                    console.log('Error Check Auth: ' + err);
+                });
             }
-        }
-        
-        if (document.querySelector('#footer-bar')) {
-            if (window.location.href.indexOf("chat") > -1) 
-            {
-                $('#notification').removeClass('color-highlight');
-                $('#home').removeClass('active-nav');
-                $('#chat').addClass('active-nav');
-                $('#meet').removeClass('active-nav');
-                $('#file').removeClass('active-nav');
-                $('#setting').removeClass('active-nav');
-            }
-            else if(window.location.href.indexOf("meet") > -1)
-            {
-                $('#notification').removeClass('color-highlight');
-                $('#home').removeClass('active-nav');
-                $('#chat').removeClass('active-nav');
-                $('#meet').addClass('active-nav');
-                $('#file').removeClass('active-nav');
-                $('#setting').removeClass('active-nav');
-            }
-            else if(window.location.href.indexOf("file") > -1)
-            {
-                $('#notification').removeClass('color-highlight');
-                $('#home').removeClass('active-nav');
-                $('#chat').removeClass('active-nav');
-                $('#meet').removeClass('active-nav');
-                $('#file').addClass('active-nav');
-                $('#setting').removeClass('active-nav');
-            }
-            else if(window.location.href.indexOf("setting") > -1)
-            {
-                $('#notification').removeClass('color-highlight');
-                $('#home').removeClass('active-nav');
-                $('#chat').removeClass('active-nav');
-                $('#meet').removeClass('active-nav');
-                $('#file').removeClass('active-nav');
-                $('#setting').addClass('active-nav');
-            }
-            else if(window.location.href.indexOf("notification") > -1)
-            {
-                $('#notification').addClass('color-highlight');
-                $('#home').removeClass('active-nav');
-                $('#chat').removeClass('active-nav');
-                $('#meet').removeClass('active-nav');
-                $('#file').removeClass('active-nav');
-                $('#setting').removeClass('active-nav');
-            }
-        }
+            ///////////////////////////////////////////////////////////////////////   
  
-        ///////////////////////////////////////////////////////////////////////
-        //for connect user button
-        setTimeout(function() {
+            ///////////////////////////////////////////////////////////////////////
+            // redirect user back to prev url if unauthenticated
+            if (document.querySelector('#loginPage') || document.querySelector('#registerOtpPage')) {
+                var url = new URL(window.location.href);
+                var prevUrl = url.searchParams.get("prevUrl");
+                if(prevUrl){
+                    $('#prevUrl').val(prevUrl);
+                }
+            }
+            ///////////////////////////////////////////////////////////////////////
+
+            ///////////////////////////////////////////////////////////////////////
+            //for connect user button
             $('#connectBtn').on('click' , function(event){
                 
                     if (navigator.onLine) {
@@ -300,7 +297,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                     url: '/verifyOtp?tempuser_id='+results.user_id+'&type=login&prevUrl='+results.prevUrl+'', 
                                                     method: 'GET',
                                                     customTransition: '' 
-                                                  });
+                                                });
 
                                             }
                                             else{
@@ -328,7 +325,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                             }
                                                             
                                                     } else {
-                                                       
+                                                    
                                                     }
 
                                                     menu('validationError', 'show', 250);
@@ -358,125 +355,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                         $('.menu-hider').addClass('menu-active');
                     } 
             });
-        }, 150);
-        ///////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////
 
-
-        ///////////////////////////////////////////////////////////////////////
-        //for register user button
-        setTimeout(function() {
+            ///////////////////////////////////////////////////////////////////////
+            //for register user button
             $('#registerBtn').on('click' , function(event){
                 
-                    if (navigator.onLine) {
-                
-                        var form = $("#registerForm");
-        
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(form)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                $('#registerBtn').addClass('off-btn').trigger('classChange');
-        
-                                var datas = {};
-                                var datas = new URLSearchParams();
-                                $.each($('#registerForm').serializeArray(), function(i, field) {
-                                    datas.append(field.name, field.value);
-                                });
-                                console.log(datas);
-                                fetch("/register", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: datas,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-                                    console.log(resultsJSON);
-                                    var results = resultsJSON
-
-                                            if(results.status == 'success'){
-                                                
-                                                $('#registerBtn').removeClass('off-btn').trigger('classChange');
-
-                                                // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=register';
-
-                                                swup.loadPage({
-                                                    url: '/verifyOtp?tempuser_id='+results.user_id+'&type=register', 
-                                                    method: 'GET',
-                                                    customTransition: '' 
-                                                  });
-
-                                            }
-                                            else{
-                                                if(results.type == 'Validation Error')
-                                                {
-                                                    $('#registerBtn').removeClass('off-btn').trigger('classChange');
-
-                                                    if (results.error_list) {
-                                                             var p = results.error_list;
-                                                        for (var key in p) {
-                                                            if (p.hasOwnProperty(key)) {
-                                                               
-                                                                // console.log(key + " -> " + p[key]);
-
-                                                                $('#validationErrorList').append(`
-                                                                    <a href="#">
-                    
-                                                                    <span>${p[key]}</span>
-                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                
-                                                                    </a>
-                                                                `)
-
-                                                            }
-                                                        }
-                                                 
-                                                    } else {
-                                                        snackbar(results.status , results.message)
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    $('#registerBtn').removeClass('off-btn').trigger('classChange');
-                                                    snackbar(results.status , results.message)
-                                                }
-                                            }
-                
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-        
-                            }
-                                form.classList.add('was-validated')
-                        })
-                    
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-            });
-        }, 150);
-        ///////////////////////////////////////////////////////////////////////
-
-
-        ///////////////////////////////////////////////////////////////////////
-        //for register otp user button
-        setTimeout(function() {
-            $('#verifyOtpBtn').on('click' , function(event){
                 if (navigator.onLine) {
-                
-                    var form = $("#verifyOtpForm");
+            
+                    var form = $("#registerForm");
     
                     // Loop over them and prevent submission
                     Array.prototype.slice.call(form)
@@ -488,15 +375,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                         }
                         else
                         {
-                            $('#verifyOtpBtn').addClass('off-btn').trigger('classChange');
+                            $('#registerBtn').addClass('off-btn').trigger('classChange');
     
                             var datas = {};
                             var datas = new URLSearchParams();
-                            $.each($('#verifyOtpForm').serializeArray(), function(i, field) {
+                            $.each($('#registerForm').serializeArray(), function(i, field) {
                                 datas.append(field.name, field.value);
                             });
                             console.log(datas);
-                            fetch("/verifyOtp", {
+                            fetch("/register", {
                                 method: 'post',
                                 credentials: "same-origin",
                                 headers: {
@@ -510,93 +397,52 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 console.log(resultsJSON);
                                 var results = resultsJSON
 
-                                        if(results.status === 'success'){
+                                        if(results.status == 'success'){
                                             
-                                            $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
+                                            $('#registerBtn').removeClass('off-btn').trigger('classChange');
 
-                                            // Flutter function - Save FCM Token & Device Info 
-                                            if(window.flutter_inappwebview)
-                                            {
-                                                const args = [results.user_id];
-                                                window.flutter_inappwebview.callHandler('fcmHandler', ...args);
-                                            }
+                                            // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=register';
 
-                                            if(results.prevUrl)
-                                            {
-                                                swup.loadPage({
-                                                    url: results.prevUrl, 
-                                                    method: 'GET',
-                                                    customTransition: '' 
-                                                  });
-                                            }
-                                            else
-                                            {
-                                                swup.loadPage({
-                                                    url: '/home', 
-                                                    method: 'GET',
-                                                    customTransition: '' 
-                                                  });
-                                            }
-
-                                            
+                                            swup.loadPage({
+                                                url: '/verifyOtp?tempuser_id='+results.user_id+'&type=register', 
+                                                method: 'GET',
+                                                customTransition: '' 
+                                            });
 
                                         }
                                         else{
-
-                                            if(results.type === 'Expired OTP')
+                                            if(results.type == 'Validation Error')
                                             {
-                                                $('#digit-1').val('');
-                                                $('#digit-2').val('');
-                                                $('#digit-3').val('');
-                                                $('#digit-4').val('');
-                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-                                                snackbar(results.status , results.message)
+                                                $('#registerBtn').removeClass('off-btn').trigger('classChange');
 
-                                                setTimeout(function() {
-                                                    window.history.back();
-                                                }, 3000);
-                                            }
-                                            else if (results.type == 'Invalid OTP'){
-                                                $('#digit-1').val('');
-                                                $('#digit-2').val('');
-                                                $('#digit-3').val('');
-                                                $('#digit-4').val('');
-                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-                                                snackbar(results.status , results.message)
-                                            }
-                                            else if(results.type == 'Validation Error')
-                                            {
-                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
                                                 if (results.error_list) {
                                                         var p = results.error_list;
-                                                        $('#validationErrorList').html('');
-                                                        for (var key in p) {
-                                                            if (p.hasOwnProperty(key)) {
-                                                            
-                                                                // console.log(key + " -> " + p[key]);
-
-                                                                $('#validationErrorList').append(`
-                                                                    <a href="#">
-                    
-                                                                    <span>${p[key]}</span>
-                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                
-                                                                    </a>
-                                                                `)
-
-                                                            }
-                                                        }
+                                                    for (var key in p) {
+                                                        if (p.hasOwnProperty(key)) {
                                                         
-                                                } else {
-                                                
-                                                }
+                                                            // console.log(key + " -> " + p[key]);
 
-                                                menu('validationError', 'show', 250);
+                                                            $('#validationErrorList').append(`
+                                                                <a href="#">
+                
+                                                                <span>${p[key]}</span>
+                                                                <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                            
+                                                                </a>
+                                                            `)
+
+                                                        }
+                                                    }
+                                            
+                                                } else {
+                                                    snackbar(results.status , results.message)
+                                                }
                                             }
-                                            else{
+                                            else
+                                            {
+                                                $('#registerBtn').removeClass('off-btn').trigger('classChange');
                                                 snackbar(results.status , results.message)
                                             }
-
                                         }
             
                             })
@@ -614,380 +460,46 @@ document['addEventListener']('DOMContentLoaded', () => {
                     $('.menu-hider').addClass('menu-active');
                 } 
             });
-        }, 150);
-        ///////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////
 
-        ///////////////////////////////////////////////////////////////////////
-        //for connect user button
-        setTimeout(function() {
+            ///////////////////////////////////////////////////////////////////////
+            // for verify otp
+            if (document.querySelector('#verifyOtpPage')) {
 
-            if (document.querySelector('#seconds-counter')) 
-            {
-                var seconds = 60;
-                var el = document.getElementById('seconds-counter');
-                console.log(el);
-
-                function incrementSeconds() {
-                    seconds -= 1;
-                    if(seconds >= 0)
-                    {
-                        el.innerHTML = ''+seconds+' Seconds';
-                    }
-                    if(seconds == 0){
-                        $('#tryAgainOtp').prop('disabled', false);
-                        $('#seconds-counter').hide();
-                    }
-                }
-
-                var cancel = setInterval(incrementSeconds, 1000);
-            }
-
-            $('#tryAgainOtp').on('click' , function(event){
-                if (navigator.onLine) {
-                
-                            $('#tryAgainOtp').addClass('off-btn').trigger('classChange');
-    
-                            var url = new URL(window.location.href);
-
-                            var  tryAgainOtp = new URLSearchParams();
-                             tryAgainOtp.append('user_id', url.searchParams.get("tempuser_id"));
-                             tryAgainOtp.append('type', url.searchParams.get("type"));
-
-                            fetch("/tryAgainOtp", {
-                                method: 'post',
-                                credentials: "same-origin",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                body: tryAgainOtp,
-                            })
-                            .then(function(response){
-                                return response.json();
-                            }).then(function(resultsJSON){
-                             
-                                var results = resultsJSON
-
-                                        if(results.status === 'success'){
-                                            
-                                            $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
-
-                                            snackbar(results.status , results.message)
-                                            
-                                            $('#seconds-counter').html('');
-                                            $('#seconds-counter').show();
-                                            $('#tryAgainOtp').prop('disabled', true);
-
-                                            var seconds = 60;
-                                            var el = document.getElementById('seconds-counter');
-                                            console.log(el);
-
-                                            function incrementSeconds() {
-                                                seconds -= 1;
-
-                                                if(seconds >= 0)
-                                                {
-                                                    el.innerHTML = ''+seconds+' Seconds';
-                                                }
-
-                                                if(seconds == 0){
-                                                    $('#tryAgainOtp').prop('disabled', false);
-                                                    $('#seconds-counter').hide();
-                                                }
-                                            }
-
-                                            var cancel = setInterval(incrementSeconds, 1000);                                 
-
-                                        }
-                                        else{
-
-                                            if(results.type == 'Validation Error')
-                                            {
-                                                $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
-
-                                                if (results.error_list) {
-                                                        var p = results.error_list;
-                                                        $('#validationErrorList').html('');
-                                                        for (var key in p) {
-                                                            if (p.hasOwnProperty(key)) {
-                                                            
-                                                                // console.log(key + " -> " + p[key]);
-
-                                                                $('#validationErrorList').append(`
-                                                                    <a href="#">
-                    
-                                                                    <span>${p[key]}</span>
-                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                
-                                                                    </a>
-                                                                `)
-
-                                                            }
-                                                        }
-                                                        
-                                                } else {
-                                                
-                                                }
-
-                                                menu('validationError', 'show', 250);
-                                            }
-                                            else{
-                                                snackbar(results.status , results.message)
-                                            }
-
-                                        }
-            
-                            })
-                            .catch(function(err) {
-                                console.log(err);
-                            });
-    
+                $('.digit-group').find('input').each(function() {
+                    $(this).attr('maxlength', 1);
+                    $(this).on('keyup', function(e) {
+                        var parent = $($(this).parent());
                         
-                
-                
-                } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
-                } 
-            });
-        }, 550);
-        ///////////////////////////////////////////////////////////////////////
-
-        if (document.querySelector('#meeting-index')) {
-            
-            setTimeout(function() {
-            
-                ///////////////////////////////////////////////////////////////////////
-                //append data to meet public page when parameters available in link
-                if (document.querySelector('#meetPublic')) {
-                        
-                    var url = new URL(window.location.href);
-                    var roomName = url.searchParams.get("roomName");
-                
-                    if(roomName){
-                        setTimeout(function() {
-                            $('#meetingNameJoin').val(''+roomName+'');
-                            $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
-                        }, 150);
-                    }
-
-                    $('body').removeClass('theme-light');
-                    $('body').addClass('theme-dark');
-                };
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //make join meeting tab active when roomName parameters available in link
-                var url = new URL(window.location.href);
-                var roomName = url.searchParams.get("roomName");
-                if(roomName)
-                {
-                    $('#meeting-tab-1').removeClass('bg-highlight no-click');
-                    $('#meetingNameJoin').val(roomName);
-                    
-                    $('#meeting-tab-1').addClass('collapsed');
-
-                    $('#meeting-tab-2').removeClass('collapsed');
-                    $('#meeting-tab-2').addClass('bg-highlight no-click');
-                    
-                    $('#tab-1').removeClass('show');
-                    $('#tab-2').addClass('show');
-                }
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //fetch data for meeting log
-                if (document.querySelector('#meeting-log')) {
-                    var networkDataReceived = false;
-
-                    // fetch fresh meeting log
-                    var networkUpdate = fetch('/fetch/meetingLog')
-                    .then(function(response) { 
-                        return response.json();
-                    }).then(function(data){
-                        networkDataReceived = true;
-                        
-                        updateMeetingLog(data);
-                    })
-                    .catch(function(err) {
-                        console.log('Error Meeting Log: ' + err);
+                        if(e.keyCode === 8 || e.keyCode === 37) {
+                            var prev = parent.find('input#' + $(this).data('previous'));
+                            
+                            if(prev.length) {
+                                $(prev).select();
+                            }
+                        } else if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 39) {
+                            var next = parent.find('input#' + $(this).data('next'));
+                            
+                            if(next.length) {
+                                $(next).select();
+                            } else {
+                                if(parent.data('autosubmit')) {
+                                    parent.submit();
+                                }
+                            }
+                        }
                     });
-
-                    // fetch cached meeting log
-                    // caches.match('/fetch/meetingLog')
-                    // .then(function(response) {
-                    //     if (!response) throw Error("No data");
-                    //     return response.json();
-                    // }).then(function(data) {
-                    //     // don't overwrite newer network data
-                    //     if (!networkDataReceived) {
-                        
-                    //         updateMeetingLog(data)
-
-                    //     }
-                    // }).catch(function() {
-                    //     // we didn't get cached data, the network is our last hope:
-                    //     return networkUpdate;
-                    // }).catch(function(err) {
-                    //     console.log('Error Meeting Log: ' + err);
-                    // });
-
-                    function updateMeetingLog(data){
-                        var results = data
-
-                        if (results.length) {
-                            $('#meeting-log-list').html('');
-                            results.map(meetinglog => {
-
-                                let now = new Date(meetinglog.datetime);
-                                
-                                var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                $('#meeting-log-list').append(`
-                                    <a href="#">
-                                        <span>${meetinglog.room_name}</span>
-                                        <strong>as ${meetinglog.display_name}</strong>
-                                        <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                `)
-                            })
-
-                        }
-                        else{
-                            $('#meeting-log-list').html('');
-
-                            $('#meeting-log-list').append(`
-                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                            `);
-                        }
-                    }
-                };
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //fetch data for schedule meeting log
-                if (document.querySelector('#schedule-log')) {
-                    var networkDataReceived = false;
-
-                    // fetch fresh schedule log
-                    var networkUpdate = fetch('/fetch/scheduleLog')
-                    .then(function(response) { 
-                        return response.json();
-                    }).then(function(data){
-                        networkDataReceived = true;
-                        
-                        updateScheduleLog(data);
-                    })
-                    .catch(function(err) {
-                        console.log('Error Schedule Log: ' + err);
-                    });
-
-                    async function updateScheduleLog(data){
-                        var results = data
-
-                        if (results.length) {
-                            $('#schedule-log-list').html('');
-                            await results.map(scheduleLog => {
-
-                                let start = new Date(scheduleLog.datetime);
-                                let end = new Date(scheduleLog.end_datetime);
-                                
-                                var date = moment(start).format('MMMM Do');
-                                var time = moment(start).format('h:mm a');
-                                var time_end = moment(end).format('h:mm a');
-
-                                $('#schedule-log-list').append(`
-                                <div class="row mb-3">
-                                    <div class="col-3">
-                                        <small>${date}<br>${time}</small>
-                                        
-                                    </div>
-                                    <div class="col-6">
-                                        <h5>${scheduleLog.room_name}</h5>
-                                        <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
-                                    </div>
-                                    <div class="col-3">                                              
-                                        <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
-                                    </div>
-                                </div>
-
-                                <div class="divider mb-3"></div>
-                                   
-                                `)
-                            })
-
-                            $('.menu-meeting-schedule-config').on('click' , function(){
-                                menu('menu-meeting-schedule-config',  'show' , '')
-                            });
-
-                            $('.menu-meeting-share').on('click' , function(){
-                                menu('menu-meeting-share',  'show' , '')
-                            });
-
-                        }
-                        else{
-                            $('#schedule-log-list').html('');
-
-                            $('#schedule-log-list').append(`
-                                <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
-                            `);
-                        }
-                    }
-                };
-                ///////////////////////////////////////////////////////////////////////
-
-                
-
-                ///////////////////////////////////////////////////////////////////////
-                // fetch user and append back to selected element
-                fetch('/fetch/user').then(function(response) {
-                    return response.json();
-                }).then(function(data) {
-                    var results = data
-
-                    if(results === 'false')
-                    {
-
-                    }
-                    else
-                    {
-                        $('.usrName').val(results.name);
-                    }
-                }).catch(function(err) {
-                    console.log('Error User: ' + err);
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                // for offline checkbox
-                $('#toggle-id').change(function() {
-                    if (this.checked) {
-                        $('#password_meeting').show();
-                    } else {
-                        $('#password_meeting').hide();
-                    }
                 });
 
-                $('#toggle-id-schedule').change(function() {
-                    if (this.checked) {
-                        $('#password_meeting_schedule').show();
-                    } else {
-                        $('#password_meeting_schedule').hide();
-                    }
-                });
                 ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for start meeting button
-                $('#start-meeting').on('click' , function(event){
-                        
+                //for verify otp user button
+                $('#verifyOtpBtn').on('click' , function(event){
                     if (navigator.onLine) {
                     
-                        var fsm = $("#createMeetingForm");
-
+                        var form = $("#verifyOtpForm");
+        
                         // Loop over them and prevent submission
-                        Array.prototype.slice.call(fsm)
+                        Array.prototype.slice.call(form)
                         .forEach(function (form) {
                             if (!form.checkValidity()) 
                             {
@@ -996,170 +508,126 @@ document['addEventListener']('DOMContentLoaded', () => {
                             }
                             else
                             {
-                                $('#portfolio-2').addClass('menu-active');
-
-                                var meetingName = $('#meetingName').val();
-                                var usrName = $('#usrName').val();
-                    
-                                initializeMeeting(meetingName, usrName);
-                            }
-                                form.classList.add('was-validated')
-                        })
-                    
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for join meeting button
-                $('#join-meeting').on('click' , function(event){
-                        
-                    if (navigator.onLine) {
-
-                        var fsm = $("#joinMeetingForm");
-
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(fsm)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                $('#portfolio-2').addClass('menu-active');
-
-                                var meetingName = $('#meetingNameJoin').val();
-                                var usrName = $('#usrNameJoin').val();
-                    
-                                initializeMeeting(meetingName, usrName);
-                            }
-                                form.classList.add('was-validated')
-                        })
-
-                    } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
-                    } 
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for schedule meeting button
-                $('#schedule-meeting').on('click' , function(event){
-                        
-                    if (navigator.onLine) {
-
-                        var fsm = $("#scheduleMeetingForm");
-
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(fsm)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                
-                                $('#schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                                var meetingName = $('#meetingNameSchedule').val();
-                                var meetingDate = $('#meetingDateSchedule').val();
-                                var meetingStart = $('#meetingStartSchedule').val();
-                                var meetingEnd = $('#meetingEndSchedule').val();
-
-                                var dataMeetingSchedule = new URLSearchParams();
-                                dataMeetingSchedule.append('meeting_name', meetingName);
-                                dataMeetingSchedule.append('meeting_date', meetingDate);
-                                dataMeetingSchedule.append('meeting_start', meetingStart);
-                                dataMeetingSchedule.append('meeting_end', meetingEnd);
-
-                                fetch("fetch/storeMeetingSchedule", {
+                                $('#verifyOtpBtn').addClass('off-btn').trigger('classChange');
+        
+                                var datas = {};
+                                var datas = new URLSearchParams();
+                                $.each($('#verifyOtpForm').serializeArray(), function(i, field) {
+                                    datas.append(field.name, field.value);
+                                });
+                                console.log(datas);
+                                fetch("/verifyOtp", {
                                     method: 'post',
                                     credentials: "same-origin",
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
-                                    body: dataMeetingSchedule,
+                                    body: datas,
                                 })
                                 .then(function(response){
                                     return response.json();
                                 }).then(function(resultsJSON){
-                
+                                    console.log(resultsJSON);
                                     var results = resultsJSON
 
-                                    if(results.status == 'success'){
-                                        // let now = new Date(meetinglog.datetime);
-                                    
-                                        // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-                                        $('#emptyScheduleLog').remove();
+                                            if(results.status === 'success'){
+                                                
+                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
 
-                                        snackbar('success' , results.message)
-                                        $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
+                                                // Flutter function - Save FCM Token & Device Info 
+                                                if(window.flutter_inappwebview)
+                                                {
+                                                    const args = [results.user_id];
+                                                    window.flutter_inappwebview.callHandler('fcmHandler', ...args);
+                                                }
 
-                                        let date_meet = new Date(meetingDate);
-                                        let start = new Date(''+meetingDate+' '+meetingStart+'');
-                                        let end = new Date(''+meetingDate+' '+meetingEnd+'');
-                                        
-                                        var date = moment(date_meet).format('MMMM Do');
-                                        var time = moment(start).format('h:mm a');
-                                        var time_end = moment(end).format('h:mm a');
+                                                if(results.prevUrl)
+                                                {
+                                                    swup.loadPage({
+                                                        url: results.prevUrl, 
+                                                        method: 'GET',
+                                                        customTransition: '' 
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    swup.loadPage({
+                                                        url: '/home', 
+                                                        method: 'GET',
+                                                        customTransition: '' 
+                                                    });
+                                                }
 
-                                        $('#meetingNameSchedule').val('');
-                                        $('#meetingDateSchedule').val('');
-                                        $('#meetingStartSchedule').val('');
-                                        $('#meetingEndSchedule').val('');
+                                                
 
-                                         $('#schedule-log-list').prepend(`
-                                            <div class="row mb-3">
-                                                <div class="col-3">
-                                                    <small>${date}<br>${time}</small>
+                                            }
+                                            else{
+
+                                                if(results.type === 'Expired OTP')
+                                                {
+                                                    $('#digit-1').val('');
+                                                    $('#digit-2').val('');
+                                                    $('#digit-3').val('');
+                                                    $('#digit-4').val('');
+                                                    $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                    snackbar(results.status , results.message)
+
+                                                    setTimeout(function() {
+                                                        window.history.back();
+                                                    }, 3000);
+                                                }
+                                                else if (results.type == 'Invalid OTP'){
+                                                    $('#digit-1').val('');
+                                                    $('#digit-2').val('');
+                                                    $('#digit-3').val('');
+                                                    $('#digit-4').val('');
+                                                    $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                    snackbar(results.status , results.message)
+                                                }
+                                                else if(results.type == 'Validation Error')
+                                                {
+                                                    $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
+                                                    if (results.error_list) {
+                                                            var p = results.error_list;
+                                                            $('#validationErrorList').html('');
+                                                            for (var key in p) {
+                                                                if (p.hasOwnProperty(key)) {
+                                                                
+                                                                    // console.log(key + " -> " + p[key]);
+
+                                                                    $('#validationErrorList').append(`
+                                                                        <a href="#">
+                        
+                                                                        <span>${p[key]}</span>
+                                                                        <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                    
+                                                                        </a>
+                                                                    `)
+
+                                                                }
+                                                            }
+                                                            
+                                                    } else {
                                                     
-                                                </div>
-                                                <div class="col-6">
-                                                    <h5>${meetingName}</h5>
-                                                    <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
-                                                </div>
-                                                <div class="col-3">                                              
-                                                    <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
-                                                </div>
-                                            </div>
+                                                    }
 
-                                            <div class="divider mb-3"></div>
-                                            
-                                        `)
+                                                    menu('validationError', 'show', 250);
+                                                }
+                                                else{
+                                                    snackbar(results.status , results.message)
+                                                }
 
-                                        $('.menu-meeting-schedule-config').on('click' , function(){
-                                            menu('menu-meeting-schedule-config',  'show' , '')
-                                        });
-            
-                                        $('.menu-meeting-share').on('click' , function(){
-                                            menu('menu-meeting-share',  'show' , '')
-                                        });
-                                        
-                                    }
-                                    else{
-                                    
-                                    }
+                                            }
                 
                                 })
                                 .catch(function(err) {
                                     console.log(err);
                                 });
-                                    
-                            
+        
                             }
                                 form.classList.add('was-validated')
                         })
-
+                    
                     } else {
                         var menuOffline = document.getElementById('menu-offline');
                         menuOffline.classList.add("menu-active");
@@ -1167,144 +635,224 @@ document['addEventListener']('DOMContentLoaded', () => {
                     } 
                 });
                 ///////////////////////////////////////////////////////////////////////
-            }, 150);
 
-
-            function initializeMeeting(meetingName, usrName) {
-                var domain = 'meet.tvetxr.ga';
-                var options = {
-                    roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
-                    width: '100%',
-                    height: '100%',
-                    parentNode: document.querySelector('#meet_iframe'),
-                    userInfo: {
-                        displayName: usrName ? usrName : 'Fellow MaGICXian',
-                    },
-                    configOverwrite:{
-                        prejoinPageEnabled: true,
-                        disableDeepLinking: true,
-                        apiLogLevels: ['log'],                    
-                    },
-                    interfaceConfigOverwrite: {
-                        TOOLBAR_BUTTONS: [
-                            'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-                            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                            'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                            'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
-                        ],
-                    },
-                };
-                apiObj = new JitsiMeetExternalAPI(domain, options);
-                
-                apiObj.addEventListeners({
-
-                    readyToClose: function () {
-
-                        var _0xce56x32 = document['querySelectorAll']('.menu-active');
-
-                        for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                            _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                        };
-
-                        apiObj.dispose();
-
+                ///////////////////////////////////////////////////////////////////////
+                //for try again otp user button
+                $('#tryAgainOtp').on('click' , function(event){
+                    if (navigator.onLine) {
                     
-                    },
-                    videoConferenceJoined: function(data) {
-
-                        $('#meet_iframe').mousedown( function(event){
-
-                            console.log('1')
-                            $("#inviteBtn").css("bottom", "75px");
+                                $('#tryAgainOtp').addClass('off-btn').trigger('classChange');
         
-                        })
+                                var url = new URL(window.location.href);
+
+                                var  tryAgainOtp = new URLSearchParams();
+                                tryAgainOtp.append('user_id', url.searchParams.get("tempuser_id"));
+                                tryAgainOtp.append('type', url.searchParams.get("type"));
+
+                                fetch("/tryAgainOtp", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: tryAgainOtp,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+                                
+                                    var results = resultsJSON
+
+                                            if(results.status === 'success'){
+                                                
+                                                $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
+
+                                                snackbar(results.status , results.message)
+                                                
+                                                $('#seconds-counter').html('');
+                                                $('#seconds-counter').show();
+                                                $('#tryAgainOtp').prop('disabled', true);
+
+                                                var seconds = 60;
+                                                var el = document.getElementById('seconds-counter');
+                                                console.log(el);
+
+                                                function incrementSeconds() {
+                                                    seconds -= 1;
+
+                                                    if(seconds >= 0)
+                                                    {
+                                                        el.innerHTML = ''+seconds+' Seconds';
+                                                    }
+
+                                                    if(seconds == 0){
+                                                        $('#tryAgainOtp').prop('disabled', false);
+                                                        $('#seconds-counter').hide();
+                                                    }
+                                                }
+
+                                                var cancel = setInterval(incrementSeconds, 1000);                                 
+
+                                            }
+                                            else{
+
+                                                if(results.type == 'Validation Error')
+                                                {
+                                                    $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
+
+                                                    if (results.error_list) {
+                                                            var p = results.error_list;
+                                                            $('#validationErrorList').html('');
+                                                            for (var key in p) {
+                                                                if (p.hasOwnProperty(key)) {
+                                                                
+                                                                    // console.log(key + " -> " + p[key]);
+
+                                                                    $('#validationErrorList').append(`
+                                                                        <a href="#">
                         
-                        $('#meet_iframe').mouseup( function(event){
+                                                                        <span>${p[key]}</span>
+                                                                        <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                    
+                                                                        </a>
+                                                                    `)
+
+                                                                }
+                                                            }
+                                                            
+                                                    } else {
+                                                    
+                                                    }
+
+                                                    menu('validationError', 'show', 250);
+                                                }
+                                                else{
+                                                    snackbar(results.status , results.message)
+                                                }
+
+                                            }
+                
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
         
-                            console.log('2')
-                            setTimeout(() => {
-                                $("#inviteBtn").css("bottom", "calc((48px * 2) * -1)");
-                              }, 3500);
-        
-                        })
+                            
+                    
+                    
+                    } else {
+                        var menuOffline = document.getElementById('menu-offline');
+                        menuOffline.classList.add("menu-active");
+                        $('.menu-hider').addClass('menu-active');
+                    } 
+                });
+
+                if (document.querySelector('#seconds-counter')) 
+                {
+                    var seconds = 60;
+                    var el = document.getElementById('seconds-counter');
+                    console.log(el);
+
+                    function incrementSeconds() {
+                        seconds -= 1;
+                        if(seconds >= 0)
+                        {
+                            el.innerHTML = ''+seconds+' Seconds';
+                        }
+                        if(seconds == 0){
+                            $('#tryAgainOtp').prop('disabled', false);
+                            $('#seconds-counter').hide();
+                        }
+                    }
+
+                    var cancel = setInterval(incrementSeconds, 1000);
+                }
+                ///////////////////////////////////////////////////////////////////////
+
+            };
+            ///////////////////////////////////////////////////////////////////////
+
+            ///////////////////////////////////////////////////////////////////////
+            //for meet.index.blade.php 
+            if (document.querySelector('#meeting-index')) {
+                
+                
+                
+                    ///////////////////////////////////////////////////////////////////////
+                    //append data to meet public page when parameters available in link
+                    if (document.querySelector('#meetPublic')) {
+                            
+                        var url = new URL(window.location.href);
+                        var roomName = url.searchParams.get("roomName");
+                    
+                        if(roomName){
+                            $('#meetingNameJoin').val(''+roomName+'');
+                            $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
+                        }
+
+                        $('body').removeClass('theme-light');
+                        $('body').addClass('theme-dark');
+                    };
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
+                    //make join meeting tab active when roomName parameters available in link
+                    var url = new URL(window.location.href);
+                    var roomName = url.searchParams.get("roomName");
+                    if(roomName)
+                    {
+                        $('#meeting-tab-1').removeClass('bg-highlight no-click');
+                        $('#meetingNameJoin').val(roomName);
                         
-                        $('#meet_iframe').mouseenter( function(event){
-        
-                            console.log('3')
-                            $("#inviteBtn").css("bottom", "75px");
-        
-                        })
+                        $('#meeting-tab-1').addClass('collapsed');
+
+                        $('#meeting-tab-2').removeClass('collapsed');
+                        $('#meeting-tab-2').addClass('bg-highlight no-click');
                         
-                        $('#meet_iframe').mouseleave( function(event){
-        
-                            console.log('4')
-                            setTimeout(() => {
-                                $("#inviteBtn").css("bottom", "calc((48px * 2) * -1)");
-                              }, 3500);
-        
-                        });
+                        $('#tab-1').removeClass('show');
+                        $('#tab-2').addClass('show');
+                    }
+                    ///////////////////////////////////////////////////////////////////////
 
-                        var meetIframe = document.getElementById('meet_iframe');
+                    ///////////////////////////////////////////////////////////////////////
+                    //fetch data for meeting log
+                    if (document.querySelector('#meeting-log')) {
+                        var networkDataReceived = false;
 
-                        meetIframe.addEventListener('touchstart', function(e) {
-                          
-                            console.log('5')
-                            $("#inviteBtn").css("bottom", "75px");
-
-                        }, false);
-
-                        meetIframe.addEventListener('touchend', function(e) {
-                          
-                            console.log('6')
-                            setTimeout(() => {
-                                $("#inviteBtn").css("bottom", "calc((48px * 2) * -1)");
-                              }, 3500);
-
-                        }, false);
-
-                        ///////////////////////////////////////////////////////////////////////
-                        //for invite meeting button while in meeting
-                        $('#inviteBtn').on('click' , function() {
-                            $('#menu-meeting-invitation').addClass('menu-active');
-                        });
-
-                        $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
-                        $('#invite-invitor').html(data.displayName);
-                        $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
-
-                        $('.close-menu-meeting-invitation').on('click' , function() {
-                            $('#menu-meeting-invitation').removeClass('menu-active');
-                        }); 
-                        ///////////////////////////////////////////////////////////////////////
-
-                        var currentdate = new Date();
-
-                        var datetimefordb =  currentdate.getFullYear() + "-"
-                                        + (currentdate.getMonth()+1)  + "-" 
-                                        + currentdate.getDate() + " "  
-                                        + currentdate.getHours() + ":"  
-                                        + currentdate.getMinutes() + ":" 
-                                        + currentdate.getSeconds();
-
-                        var dataMeetingLog = new URLSearchParams();
-                        dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
-                        dataMeetingLog.append('display_name', data.displayName);
-                        dataMeetingLog.append('datetime', datetimefordb);
-
-                        fetch("fetch/storeMeetingLog", {
-                            method: 'post',
-                            credentials: "same-origin",
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            body: dataMeetingLog,
-                        })
-                        .then(function(response){
+                        // fetch fresh meeting log
+                        var networkUpdate = fetch('/fetch/meetingLog')
+                        .then(function(response) { 
                             return response.json();
-                        }).then(function(resultsJSON){
+                        }).then(function(data){
+                            networkDataReceived = true;
+                            
+                            updateMeetingLog(data);
+                        })
+                        .catch(function(err) {
+                            console.log('Error Meeting Log: ' + err);
+                        });
 
-                            var results = resultsJSON
+                        // fetch cached meeting log
+                        // caches.match('/fetch/meetingLog')
+                        // .then(function(response) {
+                        //     if (!response) throw Error("No data");
+                        //     return response.json();
+                        // }).then(function(data) {
+                        //     // don't overwrite newer network data
+                        //     if (!networkDataReceived) {
+                            
+                        //         updateMeetingLog(data)
+
+                        //     }
+                        // }).catch(function() {
+                        //     // we didn't get cached data, the network is our last hope:
+                        //     return networkUpdate;
+                        // }).catch(function(err) {
+                        //     console.log('Error Meeting Log: ' + err);
+                        // });
+
+                        function updateMeetingLog(data){
+                            var results = data
 
                             if (results.length) {
                                 $('#meeting-log-list').html('');
@@ -1329,22 +877,454 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 $('#meeting-log-list').html('');
 
                                 $('#meeting-log-list').append(`
-                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
                                 `);
                             }
+                        }
+                    };
+                    ///////////////////////////////////////////////////////////////////////
 
+                    ///////////////////////////////////////////////////////////////////////
+                    //fetch data for schedule meeting log
+                    if (document.querySelector('#schedule-log')) {
+                        var networkDataReceived = false;
+
+                        // fetch fresh schedule log
+                        var networkUpdate = fetch('/fetch/scheduleLog')
+                        .then(function(response) { 
+                            return response.json();
+                        }).then(function(data){
+                            networkDataReceived = true;
+                            
+                            updateScheduleLog(data);
                         })
                         .catch(function(err) {
-                            console.log(err);
+                            console.log('Error Schedule Log: ' + err);
                         });
 
-                    }
-                });
-            }
+                        async function updateScheduleLog(data){
+                            var results = data
 
-        }
-       
+                            if (results.length) {
+                                $('#schedule-log-list').html('');
+                                await results.map(scheduleLog => {
+
+                                    let start = new Date(scheduleLog.datetime);
+                                    let end = new Date(scheduleLog.end_datetime);
+                                    
+                                    var date = moment(start).format('MMMM Do');
+                                    var time = moment(start).format('h:mm a');
+                                    var time_end = moment(end).format('h:mm a');
+
+                                    $('#schedule-log-list').append(`
+                                    <div class="row mb-3">
+                                        <div class="col-3">
+                                            <small>${date}<br>${time}</small>
+                                            
+                                        </div>
+                                        <div class="col-6">
+                                            <h5>${scheduleLog.room_name}</h5>
+                                            <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
+                                        </div>
+                                        <div class="col-3">                                              
+                                            <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="divider mb-3"></div>
+                                    
+                                    `)
+                                })
+
+                                $('.menu-meeting-schedule-config').on('click' , function(){
+                                    menu('menu-meeting-schedule-config',  'show' , '')
+                                });
+
+                                $('.menu-meeting-share').on('click' , function(){
+                                    menu('menu-meeting-share',  'show' , '')
+                                });
+
+                            }
+                            else{
+                                $('#schedule-log-list').html('');
+
+                                $('#schedule-log-list').append(`
+                                    <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                                `);
+                            }
+                        }
+                    };
+                    ///////////////////////////////////////////////////////////////////////
+
+                    
+
+                    ///////////////////////////////////////////////////////////////////////
+                    // fetch user and append back to selected element
+                    fetch('/fetch/user').then(function(response) {
+                        return response.json();
+                    }).then(function(data) {
+                        var results = data
+
+                        if(results === 'false')
+                        {
+
+                        }
+                        else
+                        {
+                            $('.usrName').val(results.name);
+                        }
+                    }).catch(function(err) {
+                        console.log('Error User: ' + err);
+                    });
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
+                    // for offline checkbox
+                    $('#toggle-id').change(function() {
+                        if (this.checked) {
+                            $('#password_meeting').show();
+                        } else {
+                            $('#password_meeting').hide();
+                        }
+                    });
+
+                    $('#toggle-id-schedule').change(function() {
+                        if (this.checked) {
+                            $('#password_meeting_schedule').show();
+                        } else {
+                            $('#password_meeting_schedule').hide();
+                        }
+                    });
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
+                    //for start meeting button
+                    $('#start-meeting').on('click' , function(event){
+                            
+                        if (navigator.onLine) {
+                        
+                            var fsm = $("#createMeetingForm");
+
+                            // Loop over them and prevent submission
+                            Array.prototype.slice.call(fsm)
+                            .forEach(function (form) {
+                                if (!form.checkValidity()) 
+                                {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+                                else
+                                {
+                                    $('#portfolio-2').addClass('menu-active');
+
+                                    var meetingName = $('#meetingName').val();
+                                    var usrName = $('#usrName').val();
+                        
+                                    initializeMeeting(meetingName, usrName);
+                                }
+                                    form.classList.add('was-validated')
+                            })
+                        
+                        } else {
+                            var menuOffline = document.getElementById('menu-offline');
+                            menuOffline.classList.add("menu-active");
+                            $('.menu-hider').addClass('menu-active');
+                        } 
+                    });
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
+                    //for join meeting button
+                    $('#join-meeting').on('click' , function(event){
+                            
+                        if (navigator.onLine) {
+
+                            var fsm = $("#joinMeetingForm");
+
+                            // Loop over them and prevent submission
+                            Array.prototype.slice.call(fsm)
+                            .forEach(function (form) {
+                                if (!form.checkValidity()) 
+                                {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+                                else
+                                {
+                                    $('#portfolio-2').addClass('menu-active');
+
+                                    var meetingName = $('#meetingNameJoin').val();
+                                    var usrName = $('#usrNameJoin').val();
+                        
+                                    initializeMeeting(meetingName, usrName);
+                                }
+                                    form.classList.add('was-validated')
+                            })
+
+                        } else {
+                            var menuOffline = document.getElementById('menu-offline');
+                            menuOffline.classList.add("menu-active");
+                            $('.menu-hider').addClass('menu-active');
+                        } 
+                    });
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
+                    //for schedule meeting button
+                    $('#schedule-meeting').on('click' , function(event){
+                            
+                        if (navigator.onLine) {
+
+                            var fsm = $("#scheduleMeetingForm");
+
+                            // Loop over them and prevent submission
+                            Array.prototype.slice.call(fsm)
+                            .forEach(function (form) {
+                                if (!form.checkValidity()) 
+                                {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+                                else
+                                {
+                                    
+                                    $('#schedule-meeting').addClass('off-btn').trigger('classChange');
+
+                                    var meetingName = $('#meetingNameSchedule').val();
+                                    var meetingDate = $('#meetingDateSchedule').val();
+                                    var meetingStart = $('#meetingStartSchedule').val();
+                                    var meetingEnd = $('#meetingEndSchedule').val();
+
+                                    var dataMeetingSchedule = new URLSearchParams();
+                                    dataMeetingSchedule.append('meeting_name', meetingName);
+                                    dataMeetingSchedule.append('meeting_date', meetingDate);
+                                    dataMeetingSchedule.append('meeting_start', meetingStart);
+                                    dataMeetingSchedule.append('meeting_end', meetingEnd);
+
+                                    fetch("fetch/storeMeetingSchedule", {
+                                        method: 'post',
+                                        credentials: "same-origin",
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        body: dataMeetingSchedule,
+                                    })
+                                    .then(function(response){
+                                        return response.json();
+                                    }).then(function(resultsJSON){
+                    
+                                        var results = resultsJSON
+
+                                        if(results.status == 'success'){
+                                            // let now = new Date(meetinglog.datetime);
+                                        
+                                            // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+                                            $('#emptyScheduleLog').remove();
+
+                                            snackbar('success' , results.message)
+                                            $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                            let date_meet = new Date(meetingDate);
+                                            let start = new Date(''+meetingDate+' '+meetingStart+'');
+                                            let end = new Date(''+meetingDate+' '+meetingEnd+'');
+                                            
+                                            var date = moment(date_meet).format('MMMM Do');
+                                            var time = moment(start).format('h:mm a');
+                                            var time_end = moment(end).format('h:mm a');
+
+                                            $('#meetingNameSchedule').val('');
+                                            $('#meetingDateSchedule').val('');
+                                            $('#meetingStartSchedule').val('');
+                                            $('#meetingEndSchedule').val('');
+
+                                            $('#schedule-log-list').prepend(`
+                                                <div class="row mb-3">
+                                                    <div class="col-3">
+                                                        <small>${date}<br>${time}</small>
+                                                        
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h5>${meetingName}</h5>
+                                                        <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
+                                                    </div>
+                                                    <div class="col-3">                                              
+                                                        <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="divider mb-3"></div>
+                                                
+                                            `)
+
+                                            $('.menu-meeting-schedule-config').on('click' , function(){
+                                                menu('menu-meeting-schedule-config',  'show' , '')
+                                            });
+                
+                                            $('.menu-meeting-share').on('click' , function(){
+                                                menu('menu-meeting-share',  'show' , '')
+                                            });
+                                            
+                                        }
+                                        else{
+                                        
+                                        }
+                    
+                                    })
+                                    .catch(function(err) {
+                                        console.log(err);
+                                    });
+                                        
+                                
+                                }
+                                    form.classList.add('was-validated')
+                            })
+
+                        } else {
+                            var menuOffline = document.getElementById('menu-offline');
+                            menuOffline.classList.add("menu-active");
+                            $('.menu-hider').addClass('menu-active');
+                        } 
+                    });
+                    ///////////////////////////////////////////////////////////////////////
+            
+
+
+                function initializeMeeting(meetingName, usrName) {
+
+                    $('#inviteBtn').addClass('off-btn').trigger('classChange');
+
+                    $('#inviteBtn').on('click' , function() {
+                        $('#menu-meeting-invitation').addClass('menu-active');
+                    });
+
+                    $('.close-menu-meeting-invitation').on('click' , function() {
+                        $('#menu-meeting-invitation').removeClass('menu-active');
+                    }); 
+
+                    var domain = 'meet.tvetxr.ga';
+                    var options = {
+                        roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
+                        width: '100%',
+                        height: '100%',
+                        parentNode: document.querySelector('#meet_iframe'),
+                        userInfo: {
+                            displayName: usrName ? usrName : 'Fellow MaGICXian',
+                        },
+                        configOverwrite:{
+                            prejoinPageEnabled: true,
+                            disableDeepLinking: true,
+                            apiLogLevels: ['log'],                    
+                        },
+                        interfaceConfigOverwrite: {
+                            TOOLBAR_BUTTONS: [
+                                'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                                'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                                'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                                'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                                'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
+                            ],
+                        },
+                    };
+                    apiObj = new JitsiMeetExternalAPI(domain, options);
+                    
+                    apiObj.addEventListeners({
+
+                        readyToClose: function () {
+
+                            var _0xce56x32 = document['querySelectorAll']('.menu-active');
+
+                            for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
+                                _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
+                            };
+
+                            apiObj.dispose();
+
+                        
+                        },
+                        videoConferenceJoined: function(data) {
+
+                            $('#inviteBtn').removeClass('off-btn').trigger('classChange');
+
+                            ///////////////////////////////////////////////////////////////////////
+                            //for invite meeting button while in meeting
+                            $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
+                            $('#invite-invitor').html(data.displayName);
+                            $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
+                            ///////////////////////////////////////////////////////////////////////
+
+                            var currentdate = new Date();
+
+                            var datetimefordb =  currentdate.getFullYear() + "-"
+                                            + (currentdate.getMonth()+1)  + "-" 
+                                            + currentdate.getDate() + " "  
+                                            + currentdate.getHours() + ":"  
+                                            + currentdate.getMinutes() + ":" 
+                                            + currentdate.getSeconds();
+
+                            var dataMeetingLog = new URLSearchParams();
+                            dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
+                            dataMeetingLog.append('display_name', data.displayName);
+                            dataMeetingLog.append('datetime', datetimefordb);
+
+                            fetch("fetch/storeMeetingLog", {
+                                method: 'post',
+                                credentials: "same-origin",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                body: dataMeetingLog,
+                            })
+                            .then(function(response){
+                                return response.json();
+                            }).then(function(resultsJSON){
+
+                                var results = resultsJSON
+
+                                if (results.length) {
+                                    $('#meeting-log-list').html('');
+                                    results.map(meetinglog => {
+
+                                        let now = new Date(meetinglog.datetime);
+                                        
+                                        var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                        $('#meeting-log-list').append(`
+                                            <a href="#">
+                                                <span>${meetinglog.room_name}</span>
+                                                <strong>as ${meetinglog.display_name}</strong>
+                                                <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        `)
+                                    })
+
+                                }
+                                else{
+                                    $('#meeting-log-list').html('');
+
+                                    $('#meeting-log-list').append(`
+                                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                                    `);
+                                }
+
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            });
+
+                        }
+                    });
+                }
+
+
+
+
+
+
+            }
+            ///////////////////////////////////////////////////////////////////////
         
+        }, 250);
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -2924,10 +2904,14 @@ document['addEventListener']('DOMContentLoaded', () => {
             swup = new Swup(swupOtions);
             document['addEventListener']('swup:pageView', (_0xce56xb) => {
                 _init()
+                _initCopyBtn();
+                _initBtnLoader();
             })
         }
     } 
   
     _init();
+    _initCopyBtn();
+    _initBtnLoader();
 })
 

@@ -36,7 +36,7 @@
     </div>
 
     <div id="page" class="mb-0 pb-0">
-        <div class="page-content mb-0 pb-0">
+        <div class="page-content mb-0 pb-0 csrf-token">
 
             <input type="hidden" name="allow_sw" id="allow_sw" value="false">
             

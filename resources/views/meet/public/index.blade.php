@@ -8,8 +8,8 @@
 
 
 
-            <div id="meeting-index">
-                <div id='check-auth'></div>
+            <div id="meeting-index" class="check-auth">
+           
 
                 <div class="card mb-0" style="height:100vh">
                     <div class="card-center">

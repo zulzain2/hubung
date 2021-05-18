@@ -313,16 +313,20 @@
         data-autohide="true" style="z-index:9999"><i class="fa fa-times me-3"></i>&nbsp;&nbsp;Copied Error</div>
 
     <div id="portfolio-2" class="menu menu-box-right" data-menu-width="cover" data-menu-effect="menu-over" style="overflow:hidden">
-        <div id="meet_iframe" style="width: 100%;height: 100vh;z-index:999"></div>
+        <div id="meet_iframe" style="width: 100%;height: 95vh;z-index:999"></div>
 
-        <a href="#" id="inviteBtn"
-            class="btn btn-3d btn-m btn-full rounded-xs text-uppercase font-900 shadow-s border-red-dark bg-highlight"
-            style="    z-index: 9999;
-            bottom: calc((48px * 2) * -1);
-            left: 0;
-            position: absolute;
-            right: 0;
-            transition: bottom .3s ease-in;">Invite</a>
+        <div class="row" style="height:5vh">
+            <div class="col-lg-12">
+               
+                    <table style="border:none;height:100%;width: 100%;background-color: transparent !important;">
+                        <tr>
+                            <td style="border:none;vertical-align:middle;background-color: transparent !important;"> <a href="#" id="inviteBtn" class="btn btn-xs btn-full rounded-xs text-uppercase font-900 shadow-s bg-dark-light" style="height:100%">Invite</a></td>
+                        </tr>
+                    </table>
+                
+            </div>
+        </div>
+        
 
     </div>
 
