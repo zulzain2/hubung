@@ -403,7 +403,7 @@
         </div>
         <div class="content mb-0 mt-0">
             <div class="list-group list-custom-small list-icon-0">
-                <a href="https://www.facebook.com/sharer/sharer.php?u=http://sticky.test/index.html"
+                <a href="#"
                     class="shareToFacebook external-link">
                     <i class="font-18 fas fa-edit color-yellow-light"></i>
                     <span class="font-13">Edit</span>
@@ -414,7 +414,7 @@
                     <span class="font-13">Share</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://sticky.test/index.html&amp;title=StickyMobile BootStrap&amp;summary=&amp;source="
+                <a href="#"
                     class="shareToLinkedIn external-link">
                     <i class="font-18 far fa-trash-alt color-red-dark"></i>
                     <span class="font-13">Delete</span>
@@ -433,29 +433,29 @@
         <div class="content mb-0">
             <div class="divider mb-0"></div>
             <div class="list-group list-custom-small list-icon-0">
-                <a href="https://www.facebook.com/sharer/sharer.php?u=http://sticky.test/index.html"
+                <a href="#"
                     class="shareToFacebook external-link">
                     <i class="font-18 far fa-copy color-twitter"></i>
                     <span class="font-13">Copy Meeting Invitation</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="http://twitter.com/share?text=http://sticky.test/index.html" class="shareToTwitter external-link">
+                <a href="#" class="shareToTwitter external-link">
                     <i class="font-18 far fa-envelope color-brown-dark"></i>
                     <span class="font-13">Your Default Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://sticky.test/index.html&amp;title=StickyMobile BootStrap&amp;summary=&amp;source="
+                <a href="#"
                     class="shareToLinkedIn external-link">
                     <i class="font-18 fab fa-google color-google"></i>
                     <span class="font-13">Google Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="whatsapp://send?text=http://sticky.test/index.html" class="shareToWhatsApp external-link">
+                <a href="#">
                     <i class="font-18 fab fa-microsoft color-teal-dark"></i>
                     <span class="font-13">Outlook Email</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="mailto:?body=http://sticky.test/index.html" class="shareToMail external-link border-0">
+                <a href="#" class="shareToMail external-link border-0">
                     <i class="font-18 fab fa-yahoo color-magenta-dark"></i>
                     <span class="font-13">Yahoo Email</span>
                     <i class="fa fa-angle-right"></i>
