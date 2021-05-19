@@ -52,6 +52,13 @@
             opacity: 0.5;
         }
 
+        input[type=date], input[type=time] {
+            line-height: initial !important;
+            padding-top: 16px !important;
+            height: 100% !important;
+            padding-bottom: 16px !important;
+        }
+        
        
         
 </style>

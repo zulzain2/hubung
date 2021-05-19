@@ -505,17 +505,10 @@
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-calendar-alt color-highlight"></i>
-                    <input id="meetingDateScheduleEdit" type="date" class="form-control" required style="line-height: unset">
+                    <input id="meetingDateScheduleEdit" type="date" class="form-control" required style="line-height: unset;padding-top: 10px;">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Date</label>
                     <em>(required)</em>
                 </div>
-
-                <div class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">Date</label>
-                    <div class="col-10">
-                      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
-                    </div>
-                  </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-clock color-highlight"></i>
