@@ -505,21 +505,21 @@
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-calendar-alt color-highlight"></i>
-                    <input id="meetingDateScheduleEdit" type="date" class="form-control" required>
+                    <input id="meetingDateScheduleEdit" type="date" class="form-control" required style="line-height: unset">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Date</label>
                     <em>(required)</em>
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-clock color-highlight"></i>
-                    <input id="meetingStartScheduleEdit" type="time" class="form-control" required>
+                    <input id="meetingStartScheduleEdit" type="time" class="form-control" required style="line-height: unset">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Start</label>
                     <em>(required)</em>
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-clock color-highlight"></i>
-                    <input id="meetingEndScheduleEdit" type="time" class="form-control" required>
+                    <input id="meetingEndScheduleEdit" type="time" class="form-control" required style="line-height: unset">
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">End</label>
                     <em>(required)</em>
                 </div>
