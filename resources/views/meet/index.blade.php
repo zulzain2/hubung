@@ -10,7 +10,6 @@
 
             <div id="meeting-index">
 
-                
                 <div class="card card-style bg-theme pb-0">
                     <div class="content" id="tab-group-1">
                         <div class="tab-controls tabs-small tabs-rounded" data-highlight="bg-highlight">
@@ -26,12 +25,11 @@
                                 Schedule</a>
                         </div>
 
-
-
                         <div class="clearfix mb-3"></div>
+
                         <div data-bs-parent="#tab-group-1" class="collapse show" id="tab-1" style="">
                             <form class="needs-validation" id="createMeetingForm" novalidate>
-                                <h3 class="text-center"> Create Meeting</h3>
+                                <h3 class="text-center">Create Meeting</h3>
                                 <p></p>
 
                                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
@@ -42,15 +40,9 @@
                                         Name</label>
                                     <em>(required)</em>
                                 </div>
-                                {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                                <i class="fa fa-user color-blue-dark"></i> --}}
+
                                 <input id="usrName" type="hidden" class="form-control validate-name usrName"
                                     placeholder="Enter display name">
-                                {{-- <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
-                                <i class="fa fa-times disabled invalid color-red-dark"></i>
-                                <i class="fa fa-check disabled valid color-green-dark"></i>
-                                <em>(required)</em>
-                            </div> --}}
 
                                 <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id"
                                     data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false"
@@ -77,8 +69,7 @@
 
                                 <div class="row">
                                     <div class="col-12 text-center">
-                                        {{-- <button type="submit">submit</button> --}}
-                                        {{-- <button id="start-meeting" type="button" class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-red-dark  bg-red-light"><i class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</button> --}}
+
                                         <a href="#" id="start-meeting"
                                             class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-highlight bg-highlight"><i
                                                 class="fas fa-play"></i>&nbsp;&nbsp;Start Meeting</a>
@@ -100,15 +91,8 @@
                                     <em>(required)</em>
                                 </div>
 
-                                {{-- <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
-                            <i class="fa fa-user color-blue-dark"></i> --}}
                                 <input id="usrNameJoin" type="hidden" class="form-control validate-name usrName"
                                     placeholder="Enter display name" value="">
-                                {{-- <label class="color-theme opacity-50 text-uppercase font-700 font-10">Nick Name</label>
-                            <i class="fa fa-times disabled invalid color-red-dark"></i>
-                            <i class="fa fa-check disabled valid color-green-dark"></i>
-                            <em>(required)</em>
-                        </div> --}}
 
                                 <div class="row">
                                     <div class="col-12 text-center">
@@ -230,42 +214,6 @@
                                         </div>
 
                                         <br>
-                                        {{-- <div class="cal-schedule">
-                                    <em>08:00 PM<br>10:00 AM</em>
-                                    <strong>Closing Hours</strong>
-                                    <span><i class="fa fa-map-marker"></i>Envato Headquarters</span>
-                                </div>
-                                <div class="cal-schedule">
-                                    <em>10:00 AM<br>12:00 AM</em>
-                                    <strong>Meeting with Board</strong>
-                                    <span><i class="fa fa-building"></i>Office, Envato Headquarters</span>
-                                </div>
-                                <div class="cal-schedule">
-                                    <em>12:00 AM<br>02:00 PM</em>
-                                    <strong>Lunch</strong>
-                                    <span><i class="fa fa-shopping-bag"></i>McDonalds, Town Hall</span>
-                                </div>
-                                <div class="cal-schedule">
-                                    <em>02:00 PM<br>05:00 PM</em>
-                                    <strong>Quarter Report</strong>
-                                    <span><i class="fa fa-building"></i>Office, Envato Headquarters</span>
-                                </div>
-                                <div class="cal-schedule">
-                                    <em>05:00 PM<br>07:00 PM</em>
-                                    <strong>Get Wife from Work</strong>
-                                    <span><i class="fa fa-car"></i>Wife's Work Headquarters</span>
-                                </div>
-                                <div class="cal-schedule">
-                                    <em>07:00 PM<br>09:00 PM</em>
-                                    <strong>Watch Movie</strong>
-                                    <span><i class="fa fa-at"></i>with <u class="color-green-dark">John Doe</u>, <u
-                                            class="color-orange-dark">Carla Black</u></span>
-                                </div>
-                                <div class="cal-schedule">
-                                    <em>09:00 PM<br>10:00 PM</em>
-                                    <strong>Call David</strong>
-                                    <span><i class="fa fa-phone"></i>Call David's Office Number</span>
-                                </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -313,22 +261,24 @@
     <div id="toast-2" class="toast toast-tiny toast-top bg-red-dark fade hide text-center" data-bs-delay="1000"
         data-autohide="true" style="z-index:9999"><i class="fa fa-times me-3"></i>&nbsp;&nbsp;Copied Error</div>
 
-    <div id="portfolio-2" class="menu menu-box-right" data-menu-width="cover" data-menu-effect="menu-over" style="overflow:hidden">
+    <div id="portfolio-2" class="menu menu-box-right" data-menu-width="cover" data-menu-effect="menu-over"
+        style="overflow:hidden">
         <div id="meet_iframe" style="width: 100%;height: 95vh;z-index:999"></div>
 
         <div class="row" style="height:5vh">
             <div class="col-lg-12">
-               
-                    <table style="border:none;height:100%;width: 100%;background-color: transparent !important;">
-                        <tr>
-                            <td style="border:none;vertical-align:middle;background-color: transparent !important;"> <a href="#" id="inviteBtn" class="btn btn-xs btn-full rounded-xs text-uppercase font-900 shadow-s bg-dark-light" style="height:100%">Invite</a></td>
-                        </tr>
-                    </table>
-                
+
+                <table style="border:none;height:100%;width: 100%;background-color: transparent !important;">
+                    <tr>
+                        <td style="border:none;vertical-align:middle;background-color: transparent !important;"> <a href="#"
+                                id="inviteBtn"
+                                class="btn btn-xs btn-full rounded-xs text-uppercase font-900 shadow-s bg-dark-light"
+                                style="height:100%">Invite</a></td>
+                    </tr>
+                </table>
+
             </div>
         </div>
-        
-
     </div>
 
 
@@ -404,8 +354,7 @@
         </div>
         <div class="content mb-0 mt-0">
             <div class="list-group list-custom-small list-icon-0">
-                <a href="#"
-                    class="shareToFacebook external-link">
+                <a href="#" data-menu="menu-edit-meeting" class="shareToFacebook external-link">
                     <i class="font-18 fas fa-edit color-yellow-light"></i>
                     <span class="font-13">Edit</span>
                     <i class="fa fa-angle-right"></i>
@@ -415,8 +364,7 @@
                     <span class="font-13">Share</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="#"
-                    class="shareToLinkedIn external-link">
+                <a href="#" data-menu="menu-delete-meeting" class="shareToLinkedIn external-link">
                     <i class="font-18 far fa-trash-alt color-red-dark"></i>
                     <span class="font-13">Delete</span>
                     <i class="fa fa-angle-right"></i>
@@ -428,8 +376,8 @@
     <div id="menu-meeting-share" class="menu menu-box-top menu-box-detached" style="display: block;">
         <div class="menu-title mt-n1">
             <h1>Share the invitation</h1>
-            <p class="color-highlight">Just Tap the Social Icon. We'll add the invitation template</p><a href="#" class="close-menu"><i
-                    class="fa fa-times"></i></a>
+            <p class="color-highlight">Just Tap the Social Icon. We'll add the invitation template</p><a href="#"
+                class="close-menu"><i class="fa fa-times"></i></a>
         </div>
         <div class="content mb-0">
 
@@ -445,9 +393,9 @@
                             <strong class="font-13">Copy Meeting Invitation</strong>
                             <br>
                             <small id="copy-meet-link" style="display: -webkit-box;
-                            -webkit-line-clamp: 1;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;"></small>
+                                -webkit-line-clamp: 1;
+                                -webkit-box-orient: vertical;
+                                overflow: hidden;"></small>
                         </td>
                         <td class="px-2" style="background-color:transparent !important">
                             <i class="fa fa-angle-right float-right"></i>
@@ -458,7 +406,7 @@
 
             <div class="divider my-2"></div>
 
-            
+
             <a id="whatsapp-link" onclick="" href="#" style="color: unset;" class="shareToWhatsApp external-link">
                 <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
                     <tr>
@@ -474,7 +422,7 @@
                     </tr>
                 </table>
             </a>
-      
+
             <div class="divider my-2"></div>
 
             <a id="mail-link" onclick="" href="#" style="color: unset;" class="shareToMail external-link">
@@ -528,10 +476,70 @@
                     </tr>
                 </table>
             </a>
-            
+
             <div class="my-3"></div>
 
         </div>
+    </div>
+
+    <div id="menu-edit-meeting" class="menu menu-box-modal menu-box-detached rounded-m" data-menu-height="440"
+        style="display: block; height: 440px;">
+        <div class="menu-title">
+            <h1>Edit Meeting</h1>
+            <p class="color-highlight">Edit your scheduled meeting</p><a href="#" class="close-menu"><i
+                    class="fa fa-times"></i></a>
+        </div>
+        <div class="divider divider-margins mb-1 mt-3"></div>
+        <div class="content px-1">
+            <form class="needs-validation" novalidate id="scheduleMeetingForm">
+                <div class="input-style input-style-always-active has-borders has-icon mb-4">
+                    <i class="fas fa-home color-highlight"></i>
+                    <input id="meetingNameSchedule" type="name" class="form-control"
+                        placeholder="Enter meeting name" required>
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting
+                        Name</label>
+                    <em>(required)</em>
+                </div>
+
+                <div class="input-style input-style-always-active has-borders has-icon mb-4">
+                    <i class="far fa-calendar-alt color-highlight"></i>
+                    <input id="meetingDateSchedule" type="date" class="form-control" required>
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Date</label>
+                    <em>(required)</em>
+                </div>
+
+                <div class="input-style input-style-always-active has-borders has-icon mb-4">
+                    <i class="far fa-clock color-highlight"></i>
+                    <input id="meetingStartSchedule" type="time" class="form-control" required>
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Start</label>
+                    <em>(required)</em>
+                </div>
+
+                <div class="input-style input-style-always-active has-borders has-icon mb-4">
+                    <i class="far fa-clock color-highlight"></i>
+                    <input id="meetingEndSchedule" type="time" class="form-control" required>
+                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">End</label>
+                    <em>(required)</em>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <a href="#" id="schedule-meeting"
+                            class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-highlight bg-highlight"><i
+                                class="fas fa-play"></i>&nbsp;&nbsp;Update Schedule</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="menu-delete-meeting" class="menu menu-box-modal rounded-m" data-menu-width="310" data-menu-height="270">
+        <div class="text-center"><i class="fal fa-times-circle color-red-light mt-4" style="font-size: 45px;"></i></div>
+        <h1 class="text-center color-white mt-3">Are You Sure?</h1>
+        <p class="ps-3 pe-3 text-center color-theme opacity-60">
+            Do you realy want to delete the record ? This action cannot be undone. 
+        </p>
+        <a href="#" class="close-menu btn btn-m font-900 text-uppercase bg-highlight rounded-sm btn-center-l">Confirm</a>
     </div>
 
 @endsection

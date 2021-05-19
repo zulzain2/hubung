@@ -848,6 +848,146 @@ document['addEventListener']('DOMContentLoaded', () => {
                         <div class="divider mb-3"></div>
                         `;
                     }
+
+                    function shareMeetingBuilder(room_name){
+                        $('#copy-meet-link').html(window.location.hostname + '/meetroom?roomName=' + room_name);
+                        $('#whatsapp-link').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
+                        $('#mail-link').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
+                        $('#gmail-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'&tf=cm","_blank")');
+                        $('#outlook-link').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'","_blank")');
+
+                        $('#copyMeet').attr('data-meeting-name', room_name);
+                        $('#meetEmail').attr('data-meeting-name', room_name);
+                        $('#meetGmail').attr('data-meeting-name', room_name);
+                        $('#meetOutlook').attr('data-meeting-name', room_name);
+                    }
+
+                    function initializeMeeting(meetingName, usrName) {
+
+                        $('#inviteBtn').addClass('off-btn').trigger('classChange');
+
+                        $('#inviteBtn').on('click' , function() {
+                            $('#menu-meeting-invitation').addClass('menu-active');
+                        });
+
+                        $('.close-menu-meeting-invitation').on('click' , function() {
+                            $('#menu-meeting-invitation').removeClass('menu-active');
+                        }); 
+
+                        var domain = 'meet.tvetxr.ga';
+                        var options = {
+                            roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
+                            width: '100%',
+                            height: '100%',
+                            parentNode: document.querySelector('#meet_iframe'),
+                            userInfo: {
+                                displayName: usrName ? usrName : 'Fellow MaGICXian',
+                            },
+                            configOverwrite:{
+                                prejoinPageEnabled: true,
+                                disableDeepLinking: true,
+                                apiLogLevels: ['log'],                    
+                            },
+                            interfaceConfigOverwrite: {
+                                TOOLBAR_BUTTONS: [
+                                    'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                                    'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                                    'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                                    'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                                    'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
+                                ],
+                            },
+                        };
+                        apiObj = new JitsiMeetExternalAPI(domain, options);
+                        
+                        apiObj.addEventListeners({
+
+                            readyToClose: function () {
+
+                                var _0xce56x32 = document['querySelectorAll']('.menu-active');
+
+                                for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
+                                    _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
+                                };
+
+                                apiObj.dispose();
+
+                            
+                            },
+                            videoConferenceJoined: function(data) {
+
+                                $('#inviteBtn').removeClass('off-btn').trigger('classChange');
+
+                                ///////////////////////////////////////////////////////////////////////
+                                //for invite meeting button while in meeting
+                                $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
+                                $('#invite-invitor').html(data.displayName);
+                                $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
+                                ///////////////////////////////////////////////////////////////////////
+
+                                var currentdate = new Date();
+
+                                var datetimefordb =  currentdate.getFullYear() + "-"
+                                                + (currentdate.getMonth()+1)  + "-" 
+                                                + currentdate.getDate() + " "  
+                                                + currentdate.getHours() + ":"  
+                                                + currentdate.getMinutes() + ":" 
+                                                + currentdate.getSeconds();
+
+                                var dataMeetingLog = new URLSearchParams();
+                                dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
+                                dataMeetingLog.append('display_name', data.displayName);
+                                dataMeetingLog.append('datetime', datetimefordb);
+
+                                fetch("fetch/storeMeetingLog", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: dataMeetingLog,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+
+                                    var results = resultsJSON
+
+                                    if (results.length) {
+                                        $('#meeting-log-list').html('');
+                                        results.map(meetinglog => {
+
+                                            let now = new Date(meetinglog.datetime);
+                                            
+                                            var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                            $('#meeting-log-list').append(`
+                                                <a href="#">
+                                                    <span>${meetinglog.room_name}</span>
+                                                    <strong>as ${meetinglog.display_name}</strong>
+                                                    <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            `)
+                                        })
+
+                                    }
+                                    else{
+                                        $('#meeting-log-list').html('');
+
+                                        $('#meeting-log-list').append(`
+                                        <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                                        `);
+                                    }
+
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+
+                            }
+                        });
+                    }
                 
                     ///////////////////////////////////////////////////////////////////////
                     //append data to meet public page when parameters available in link
@@ -1138,11 +1278,9 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                             $('.menu-meeting-schedule-config').on('click' , function(){
                                                 var meetingName = $(this).data('meeting-name');
-                                                $('#copyMeet').attr('data-meeting-name', meetingName);
-                                                $('#meetEmail').attr('data-meeting-name', meetingName);
-                                                $('#meetGmail').attr('data-meeting-name', meetingName);
-                                                $('#meetOutlook').attr('data-meeting-name', meetingName);
-                                                $('#meetYahoo').attr('data-meeting-name', meetingName);
+                                                
+                                                shareMeetingBuilder(meetingName);
+
                                                 menu('menu-meeting-schedule-config',  'show' , '')
                                             });
                 
@@ -1211,17 +1349,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                  
                                 $('.menu-meeting-schedule-config').on('click' , function(){
                                     var meetingName = $(this).data('meeting-name');
-                                    $('#copy-meet-link').html(window.location.hostname + '/meetroom?roomName=' + meetingName);
-                                    $('#whatsapp-link').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+meetingName+'"');
-                                    $('#mail-link').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+meetingName+'"');
-                                    $('#gmail-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+meetingName+'&tf=cm","_blank")');
-                                    $('#outlook-link').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+meetingName+'","_blank")');
-                                    $('#yahoo-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+meetingName+'&tf=cm","_blank")');
-                                    
-                                    $('#copyMeet').attr('data-meeting-name', meetingName);
-                                    $('#meetEmail').attr('data-meeting-name', meetingName);
-                                    $('#meetGmail').attr('data-meeting-name', meetingName);
-                                    $('#meetOutlook').attr('data-meeting-name', meetingName);
+
+                                    shareMeetingBuilder(meetingName);
 
                                     menu('menu-meeting-schedule-config',  'show' , '')
                                 });
@@ -1243,138 +1372,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     ///////////////////////////////////////////////////////////////////////
 
 
-                function initializeMeeting(meetingName, usrName) {
-
-                    $('#inviteBtn').addClass('off-btn').trigger('classChange');
-
-                    $('#inviteBtn').on('click' , function() {
-                        $('#menu-meeting-invitation').addClass('menu-active');
-                    });
-
-                    $('.close-menu-meeting-invitation').on('click' , function() {
-                        $('#menu-meeting-invitation').removeClass('menu-active');
-                    }); 
-
-                    var domain = 'meet.tvetxr.ga';
-                    var options = {
-                        roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
-                        width: '100%',
-                        height: '100%',
-                        parentNode: document.querySelector('#meet_iframe'),
-                        userInfo: {
-                            displayName: usrName ? usrName : 'Fellow MaGICXian',
-                        },
-                        configOverwrite:{
-                            prejoinPageEnabled: true,
-                            disableDeepLinking: true,
-                            apiLogLevels: ['log'],                    
-                        },
-                        interfaceConfigOverwrite: {
-                            TOOLBAR_BUTTONS: [
-                                'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-                                'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                                'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                                'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                                'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
-                            ],
-                        },
-                    };
-                    apiObj = new JitsiMeetExternalAPI(domain, options);
                     
-                    apiObj.addEventListeners({
-
-                        readyToClose: function () {
-
-                            var _0xce56x32 = document['querySelectorAll']('.menu-active');
-
-                            for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                                _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                            };
-
-                            apiObj.dispose();
-
-                        
-                        },
-                        videoConferenceJoined: function(data) {
-
-                            $('#inviteBtn').removeClass('off-btn').trigger('classChange');
-
-                            ///////////////////////////////////////////////////////////////////////
-                            //for invite meeting button while in meeting
-                            $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
-                            $('#invite-invitor').html(data.displayName);
-                            $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
-                            ///////////////////////////////////////////////////////////////////////
-
-                            var currentdate = new Date();
-
-                            var datetimefordb =  currentdate.getFullYear() + "-"
-                                            + (currentdate.getMonth()+1)  + "-" 
-                                            + currentdate.getDate() + " "  
-                                            + currentdate.getHours() + ":"  
-                                            + currentdate.getMinutes() + ":" 
-                                            + currentdate.getSeconds();
-
-                            var dataMeetingLog = new URLSearchParams();
-                            dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
-                            dataMeetingLog.append('display_name', data.displayName);
-                            dataMeetingLog.append('datetime', datetimefordb);
-
-                            fetch("fetch/storeMeetingLog", {
-                                method: 'post',
-                                credentials: "same-origin",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                body: dataMeetingLog,
-                            })
-                            .then(function(response){
-                                return response.json();
-                            }).then(function(resultsJSON){
-
-                                var results = resultsJSON
-
-                                if (results.length) {
-                                    $('#meeting-log-list').html('');
-                                    results.map(meetinglog => {
-
-                                        let now = new Date(meetinglog.datetime);
-                                        
-                                        var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                        $('#meeting-log-list').append(`
-                                            <a href="#">
-                                                <span>${meetinglog.room_name}</span>
-                                                <strong>as ${meetinglog.display_name}</strong>
-                                                <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        `)
-                                    })
-
-                                }
-                                else{
-                                    $('#meeting-log-list').html('');
-
-                                    $('#meeting-log-list').append(`
-                                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                                    `);
-                                }
-
-                            })
-                            .catch(function(err) {
-                                console.log(err);
-                            });
-
-                        }
-                    });
-                }
-
-
-
-
-
-
             }
             ///////////////////////////////////////////////////////////////////////
         
