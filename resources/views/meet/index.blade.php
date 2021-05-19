@@ -510,6 +510,13 @@
                     <em>(required)</em>
                 </div>
 
+                <div class="form-group row">
+                    <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                    <div class="col-10">
+                      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                    </div>
+                  </div>
+
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-clock color-highlight"></i>
                     <input id="meetingStartScheduleEdit" type="time" class="form-control" required style="line-height: unset">
