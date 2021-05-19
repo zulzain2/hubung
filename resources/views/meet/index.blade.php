@@ -491,10 +491,12 @@
         </div>
         <div class="divider divider-margins mb-1 mt-3"></div>
         <div class="content px-1">
-            <form class="needs-validation" novalidate id="scheduleMeetingForm">
+            <form class="needs-validation" novalidate id="editScheduleMeetingForm">
+                <input type="hidden" name="meetingIdScheduleEdit" id="meetingIdScheduleEdit">
+
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="fas fa-home color-highlight"></i>
-                    <input id="meetingNameSchedule" type="name" class="form-control"
+                    <input id="meetingNameScheduleEdit" type="name" class="form-control"
                         placeholder="Enter meeting name" required>
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting
                         Name</label>
@@ -503,28 +505,28 @@
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-calendar-alt color-highlight"></i>
-                    <input id="meetingDateSchedule" type="date" class="form-control" required>
+                    <input id="meetingDateScheduleEdit" type="date" class="form-control" required>
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Date</label>
                     <em>(required)</em>
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-clock color-highlight"></i>
-                    <input id="meetingStartSchedule" type="time" class="form-control" required>
+                    <input id="meetingStartScheduleEdit" type="time" class="form-control" required>
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Start</label>
                     <em>(required)</em>
                 </div>
 
                 <div class="input-style input-style-always-active has-borders has-icon mb-4">
                     <i class="far fa-clock color-highlight"></i>
-                    <input id="meetingEndSchedule" type="time" class="form-control" required>
+                    <input id="meetingEndScheduleEdit" type="time" class="form-control" required>
                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">End</label>
                     <em>(required)</em>
                 </div>
 
                 <div class="row">
                     <div class="col-12 text-center">
-                        <a href="#" id="schedule-meeting"
+                        <a href="#" id="edit-schedule-meeting"
                             class="btn btn-s rounded-s text-uppercase font-900 shadow-s border-highlight bg-highlight"><i
                                 class="fas fa-play"></i>&nbsp;&nbsp;Update Schedule</a>
                     </div>

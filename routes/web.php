@@ -53,7 +53,9 @@ Route::resource('chat', 'App\Http\Controllers\ChatController');
 
 Route::get('meetroom', 'App\Http\Controllers\MeetController@indexpublic');
 Route::post('fetch/storeMeetingSchedule', 'App\Http\Controllers\MeetController@storeMeetingSchedule');
+Route::post('fetch/updateMeetingSchedule/{id}', 'App\Http\Controllers\MeetController@updateMeetingSchedule');
 Route::get('fetch/scheduleLog', 'App\Http\Controllers\MeetController@scheduleLog');
+Route::get('fetch/scheduleLog/{id}', 'App\Http\Controllers\MeetController@scheduleLogSpecific');
 Route::get('fetch/meetingLog', 'App\Http\Controllers\MeetController@meetingLog');
 Route::post('fetch/storeMeetingLog', 'App\Http\Controllers\MeetController@storeMeetingLog');
 Route::resource('meet', 'App\Http\Controllers\MeetController');

@@ -825,7 +825,15 @@ document['addEventListener']('DOMContentLoaded', () => {
             //for meet.index.blade.php 
             if (document.querySelector('#meeting-index')) {
 
-                    function scheduleLogBuilder(room_name, date, time_start, time_end){
+                    function scheduleLogBuilder(data){
+
+                        let start = new Date(data.datetime);
+                        let end = new Date(data.end_datetime);
+                        
+                        var date = moment(start).format('MMMM Do');
+                        var time_start = moment(start).format('h:mm a');
+                        var time_end = moment(end).format('h:mm a');
+
                         return `
                         <div class="row mb-3">
                             <div class="col-3">
@@ -833,13 +841,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 
                             </div>
                             <div class="col-6">
-                                <h5>${room_name}</h5>
+                                <h5>${data.room_name}</h5>
                                 <small><i class="far fa-clock"></i> ${time_start} - ${time_end}</small>
                             </div>
                             <div class="col-3">                                              
                                 <a href="#" 
                                 data-menu="menu-meeting-schedule-config" 
-                                data-meeting-name="${room_name}"
+                                data-meeting-name="${data.room_name}"
+                                data-meeting-id="${data.id}"
                                 class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" 
                                 style="float:right"><i class="fas fa-ellipsis-v"></i></a>
                             </div>
@@ -860,6 +869,91 @@ document['addEventListener']('DOMContentLoaded', () => {
                         $('#meetEmail').attr('data-meeting-name', room_name);
                         $('#meetGmail').attr('data-meeting-name', room_name);
                         $('#meetOutlook').attr('data-meeting-name', room_name);
+                    }
+
+                    function editMeetingBuilder(meetingId){
+
+                        fetch('/fetch/scheduleLog/'+meetingId+'')
+                        .then(function(response) { 
+                            return response.json();
+                        }).then(function(data){
+                        
+                            $('#meetingIdScheduleEdit').val(data.id);
+                            $('#meetingNameScheduleEdit').val(data.room_name);
+                            $('#meetingDateScheduleEdit').val(moment(data.datetime).format('yyyy-MM-DD'));
+                            $('#meetingStartScheduleEdit').val(moment(data.datetime).format('HH:mm:ss'));
+                            $('#meetingEndScheduleEdit').val(moment(data.end_datetime).format('HH:mm:ss'));
+                           
+                        })
+                        .catch(function(err) {
+                            console.log('Error Schedule Log: ' + err);
+                        });
+                    }
+
+                    function updateMeetingLog(data){
+                        var results = data
+
+                        if (results.length) {
+                            $('#meeting-log-list').html('');
+                            results.map(meetinglog => {
+
+                                let now = new Date(meetinglog.datetime);
+                                
+                                var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                $('#meeting-log-list').append(`
+                                    <a href="#">
+                                        <span>${meetinglog.room_name}</span>
+                                        <strong>as ${meetinglog.display_name}</strong>
+                                        <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                `)
+                            })
+
+                        }
+                        else{
+                            $('#meeting-log-list').html('');
+
+                            $('#meeting-log-list').append(`
+                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                            `);
+                        }
+                    }
+
+                    async function updateScheduleLog(data){
+                        var results = data
+
+                        if (results.length) {
+                            $('#schedule-log-list').html('');
+                            await results.map(scheduleLog => {
+
+                                $('#schedule-log-list').append(``+scheduleLogBuilder(scheduleLog)+``);
+                            })
+                             
+                            $('.menu-meeting-schedule-config').on('click' , function(){
+                                var meetingName = $(this).data('meeting-name');
+                                var meetingId = $(this).data('meeting-id');
+
+                                shareMeetingBuilder(meetingName);
+
+                                editMeetingBuilder(meetingId);
+
+                                menu('menu-meeting-schedule-config',  'show' , '')
+                            });
+
+                            $('.menu-meeting-share').on('click' , function(){
+                                menu('menu-meeting-share',  'show' , '')
+                            });
+
+                        }
+                        else{
+                            $('#schedule-log-list').html('');
+
+                            $('#schedule-log-list').append(`
+                                <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                            `);
+                        }
                     }
 
                     function initializeMeeting(meetingName, usrName) {
@@ -1173,36 +1267,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         //     console.log('Error Meeting Log: ' + err);
                         // });
 
-                        function updateMeetingLog(data){
-                            var results = data
-
-                            if (results.length) {
-                                $('#meeting-log-list').html('');
-                                results.map(meetinglog => {
-
-                                    let now = new Date(meetinglog.datetime);
-                                    
-                                    var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                    $('#meeting-log-list').append(`
-                                        <a href="#">
-                                            <span>${meetinglog.room_name}</span>
-                                            <strong>as ${meetinglog.display_name}</strong>
-                                            <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    `)
-                                })
-
-                            }
-                            else{
-                                $('#meeting-log-list').html('');
-
-                                $('#meeting-log-list').append(`
-                                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                                `);
-                            }
-                        }
+                        
                     };
                     ///////////////////////////////////////////////////////////////////////
 
@@ -1261,20 +1326,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             snackbar('success' , results.message)
                                             $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
 
-                                            let date_meet = new Date(meetingDate);
-                                            let start = new Date(''+meetingDate+' '+meetingStart+'');
-                                            let end = new Date(''+meetingDate+' '+meetingEnd+'');
-                                            
-                                            var date = moment(date_meet).format('MMMM Do');
-                                            var time = moment(start).format('h:mm a');
-                                            var time_end = moment(end).format('h:mm a');
-
                                             $('#meetingNameSchedule').val('');
                                             $('#meetingDateSchedule').val('');
                                             $('#meetingStartSchedule').val('');
                                             $('#meetingEndSchedule').val('');
 
-                                            $('#schedule-log-list').prepend(``+scheduleLogBuilder(meetingName, date, time, time_end)+``);
+                                            $('#schedule-log-list').prepend(``+scheduleLogBuilder(results.data)+``);
 
                                             $('.menu-meeting-schedule-config').on('click' , function(){
                                                 var meetingName = $(this).data('meeting-name');
@@ -1329,48 +1386,124 @@ document['addEventListener']('DOMContentLoaded', () => {
                             console.log('Error Schedule Log: ' + err);
                         });
 
-                        async function updateScheduleLog(data){
-                            var results = data
-
-                            if (results.length) {
-                                $('#schedule-log-list').html('');
-                                await results.map(scheduleLog => {
-
-                                    let start = new Date(scheduleLog.datetime);
-                                    let end = new Date(scheduleLog.end_datetime);
-                                    
-                                    var date = moment(start).format('MMMM Do');
-                                    var time = moment(start).format('h:mm a');
-                                    var time_end = moment(end).format('h:mm a');
-
-
-                                    $('#schedule-log-list').append(``+scheduleLogBuilder(scheduleLog.room_name, date, time, time_end)+``);
-                                })
-                                 
-                                $('.menu-meeting-schedule-config').on('click' , function(){
-                                    var meetingName = $(this).data('meeting-name');
-
-                                    shareMeetingBuilder(meetingName);
-
-                                    menu('menu-meeting-schedule-config',  'show' , '')
-                                });
-
-                                $('.menu-meeting-share').on('click' , function(){
-                                    menu('menu-meeting-share',  'show' , '')
-                                });
-
-                            }
-                            else{
-                                $('#schedule-log-list').html('');
-
-                                $('#schedule-log-list').append(`
-                                    <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
-                                `);
-                            }
-                        }
+                        
                     };
                     ///////////////////////////////////////////////////////////////////////
 
+
+                    ///////////////////////////////////////////////////////////////////////
+                    //for submit edit meeting button
+                    $('#edit-schedule-meeting').on('click' , function(event){
+
+                        if (navigator.onLine) {
+                            var fsm = $("#editScheduleMeetingForm");
+
+                             // Loop over them and prevent submission
+                             Array.prototype.slice.call(fsm)
+                             .forEach(function (form) {
+                                if (!form.checkValidity()) 
+                                {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+                                else
+                                {
+                                    $('#edit-schedule-meeting').addClass('off-btn').trigger('classChange');
+
+                                    var editMeetingId = $('#meetingIdScheduleEdit').val();
+                                    var editMeetingName = $('#meetingNameScheduleEdit').val();
+                                    var editMmeetingDate = $('#meetingDateScheduleEdit').val();
+                                    var editMmeetingStart = $('#meetingStartScheduleEdit').val();
+                                    var editMeetingEnd = $('#meetingEndScheduleEdit').val();
+
+                                    var dataForm = new URLSearchParams();
+                                    dataForm.append('meeting_name', editMeetingName);
+                                    dataForm.append('meeting_date', editMmeetingDate);
+                                    dataForm.append('meeting_start', editMmeetingStart);
+                                    dataForm.append('meeting_end', editMeetingEnd);
+
+                                    fetch("fetch/updateMeetingSchedule/"+editMeetingId+"", {
+                                        method: 'post',
+                                        credentials: "same-origin",
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        body: dataForm,
+                                    })
+                                    .then(function(response){
+                                        return response.json();
+                                    }).then(function(resultsJSON){
+                    
+                                        var results = resultsJSON
+
+                                        if(results.status == 'success'){
+
+                                            fetch('/fetch/scheduleLog')
+                                            .then(function(response) { 
+                                                return response.json();
+                                            }).then(function(data){
+                                                
+                                                updateScheduleLog(data);
+                                            })
+                                            .catch(function(err) {
+                                                console.log('Error Schedule Log: ' + err);
+                                            });
+
+                                            $('#edit-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                            menu('menu-edit-meeting', 'hide', 250);
+
+                                            snackbar(results.status , results.message)
+
+                                        }
+                                        else{
+                                            if(results.type == 'Validation Error')
+                                            {
+                                                $('#edit-schedule-meeting').removeClass('off-btn').trigger('classChange');
+                                                if (results.error_list) {
+                                                        var p = results.error_list;
+                                                        $('#validationErrorList').html('');
+                                                        for (var key in p) {
+                                                            if (p.hasOwnProperty(key)) {
+
+                                                                $('#validationErrorList').append(`
+                                                                    <a href="#">
+                    
+                                                                    <span>${p[key]}</span>
+                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                                                                
+                                                                    </a>
+                                                                `)
+
+                                                            }
+                                                        }
+                                                        
+                                                } else {
+                                                
+                                                }
+
+                                                menu('validationError', 'show', 250);
+                                            }
+                                            else{
+                                                snackbar(results.status , results.message)
+                                            }
+                                        }
+                    
+                                    })
+                                    .catch(function(err) {
+                                        console.log(err);
+                                    });
+
+                                    form.classList.add('was-validated');
+                                }
+                            });
+                        }
+                        else{
+                            var menuOffline = document.getElementById('menu-offline');
+                            menuOffline.classList.add("menu-active");
+                            $('.menu-hider').addClass('menu-active');
+                        }
+                    });
 
                     
             }

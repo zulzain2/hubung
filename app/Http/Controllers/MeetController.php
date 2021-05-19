@@ -7,6 +7,7 @@ use App\Models\Scheduler;
 use App\Models\MeetingLog;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MeetController extends Controller
 {
@@ -114,11 +115,17 @@ class MeetController extends Controller
 
     public function scheduleLog()
     {
-       
         $meetinglog = MeetingLog::where([
 			['id_users', '=' , auth()->user()->id],
             ['status', '=' , 'S']
 		])->orderByDesc('datetime')->get();
+
+        return json_encode($meetinglog);
+    }
+
+    public function scheduleLogSpecific($id)
+    {
+        $meetinglog = MeetingLog::find($id);
 
         return json_encode($meetinglog);
     }
@@ -187,7 +194,44 @@ class MeetController extends Controller
         $add2->created_by = auth()->user()->id;
         $add2->save();
 
-        $data = ['status' => 'success', 'message' => 'Successfully scheduled meeting.'];
+        $data = ['status' => 'success', 'message' => 'Successfully scheduled meeting.' , 'data' => $add1];
         return json_encode($data);
+    }
+
+    public function updateMeetingSchedule(Request $request, $id){
+
+        $validator = Validator::make($request->all(), [
+            'meeting_name' 	    => 'required',
+            'meeting_date' 		=> 'required',
+            'meeting_start' 	=> 'required',
+            'meeting_end' 		=> 'required'
+        ]);
+
+        if($validator->fails()){
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
+
+        $meetinglog = MeetingLog::find($id);
+      
+        $meetinglog->room_name = $request->meeting_name;
+        $meetinglog->display_name = auth()->user()->name;
+        $meetinglog->datetime = date('Y-m-d H:i:s' , strtotime(''.$request->meeting_date.' '.$request->meeting_start.''));
+        $meetinglog->end_datetime = date('Y-m-d H:i:s' , strtotime(''.$request->meeting_date.' '.$request->meeting_end.''));
+        $meetinglog->status = 'S';
+        $meetinglog->save();
+
+
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully update schedule meeting.'
+        ];
+        return json_encode($data);
+        
     }
 }
