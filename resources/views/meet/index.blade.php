@@ -10,6 +10,7 @@
 
             <div id="meeting-index">
 
+                
                 <div class="card card-style bg-theme pb-0">
                     <div class="content" id="tab-group-1">
                         <div class="tab-controls tabs-small tabs-rounded" data-highlight="bg-highlight">
@@ -431,36 +432,105 @@
                     class="fa fa-times"></i></a>
         </div>
         <div class="content mb-0">
-            <div class="divider mb-0"></div>
-            <div class="list-group list-custom-small list-icon-0">
-                <a href="#"
-                    class="shareToFacebook external-link">
-                    <i class="font-18 far fa-copy color-twitter"></i>
-                    <span class="font-13">Copy Meeting Invitation</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a href="#" class="shareToTwitter external-link">
-                    <i class="font-18 far fa-envelope color-brown-dark"></i>
-                    <span class="font-13">Your Default Email</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a href="#"
-                    class="shareToLinkedIn external-link">
-                    <i class="font-18 fab fa-google color-google"></i>
-                    <span class="font-13">Google Email</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a href="#">
-                    <i class="font-18 fab fa-microsoft color-teal-dark"></i>
-                    <span class="font-13">Outlook Email</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a href="#" class="shareToMail external-link border-0">
-                    <i class="font-18 fab fa-yahoo color-magenta-dark"></i>
-                    <span class="font-13">Yahoo Email</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
+
+            <div class="divider my-2"></div>
+
+            <a href="#" class="copy-btn" data-clipboard-target="#copy-meet-link" style="color: unset;">
+                <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
+                    <tr>
+                        <td class="px-2" style="background-color:transparent !important;width:5%">
+                            <i class="font-18 far fa-copy color-twitter align-middle"></i>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <strong class="font-13">Copy Meeting Invitation</strong>
+                            <br>
+                            <small id="copy-meet-link" style="display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;"></small>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <i class="fa fa-angle-right float-right"></i>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+
+            <div class="divider my-2"></div>
+
+            
+            <a id="whatsapp-link" onclick="" href="#" style="color: unset;" class="shareToWhatsApp external-link">
+                <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
+                    <tr>
+                        <td class="px-2" style="background-color:transparent !important;width:5%">
+                            <i class="font-18 fab fa-whatsapp color-whatsapp align-middle"></i>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <strong class="font-13">Whatsapp</strong>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <i class="fa fa-angle-right float-right"></i>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+      
+            <div class="divider my-2"></div>
+
+            <a id="mail-link" onclick="" href="#" style="color: unset;" class="shareToMail external-link">
+                <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
+                    <tr>
+                        <td class="px-2" style="background-color:transparent !important;width:5%">
+                            <i class="font-18 far fa-envelope color-brown-dark align-middle"></i>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <strong class="font-13">Your Default Email</strong>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <i class="fa fa-angle-right float-right"></i>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+
+            <div class="divider my-2"></div>
+
+            <a id="gmail-link" href="#" style="color: unset;">
+                <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
+                    <tr>
+                        <td class="px-2" style="background-color:transparent !important;width:5%">
+                            <i class="font-18 fab fa-google color-google align-middle"></i>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <strong class="font-13">Google Email</strong>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <i class="fa fa-angle-right float-right"></i>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+
+            <div class="divider my-2"></div>
+
+            <a id="outlook-link" href="#" style="color: unset;">
+                <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
+                    <tr>
+                        <td class="px-2" style="background-color:transparent !important;width:5%">
+                            <i class="font-18 fab fa-microsoft color-teal-dark align-middle"></i>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <strong class="font-13">Outlook Email</strong>
+                        </td>
+                        <td class="px-2" style="background-color:transparent !important">
+                            <i class="fa fa-angle-right float-right"></i>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+            
+            <div class="my-3"></div>
+
         </div>
     </div>
 

@@ -824,8 +824,30 @@ document['addEventListener']('DOMContentLoaded', () => {
             ///////////////////////////////////////////////////////////////////////
             //for meet.index.blade.php 
             if (document.querySelector('#meeting-index')) {
-                
-                
+
+                    function scheduleLogBuilder(room_name, date, time_start, time_end){
+                        return `
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <small>${date}<br>${time_start}</small>
+                                
+                            </div>
+                            <div class="col-6">
+                                <h5>${room_name}</h5>
+                                <small><i class="far fa-clock"></i> ${time_start} - ${time_end}</small>
+                            </div>
+                            <div class="col-3">                                              
+                                <a href="#" 
+                                data-menu="menu-meeting-schedule-config" 
+                                data-meeting-name="${room_name}"
+                                class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" 
+                                style="float:right"><i class="fas fa-ellipsis-v"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="divider mb-3"></div>
+                        `;
+                    }
                 
                     ///////////////////////////////////////////////////////////////////////
                     //append data to meet public page when parameters available in link
@@ -862,150 +884,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                         $('#tab-2').addClass('show');
                     }
                     ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //fetch data for meeting log
-                    if (document.querySelector('#meeting-log')) {
-                        var networkDataReceived = false;
-
-                        // fetch fresh meeting log
-                        var networkUpdate = fetch('/fetch/meetingLog')
-                        .then(function(response) { 
-                            return response.json();
-                        }).then(function(data){
-                            networkDataReceived = true;
-                            
-                            updateMeetingLog(data);
-                        })
-                        .catch(function(err) {
-                            console.log('Error Meeting Log: ' + err);
-                        });
-
-                        // fetch cached meeting log
-                        // caches.match('/fetch/meetingLog')
-                        // .then(function(response) {
-                        //     if (!response) throw Error("No data");
-                        //     return response.json();
-                        // }).then(function(data) {
-                        //     // don't overwrite newer network data
-                        //     if (!networkDataReceived) {
-                            
-                        //         updateMeetingLog(data)
-
-                        //     }
-                        // }).catch(function() {
-                        //     // we didn't get cached data, the network is our last hope:
-                        //     return networkUpdate;
-                        // }).catch(function(err) {
-                        //     console.log('Error Meeting Log: ' + err);
-                        // });
-
-                        function updateMeetingLog(data){
-                            var results = data
-
-                            if (results.length) {
-                                $('#meeting-log-list').html('');
-                                results.map(meetinglog => {
-
-                                    let now = new Date(meetinglog.datetime);
-                                    
-                                    var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                    $('#meeting-log-list').append(`
-                                        <a href="#">
-                                            <span>${meetinglog.room_name}</span>
-                                            <strong>as ${meetinglog.display_name}</strong>
-                                            <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    `)
-                                })
-
-                            }
-                            else{
-                                $('#meeting-log-list').html('');
-
-                                $('#meeting-log-list').append(`
-                                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                                `);
-                            }
-                        }
-                    };
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //fetch data for schedule meeting log
-                    if (document.querySelector('#schedule-log')) {
-                        var networkDataReceived = false;
-
-                        // fetch fresh schedule log
-                        var networkUpdate = fetch('/fetch/scheduleLog')
-                        .then(function(response) { 
-                            return response.json();
-                        }).then(function(data){
-                            networkDataReceived = true;
-                            
-                            updateScheduleLog(data);
-                        })
-                        .catch(function(err) {
-                            console.log('Error Schedule Log: ' + err);
-                        });
-
-                        async function updateScheduleLog(data){
-                            var results = data
-
-                            if (results.length) {
-                                $('#schedule-log-list').html('');
-                                await results.map(scheduleLog => {
-
-                                    let start = new Date(scheduleLog.datetime);
-                                    let end = new Date(scheduleLog.end_datetime);
-                                    
-                                    var date = moment(start).format('MMMM Do');
-                                    var time = moment(start).format('h:mm a');
-                                    var time_end = moment(end).format('h:mm a');
-
-                                    $('#schedule-log-list').append(`
-                                    <div class="row mb-3">
-                                        <div class="col-3">
-                                            <small>${date}<br>${time}</small>
-                                            
-                                        </div>
-                                        <div class="col-6">
-                                            <h5>${scheduleLog.room_name}</h5>
-                                            <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
-                                        </div>
-                                        <div class="col-3">                                              
-                                            <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
-                                        </div>
-                                    </div>
-
-                                    <div class="divider mb-3"></div>
-                                    
-                                    `)
-                                })
-
-                                $('.menu-meeting-schedule-config').on('click' , function(){
-                                    menu('menu-meeting-schedule-config',  'show' , '')
-                                });
-
-                                $('.menu-meeting-share').on('click' , function(){
-                                    menu('menu-meeting-share',  'show' , '')
-                                });
-
-                            }
-                            else{
-                                $('#schedule-log-list').html('');
-
-                                $('#schedule-log-list').append(`
-                                    <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
-                                `);
-                            }
-                        }
-                    };
-                    ///////////////////////////////////////////////////////////////////////
-
-                    
 
                     ///////////////////////////////////////////////////////////////////////
                     // fetch user and append back to selected element
@@ -1119,6 +997,76 @@ document['addEventListener']('DOMContentLoaded', () => {
                     ///////////////////////////////////////////////////////////////////////
 
                     ///////////////////////////////////////////////////////////////////////
+                    //fetch data for meeting log
+                    if (document.querySelector('#meeting-log')) {
+                        var networkDataReceived = false;
+
+                        // fetch fresh meeting log
+                        var networkUpdate = fetch('/fetch/meetingLog')
+                        .then(function(response) { 
+                            return response.json();
+                        }).then(function(data){
+                            networkDataReceived = true;
+                            
+                            updateMeetingLog(data);
+                        })
+                        .catch(function(err) {
+                            console.log('Error Meeting Log: ' + err);
+                        });
+
+                        // fetch cached meeting log
+                        // caches.match('/fetch/meetingLog')
+                        // .then(function(response) {
+                        //     if (!response) throw Error("No data");
+                        //     return response.json();
+                        // }).then(function(data) {
+                        //     // don't overwrite newer network data
+                        //     if (!networkDataReceived) {
+                            
+                        //         updateMeetingLog(data)
+
+                        //     }
+                        // }).catch(function() {
+                        //     // we didn't get cached data, the network is our last hope:
+                        //     return networkUpdate;
+                        // }).catch(function(err) {
+                        //     console.log('Error Meeting Log: ' + err);
+                        // });
+
+                        function updateMeetingLog(data){
+                            var results = data
+
+                            if (results.length) {
+                                $('#meeting-log-list').html('');
+                                results.map(meetinglog => {
+
+                                    let now = new Date(meetinglog.datetime);
+                                    
+                                    var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+
+                                    $('#meeting-log-list').append(`
+                                        <a href="#">
+                                            <span>${meetinglog.room_name}</span>
+                                            <strong>as ${meetinglog.display_name}</strong>
+                                            <span class="badge bg-highlight">${dateStringWithTime}</span>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    `)
+                                })
+
+                            }
+                            else{
+                                $('#meeting-log-list').html('');
+
+                                $('#meeting-log-list').append(`
+                                    <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
+                                `);
+                            }
+                        }
+                    };
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
                     //for schedule meeting button
                     $('#schedule-meeting').on('click' , function(event){
                             
@@ -1186,26 +1134,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             $('#meetingStartSchedule').val('');
                                             $('#meetingEndSchedule').val('');
 
-                                            $('#schedule-log-list').prepend(`
-                                                <div class="row mb-3">
-                                                    <div class="col-3">
-                                                        <small>${date}<br>${time}</small>
-                                                        
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <h5>${meetingName}</h5>
-                                                        <small><i class="far fa-clock"></i> ${time} - ${time_end}</small>
-                                                    </div>
-                                                    <div class="col-3">                                              
-                                                        <a href="#" data-menu="menu-meeting-schedule-config" class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" style="float:right"><i class="fas fa-ellipsis-v"></i></a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="divider mb-3"></div>
-                                                
-                                            `)
+                                            $('#schedule-log-list').prepend(``+scheduleLogBuilder(meetingName, date, time, time_end)+``);
 
                                             $('.menu-meeting-schedule-config').on('click' , function(){
+                                                var meetingName = $(this).data('meeting-name');
+                                                $('#copyMeet').attr('data-meeting-name', meetingName);
+                                                $('#meetEmail').attr('data-meeting-name', meetingName);
+                                                $('#meetGmail').attr('data-meeting-name', meetingName);
+                                                $('#meetOutlook').attr('data-meeting-name', meetingName);
+                                                $('#meetYahoo').attr('data-meeting-name', meetingName);
                                                 menu('menu-meeting-schedule-config',  'show' , '')
                                             });
                 
@@ -1236,6 +1173,74 @@ document['addEventListener']('DOMContentLoaded', () => {
                     });
                     ///////////////////////////////////////////////////////////////////////
             
+                    ///////////////////////////////////////////////////////////////////////
+                    //fetch data for schedule meeting log
+                    if (document.querySelector('#schedule-log')) {
+                        var networkDataReceived = false;
+
+                        // fetch fresh schedule log
+                        var networkUpdate = fetch('/fetch/scheduleLog')
+                        .then(function(response) { 
+                            return response.json();
+                        }).then(function(data){
+                            networkDataReceived = true;
+                            
+                            updateScheduleLog(data);
+                        })
+                        .catch(function(err) {
+                            console.log('Error Schedule Log: ' + err);
+                        });
+
+                        async function updateScheduleLog(data){
+                            var results = data
+
+                            if (results.length) {
+                                $('#schedule-log-list').html('');
+                                await results.map(scheduleLog => {
+
+                                    let start = new Date(scheduleLog.datetime);
+                                    let end = new Date(scheduleLog.end_datetime);
+                                    
+                                    var date = moment(start).format('MMMM Do');
+                                    var time = moment(start).format('h:mm a');
+                                    var time_end = moment(end).format('h:mm a');
+
+
+                                    $('#schedule-log-list').append(``+scheduleLogBuilder(scheduleLog.room_name, date, time, time_end)+``);
+                                })
+                                 
+                                $('.menu-meeting-schedule-config').on('click' , function(){
+                                    var meetingName = $(this).data('meeting-name');
+                                    $('#copy-meet-link').html(window.location.hostname + '/meetroom?roomName=' + meetingName);
+                                    $('#whatsapp-link').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+meetingName+'"');
+                                    $('#mail-link').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+meetingName+'"');
+                                    $('#gmail-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+meetingName+'&tf=cm","_blank")');
+                                    $('#outlook-link').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+meetingName+'","_blank")');
+                                    $('#yahoo-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+meetingName+'&tf=cm","_blank")');
+                                    
+                                    $('#copyMeet').attr('data-meeting-name', meetingName);
+                                    $('#meetEmail').attr('data-meeting-name', meetingName);
+                                    $('#meetGmail').attr('data-meeting-name', meetingName);
+                                    $('#meetOutlook').attr('data-meeting-name', meetingName);
+
+                                    menu('menu-meeting-schedule-config',  'show' , '')
+                                });
+
+                                $('.menu-meeting-share').on('click' , function(){
+                                    menu('menu-meeting-share',  'show' , '')
+                                });
+
+                            }
+                            else{
+                                $('#schedule-log-list').html('');
+
+                                $('#schedule-log-list').append(`
+                                    <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
+                                `);
+                            }
+                        }
+                    };
+                    ///////////////////////////////////////////////////////////////////////
 
 
                 function initializeMeeting(meetingName, usrName) {
