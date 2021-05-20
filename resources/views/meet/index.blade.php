@@ -224,10 +224,11 @@
                                     <h1>Meeting Log</h1>
                                     <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.
                                     </p>
-                                    <div id="meeting-log-list" class="list-group list-custom-large mb-4">
+                                    <div class="divider my-3"></div>
+                                    <div id="meeting-log-list" class="mb-4" style="height: 360px;overflow-y: scroll;">
 
                                         <br>
-
+                                        
                                         <div class="d-flex justify-content-center">
                                             <div class="spinner-border color-highlight text-center" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -541,7 +542,10 @@
         <p class="ps-3 pe-3 text-center color-theme opacity-60">
             Do you realy want to delete the record ? This action cannot be undone. 
         </p>
-        <a href="#" class="close-menu btn btn-m font-900 text-uppercase bg-highlight rounded-sm btn-center-l">Confirm</a>
+        <form class="needs-validation" novalidate id="deleteScheduleMeetingForm">
+            <input type="hidden" name="meetingIdScheduleDelete" id="meetingIdScheduleDelete">
+            <a href="#" id="delete-schedule-meeting" class="btn btn-m font-900 text-uppercase bg-highlight rounded-sm btn-center-l">Confirm</a>
+        </form>
     </div>
 
 @endsection

@@ -89,6 +89,34 @@ function _initBtnLoader(){
     });
 }
 
+function validationErrorBuilder(results){
+
+    if (results.error_list) {
+
+        var p = results.error_list;
+        $('#validationErrorList').html('');
+        for (var key in p) {
+            if (p.hasOwnProperty(key)) {
+
+                $('#validationErrorList').append(`
+                    <a href="#">
+
+                    <span>${p[key]}</span>
+                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
+                
+                    </a>
+                `)
+
+            }
+        }
+
+        menu('validationError', 'show', 250);
+
+    } else {
+        snackbar('error' , 'Something went wrong, please try again.')                                        
+    }  
+} 
+
 
 document['addEventListener']('DOMContentLoaded', () => {
    
@@ -199,7 +227,14 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                     if(results === 'true')
                     {
-                        if(window.location.href.indexOf("meetroom") > -1)
+                        if(window.location.href.indexOf("splashscreen") > -1){
+                            swup.loadPage({
+                                url: 'home',
+                                method: 'GET',
+                                customTransition: '' 
+                            });
+                        }
+                        else if(window.location.href.indexOf("meetroom") > -1)
                         {
                             console.log('Authenticated');
                             var url = new URL(window.location.href);
@@ -223,11 +258,21 @@ document['addEventListener']('DOMContentLoaded', () => {
                         else
                         {
                             // window.location.href = 'login?prevUrl='+window.location.pathname+'';
-                            swup.loadPage({
-                                url: 'login?prevUrl='+window.location.pathname+'',
-                                method: 'GET',
-                                customTransition: '' 
-                            });
+                            if(window.location.pathname === "/splashscreen"){
+                                swup.loadPage({
+                                    url: 'login',
+                                    method: 'GET',
+                                    customTransition: '' 
+                                });
+                            }
+                            else{
+                                swup.loadPage({
+                                    url: 'login?prevUrl='+window.location.pathname+'',
+                                    method: 'GET',
+                                    customTransition: '' 
+                                });
+                            }
+                            
                         }
                     }
 
@@ -287,9 +332,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         console.log(err);
                     });
                 } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
+                    menu('menu-offline', 'show', 250);
                 } 
 
 
@@ -350,35 +393,13 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                             }
                                             else{
+
                                                 if(results.type == 'Validation Error')
                                                 {
                                                     $('#connectBtn').removeClass('off-btn').trigger('classChange');
-                                                    if (results.error_list) {
-                                                            var p = results.error_list;
-                                                            $('#validationErrorList').html('');
-                                                            for (var key in p) {
-                                                                if (p.hasOwnProperty(key)) {
-                                                                
-                                                                    // console.log(key + " -> " + p[key]);
 
-                                                                    $('#validationErrorList').append(`
-                                                                        <a href="#">
-                        
-                                                                        <span>${p[key]}</span>
-                                                                        <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                    
-                                                                        </a>
-                                                                    `)
+                                                    validationErrorBuilder(results);
 
-                                                                }
-                                                            }
-                                                            
-                                                    } else {
-                                                    
-                                                    }
-
-                                                    menu('validationError', 'show', 250);
-                                                    
                                                 }
                                                 else
                                                 {
@@ -399,9 +420,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
 
                     } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
+                        menu('menu-offline', 'show', 250);
                     } 
             });
             ///////////////////////////////////////////////////////////////////////
@@ -464,28 +483,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             {
                                                 $('#registerBtn').removeClass('off-btn').trigger('classChange');
 
-                                                if (results.error_list) {
-                                                        var p = results.error_list;
-                                                    for (var key in p) {
-                                                        if (p.hasOwnProperty(key)) {
-                                                        
-                                                            // console.log(key + " -> " + p[key]);
+                                                validationErrorBuilder(results);
 
-                                                            $('#validationErrorList').append(`
-                                                                <a href="#">
-                
-                                                                <span>${p[key]}</span>
-                                                                <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                            
-                                                                </a>
-                                                            `)
-
-                                                        }
-                                                    }
-                                            
-                                                } else {
-                                                    snackbar(results.status , results.message)
-                                                }
                                             }
                                             else
                                             {
@@ -504,9 +503,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     })
                 
                 } else {
-                    var menuOffline = document.getElementById('menu-offline');
-                    menuOffline.classList.add("menu-active");
-                    $('.menu-hider').addClass('menu-active');
+                    menu('menu-offline', 'show', 250);
                 } 
             });
             ///////////////////////////////////////////////////////////////////////
@@ -636,31 +633,9 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 else if(results.type == 'Validation Error')
                                                 {
                                                     $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-                                                    if (results.error_list) {
-                                                            var p = results.error_list;
-                                                            $('#validationErrorList').html('');
-                                                            for (var key in p) {
-                                                                if (p.hasOwnProperty(key)) {
-                                                                
-                                                                    // console.log(key + " -> " + p[key]);
 
-                                                                    $('#validationErrorList').append(`
-                                                                        <a href="#">
-                        
-                                                                        <span>${p[key]}</span>
-                                                                        <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                    
-                                                                        </a>
-                                                                    `)
-
-                                                                }
-                                                            }
-                                                            
-                                                    } else {
-                                                    
-                                                    }
-
-                                                    menu('validationError', 'show', 250);
+                                                    validationErrorBuilder(results);
+                                                   
                                                 }
                                                 else{
                                                     snackbar(results.status , results.message)
@@ -678,9 +653,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         })
                     
                     } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
+                        menu('menu-offline', 'show', 250);
                     } 
                 });
                 ///////////////////////////////////////////////////////////////////////
@@ -749,31 +722,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 {
                                                     $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
 
-                                                    if (results.error_list) {
-                                                            var p = results.error_list;
-                                                            $('#validationErrorList').html('');
-                                                            for (var key in p) {
-                                                                if (p.hasOwnProperty(key)) {
-                                                                
-                                                                    // console.log(key + " -> " + p[key]);
-
-                                                                    $('#validationErrorList').append(`
-                                                                        <a href="#">
-                        
-                                                                        <span>${p[key]}</span>
-                                                                        <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                    
-                                                                        </a>
-                                                                    `)
-
-                                                                }
-                                                            }
-                                                            
-                                                    } else {
-                                                    
-                                                    }
-
-                                                    menu('validationError', 'show', 250);
+                                                    validationErrorBuilder(results);
                                                 }
                                                 else{
                                                     snackbar(results.status , results.message)
@@ -790,9 +739,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     
                     
                     } else {
-                        var menuOffline = document.getElementById('menu-offline');
-                        menuOffline.classList.add("menu-active");
-                        $('.menu-hider').addClass('menu-active');
+                        menu('menu-offline', 'show', 250);
                     } 
                 });
 
@@ -890,6 +837,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                         });
                     }
 
+                    function deleteMeetingBuilder(meetingId){
+                        $('#meetingIdScheduleDelete').val(meetingId);
+                    }
+
                     function updateMeetingLog(data){
                         var results = data
 
@@ -902,12 +853,16 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
 
                                 $('#meeting-log-list').append(`
-                                    <a href="#">
-                                        <span>${meetinglog.room_name}</span>
-                                        <strong>as ${meetinglog.display_name}</strong>
-                                        <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
+                                    <div class="row mb-0">
+                                        <div class="col-6">
+                                            <h5 class="mb-0">${meetinglog.room_name}</h5> 
+                                            <small>as ${meetinglog.display_name}</small>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <span class="mt-2 badge bg-highlight" style="font-size: 9px;">${dateStringWithTime}</span>
+                                        </div>
+                                    </div>
+                                    <div class="divider my-3"></div>
                                 `)
                             })
 
@@ -938,6 +893,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 shareMeetingBuilder(meetingName);
 
                                 editMeetingBuilder(meetingId);
+
+                                deleteMeetingBuilder(meetingId);
 
                                 menu('menu-meeting-schedule-config',  'show' , '')
                             });
@@ -1045,34 +1002,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     return response.json();
                                 }).then(function(resultsJSON){
 
-                                    var results = resultsJSON
-
-                                    if (results.length) {
-                                        $('#meeting-log-list').html('');
-                                        results.map(meetinglog => {
-
-                                            let now = new Date(meetinglog.datetime);
-                                            
-                                            var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                            $('#meeting-log-list').append(`
-                                                <a href="#">
-                                                    <span>${meetinglog.room_name}</span>
-                                                    <strong>as ${meetinglog.display_name}</strong>
-                                                    <span class="badge bg-highlight">${dateStringWithTime}</span>
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            `)
-                                        })
-
-                                    }
-                                    else{
-                                        $('#meeting-log-list').html('');
-
-                                        $('#meeting-log-list').append(`
-                                        <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                                        `);
-                                    }
+                                    updateMeetingLog(resultsJSON);
 
                                 })
                                 .catch(function(err) {
@@ -1187,9 +1117,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             })
                         
                         } else {
-                            var menuOffline = document.getElementById('menu-offline');
-                            menuOffline.classList.add("menu-active");
-                            $('.menu-hider').addClass('menu-active');
+                            menu('menu-offline', 'show', 250);
                         } 
                     });
                     ///////////////////////////////////////////////////////////////////////
@@ -1223,9 +1151,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             })
 
                         } else {
-                            var menuOffline = document.getElementById('menu-offline');
-                            menuOffline.classList.add("menu-active");
-                            $('.menu-hider').addClass('menu-active');
+                            menu('menu-offline', 'show', 250);
                         } 
                     });
                     ///////////////////////////////////////////////////////////////////////
@@ -1233,14 +1159,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                     ///////////////////////////////////////////////////////////////////////
                     //fetch data for meeting log
                     if (document.querySelector('#meeting-log')) {
-                        var networkDataReceived = false;
+                        // var networkDataReceived = false;
 
                         // fetch fresh meeting log
                         var networkUpdate = fetch('/fetch/meetingLog')
                         .then(function(response) { 
                             return response.json();
                         }).then(function(data){
-                            networkDataReceived = true;
+                            // networkDataReceived = true;
                             
                             updateMeetingLog(data);
                         })
@@ -1338,6 +1264,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 
                                                 shareMeetingBuilder(meetingName);
 
+                                                editMeetingBuilder(results.data.id);
+
+                                                deleteMeetingBuilder(results.data.id);
+
                                                 menu('menu-meeting-schedule-config',  'show' , '')
                                             });
                 
@@ -1361,9 +1291,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             })
 
                         } else {
-                            var menuOffline = document.getElementById('menu-offline');
-                            menuOffline.classList.add("menu-active");
-                            $('.menu-hider').addClass('menu-active');
+                            menu('menu-offline', 'show', 250);
                         } 
                     });
                     ///////////////////////////////////////////////////////////////////////
@@ -1385,11 +1313,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                         .catch(function(err) {
                             console.log('Error Schedule Log: ' + err);
                         });
-
-                        
                     };
                     ///////////////////////////////////////////////////////////////////////
-
 
                     ///////////////////////////////////////////////////////////////////////
                     //for submit edit meeting button
@@ -1460,29 +1385,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             if(results.type == 'Validation Error')
                                             {
                                                 $('#edit-schedule-meeting').removeClass('off-btn').trigger('classChange');
-                                                if (results.error_list) {
-                                                        var p = results.error_list;
-                                                        $('#validationErrorList').html('');
-                                                        for (var key in p) {
-                                                            if (p.hasOwnProperty(key)) {
 
-                                                                $('#validationErrorList').append(`
-                                                                    <a href="#">
-                    
-                                                                    <span>${p[key]}</span>
-                                                                    <i class="fa fa-times-circle color-red-light" style="color: #ed5565!important;font-size: 1.3em;"></i>
-                                                                
-                                                                    </a>
-                                                                `)
-
-                                                            }
-                                                        }
-                                                        
-                                                } else {
-                                                
-                                                }
-
-                                                menu('validationError', 'show', 250);
+                                                validationErrorBuilder(results);
                                             }
                                             else{
                                                 snackbar(results.status , results.message)
@@ -1499,11 +1403,95 @@ document['addEventListener']('DOMContentLoaded', () => {
                             });
                         }
                         else{
-                            var menuOffline = document.getElementById('menu-offline');
-                            menuOffline.classList.add("menu-active");
-                            $('.menu-hider').addClass('menu-active');
+                            menu('menu-offline', 'show', 250);
                         }
                     });
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
+                    //for delete meeting button
+                    $('#delete-schedule-meeting').on('click' , function(event){
+
+                        if (navigator.onLine) {
+                            var fsm = $("#deleteScheduleMeetingForm");
+
+                             // Loop over them and prevent submission
+                             Array.prototype.slice.call(fsm)
+                             .forEach(function (form) {
+                                if (!form.checkValidity()) 
+                                {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+                                else
+                                {
+                                    $('#delete-schedule-meeting').addClass('off-btn').trigger('classChange');
+
+                                    var editMeetingId = $('#meetingIdScheduleDelete').val();
+
+                                    var dataForm = new URLSearchParams();
+                                    dataForm.append('meeting_id', editMeetingId);
+
+                                    fetch("fetch/deleteMeetingSchedule/"+editMeetingId+"", {
+                                        method: 'post',
+                                        credentials: "same-origin",
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        body: dataForm,
+                                    })
+                                    .then(function(response){
+                                        return response.json();
+                                    }).then(function(resultsJSON){
+                    
+                                        var results = resultsJSON
+
+                                        if(results.status == 'success'){
+
+                                            fetch('/fetch/scheduleLog')
+                                            .then(function(response) { 
+                                                return response.json();
+                                            }).then(function(data){
+                                                
+                                                updateScheduleLog(data);
+                                            })
+                                            .catch(function(err) {
+                                                console.log('Error Schedule Log: ' + err);
+                                            });
+
+                                            $('#delete-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                            menu('menu-delete-meeting', 'hide', 250);
+
+                                            snackbar(results.status , results.message)
+
+                                        }
+                                        else{
+                                            if(results.type == 'Validation Error')
+                                            {
+                                                $('#delete-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                                validationErrorBuilder(results);
+                                            }
+                                            else{
+                                                snackbar(results.status , results.message)
+                                            }
+                                        }
+                    
+                                    })
+                                    .catch(function(err) {
+                                        console.log(err);
+                                    });
+
+                                    form.classList.add('was-validated');
+                                }
+                            });
+                        }
+                        else{
+                            menu('menu-offline', 'show', 250);
+                        }
+                    });
+                    ///////////////////////////////////////////////////////////////////////
 
                     
             }

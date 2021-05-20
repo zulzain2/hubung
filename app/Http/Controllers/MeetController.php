@@ -176,7 +176,7 @@ class MeetController extends Controller
         $noti->to_user =  auth()->user()->id;
         $noti->tiny_img_url = '';
         $noti->title = 'Meeting ['.$request->meeting_name.']';
-        $noti->desc =  ''.$request->meeting_name.' - You have meeting scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('g:i a' , strtotime($request->meeting_start)).' and will end on '.date('g:i a' , strtotime($request->meeting_end)).'';
+        $noti->desc =  ''.$request->meeting_name.' - You have meeting 30 minutes from now, scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('g:i a' , strtotime($request->meeting_start)).' and will end on '.date('g:i a' , strtotime($request->meeting_end)).'';
         $noti->type = 'I';
         $noti->click_url = '/meet?roomName='.$request->meeting_name.'';
         $noti->send_status = 'S';
@@ -187,7 +187,7 @@ class MeetController extends Controller
         $json_noti = json_encode($noti);
 
         $add2 = New Scheduler;
-        $add2->trigger_datetime = date('Y-m-d H:i:s' , strtotime(''.$request->meeting_date.' '.$request->meeting_start.''));
+        $add2->trigger_datetime = date('Y-m-d H:i:s' , (strtotime(''.$request->meeting_date.' '.$request->meeting_start.'') - (1 * 30 * 60)));
         $add2->url_to_call = 'triggeredNotification';
         $add2->params = $json_noti;
         $add2->is_triggered = 0;
@@ -232,6 +232,33 @@ class MeetController extends Controller
             'message' => 'Successfully update schedule meeting.'
         ];
         return json_encode($data);
+        
+    }
+
+    public function deleteMeetingSchedule(Request $request, $id){
+
+        $validator = Validator::make($request->all(), [
+            'meeting_id' 	    => 'required',
+        ]);
+
+        if($validator->fails()){
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
+
+            $meetinglog = MeetingLog::find($id);
+            $meetinglog->delete();
+
+            $data = [
+                'status' => 'success', 
+                'message' => 'Successfully delete schedule meeting.'
+            ];
+            return json_encode($data);
         
     }
 }
