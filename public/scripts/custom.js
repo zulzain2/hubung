@@ -807,10 +807,10 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                     function shareMeetingBuilder(room_name){
                         $('#copy-meet-link').html(window.location.hostname + '/meetroom?roomName=' + room_name);
-                        $('#whatsapp-link').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
-                        $('#mail-link').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
-                        $('#gmail-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'&tf=cm","_blank")');
-                        $('#outlook-link').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'","_blank")');
+                        $('#whatsapp-link-schedule').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
+                        $('#mail-link-schedule').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
+                        $('#gmail-link-schedule').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'&tf=cm","_blank")');
+                        $('#outlook-link-schedule').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'","_blank")');
 
                         $('#copyMeet').attr('data-meeting-name', room_name);
                         $('#meetEmail').attr('data-meeting-name', room_name);
@@ -974,6 +974,11 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
                                 $('#invite-invitor').html(data.displayName);
                                 $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
+                                
+                                $('#whatsapp-link').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+data.roomName+'"');
+                                $('#mail-link').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+data.roomName+'"');
+                                $('#gmail-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+data.roomName+'&tf=cm","_blank")');
+                                $('#outlook-link').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+data.roomName+'","_blank")');
                                 ///////////////////////////////////////////////////////////////////////
 
                                 var currentdate = new Date();

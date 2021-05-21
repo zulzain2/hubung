@@ -269,12 +269,11 @@
         <div class="row" style="height:5vh">
             <div class="col-lg-12">
 
-                <table style="border:none;height:100%;width: 100%;background-color: transparent !important;">
+                <table style="border:none;height:100%;width: 100%;background-color: #656d78!important;">
                     <tr>
                         <td style="border:none;vertical-align:middle;background-color: transparent !important;"> <a href="#"
                                 id="inviteBtn"
-                                class="btn btn-xs btn-full rounded-xs text-uppercase font-900 shadow-s bg-dark-light"
-                                style="height:100%">Invite</a></td>
+                                class="btn btn-xs btn-full rounded-xs text-uppercase font-900 shadow-s bg-dark-light">Invite</a></td>
                     </tr>
                 </table>
 
@@ -320,15 +319,11 @@
                 <div class="col-3">
                     <h4 class="font-14">Share Link</h4>
                 </div>
-                <div class="col-8">
-                    <h4 id="invite-link" class="font-14 text-end"></h4>
-                </div>
-                <div class="col-1">
-                    <!-- Trigger -->
-                    <a href="#" class="copy-btn" data-clipboard-target="#invite-link">
+                <div class="col-9 text-end">
+                    <strong id="invite-link" class="font-14 text-end"></strong> &nbsp;&nbsp;
+                    <a href="#" class="copy-btn color-blue-dark" data-clipboard-target="#invite-link">
                         <i class="far fa-copy"></i>
                     </a>
-
                 </div>
                 <div class="divider divider-margins w-100 mt-2 mb-2"></div>
                 <div class="col-6">
@@ -336,12 +331,18 @@
                 </div>
                 <div class="col-6">
                     <h4 class="font-14 text-end mt-1">
-                        <i class="far fa-copy"></i>&nbsp;
-                        <i class="far fa-envelope"></i>&nbsp;
-                        <i class="fab fa-google"></i>&nbsp;
-                        <i class="fab fa-windows"></i>&nbsp;
-                        <i class="fab fa-yahoo"></i>&nbsp;
-
+                        <a href="#" id="whatsapp-link">
+                            <i class="font-18 fab fa-whatsapp color-whatsapp align-middle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
+                        <a href="#" id="mail-link">
+                            <i class="font-18 far fa-envelope color-brown-dark align-middle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
+                        <a href="#" id="gmail-link">
+                            <i class="font-18 fab fa-google color-google align-middle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
+                        <a href="#" id="outlook-link">
+                            <i class="font-18 fab fa-microsoft color-teal-dark align-middle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
                     </h4>
                 </div>
                 <div class="divider divider-margins w-100 mt-2 mb-2"></div>
@@ -408,7 +409,7 @@
             <div class="divider my-2"></div>
 
 
-            <a id="whatsapp-link" onclick="" href="#" style="color: unset;" class="shareToWhatsApp external-link">
+            <a id="whatsapp-link-schedule" onclick="" href="#" style="color: unset;" class="shareToWhatsApp external-link">
                 <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
                     <tr>
                         <td class="px-2" style="background-color:transparent !important;width:5%">
@@ -426,7 +427,7 @@
 
             <div class="divider my-2"></div>
 
-            <a id="mail-link" onclick="" href="#" style="color: unset;" class="shareToMail external-link">
+            <a id="mail-link-schedule" onclick="" href="#" style="color: unset;" class="shareToMail external-link">
                 <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
                     <tr>
                         <td class="px-2" style="background-color:transparent !important;width:5%">
@@ -444,7 +445,7 @@
 
             <div class="divider my-2"></div>
 
-            <a id="gmail-link" href="#" style="color: unset;">
+            <a id="gmail-link-schedule" href="#" style="color: unset;">
                 <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
                     <tr>
                         <td class="px-2" style="background-color:transparent !important;width:5%">
@@ -462,11 +463,11 @@
 
             <div class="divider my-2"></div>
 
-            <a id="outlook-link" href="#" style="color: unset;">
+            <a id="outlook-link-schedule" href="#" style="color: unset;">
                 <table class="w-100 h-100" style="background-color:transparent !important;border:none;">
                     <tr>
                         <td class="px-2" style="background-color:transparent !important;width:5%">
-                            <i class="font-18 fab fa-microsoft color-teal-dark align-middle"></i>
+                            <i class="font-18 fab fa-windows color-teal-dark align-middle"></i>
                         </td>
                         <td class="px-2" style="background-color:transparent !important">
                             <strong class="font-13">Outlook Email</strong>
