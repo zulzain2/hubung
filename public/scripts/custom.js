@@ -258,20 +258,20 @@ document['addEventListener']('DOMContentLoaded', () => {
                         else
                         {
                             // window.location.href = 'login?prevUrl='+window.location.pathname+'';
-                            if(window.location.pathname === "/splashscreen"){
-                                swup.loadPage({
-                                    url: 'login',
-                                    method: 'GET',
-                                    customTransition: '' 
-                                });
-                            }
-                            else{
+                            // if(window.location.pathname === "/splashscreen"){
+                            //     swup.loadPage({
+                            //         url: 'login',
+                            //         method: 'GET',
+                            //         customTransition: '' 
+                            //     });
+                            // }
+                            // else{
                                 swup.loadPage({
                                     url: 'login?prevUrl='+window.location.pathname+'',
                                     method: 'GET',
                                     customTransition: '' 
                                 });
-                            }
+                            // }
                             
                         }
                     }
