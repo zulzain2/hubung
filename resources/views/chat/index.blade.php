@@ -9,9 +9,9 @@
 
 <style>
     .header-clear-medium{
-    margin-top: 8vh !important;
-    margin-bottom: 8vh !important;
-    height: 84vh;
+    margin-top: 5vh !important;
+    margin-bottom: 5vh !important;
+    height: 89vh;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
     }
@@ -20,8 +20,8 @@
   <div class="row" style="height: 100%;margin-bottom: 0px;">
       <div class="col-md-4 col-lg-4 col-sm-12">
 
-            <div class="search-page" style="height: 9%;">
-                <div class="search-box search-header bg-theme card-style me-3 ms-3 mb-0">
+            <div class="search-page" style="height: 9%;padding-top: 15px;">
+                <div class="search-box search-header bg-theme card-style me-3 ms-3 mb-0 mt-2">
                     <i class="fa fa-search"></i>
                     {{-- <input type="text" class="border-0" placeholder="What are you looking for? " data-search=""> --}}
                     <input type="text" class="border-0" placeholder="What are you looking for? ">
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-          <div class="card card-style ms-3" style="height: 89%;">
+          <div class="card card-style ms-3 mt-4" style="height: 82%;">
 
             
                 {{-- <div class="ph-item ph-no-space ph-no-border pt-2"> --}}
