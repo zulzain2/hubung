@@ -22,10 +22,37 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{URL::to('app/icons/icon-192x192.png')}}">
 
 <style>
-     .off-btn {
+    /* body {
+            overscroll-behavior-y: contain;
+        } */
+        
+       .ph-no-space {
+            padding: unset;
+            margin: unset;
+        }
+
+        .ph-no-border {
+            border: unset;
+        }
+
+        .ph-item {
+
+            background-color: rgba(255, 255, 255, 0);
+
+        }
+
+        .off-btn {
             pointer-events: none;
             opacity: 0.5;
         }
+
+        input[type=date], input[type=time] {
+            line-height: initial !important;
+            padding-top: 16px !important;
+            height: 100% !important;
+            padding-bottom: 16px !important;
+        }
+        
 </style>
 
 @stack('styles')
