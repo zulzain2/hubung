@@ -347,23 +347,28 @@
         </div>
     </div>
 
-    <div id="menu-meeting-schedule-config" class="menu menu-box-bottom menu-box-detached" style="display: block;">
+    <div id="menu-meeting-schedule-config" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached" style="display: block;">
         <div class="menu-title mt-n1 text-center">
             <h3 class="mt-3">Options</h3>
         </div>
         <div class="content mb-0 mt-0">
             <div class="list-group list-custom-small list-icon-0">
-                <a href="#" data-menu="menu-edit-meeting" class="shareToFacebook external-link">
+                <a href="#">
+                    <i class="font-18 fas fa-play color-blue-light"></i>
+                    <span class="font-13">Start Meeting</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a href="#" data-menu="menu-edit-meeting" >
                     <i class="font-18 fas fa-edit color-yellow-light"></i>
                     <span class="font-13">Edit</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="#" data-menu="menu-meeting-share" class="menu-meeting-share shareToTwitter external-link">
-                    <i class="font-18 fa fa-share-alt color-mail"></i>
+                <a href="#" data-menu="menu-meeting-share" class="menu-meeting-share">
+                    <i class="font-18 fa fa-share-alt color-brown-dark"></i>
                     <span class="font-13">Share</span>
                     <i class="fa fa-angle-right"></i>
                 </a>
-                <a href="#" data-menu="menu-delete-meeting" class="shareToLinkedIn external-link">
+                <a href="#" data-menu="menu-delete-meeting">
                     <i class="font-18 far fa-trash-alt color-red-dark"></i>
                     <span class="font-13">Delete</span>
                     <i class="fa fa-angle-right"></i>
@@ -372,7 +377,7 @@
         </div>
     </div>
 
-    <div id="menu-meeting-share" class="menu menu-box-top menu-box-detached" style="display: block;">
+    <div id="menu-meeting-share" class="col-lg-6 offset-lg-3 menu menu-box-top menu-box-detached" style="display: block;">
         <div class="menu-title mt-n1">
             <h1>Share the invitation</h1>
             <p class="color-highlight">Just Tap the Social Icon. We'll add the invitation template</p><a href="#"

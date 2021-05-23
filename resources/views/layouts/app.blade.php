@@ -113,7 +113,7 @@
 
         @yield('content2')
 
-        <div id="menu-settings" class="menu menu-box-bottom menu-box-detached">
+        <div id="menu-settings" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached">
             <div class="menu-title mt-0 pt-0">
                 <h1>Settings</h1>
                 <p class="color-highlight">Flexible and Easy to Use</p><a href="#" class="close-menu"><i
@@ -168,7 +168,7 @@
         </div>
 
 
-        <div id="menu-highlights" class="menu menu-box-bottom menu-box-detached">
+        <div id="menu-highlights" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached">
             <div class="menu-title">
                 <h1>Highlights</h1>
                 <p class="color-highlight">Any Element can have a Highlight Color</p><a href="#" class="close-menu"><i
@@ -215,7 +215,7 @@
             </div>
         </div>
 
-        <div id="menu-backgrounds" class="menu menu-box-bottom menu-box-detached">
+        <div id="menu-backgrounds" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached">
             <div class="menu-title">
                 <h1>Backgrounds</h1>
                 <p class="color-highlight">Change Page Color Behind Content Boxes</p><a href="#" class="close-menu"><i
@@ -263,7 +263,7 @@
             <p class="text-center font-9 color-theme mt-3">Continue with other task.</p>
         </div>
 
-        <div id="validationError" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="240" data-menu-effect="menu-over" style="display: block; height: 240px;">
+        <div id="validationError" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="240" data-menu-effect="menu-over" style="display: block; height: 240px;">
             <div class="menu-title mt-n1 text-center">
                 <h1 class="color-red-dark">Validation Error</h1>
                 <p class="color-theme opacity-50">Please review below error and take appropriate action to proceed.</p>
