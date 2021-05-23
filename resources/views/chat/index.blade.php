@@ -66,7 +66,7 @@
                 <span>Kamil</span>
                 <strong>A powerful Mobile Template</strong>
                 <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                <span class="badge rounded-pill bg-fade-red-light color-red-dark">06</span>
+                <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
             </a>
             <a href="#">
 
@@ -93,7 +93,7 @@
                 <span>Sara</span>
                 <strong>A powerful Mobile Template</strong>
                 <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                <span class="badge rounded-pill bg-fade-red-light color-red-dark">06</span>
+                <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
             </a>
             <a href="#">
 
@@ -147,7 +147,7 @@
                 <span>Nabila</span>
                 <strong>A powerful Mobile Template</strong>
                 <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                <span class="badge rounded-pill bg-fade-red-light color-red-dark">06</span>
+                <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
             </a>
             <a href="#">
 

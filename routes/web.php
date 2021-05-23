@@ -62,7 +62,9 @@ Route::post('fetch/deleteMeetingSchedule/{id}', 'App\Http\Controllers\MeetContro
 Route::get('fetch/scheduleLog', 'App\Http\Controllers\MeetController@scheduleLog');
 Route::get('fetch/scheduleLog/{id}', 'App\Http\Controllers\MeetController@scheduleLogSpecific');
 Route::get('fetch/meetingLog', 'App\Http\Controllers\MeetController@meetingLog');
-Route::post('fetch/storeMeetingLog', 'App\Http\Controllers\MeetController@storeMeetingLog');
+Route::post('fetch/storeMeetingPass', 'App\Http\Controllers\MeetController@storeMeetingPass');
+Route::post('fetch/storeMeetingInProgress', 'App\Http\Controllers\MeetController@storeMeetingInProgress');
+Route::post('fetch/storeMeetingNotStart', 'App\Http\Controllers\MeetController@storeMeetingNotStart');
 Route::resource('meet', 'App\Http\Controllers\MeetController');
 
 Route::resource('file', 'App\Http\Controllers\FileController');

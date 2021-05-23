@@ -263,6 +263,15 @@
             <p class="text-center font-9 color-theme mt-3">Continue with other task.</p>
         </div>
 
+        <div id="validationError" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="240" data-menu-effect="menu-over" style="display: block; height: 240px;">
+            <div class="menu-title mt-n1 text-center">
+                <h1 class="color-red-dark">Validation Error</h1>
+                <p class="color-theme opacity-50">Please review below error and take appropriate action to proceed.</p>
+            </div>
+            <div id="validationErrorList" class="list-group list-custom-small pe-3 ps-3">
+            </div>
+        </div>
+        
         <div id="snackbar-sucess" class="snackbar-toast bg-green-dark" data-bs-delay="1200" data-bs-autohide="true">
         </div>
         <div id="snackbar-warning" class="snackbar-toast bg-yellow-dark" data-bs-delay="1200" data-bs-autohide="true">

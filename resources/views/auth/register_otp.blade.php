@@ -47,9 +47,9 @@
                             <br>
                             <p>OTP will expired in 5 Minutes 
                                 <br> 
-                                <button id="tryAgainOtp" class="btn font-12 font-900 text-uppercase bg-red-dark btn-xxs rounded-sm" style="font-size: 10px !important;" disabled>Try Again ? <strong id='seconds-counter'> </strong></button></p>
+                                <button id="tryAgainOtp" class="btn font-12 font-900 text-uppercase bg-highlight btn-xxs rounded-sm" style="font-size: 10px !important;" disabled>Try Again ? <strong id='seconds-counter'> </strong></button></p>
                             <br>                    
-                            <a href="#" id="verifyOtpBtn" class="btn w-75 font-900 text-uppercase bg-red-dark btn-m rounded-sm">Continue &nbsp;&nbsp; <i class="fas fa-long-arrow-right"></i></a>
+                            <a href="#" id="verifyOtpBtn" class="btn w-75 font-900 text-uppercase bg-highlight btn-m rounded-sm">Continue &nbsp;&nbsp; <i class="fas fa-long-arrow-right"></i></a>
                             <br><br>
 
                         

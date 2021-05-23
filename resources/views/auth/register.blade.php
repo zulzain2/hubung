@@ -92,7 +92,7 @@
 
                                 <input class="csrftoken" type="hidden" name="_token" value="">
 
-                                <label for="nick_name" class="color-green-dark text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Nick Name</label>
+                                <label for="nick_name" class="color-highlight text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Nick Name</label>
                                 <div class="input-style input-style-always-active no-borders no-icon mb-4">
                                     <input type="text" id="nick_name" name="nick_name" class="form-control text-center" placeholder="Input nick name" required>
                                     
@@ -101,7 +101,7 @@
                                     <em></em>
                                 </div>
 
-                                <label for="phone_number" class="color-green-dark text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Phone Number</label>
+                                <label for="phone_number" class="color-highlight text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Phone Number</label>
                                 <div class="input-style input-style-always-active no-borders no-icon mb-4">
                                     <input type="tel" pattern="[0-9]{11}" id="phone_number" name="phone_number" class="form-control text-center" placeholder="Input phone no. eg. 01234567890" required>
                                     
@@ -148,7 +148,7 @@
 
                                 <input class="" type="hidden" id="type" name="type" value="register">
 
-                                <a href="#" id="registerBtn" class="btn btn-m btn-full w-100 rounded-s shadow-l bg-green-dark text-uppercase font-900 mt-4">Create account</a>
+                                <a href="#" id="registerBtn" class="btn btn-m btn-full w-100 rounded-s shadow-l bg-highlight text-uppercase font-900 mt-4">Create account</a>
 
                             </form>
 

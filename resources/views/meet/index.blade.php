@@ -27,7 +27,7 @@
 
                         <div class="clearfix mb-3"></div>
 
-                        <div data-bs-parent="#tab-group-1" class="collapse show" id="tab-1" style="">
+                        <div data-bs-parent="#tab-group-1" class=" show" id="tab-1" style="">
                             <form class="needs-validation" id="createMeetingForm" novalidate>
                                 <h3 class="text-center">Create Meeting</h3>
                                 <p></p>
@@ -172,8 +172,6 @@
                             </form>
 
                         </div>
-
-
                     </div>
                 </div>
 
@@ -280,7 +278,6 @@
             </div>
         </div>
     </div>
-
 
     <div id="menu-meeting-invitation" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="320"
         style="display: block; height: 405px;">

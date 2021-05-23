@@ -130,23 +130,74 @@ class MeetController extends Controller
         return json_encode($meetinglog);
     }
 
-    public function storeMeetingLog(Request $request)
+    public function storeMeetingNotStart(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'room_name' 	=> 'required',
             'display_name' 		=> 'required',
-            'datetime' 			=> 'required',
         ]);
+
+        if($validator->fails()){
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
 
         $add = New MeetingLog;
         $add->id_users = auth()->user()->id;
         $add->room_name = $request->room_name;
         $add->display_name = $request->display_name;
-        $add->datetime = date('Y-m-d H:i:s' , strtotime($request->datetime));
-        $add->status = 'P';
+        $add->datetime = date('Y-m-d H:i:s');
+        $add->status = 'N';
         $add->save();
 
-       
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully start a meeting.',
+            'data' => $add,
+        ];
+        return json_encode($data);
+    }
+
+    public function storeMeetingInProgress(Request $request)
+    {
+        $request->validate([
+            'id_meetinglog' 	=> 'required',
+            'display_name' 		=> 'required',
+            'datetime' 			=> 'required',
+        ]);
+
+        $update = MeetingLog::find($request->id_meetinglog);
+        $update->id_users = auth()->user()->id;
+        $update->display_name = $request->display_name;
+        $update->datetime = date('Y-m-d H:i:s' , strtotime($request->datetime));
+        $update->status = 'I';
+        $update->save();
+
+        $meetinglog = MeetingLog::where([
+			['id_users', '=' , auth()->user()->id]
+		])->orderByDesc('datetime')->get();
+
+        return json_encode($meetinglog);
+    }
+
+    public function storeMeetingPass(Request $request)
+    {
+        $request->validate([
+            'id_meetinglog' 	=> 'required',
+            'end_datetime' 			=> 'required',
+        ]);
+
+        $update = MeetingLog::find($request->id_meetinglog);
+        $update->id_users = auth()->user()->id;
+        $update->end_datetime = date('Y-m-d H:i:s' , strtotime($request->end_datetime));
+        $update->status = 'P';
+        $update->save();
+
         $meetinglog = MeetingLog::where([
 			['id_users', '=' , auth()->user()->id]
 		])->orderByDesc('datetime')->get();

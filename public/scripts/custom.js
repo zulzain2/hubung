@@ -299,6 +299,9 @@ document['addEventListener']('DOMContentLoaded', () => {
             $('#logoutBtn').on('click' , function(event){
 
                 if (navigator.onLine) {
+
+                    $('#logoutBtn').addClass('off-btn').trigger('classChange');
+
                     fetch("/logout", {
                         method: 'post',
                         credentials: "same-origin",
@@ -309,10 +312,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                     .then(function(response){
                         return response.json();
                     }).then(function(resultsJSON){
-                        console.log(resultsJSON);
+
                         var results = resultsJSON
 
                                 if(results.status == 'success'){
+
+                                    $('#logoutBtn').removeClass('off-btn').trigger('classChange');
 
                                     $('.menu-hider').removeClass('menu-active');
 
@@ -961,8 +966,42 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
                                 };
 
-                                apiObj.dispose();
+                                var id_meeting = $('#invite-meeting-name').html();
 
+                                var currentdate = new Date();
+
+                                var datetimefordb =  currentdate.getFullYear() + "-"
+                                                + (currentdate.getMonth()+1)  + "-" 
+                                                + currentdate.getDate() + " "  
+                                                + currentdate.getHours() + ":"  
+                                                + currentdate.getMinutes() + ":" 
+                                                + currentdate.getSeconds();
+
+                                var dataMeetingLog = new URLSearchParams();
+                                dataMeetingLog.append('id_meetinglog', id_meeting);
+                                dataMeetingLog.append('end_datetime', datetimefordb);
+
+                                fetch("fetch/storeMeetingPass", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: dataMeetingLog,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+
+                                    updateMeetingLog(resultsJSON);
+
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+
+
+                                apiObj.dispose();
                             
                             },
                             videoConferenceJoined: function(data) {
@@ -991,11 +1030,11 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 + currentdate.getSeconds();
 
                                 var dataMeetingLog = new URLSearchParams();
-                                dataMeetingLog.append('room_name', decodeURIComponent(data.roomName));
+                                dataMeetingLog.append('id_meetinglog', decodeURIComponent(data.roomName));
                                 dataMeetingLog.append('display_name', data.displayName);
                                 dataMeetingLog.append('datetime', datetimefordb);
 
-                                fetch("fetch/storeMeetingLog", {
+                                fetch("fetch/storeMeetingInProgress", {
                                     method: 'post',
                                     credentials: "same-origin",
                                     headers: {
@@ -1111,12 +1150,61 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 }
                                 else
                                 {
-                                    $('#portfolio-2').addClass('menu-active');
+
+                                    $('#start-meeting').addClass('off-btn').trigger('classChange');
 
                                     var meetingName = $('#meetingName').val();
                                     var usrName = $('#usrName').val();
-                        
-                                    initializeMeeting(meetingName, usrName);
+                               
+
+                                    var dataForm = new URLSearchParams();
+                                    dataForm.append('room_name', meetingName);
+                                    dataForm.append('display_name', usrName);
+                              
+                                    fetch("fetch/storeMeetingNotStart", {
+                                        method: 'post',
+                                        credentials: "same-origin",
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        body: dataForm,
+                                    })
+                                    .then(function(response){
+                                        return response.json();
+                                    }).then(function(resultsJSON){
+                    
+                                        var results = resultsJSON
+                                        
+                                        if(results.status == 'success'){
+
+                                            $('#start-meeting').removeClass('off-btn').trigger('classChange');
+
+                                            $('#portfolio-2').addClass('menu-active');
+
+                                            var meetingName = results.data.id;
+                                            var usrName = results.data.display_name;
+                                
+                                            initializeMeeting(meetingName, usrName);
+
+                                        }
+                                        else{
+                                                
+                                            if(results.type == 'Validation Error')
+                                            {
+                                                $('#start-meeting').removeClass('off-btn').trigger('classChange');
+
+                                                validationErrorBuilder(results);
+                                            }
+                                            else{
+                                                snackbar(results.status , results.message)
+                                            }
+                                        }
+                    
+                                    })
+                                    .catch(function(err) {
+                                        console.log(err);
+                                    });
+
                                 }
                                     form.classList.add('was-validated')
                             })

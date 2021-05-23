@@ -160,7 +160,7 @@
                             <div class="card-top">
                                 <strong class="float-end text-center">
                                     <div class="bg-theme rounded-sm color-theme shadow-xl text-center m-3 overflow-hidden">
-                                        <span class="bg-red-dark font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
+                                        <span class="bg-highlight font-10 d-block mb-2 px-3 line-height-xs py-1">AUG</span>
                                         <span class="font-23 font-800 d-block mb-n3 line-height-s">28</span><br>
                                     </div>
                                 </strong>
@@ -309,7 +309,7 @@
                     <a href="chat/13" class="pb-2">
                         <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;"
                             class="preload-img img-fluid rounded-circle">
-                            <span class="badge rounded-pill bg-fade-red-light color-red-dark">04</span>
+                            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">04</span>
                         <span>Kamil</span>
                         <strong>A powerful Mobile Template</strong>
                         <span class="badge bg-dark-light mt-2">12:15 PM</span>
@@ -321,7 +321,7 @@
                     <a href="chat/13" class="pb-2">
                         <img src="images/pictures/2s.jpg" style="width:40px !important;margin-right: 15px;"
                             class="preload-img img-fluid rounded-circle">
-                            <span class="badge rounded-pill bg-fade-red-light color-red-dark">02</span>
+                            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">02</span>
                         <span>Fara</span>
                         <strong>A powerful Mobile Template</strong>
                         <span class="badge bg-dark-light mt-2">12:15 PM</span>
@@ -333,7 +333,7 @@
                     <a href="chat/13" class="pb-2">
                         <img src="images/pictures/3s.jpg" style="width:40px !important;margin-right: 15px;"
                             class="preload-img img-fluid rounded-circle">
-                            <span class="badge rounded-pill bg-fade-red-light color-red-dark">03</span>
+                            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">03</span>
                         <span>Fuad</span>
                         <strong>A powerful Mobile Template</strong>
                         <span class="badge bg-dark-light mt-2">12:15 PM</span>
@@ -345,7 +345,7 @@
                     <a href="chat/13" class="pb-2">
                         <img src="images/pictures/4s.jpg" style="width:40px !important;margin-right: 15px;"
                             class="preload-img img-fluid rounded-circle">
-                            <span class="badge rounded-pill bg-fade-red-light color-red-dark">01</span>
+                            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">01</span>
                         <span>Nabil</span>
                         <strong>A powerful Mobile Template</strong>
                         <span class="badge bg-dark-light mt-2">12:15 PM</span>
@@ -357,7 +357,7 @@
                     <a href="chat/13" class="pb-2" style="border-bottom: none;">
                         <img src="images/pictures/5s.jpg" style="width:40px !important;margin-right: 15px;"
                             class="preload-img img-fluid rounded-circle">
-                            <span class="badge rounded-pill bg-fade-red-light color-red-dark">06</span>
+                            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
                         <span>Daian</span>
                         <strong>A powerful Mobile Template</strong>
                         <span class="badge bg-dark-light mt-2">12:15 PM</span>

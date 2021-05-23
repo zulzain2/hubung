@@ -14,7 +14,7 @@ var STATIC_FILES = [
 var EXCLUDE_ROUTES = [
   '/',
   '/verifyOtp',
-  '/logout'
+  '/logout' 
 ];
 
 // function trimCache(cacheName, maxItems) {
