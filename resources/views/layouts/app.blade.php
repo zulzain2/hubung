@@ -58,8 +58,11 @@
             height: 100% !important;
             padding-bottom: 16px !important;
         }
-        
-       
+
+        .snackbar-toast {
+            padding: 15px 18px;
+            line-height: unset;
+        }
         
 </style>
 
@@ -75,7 +78,7 @@
 
     <div id="page" >
 
-        <div class="header header-fixed header-logo-center check-auth csrf-token">
+        {{-- <div class="header header-fixed header-logo-center check-auth csrf-token">
 
             @if (isset($topBarTitle))
                 <a href="index.html" class="header-title">{{ $topBarTitle }}</a>
@@ -92,7 +95,7 @@
             <a href="notification" class="header-icon header-icon-4">
                 <i id="notification" class="fas fa-bell"></i>
             </a>
-        </div>
+        </div> --}}
         <div id="footer-bar" class="footer-bar-1">
 
             <a id="home" href="home"><i class="fa fa-home"></i><span>Home</span></a>
@@ -103,7 +106,7 @@
 
         </div>
 
-        <div class="page-content header-clear-medium">
+        <div class="page-content header-clear-small">
 
             <input type="hidden" name="allow_sw" id="allow_sw" value="true">
 

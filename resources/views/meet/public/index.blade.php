@@ -24,13 +24,15 @@
                             <form class="needs-validation" novalidate id="joinMeetingForm">
                                 <label for="meetingNameJoin" class="text-uppercase font-700 font-10 text-center w-100" style="background-color:transparent !important">Room Name</label>
                                 <div class="input-style input-style-always-active no-borders no-icon mb-4">
-                                    <input type="text" id="meetingNameJoin" class="form-control text-center" required readonly>
+                                    <input type="text" id="meetingNameJoin" class="form-control text-center" style="font-size: 22px!important;font-weight: bold !important;border: none;" required readonly>
                                     
                                     <i class="fa fa-times disabled invalid color-red-dark"></i>
                                     <i class="fa fa-check disabled valid color-green-dark"></i>
                                     <em></em>
                                 </div>
                             
+                                <br>
+
                                 <a id="loginFirst" href="#" class="btn btn-3d btn-m btn-full mb-3 rounded-xs text-uppercase font-900 shadow-s border-red-dark bg-red-light">Connect First</a>
                                 <br>
 

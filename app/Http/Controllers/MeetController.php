@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class MeetController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth')->except('index' , 'indexpublic');
+        $this->middleware('auth')->except('index' , 'indexpublic' , 'storeMeetingNotStart' , 'storeMeetingInProgress' , 'storeMeetingPass');
     }
 
     /**
@@ -148,7 +148,7 @@ class MeetController extends Controller
         }
 
         $add = New MeetingLog;
-        $add->id_users = auth()->user()->id;
+        $add->id_users = auth()->user() ? auth()->user()->id : 0;
         $add->room_name = $request->room_name;
         $add->display_name = $request->display_name;
         $add->datetime = date('Y-m-d H:i:s');
@@ -172,14 +172,14 @@ class MeetController extends Controller
         ]);
 
         $update = MeetingLog::find($request->id_meetinglog);
-        $update->id_users = auth()->user()->id;
-        $update->display_name = $request->display_name;
+        // $update->id_users = auth()->user() ? auth()->user()->id : 0;
+        // $update->display_name = $request->display_name;
         $update->datetime = date('Y-m-d H:i:s' , strtotime($request->datetime));
         $update->status = 'I';
         $update->save();
 
         $meetinglog = MeetingLog::where([
-			['id_users', '=' , auth()->user()->id]
+			['id_users', '=' , auth()->user() ? auth()->user()->id : 0]
 		])->orderByDesc('datetime')->get();
 
         return json_encode($meetinglog);
@@ -193,13 +193,13 @@ class MeetController extends Controller
         ]);
 
         $update = MeetingLog::find($request->id_meetinglog);
-        $update->id_users = auth()->user()->id;
+        // $update->id_users = auth()->user() ? auth()->user()->id : 0;
         $update->end_datetime = date('Y-m-d H:i:s' , strtotime($request->end_datetime));
         $update->status = 'P';
         $update->save();
 
         $meetinglog = MeetingLog::where([
-			['id_users', '=' , auth()->user()->id]
+			['id_users', '=' , auth()->user() ? auth()->user()->id : 0]
 		])->orderByDesc('datetime')->get();
 
         return json_encode($meetinglog);
@@ -311,5 +311,40 @@ class MeetController extends Controller
             ];
             return json_encode($data);
         
+    }
+
+    public function getScheduleMeeting(Request $request){
+        $validator = Validator::make($request->all(), [
+            'meeting_id' 	    => 'required',
+        ]);
+
+        if($validator->fails()){
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
+
+        $meetinglog = MeetingLog::find($request->meeting_id);
+
+        if(date("Y-m-d H:i:s", (strtotime($meetinglog->datetime) - 10 * 60))  > date('Y-m-d H:i:s'))
+        {
+            $data = [
+                'status' => 'error', 
+                'message' => 'Meeting only can be start 10 minutes early, please come back later.',
+            ];
+            return json_encode($data);
+        }
+
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully delete schedule meeting.',
+            'data' => $meetinglog
+        ];
+    
+        return json_encode($data);
     }
 }

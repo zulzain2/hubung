@@ -25,7 +25,7 @@
     /* body {
             overscroll-behavior-y: contain;
         } */
-        
+
        .ph-no-space {
             padding: unset;
             margin: unset;
@@ -51,6 +51,11 @@
             padding-top: 16px !important;
             height: 100% !important;
             padding-bottom: 16px !important;
+        }
+
+        .snackbar-toast {
+            padding: 15px 18px;
+            line-height: unset;
         }
         
 </style>

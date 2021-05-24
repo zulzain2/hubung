@@ -810,6 +810,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                         `;
                     }
 
+                    function startMeetingBuilder(room_name){
+                        $('#start-schedule-meeting').attr('data-id-meeting' , room_name);
+                    }
+
                     function shareMeetingBuilder(room_name){
                         $('#copy-meet-link').html(window.location.hostname + '/meetroom?roomName=' + room_name);
                         $('#whatsapp-link-schedule').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
@@ -817,10 +821,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                         $('#gmail-link-schedule').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'&tf=cm","_blank")');
                         $('#outlook-link-schedule').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'","_blank")');
 
-                        $('#copyMeet').attr('data-meeting-name', room_name);
-                        $('#meetEmail').attr('data-meeting-name', room_name);
-                        $('#meetGmail').attr('data-meeting-name', room_name);
-                        $('#meetOutlook').attr('data-meeting-name', room_name);
+                        // $('#copyMeet').attr('data-meeting-name', room_name);
+                        // $('#meetEmail').attr('data-meeting-name', room_name);
+                        // $('#meetGmail').attr('data-meeting-name', room_name);
+                        // $('#meetOutlook').attr('data-meeting-name', room_name);
                     }
 
                     function editMeetingBuilder(meetingId){
@@ -894,6 +898,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                             $('.menu-meeting-schedule-config').on('click' , function(){
                                 var meetingName = $(this).data('meeting-name');
                                 var meetingId = $(this).data('meeting-id');
+
+                                startMeetingBuilder(meetingId);
 
                                 shareMeetingBuilder(meetingName);
 
@@ -1216,6 +1222,74 @@ document['addEventListener']('DOMContentLoaded', () => {
                     ///////////////////////////////////////////////////////////////////////
 
                     ///////////////////////////////////////////////////////////////////////
+                    //for start meeting button
+                    $('#start-schedule-meeting').on('click' , function(event){
+                            
+                        if (navigator.onLine) {
+
+                            $('#start-schedule-meeting').addClass('off-btn').trigger('classChange');
+
+                            var meeting_id = $(this).data('id-meeting');
+
+                            var dataForm = new URLSearchParams();
+                            dataForm.append('meeting_id', meeting_id);
+                        
+                            fetch("fetch/getScheduleMeeting", {
+                                method: 'post',
+                                credentials: "same-origin",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                body: dataForm,
+                            })
+                            .then(function(response){
+                                return response.json();
+                            }).then(function(resultsJSON){
+            
+                                var results = resultsJSON
+                                
+                                if(results.status == 'success'){
+
+                                    $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                    $('#portfolio-2').addClass('menu-active');
+
+                                    var meetingName = results.data.id;
+                                    var usrName = results.data.display_name;
+                        
+                                    initializeMeeting(meetingName, usrName);
+
+                                }
+                                else{
+                                        
+                                    if(results.type == 'Validation Error')
+                                    {
+                                        $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                        validationErrorBuilder(results);
+                                    }
+                                    else{
+
+                                        $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                        menu('menu-meeting-schedule-config', 'hide', 250);
+                                        
+                                        snackbar(results.status , results.message)
+                                    }
+                                }
+            
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            });
+                        
+                        } else {
+                            menu('menu-offline', 'show', 250);
+                        } 
+                    });
+                    ///////////////////////////////////////////////////////////////////////
+
+                    ///////////////////////////////////////////////////////////////////////
                     //for join meeting button
                     $('#join-meeting').on('click' , function(event){
                             
@@ -1233,12 +1307,59 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 }
                                 else
                                 {
-                                    $('#portfolio-2').addClass('menu-active');
+                                    $('#join-meeting').addClass('off-btn').trigger('classChange');
 
                                     var meetingName = $('#meetingNameJoin').val();
                                     var usrName = $('#usrNameJoin').val();
-                        
-                                    initializeMeeting(meetingName, usrName);
+
+                                    var dataForm = new URLSearchParams();
+                                    dataForm.append('room_name', meetingName);
+                                    dataForm.append('display_name', usrName);
+                              
+                                    fetch("fetch/storeMeetingNotStart", {
+                                        method: 'post',
+                                        credentials: "same-origin",
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        body: dataForm,
+                                    })
+                                    .then(function(response){
+                                        return response.json();
+                                    }).then(function(resultsJSON){
+                    
+                                        var results = resultsJSON
+                                        
+                                        if(results.status == 'success'){
+
+                                            $('#join-meeting').removeClass('off-btn').trigger('classChange');
+
+                                            $('#portfolio-2').addClass('menu-active');
+
+                                            var meetingName = results.data.id;
+                                            var usrName = results.data.display_name;
+                                
+                                            initializeMeeting(meetingName, usrName);
+
+                                        }
+                                        else{
+                                                
+                                            if(results.type == 'Validation Error')
+                                            {
+                                                $('#join-meeting').removeClass('off-btn').trigger('classChange');
+
+                                                validationErrorBuilder(results);
+                                            }
+                                            else{
+                                                snackbar(results.status , results.message)
+                                            }
+                                        }
+
+                                    })
+                                    .catch(function(err) {
+                                        console.log(err);
+                                    });
+
                                 }
                                     form.classList.add('was-validated')
                             })
@@ -1355,6 +1476,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                             $('.menu-meeting-schedule-config').on('click' , function(){
                                                 var meetingName = $(this).data('meeting-name');
                                                 
+                                                startMeetingBuilder(results.data.id);
+
                                                 shareMeetingBuilder(meetingName);
 
                                                 editMeetingBuilder(results.data.id);

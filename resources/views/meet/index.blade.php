@@ -27,7 +27,7 @@
 
                         <div class="clearfix mb-3"></div>
 
-                        <div data-bs-parent="#tab-group-1" class=" show" id="tab-1" style="">
+                        <div data-bs-parent="#tab-group-1" class="collapse show" id="tab-1" style="">
                             <form class="needs-validation" id="createMeetingForm" novalidate>
                                 <h3 class="text-center">Create Meeting</h3>
                                 <p></p>
@@ -353,7 +353,7 @@
         </div>
         <div class="content mb-0 mt-0">
             <div class="list-group list-custom-small list-icon-0">
-                <a href="#">
+                <a href="#" id="start-schedule-meeting">
                     <i class="font-18 fas fa-play color-blue-light"></i>
                     <span class="font-13">Start Meeting</span>
                     <i class="fa fa-angle-right"></i>
