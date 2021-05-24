@@ -27,7 +27,7 @@
                     <input type="text" class="border-0" placeholder="What are you looking for? ">
                     <a href="#" class="disabled"><i class="fa fa-times-circle color-red-dark"></i></a>
                 </div>
-            </div>
+            </div> 
 
           <div class="card card-style ms-3 mt-3" style="height:100%;">
                 {{-- <div class="ph-item ph-no-space ph-no-border pt-2"> --}}

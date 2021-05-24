@@ -901,7 +901,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                 startMeetingBuilder(meetingId);
 
-                                shareMeetingBuilder(meetingName);
+                                shareMeetingBuilder(meetingId);
 
                                 editMeetingBuilder(meetingId);
 
@@ -1252,6 +1252,8 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                     $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
 
+                                    menu('menu-meeting-schedule-config', 'hide', 250);
+
                                     $('#portfolio-2').addClass('menu-active');
 
                                     var meetingName = results.data.id;
@@ -1265,6 +1267,8 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     if(results.type == 'Validation Error')
                                     {
                                         $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
+
+                                        menu('menu-meeting-schedule-config', 'hide', 250);
 
                                         validationErrorBuilder(results);
                                     }
@@ -1478,7 +1482,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 
                                                 startMeetingBuilder(results.data.id);
 
-                                                shareMeetingBuilder(meetingName);
+                                                shareMeetingBuilder(results.data.id);
 
                                                 editMeetingBuilder(results.data.id);
 
