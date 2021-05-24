@@ -222,28 +222,34 @@ class MeetController extends Controller
         $add1->status = 'S';
         $add1->save();
 
-        //NOTIFICATION FCM SCHEDULE
-        $noti = new Notification;
-        $noti->to_user =  auth()->user()->id;
-        $noti->tiny_img_url = '';
-        $noti->title = 'Meeting ['.$request->meeting_name.']';
-        $noti->desc =  ''.$request->meeting_name.' - You have meeting 30 minutes from now, scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('g:i a' , strtotime($request->meeting_start)).' and will end on '.date('g:i a' , strtotime($request->meeting_end)).'';
-        $noti->type = 'I';
-        $noti->click_url = '/meet?roomName='.$request->meeting_name.'';
-        $noti->send_status = 'S';
-        $noti->status = '';
-        $noti->module = 'meet';
-        $noti->id_module = $add1->id;
-        $noti->created_by = auth()->user()->id;
-        $json_noti = json_encode($noti);
 
-        $add2 = New Scheduler;
-        $add2->trigger_datetime = date('Y-m-d H:i:s' , (strtotime(''.$request->meeting_date.' '.$request->meeting_start.'') - (1 * 30 * 60)));
-        $add2->url_to_call = 'triggeredNotification';
-        $add2->params = $json_noti;
-        $add2->is_triggered = 0;
-        $add2->created_by = auth()->user()->id;
-        $add2->save();
+        if((strtotime(''.$request->meeting_date.' '.$request->meeting_start.'') - strtotime(date('Y-m-d H:i:s'))) > (1 * 30 * 60))
+        {
+            //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user =  auth()->user()->id;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Meeting ['.$request->meeting_name.']';
+            $noti->desc =  ''.$request->meeting_name.' - You have meeting scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('g:i a' , strtotime($request->meeting_start)).' and will end on '.date('g:i a' , strtotime($request->meeting_end)).'';
+            $noti->type = 'I';
+            $noti->click_url = '/meet?roomName='.$request->meeting_name.'';
+            $noti->send_status = 'S';
+            $noti->status = '';
+            $noti->module = 'meet';
+            $noti->id_module = $add1->id;
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $add2 = New Scheduler;
+            $add2->trigger_datetime = date('Y-m-d H:i:s' , (strtotime(''.$request->meeting_date.' '.$request->meeting_start.'') - (1 * 30 * 60)));
+            $add2->url_to_call = 'triggeredNotification';
+            $add2->params = $json_noti;
+            $add2->is_triggered = 0;
+            $add2->module = 'meet';
+            $add2->id_module = $add1->id;
+            $add2->created_by = auth()->user()->id;
+            $add2->save();
+        }
 
         $data = ['status' => 'success', 'message' => 'Successfully scheduled meeting.' , 'data' => $add1];
         return json_encode($data);
@@ -269,7 +275,6 @@ class MeetController extends Controller
         }
 
         $meetinglog = MeetingLog::find($id);
-      
         $meetinglog->room_name = $request->meeting_name;
         $meetinglog->display_name = auth()->user()->name;
         $meetinglog->datetime = date('Y-m-d H:i:s' , strtotime(''.$request->meeting_date.' '.$request->meeting_start.''));
@@ -277,6 +282,34 @@ class MeetController extends Controller
         $meetinglog->status = 'S';
         $meetinglog->save();
 
+        if($meetinglog->scheduler){
+            if((strtotime(''.$request->meeting_date.' '.$request->meeting_start.'') - strtotime(date('Y-m-d H:i:s'))) > (1 * 30 * 60))
+            {
+                //NOTIFICATION FCM SCHEDULE
+                $noti = new Notification;
+                $noti->to_user =  auth()->user()->id;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Meeting ['.$request->meeting_name.']';
+                $noti->desc =  ''.$request->meeting_name.' - You have meeting scheduled on '.date('j F Y' , strtotime($request->meeting_date)).' at '.date('g:i a' , strtotime($request->meeting_start)).' and will end on '.date('g:i a' , strtotime($request->meeting_end)).'';
+                $noti->type = 'I';
+                $noti->click_url = '/meet?roomName='.$request->meeting_name.'';
+                $noti->send_status = 'S';
+                $noti->status = '';
+                $noti->module = 'meet';
+                $noti->id_module = $meetinglog->scheduler->id;
+                $noti->created_by = auth()->user()->id;
+                $json_noti = json_encode($noti);
+    
+                $meetinglog->scheduler->trigger_datetime = date('Y-m-d H:i:s' , (strtotime(''.$request->meeting_date.' '.$request->meeting_start.'') - (1 * 30 * 60)));
+                $meetinglog->scheduler->url_to_call = 'triggeredNotification';
+                $meetinglog->scheduler->params = $json_noti;
+                $meetinglog->scheduler->is_triggered = 0;
+                $meetinglog->scheduler->module = 'meet';
+                $meetinglog->scheduler->id_module = $meetinglog->scheduler->id;
+                $meetinglog->scheduler->created_by = auth()->user()->id;
+                $meetinglog->scheduler->save();
+            }
+        }
 
         $data = [
             'status' => 'success', 
