@@ -76,7 +76,7 @@
         {{-- <div class="spinner-border color-highlight" role="status"></div> --}}
     </div>
 
-    <div id="page" >
+    <div id="page">
 
         {{-- <div class="header header-fixed header-logo-center check-auth csrf-token">
 
@@ -106,7 +106,7 @@
 
         </div>
 
-        <div class="page-content header-clear-small">
+        <div class="page-content header-clear-small check-auth csrf-token">
 
             <input type="hidden" name="allow_sw" id="allow_sw" value="true">
 
