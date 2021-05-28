@@ -279,7 +279,7 @@
         </div>
     </div>
 
-    <div id="menu-meeting-invitation" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="320"
+    <div id="menu-meeting-invitation" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="320"
         style="display: block; height: 405px;">
         <div class="menu-title">
             <h1>Invite More People</h1>
