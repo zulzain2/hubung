@@ -236,7 +236,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         }
                         else if(window.location.href.indexOf("meetroom") > -1)
                         {
-                            console.log('Authenticated');
+                            // console.log('Authenticated');
                             var url = new URL(window.location.href);
                             var roomName = url.searchParams.get("roomName");
                             if(roomName){
@@ -253,7 +253,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     {
                         if(window.location.href.indexOf("meetroom") > -1)
                         {
-                            console.log('Unauthenticated');
+                            // console.log('Unauthenticated');
                         }
                         else
                         {
@@ -370,7 +370,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 $.each($('#connectForm').serializeArray(), function(i, field) {
                                     datas.append(field.name, field.value);
                                 });
-                                console.log(datas);
+                                // console.log(datas);
                                 fetch("/login", {
                                     method: 'post',
                                     credentials: "same-origin",
@@ -382,7 +382,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 .then(function(response){
                                     return response.json();
                                 }).then(function(resultsJSON){
-                                    console.log(resultsJSON);
+                                    // console.log(resultsJSON);
                                     var results = resultsJSON
 
                                             if(results.status == 'success'){
@@ -455,7 +455,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             $.each($('#registerForm').serializeArray(), function(i, field) {
                                 datas.append(field.name, field.value);
                             });
-                            console.log(datas);
+                            // console.log(datas);
                             fetch("/register", {
                                 method: 'post',
                                 credentials: "same-origin",
@@ -467,7 +467,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                             .then(function(response){
                                 return response.json();
                             }).then(function(resultsJSON){
-                                console.log(resultsJSON);
+                                // console.log(resultsJSON);
                                 var results = resultsJSON
 
                                         if(results.status == 'success'){
@@ -566,7 +566,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 $.each($('#verifyOtpForm').serializeArray(), function(i, field) {
                                     datas.append(field.name, field.value);
                                 });
-                                console.log(datas);
+                                // console.log(datas);
                                 fetch("/verifyOtp", {
                                     method: 'post',
                                     credentials: "same-origin",
@@ -578,7 +578,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 .then(function(response){
                                     return response.json();
                                 }).then(function(resultsJSON){
-                                    console.log(resultsJSON);
+                                    // console.log(resultsJSON);
                                     var results = resultsJSON
 
                                             if(results.status === 'success'){
@@ -702,7 +702,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                                 var seconds = 60;
                                                 var el = document.getElementById('seconds-counter');
-                                                console.log(el);
+                                                // console.log(el);
 
                                                 function incrementSeconds() {
                                                     seconds -= 1;
@@ -752,7 +752,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 {
                     var seconds = 60;
                     var el = document.getElementById('seconds-counter');
-                    console.log(el);
+                    // console.log(el);
 
                     function incrementSeconds() {
                         seconds -= 1;
@@ -924,7 +924,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         }
                     }
 
-                    function initializeMeeting(meetingName, usrName) {
+                    function initializeMeeting(meetingId, usrName) {
 
                         $('#inviteBtn').addClass('off-btn').trigger('classChange');
 
@@ -938,7 +938,7 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                         var domain = 'meet.tvetxr.ga';
                         var options = {
-                            roomName: meetingName ? meetingName : 'MaGICXMeetRoom',
+                            roomName: meetingId ? meetingId : 'MaGICXMeetRoom',
                             width: '100%',
                             height: '100%',
                             parentNode: document.querySelector('#meet_iframe'),
@@ -963,56 +963,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         apiObj = new JitsiMeetExternalAPI(domain, options);
                         
                         apiObj.addEventListeners({
-
-                            readyToClose: function () {
-
-                                var _0xce56x32 = document['querySelectorAll']('.menu-active');
-
-                                for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                                    _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                                };
-
-                                var id_meeting = $('#invite-meeting-name').html();
-
-                                var currentdate = new Date();
-
-                                var datetimefordb =  currentdate.getFullYear() + "-"
-                                                + (currentdate.getMonth()+1)  + "-" 
-                                                + currentdate.getDate() + " "  
-                                                + currentdate.getHours() + ":"  
-                                                + currentdate.getMinutes() + ":" 
-                                                + currentdate.getSeconds();
-
-                                var dataMeetingLog = new URLSearchParams();
-                                dataMeetingLog.append('id_meetinglog', id_meeting);
-                                dataMeetingLog.append('end_datetime', datetimefordb);
-
-                                fetch("fetch/storeMeetingPass", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: dataMeetingLog,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-
-                                    updateMeetingLog(resultsJSON);
-
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-
-
-                                apiObj.dispose();
-                            
-                            },
                             videoConferenceJoined: function(data) {
-
-                                $('#inviteBtn').removeClass('off-btn').trigger('classChange');
 
                                 ///////////////////////////////////////////////////////////////////////
                                 //for invite meeting button while in meeting
@@ -1059,7 +1010,59 @@ document['addEventListener']('DOMContentLoaded', () => {
                                     console.log(err);
                                 });
 
+                            },
+                            participantRoleChanged: function(data) {
+                                if(data.role === 'moderator') {
+                                    $('#inviteBtn').removeClass('off-btn').trigger('classChange');
+                                }
+                            },
+                            readyToClose: function () {
+
+                                var _0xce56x32 = document['querySelectorAll']('.menu-active');
+
+                                for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
+                                    _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
+                                };
+
+                                var id_meeting = $('#invite-meeting-name').html();
+
+                                var currentdate = new Date();
+
+                                var datetimefordb =  currentdate.getFullYear() + "-"
+                                                + (currentdate.getMonth()+1)  + "-" 
+                                                + currentdate.getDate() + " "  
+                                                + currentdate.getHours() + ":"  
+                                                + currentdate.getMinutes() + ":" 
+                                                + currentdate.getSeconds();
+
+                                var dataMeetingLog = new URLSearchParams();
+                                dataMeetingLog.append('id_meetinglog', id_meeting);
+                                dataMeetingLog.append('end_datetime', datetimefordb);
+
+                                fetch("fetch/storeMeetingPass", {
+                                    method: 'post',
+                                    credentials: "same-origin",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: dataMeetingLog,
+                                })
+                                .then(function(response){
+                                    return response.json();
+                                }).then(function(resultsJSON){
+
+                                    updateMeetingLog(resultsJSON);
+
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                });
+
+
+                                apiObj.dispose();
+                            
                             }
+                            
                         });
                     }
                 
@@ -1071,7 +1074,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                         var roomName = url.searchParams.get("roomName");
                     
                         if(roomName){
-                            $('#meetingNameJoin').val(''+roomName+'');
+                            $('#meetingIdJoin').val(''+roomName+'');
                             $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
                         }
 
@@ -1087,7 +1090,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     if(roomName)
                     {
                         $('#meeting-tab-1').removeClass('bg-highlight no-click');
-                        $('#meetingNameJoin').val(roomName);
+                        $('#meetingIdJoin').val(roomName);
                         
                         $('#meeting-tab-1').addClass('collapsed');
 
@@ -1187,10 +1190,10 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                             $('#portfolio-2').addClass('menu-active');
 
-                                            var meetingName = results.data.id;
+                                            var meetingId = results.data.id;
                                             var usrName = results.data.display_name;
                                 
-                                            initializeMeeting(meetingName, usrName);
+                                            initializeMeeting(meetingId, usrName);
 
                                         }
                                         else{
@@ -1313,14 +1316,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                                 {
                                     $('#join-meeting').addClass('off-btn').trigger('classChange');
 
-                                    var meetingName = $('#meetingNameJoin').val();
+                                    var meetingId = $('#meetingIdJoin').val();
                                     var usrName = $('#usrNameJoin').val();
 
                                     var dataForm = new URLSearchParams();
-                                    dataForm.append('room_name', meetingName);
+                                    dataForm.append('id_meeting', meetingId);
                                     dataForm.append('display_name', usrName);
                               
-                                    fetch("fetch/storeMeetingNotStart", {
+                                    fetch("fetch/getMeetingInProgress", {
                                         method: 'post',
                                         credentials: "same-origin",
                                         headers: {
@@ -1340,10 +1343,9 @@ document['addEventListener']('DOMContentLoaded', () => {
 
                                             $('#portfolio-2').addClass('menu-active');
 
-                                            var meetingName = results.data.id;
-                                            var usrName = results.data.display_name;
+                                            var meetingId = results.data.id;
                                 
-                                            initializeMeeting(meetingName, usrName);
+                                            initializeMeeting(meetingId, usrName);
 
                                         }
                                         else{
@@ -1355,6 +1357,9 @@ document['addEventListener']('DOMContentLoaded', () => {
                                                 validationErrorBuilder(results);
                                             }
                                             else{
+
+                                                $('#join-meeting').removeClass('off-btn').trigger('classChange');
+
                                                 snackbar(results.status , results.message)
                                             }
                                         }
@@ -1728,120 +1733,120 @@ document['addEventListener']('DOMContentLoaded', () => {
             _0xce56xc['style']['display'] = 'block'
         });
         
-        var _0xce56xe = document['querySelectorAll']('input');
-        if (_0xce56xe['length']) {
-            var _0xce56xf = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-            var _0xce56x10 = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
-            var _0xce56x11 = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
-            var _0xce56x12 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
-            var _0xce56x13 = /^(0|[1-9]\d*)$/;
-            var _0xce56x14 = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
-            var _0xce56x15 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
+        // var _0xce56xe = document['querySelectorAll']('input');
+        // if (_0xce56xe['length']) {
+        //     var _0xce56xf = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+        //     var _0xce56x10 = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+        //     var _0xce56x11 = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+        //     var _0xce56x12 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
+        //     var _0xce56x13 = /^(0|[1-9]\d*)$/;
+        //     var _0xce56x14 = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+        //     var _0xce56x15 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
         
-            function _0xce56x16(_0xce56xc) {
-                _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
-                _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
-            }
+        //     function _0xce56x16(_0xce56xc) {
+        //         _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
+        //         _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
+        //     }
         
-            function _0xce56x17(_0xce56xc) {
-                _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
-                _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled')
-            }
+        //     function _0xce56x17(_0xce56xc) {
+        //         _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
+        //         _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled')
+        //     }
         
-            function _0xce56x18(_0xce56xc) {
-                _0xce56xc['parentElement']['querySelectorAll']('em')[0]['classList']['remove']('disabled');
-                _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
-                _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
-            }
+        //     function _0xce56x18(_0xce56xc) {
+        //         _0xce56xc['parentElement']['querySelectorAll']('em')[0]['classList']['remove']('disabled');
+        //         _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
+        //         _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
+        //     }
         
-            var _0xce56x19 = document['querySelectorAll']('.input-style input:not([type=\"date\"])');
-            _0xce56x19['forEach']((_0xce56xc) => {
-                return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
-                    if (!_0xce56xc['value'] == '') {
-                        _0xce56xc['parentElement']['classList']['add']('input-style-active');
-                        _0xce56xc['parentElement']['querySelector']('em')['classList']['add']('disabled')
-                    } else {
-                        _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
-                        _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled');
-                        _0xce56xc['parentElement']['classList']['remove']('input-style-active');
-                        _0xce56xc['parentElement']['querySelector']('em')['classList']['remove']('disabled')
-                    }
-                })
-            });
+        //     var _0xce56x19 = document['querySelectorAll']('.input-style input:not([type=\"date\"])');
+        //     _0xce56x19['forEach']((_0xce56xc) => {
+        //         return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
+        //             if (!_0xce56xc['value'] == '') {
+        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active');
+        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['add']('disabled')
+        //             } else {
+        //                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
+        //                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled');
+        //                 _0xce56xc['parentElement']['classList']['remove']('input-style-active');
+        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['remove']('disabled')
+        //             }
+        //         })
+        //     });
         
-            var _0xce56x1a = document['querySelectorAll']('.input-style textarea');
-            _0xce56x1a['forEach']((_0xce56xc) => {
-                return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
-                    if (!_0xce56xc['value'] == '') {
-                        _0xce56xc['parentElement']['classList']['add']('input-style-active');
-                        _0xce56xc['parentElement']['querySelector']('em')['classList']['add']('disabled')
-                    } else {
-                        _0xce56xc['parentElement']['classList']['remove']('input-style-active');
-                        _0xce56xc['parentElement']['querySelector']('em')['classList']['remove']('disabled')
-                    }
-                })
-            });
+        //     var _0xce56x1a = document['querySelectorAll']('.input-style textarea');
+        //     _0xce56x1a['forEach']((_0xce56xc) => {
+        //         return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
+        //             if (!_0xce56xc['value'] == '') {
+        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active');
+        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['add']('disabled')
+        //             } else {
+        //                 _0xce56xc['parentElement']['classList']['remove']('input-style-active');
+        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['remove']('disabled')
+        //             }
+        //         })
+        //     });
         
-            var _0xce56x1b = document['querySelectorAll']('.input-style select');
-            _0xce56x1b['forEach']((_0xce56xc) => {
-                return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
-                    if (_0xce56xc['value'] !== 'default') {
-                        _0xce56xc['parentElement']['classList']['add']('input-style-active');
-                        _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
-                        _0xce56xc['parentElement']['querySelectorAll']('.invalid, em, span')[0]['classList']['add']('disabled')
-                    };
-                    if (_0xce56xc['value'] == 'default') {
-                        _0xce56xc['parentElement']['querySelectorAll']('span, .valid, em')[0]['classList']['add']('disabled');
-                        _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled');
-                        _0xce56xc['parentElement']['classList']['add']('input-style-active')
-                    }
-                })
-            });
+        //     var _0xce56x1b = document['querySelectorAll']('.input-style select');
+        //     _0xce56x1b['forEach']((_0xce56xc) => {
+        //         return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
+        //             if (_0xce56xc['value'] !== 'default') {
+        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active');
+        //                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
+        //                 _0xce56xc['parentElement']['querySelectorAll']('.invalid, em, span')[0]['classList']['add']('disabled')
+        //             };
+        //             if (_0xce56xc['value'] == 'default') {
+        //                 _0xce56xc['parentElement']['querySelectorAll']('span, .valid, em')[0]['classList']['add']('disabled');
+        //                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled');
+        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active')
+        //             }
+        //         })
+        //     });
         
-            var _0xce56x1c = document['querySelectorAll']('.input-style input[type=\"date\"]');
-            _0xce56x1c['forEach']((_0xce56xc) => {
-                return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
-                    _0xce56xc['parentElement']['classList']['add']('input-style-active');
-                    _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
-                    _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
-                })
-            });
+        //     var _0xce56x1c = document['querySelectorAll']('.input-style input[type=\"date\"]');
+        //     _0xce56x1c['forEach']((_0xce56xc) => {
+        //         return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
+        //             _0xce56xc['parentElement']['classList']['add']('input-style-active');
+        //             _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
+        //             _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
+        //         })
+        //     });
         
-            var _0xce56x1d = document['querySelectorAll']('.validate-field input, .validator-field textarea');
-            if (_0xce56x1d['length']) {
-                _0xce56x1d['forEach']((_0xce56xc) => {
-                    return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
-                        var _0xce56x1e = _0xce56xc['getAttribute']('type');
-                        switch (_0xce56x1e) {
-                            case 'name':
-                                _0xce56x11['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break;
-                            case 'number':
-                                _0xce56x13['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break;
-                            case 'email':
-                                _0xce56xf['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break;
-                            case 'text':
-                                _0xce56x15['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break;
-                            case 'url':
-                                _0xce56x14['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break;
-                            case 'tel':
-                                _0xce56x10['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break;
-                            case 'password':
-                                _0xce56x12['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-                                break
-                        };
-                        if (_0xce56xc['value'] === '') {
-                            _0xce56x18(_0xce56xc)
-                        }
-                    })
-                })
-            }
-        };
+        //     var _0xce56x1d = document['querySelectorAll']('.validate-field input, .validator-field textarea');
+        //     if (_0xce56x1d['length']) {
+        //         _0xce56x1d['forEach']((_0xce56xc) => {
+        //             return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
+        //                 var _0xce56x1e = _0xce56xc['getAttribute']('type');
+        //                 switch (_0xce56x1e) {
+        //                     case 'name':
+        //                         _0xce56x11['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break;
+        //                     case 'number':
+        //                         _0xce56x13['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break;
+        //                     case 'email':
+        //                         _0xce56xf['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break;
+        //                     case 'text':
+        //                         _0xce56x15['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break;
+        //                     case 'url':
+        //                         _0xce56x14['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break;
+        //                     case 'tel':
+        //                         _0xce56x10['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break;
+        //                     case 'password':
+        //                         _0xce56x12['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
+        //                         break
+        //                 };
+        //                 if (_0xce56xc['value'] === '') {
+        //                     _0xce56x18(_0xce56xc)
+        //                 }
+        //             })
+        //         })
+        //     }
+        // };
         
         var _0xce56x1f = document['getElementsByClassName']('splide');
         if (_0xce56x1f['length']) {

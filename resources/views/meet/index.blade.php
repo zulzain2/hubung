@@ -84,7 +84,7 @@
                             <form class="needs-validation" novalidate id="joinMeetingForm">
                                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                                     <i class="fas fa-home color-highlight"></i>
-                                    <input id="meetingNameJoin" type="name" class="form-control validate-name"
+                                    <input id="meetingIdJoin" type="name" class="form-control validate-name"
                                         placeholder="Enter meeting name" required>
                                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting
                                         Name</label>
@@ -279,7 +279,7 @@
         </div>
     </div>
 
-    <div id="menu-meeting-invitation" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="320"
+    <div id="menu-meeting-invitation" class="col-lg-4 offset-lg-4 menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="320"
         style="display: block; height: 405px;">
         <div class="menu-title">
             <h1>Invite More People</h1>
