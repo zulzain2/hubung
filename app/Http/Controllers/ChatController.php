@@ -17,8 +17,8 @@ class ChatController extends Controller
      */
     public function index()
     {
-        $topBarTitle = 'Chat';
-        return view('chat.index')->with(compact('topBarTitle'));
+  
+        return view('chat.index');
     }
 
     /**

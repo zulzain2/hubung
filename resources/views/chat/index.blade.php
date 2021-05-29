@@ -206,7 +206,7 @@
                     {{-- </div> --}}
             </div>
         </div>
-        <div class="col-md-8 col-lg-9 col-sm-12 d-none d-lg-block" style="height:82vh;overflow-y: scroll;">
+        <div class="col-md-8 col-lg-9 col-sm-12 d-none d-lg-block d-md-block" style="height:82vh;overflow-y: scroll;">
 
             <div class="content">
                 <div class="speech-bubble speech-right color-black">
