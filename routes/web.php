@@ -56,6 +56,7 @@ Route::resource('notification', 'App\Http\Controllers\NotificationController');
 Route::resource('chat', 'App\Http\Controllers\ChatController');
 
 Route::post('fetch/getScheduleMeeting', 'App\Http\Controllers\MeetController@getScheduleMeeting');
+Route::post('fetch/getMeetingInProgress', 'App\Http\Controllers\MeetController@getMeetingInProgress');
 Route::get('meetroom', 'App\Http\Controllers\MeetController@indexpublic');
 Route::post('fetch/storeMeetingSchedule', 'App\Http\Controllers\MeetController@storeMeetingSchedule');
 Route::post('fetch/updateMeetingSchedule/{id}', 'App\Http\Controllers\MeetController@updateMeetingSchedule');

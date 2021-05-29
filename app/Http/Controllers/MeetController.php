@@ -22,13 +22,12 @@ class MeetController extends Controller
      */
     public function index()
     {
-        $topBarTitle = 'Meet';
 
         // $meetinglogs = MeetingLog::where([
 		// 	['id_users', '=' , auth()->user()->id]
 		// ])->orderByDesc('datetime')->get();
 
-        return view('meet.index')->with(compact('topBarTitle'));
+        return view('meet.index');
     }
 
     public function indexpublic()
@@ -374,10 +373,66 @@ class MeetController extends Controller
 
         $data = [
             'status' => 'success', 
-            'message' => 'Successfully delete schedule meeting.',
+            'message' => 'Successfully start schedule meeting.',
             'data' => $meetinglog
         ];
     
         return json_encode($data);
+    }
+
+    public function getMeetingInProgress(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id_meeting' 	    => 'required',
+        ]);
+
+        if($validator->fails()){ 
+            $data = [
+                'status' => 'error', 
+                'type' => 'Validation Error',
+                'message' => 'Validation error, please check back your input.' ,
+                'error_list' => $validator->messages() ,
+            ];
+            return json_encode($data);
+        }
+
+        $meetinglog = MeetingLog::find($request->id_meeting);
+
+        if($meetinglog)
+        {
+            if($meetinglog->status == 'S' || $meetinglog->status == 'N')
+            {
+                $data = [
+                    'status' => 'error', 
+                    'message' => 'The meeting not started yet, please check again later.',
+                ];
+                return json_encode($data);
+            }
+            else if($meetinglog->status == 'P')
+            {
+                $data = [
+                    'status' => 'error', 
+                    'message' => 'Cannot join. The meeting has passed.',
+                ];
+                return json_encode($data);
+            }
+            else
+            {
+                $data = [
+                    'status' => 'success', 
+                    'message' => 'Successfully join meeting.',
+                    'data' => $meetinglog
+                ];
+            
+                return json_encode($data);
+            }
+        }
+        else{
+            $data = [
+                'status' => 'error', 
+                'message' => 'Meeting ID not exist.',
+            ];
+            return json_encode($data);
+        }
+        
     }
 }
