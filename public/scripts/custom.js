@@ -1,5 +1,6 @@
 var swup = {};
 
+//for preloader spinner
 setTimeout(function() {
     var _0xce56x1 = document['getElementById']('preloader');
     if (_0xce56x1) {
@@ -64,6 +65,7 @@ function _initCopyBtn(){
     });
 }
 
+// Button Loader initialization
 function _initBtnLoader(){
     // clicking on "a/button" tag append a loading spinner to it
     $('a').on('classChange', function() {
@@ -89,6 +91,7 @@ function _initBtnLoader(){
     });
 }
 
+// Validation Error initialization
 function validationErrorBuilder(results){
 
     if (results.error_list) {
@@ -119,7 +122,7 @@ function validationErrorBuilder(results){
 
 
 document['addEventListener']('DOMContentLoaded', () => {
-   
+    
     'use strict';
     let _0xce56x2 = true;
     let _0xce56x3 = true;
@@ -128,1601 +131,8 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x6 = false;
     var _0xce56x7 = ''+$('meta[name="domain"]').attr('content')+'';
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
-    var apiObj = null;
 
     function _init() {
-
-            ///////////////////////////////////////////////////////////////////////
-            //for footer
-            if (document.querySelector('#footer-bar')) {
-                if (window.location.href.indexOf("home") > -1) 
-                {
-                    $('#notification').removeClass('color-highlight');
-                    $('#home').addClass('active-nav');
-                    $('#chat').removeClass('active-nav');
-                    $('#meet').removeClass('active-nav');
-                    $('#file').removeClass('active-nav');
-                    $('#setting').removeClass('active-nav');
-                }
-                else if (window.location.href.indexOf("chat") > -1) 
-                {
-                    $('#notification').removeClass('color-highlight');
-                    $('#home').removeClass('active-nav');
-                    $('#chat').addClass('active-nav');
-                    $('#meet').removeClass('active-nav');
-                    $('#file').removeClass('active-nav');
-                    $('#setting').removeClass('active-nav');
-                }
-                else if(window.location.href.indexOf("meet") > -1)
-                {
-                    $('#notification').removeClass('color-highlight');
-                    $('#home').removeClass('active-nav');
-                    $('#chat').removeClass('active-nav');
-                    $('#meet').addClass('active-nav');
-                    $('#file').removeClass('active-nav');
-                    $('#setting').removeClass('active-nav');
-                }
-                else if(window.location.href.indexOf("file") > -1)
-                {
-                    $('#notification').removeClass('color-highlight');
-                    $('#home').removeClass('active-nav');
-                    $('#chat').removeClass('active-nav');
-                    $('#meet').removeClass('active-nav');
-                    $('#file').addClass('active-nav');
-                    $('#setting').removeClass('active-nav');
-                }
-                else if(window.location.href.indexOf("setting") > -1)
-                {
-                    $('#notification').removeClass('color-highlight');
-                    $('#home').removeClass('active-nav');
-                    $('#chat').removeClass('active-nav');
-                    $('#meet').removeClass('active-nav');
-                    $('#file').removeClass('active-nav');
-                    $('#setting').addClass('active-nav');
-                }
-                else if(window.location.href.indexOf("notification") > -1)
-                {
-                    $('#notification').addClass('color-highlight');
-                    $('#home').removeClass('active-nav');
-                    $('#chat').removeClass('active-nav');
-                    $('#meet').removeClass('active-nav');
-                    $('#file').removeClass('active-nav');
-                    $('#setting').removeClass('active-nav');
-                }
-            }
-            ///////////////////////////////////////////////////////////////////////
-
-        setTimeout(function() {
-
-            ///////////////////////////////////////////////////////////////////////
-            // for append csrf-token
-            if (document.querySelector('.csrf-token')) {
-                ///////////////////////////////////////////////////////////////////////
-                // fetch csrf token and append back to selected element
-                fetch('/fetch/csrf').then(function(response) {
-                    return response.json();
-                }).then(function(data) {
-
-                    var results = data
-
-                    document.querySelector('meta[name="csrf-token"]').setAttribute("content", results);
-                    $('.csrftoken').val(results);
-
-                }).catch(function(err) {
-                    console.log('Error CSRF: ' + err);
-                });
-                ///////////////////////////////////////////////////////////////////////
-            }
-            ///////////////////////////////////////////////////////////////////////  
-
-            ///////////////////////////////////////////////////////////////////////
-            // for checking user auth
-            if (document.querySelector('.check-auth')) {
-                
-                // fetch auth status and if no auth kick user to login
-                fetch('/fetch/checkAuth').then(function(response) { 
-                    return response.json();
-                }).then(function(data) {
-                    var results = data
-
-                    if(results === 'true')
-                    {
-                        if(window.location.href.indexOf("splashscreen") > -1){
-                            swup.loadPage({
-                                url: 'home',
-                                method: 'GET',
-                                customTransition: '' 
-                            });
-                        }
-                        else if(window.location.href.indexOf("meetroom") > -1)
-                        {
-                            // console.log('Authenticated');
-                            var url = new URL(window.location.href);
-                            var roomName = url.searchParams.get("roomName");
-                            if(roomName){
-                                // window.location.href = 'meet?roomName='+roomName+'';
-                                swup.loadPage({
-                                    url: 'meet?roomName='+roomName+'',
-                                    method: 'GET',
-                                    customTransition: '' 
-                                });
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if(window.location.href.indexOf("meetroom") > -1)
-                        {
-                            // console.log('Unauthenticated');
-                        }
-                        else
-                        {
-                            // window.location.href = 'login?prevUrl='+window.location.pathname+'';
-                            // if(window.location.pathname === "/splashscreen"){
-                            //     swup.loadPage({
-                            //         url: 'login',
-                            //         method: 'GET',
-                            //         customTransition: '' 
-                            //     });
-                            // }
-                            // else{
-                                swup.loadPage({
-                                    url: 'login?prevUrl='+window.location.pathname+'',
-                                    method: 'GET',
-                                    customTransition: '' 
-                                });
-                            // }
-                            
-                        }
-                    }
-
-                }).catch(function(err) {
-                    console.log('Error Check Auth: ' + err);
-                });
-            }
-            ///////////////////////////////////////////////////////////////////////   
- 
-            ///////////////////////////////////////////////////////////////////////
-            // redirect user back to prev url if unauthenticated
-            if (document.querySelector('#loginPage') || document.querySelector('#registerOtpPage')) {
-                var url = new URL(window.location.href);
-                var prevUrl = url.searchParams.get("prevUrl");
-                if(prevUrl){
-                    $('#prevUrl').val(prevUrl);
-                }
-            }
-            ///////////////////////////////////////////////////////////////////////
-
-
-            ///////////////////////////////////////////////////////////////////////
-            //for connect user button
-            $('#logoutBtn').on('click' , function(event){
-
-                if (navigator.onLine) {
-
-                    $('#logoutBtn').addClass('off-btn').trigger('classChange');
-
-                    fetch("/logout", {
-                        method: 'post',
-                        credentials: "same-origin",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                    })
-                    .then(function(response){
-                        return response.json();
-                    }).then(function(resultsJSON){
-
-                        var results = resultsJSON
-
-                                if(results.status == 'success'){
-
-                                    $('#logoutBtn').removeClass('off-btn').trigger('classChange');
-
-                                    $('.menu-hider').removeClass('menu-active');
-
-                                    swup.loadPage({
-                                        url: '/login', 
-                                        method: 'GET',
-                                        customTransition: '' 
-                                    });
-
-                                }
-                                else{
-
-                                }
-    
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
-                } else {
-                    menu('menu-offline', 'show', 250);
-                } 
-
-
-            });
-            ///////////////////////////////////////////////////////////////////////
-
-
-            ///////////////////////////////////////////////////////////////////////
-            //for connect user button
-            $('#connectBtn').on('click' , function(event){
-                
-                    if (navigator.onLine) {
-                
-                        var form = $("#connectForm");
-        
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(form)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                $('#connectBtn').addClass('off-btn').trigger('classChange');
-        
-                                var datas = {};
-                                var datas = new URLSearchParams();
-                                $.each($('#connectForm').serializeArray(), function(i, field) {
-                                    datas.append(field.name, field.value);
-                                });
-                                // console.log(datas);
-                                fetch("/login", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: datas,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-                                    // console.log(resultsJSON);
-                                    var results = resultsJSON
-
-                                            if(results.status == 'success'){
-                                                
-                                                $('#connectBtn').removeClass('off-btn').trigger('classChange');
-                                                // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=login';
-
-                                                swup.loadPage({
-                                                    url: '/verifyOtp?tempuser_id='+results.user_id+'&type=login&prevUrl='+results.prevUrl+'', 
-                                                    method: 'GET',
-                                                    customTransition: '' 
-                                                });
-
-                                            }
-                                            else{
-
-                                                if(results.type == 'Validation Error')
-                                                {
-                                                    $('#connectBtn').removeClass('off-btn').trigger('classChange');
-
-                                                    validationErrorBuilder(results);
-
-                                                }
-                                                else
-                                                {
-                                                    $('#connectBtn').removeClass('off-btn').trigger('classChange');
-                                                    snackbar(results.status , results.message)
-                                                }
-                                            }
-                
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-        
-                            }
-                                form.classList.add('was-validated')
-                        })
-                    
-
-
-                    } else {
-                        menu('menu-offline', 'show', 250);
-                    } 
-            });
-            ///////////////////////////////////////////////////////////////////////
-
-            ///////////////////////////////////////////////////////////////////////
-            //for register user button
-            $('#registerBtn').on('click' , function(event){
-                
-                if (navigator.onLine) {
-            
-                    var form = $("#registerForm");
-    
-                    // Loop over them and prevent submission
-                    Array.prototype.slice.call(form)
-                    .forEach(function (form) {
-                        if (!form.checkValidity()) 
-                        {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        else
-                        {
-                            $('#registerBtn').addClass('off-btn').trigger('classChange');
-    
-                            var datas = {};
-                            var datas = new URLSearchParams();
-                            $.each($('#registerForm').serializeArray(), function(i, field) {
-                                datas.append(field.name, field.value);
-                            });
-                            // console.log(datas);
-                            fetch("/register", {
-                                method: 'post',
-                                credentials: "same-origin",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                body: datas,
-                            })
-                            .then(function(response){
-                                return response.json();
-                            }).then(function(resultsJSON){
-                                // console.log(resultsJSON);
-                                var results = resultsJSON
-
-                                        if(results.status == 'success'){
-                                            
-                                            $('#registerBtn').removeClass('off-btn').trigger('classChange');
-
-                                            // window.location.href = '/verifyOtp?tempuser_id='+results.user_id+'&type=register';
-
-                                            swup.loadPage({
-                                                url: '/verifyOtp?tempuser_id='+results.user_id+'&type=register', 
-                                                method: 'GET',
-                                                customTransition: '' 
-                                            });
-
-                                        }
-                                        else{
-                                            if(results.type == 'Validation Error')
-                                            {
-                                                $('#registerBtn').removeClass('off-btn').trigger('classChange');
-
-                                                validationErrorBuilder(results);
-
-                                            }
-                                            else
-                                            {
-                                                $('#registerBtn').removeClass('off-btn').trigger('classChange');
-                                                snackbar(results.status , results.message)
-                                            }
-                                        }
-            
-                            })
-                            .catch(function(err) {
-                                console.log(err);
-                            });
-    
-                        }
-                            form.classList.add('was-validated')
-                    })
-                
-                } else {
-                    menu('menu-offline', 'show', 250);
-                } 
-            });
-            ///////////////////////////////////////////////////////////////////////
-
-            ///////////////////////////////////////////////////////////////////////
-            // for verify otp
-            if (document.querySelector('#verifyOtpPage')) {
-
-                $('.digit-group').find('input').each(function() {
-                    $(this).attr('maxlength', 1);
-                    $(this).on('keyup', function(e) {
-                        var parent = $($(this).parent());
-                        
-                        if(e.keyCode === 8 || e.keyCode === 37) {
-                            var prev = parent.find('input#' + $(this).data('previous'));
-                            
-                            if(prev.length) {
-                                $(prev).select();
-                            }
-                        } else if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 39) {
-                            var next = parent.find('input#' + $(this).data('next'));
-                            
-                            if(next.length) {
-                                $(next).select();
-                            } else {
-                                if(parent.data('autosubmit')) {
-                                    parent.submit();
-                                }
-                            }
-                        }
-                    });
-                });
-
-                ///////////////////////////////////////////////////////////////////////
-                //for verify otp user button
-                $('#verifyOtpBtn').on('click' , function(event){
-                    if (navigator.onLine) {
-                    
-                        var form = $("#verifyOtpForm");
-        
-                        // Loop over them and prevent submission
-                        Array.prototype.slice.call(form)
-                        .forEach(function (form) {
-                            if (!form.checkValidity()) 
-                            {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-                            else
-                            {
-                                $('#verifyOtpBtn').addClass('off-btn').trigger('classChange');
-        
-                                var datas = {};
-                                var datas = new URLSearchParams();
-                                $.each($('#verifyOtpForm').serializeArray(), function(i, field) {
-                                    datas.append(field.name, field.value);
-                                });
-                                // console.log(datas);
-                                fetch("/verifyOtp", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: datas,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-                                    // console.log(resultsJSON);
-                                    var results = resultsJSON
-
-                                            if(results.status === 'success'){
-                                                
-                                                $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-
-                                                // Flutter function - Save FCM Token & Device Info 
-                                                if(window.flutter_inappwebview)
-                                                {
-                                                    const args = [results.user_id];
-                                                    window.flutter_inappwebview.callHandler('fcmHandler', ...args);
-                                                }
-
-                                                if(results.prevUrl)
-                                                {
-                                                    swup.loadPage({
-                                                        url: results.prevUrl, 
-                                                        method: 'GET',
-                                                        customTransition: '' 
-                                                    });
-                                                }
-                                                else
-                                                {
-                                                    swup.loadPage({
-                                                        url: '/home', 
-                                                        method: 'GET',
-                                                        customTransition: '' 
-                                                    });
-                                                }
-
-                                                
-
-                                            }
-                                            else{
-
-                                                if(results.type === 'Expired OTP')
-                                                {
-                                                    $('#digit-1').val('');
-                                                    $('#digit-2').val('');
-                                                    $('#digit-3').val('');
-                                                    $('#digit-4').val('');
-                                                    $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-                                                    snackbar(results.status , results.message)
-
-                                                    setTimeout(function() {
-                                                        window.history.back();
-                                                    }, 3000);
-                                                }
-                                                else if (results.type == 'Invalid OTP'){
-                                                    $('#digit-1').val('');
-                                                    $('#digit-2').val('');
-                                                    $('#digit-3').val('');
-                                                    $('#digit-4').val('');
-                                                    $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-                                                    snackbar(results.status , results.message)
-                                                }
-                                                else if(results.type == 'Validation Error')
-                                                {
-                                                    $('#verifyOtpBtn').removeClass('off-btn').trigger('classChange');
-
-                                                    validationErrorBuilder(results);
-                                                   
-                                                }
-                                                else{
-                                                    snackbar(results.status , results.message)
-                                                }
-
-                                            }
-                
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-        
-                            }
-                                form.classList.add('was-validated')
-                        })
-                    
-                    } else {
-                        menu('menu-offline', 'show', 250);
-                    } 
-                });
-                ///////////////////////////////////////////////////////////////////////
-
-                ///////////////////////////////////////////////////////////////////////
-                //for try again otp user button
-                $('#tryAgainOtp').on('click' , function(event){
-                    if (navigator.onLine) {
-                    
-                                $('#tryAgainOtp').addClass('off-btn').trigger('classChange');
-        
-                                var url = new URL(window.location.href);
-
-                                var  tryAgainOtp = new URLSearchParams();
-                                tryAgainOtp.append('user_id', url.searchParams.get("tempuser_id"));
-                                tryAgainOtp.append('type', url.searchParams.get("type"));
-
-                                fetch("/tryAgainOtp", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: tryAgainOtp,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-                                
-                                    var results = resultsJSON
-
-                                            if(results.status === 'success'){
-                                                
-                                                $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
-
-                                                snackbar(results.status , results.message)
-                                                
-                                                $('#seconds-counter').html('');
-                                                $('#seconds-counter').show();
-                                                $('#tryAgainOtp').prop('disabled', true);
-
-                                                var seconds = 60;
-                                                var el = document.getElementById('seconds-counter');
-                                                // console.log(el);
-
-                                                function incrementSeconds() {
-                                                    seconds -= 1;
-
-                                                    if(seconds >= 0)
-                                                    {
-                                                        el.innerHTML = ''+seconds+' Seconds';
-                                                    }
-
-                                                    if(seconds == 0){
-                                                        $('#tryAgainOtp').prop('disabled', false);
-                                                        $('#seconds-counter').hide();
-                                                    }
-                                                }
-
-                                                var cancel = setInterval(incrementSeconds, 1000);                                 
-
-                                            }
-                                            else{
-
-                                                if(results.type == 'Validation Error')
-                                                {
-                                                    $('#tryAgainOtp').removeClass('off-btn').trigger('classChange');
-
-                                                    validationErrorBuilder(results);
-                                                }
-                                                else{
-                                                    snackbar(results.status , results.message)
-                                                }
-
-                                            }
-                
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-        
-                            
-                    
-                    
-                    } else {
-                        menu('menu-offline', 'show', 250);
-                    } 
-                });
-
-                if (document.querySelector('#seconds-counter')) 
-                {
-                    var seconds = 60;
-                    var el = document.getElementById('seconds-counter');
-                    // console.log(el);
-
-                    function incrementSeconds() {
-                        seconds -= 1;
-                        if(seconds >= 0)
-                        {
-                            el.innerHTML = ''+seconds+' Seconds';
-                        }
-                        if(seconds == 0){
-                            $('#tryAgainOtp').prop('disabled', false);
-                            $('#seconds-counter').hide();
-                        }
-                    }
-
-                    var cancel = setInterval(incrementSeconds, 1000);
-                }
-                ///////////////////////////////////////////////////////////////////////
-
-            };
-            ///////////////////////////////////////////////////////////////////////
-
-            ///////////////////////////////////////////////////////////////////////
-            //for meet.index.blade.php 
-            if (document.querySelector('#meeting-index')) {
-
-                    function scheduleLogBuilder(data){
-
-                        let start = new Date(data.datetime);
-                        let end = new Date(data.end_datetime);
-                        
-                        var date = moment(start).format('MMMM Do');
-                        var time_start = moment(start).format('h:mm a');
-                        var time_end = moment(end).format('h:mm a');
-
-                        return `
-                        <div class="row mb-3">
-                            <div class="col-3">
-                                <small>${date}<br>${time_start}</small>
-                                
-                            </div>
-                            <div class="col-6">
-                                <h5>${data.room_name}</h5>
-                                <small><i class="far fa-clock"></i> ${time_start} - ${time_end}</small>
-                            </div>
-                            <div class="col-3">                                              
-                                <a href="#" 
-                                data-menu="menu-meeting-schedule-config" 
-                                data-meeting-name="${data.room_name}"
-                                data-meeting-id="${data.id}"
-                                class="menu-meeting-schedule-config icon icon-xs rounded-sm me-1 shadow-l bg-highlight my-2" 
-                                style="float:right"><i class="fas fa-ellipsis-v"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="divider mb-3"></div>
-                        `;
-                    }
-
-                    function startMeetingBuilder(room_name){
-                        $('#start-schedule-meeting').attr('data-id-meeting' , room_name);
-                    }
-
-                    function shareMeetingBuilder(room_name){
-                        $('#copy-meet-link').html(window.location.hostname + '/meetroom?roomName=' + room_name);
-                        $('#whatsapp-link-schedule').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
-                        $('#mail-link-schedule').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+room_name+'"');
-                        $('#gmail-link-schedule').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'&tf=cm","_blank")');
-                        $('#outlook-link-schedule').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+room_name+'","_blank")');
-
-                        // $('#copyMeet').attr('data-meeting-name', room_name);
-                        // $('#meetEmail').attr('data-meeting-name', room_name);
-                        // $('#meetGmail').attr('data-meeting-name', room_name);
-                        // $('#meetOutlook').attr('data-meeting-name', room_name);
-                    }
-
-                    function editMeetingBuilder(meetingId){
-
-                        fetch('/fetch/scheduleLog/'+meetingId+'')
-                        .then(function(response) { 
-                            return response.json();
-                        }).then(function(data){
-                        
-                            $('#meetingIdScheduleEdit').val(data.id);
-                            $('#meetingNameScheduleEdit').val(data.room_name);
-                            $('#meetingDateScheduleEdit').val(moment(data.datetime).format('yyyy-MM-DD'));
-                            $('#meetingStartScheduleEdit').val(moment(data.datetime).format('HH:mm:ss'));
-                            $('#meetingEndScheduleEdit').val(moment(data.end_datetime).format('HH:mm:ss'));
-                           
-                        })
-                        .catch(function(err) {
-                            console.log('Error Schedule Log: ' + err);
-                        });
-                    }
-
-                    function deleteMeetingBuilder(meetingId){
-                        $('#meetingIdScheduleDelete').val(meetingId);
-                    }
-
-                    function updateMeetingLog(data){
-                        var results = data
-
-                        if (results.length) {
-                            $('#meeting-log-list').html('');
-                            results.map(meetinglog => {
-
-                                let now = new Date(meetinglog.datetime);
-                                
-                                var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-
-                                $('#meeting-log-list').append(`
-                                    <div class="row mb-0">
-                                        <div class="col-6">
-                                            <h5 class="mb-0">${meetinglog.room_name}</h5> 
-                                            <small>as ${meetinglog.display_name}</small>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <span class="mt-2 badge bg-highlight" style="font-size: 9px;">${dateStringWithTime}</span>
-                                        </div>
-                                    </div>
-                                    <div class="divider my-3"></div>
-                                `)
-                            })
-
-                        }
-                        else{
-                            $('#meeting-log-list').html('');
-
-                            $('#meeting-log-list').append(`
-                                <p class="text-center"><br>Your recent list is currently empty. Chat with your team and you will find all your recent meetings here.<br><br></p>
-                            `);
-                        }
-                    }
-
-                    async function updateScheduleLog(data){
-                        var results = data
-
-                        if (results.length) {
-                            $('#schedule-log-list').html('');
-                            await results.map(scheduleLog => {
-
-                                $('#schedule-log-list').append(``+scheduleLogBuilder(scheduleLog)+``);
-                            })
-                             
-                            $('.menu-meeting-schedule-config').on('click' , function(){
-                                var meetingName = $(this).data('meeting-name');
-                                var meetingId = $(this).data('meeting-id');
-
-                                startMeetingBuilder(meetingId);
-
-                                shareMeetingBuilder(meetingId);
-
-                                editMeetingBuilder(meetingId);
-
-                                deleteMeetingBuilder(meetingId);
-
-                                menu('menu-meeting-schedule-config',  'show' , '')
-                            });
-
-                            $('.menu-meeting-share').on('click' , function(){
-                                menu('menu-meeting-share',  'show' , '')
-                            });
-
-                        }
-                        else{
-                            $('#schedule-log-list').html('');
-
-                            $('#schedule-log-list').append(`
-                                <p id="emptyScheduleLog" class="text-center mx-0"><br>Your schedule list is currently empty. Create one to start with scheduled meeting.<br><br></p>
-                            `);
-                        }
-                    }
-
-                    function initializeMeeting(meetingId, usrName) {
-
-                        $('#inviteBtn').addClass('off-btn').trigger('classChange');
-
-                        $('#inviteBtn').on('click' , function() {
-                            $('#menu-meeting-invitation').addClass('menu-active');
-                        });
-
-                        $('.close-menu-meeting-invitation').on('click' , function() {
-                            $('#menu-meeting-invitation').removeClass('menu-active');
-                        }); 
-
-                        var domain = 'meet.tvetxr.ga';
-                        var options = {
-                            roomName: meetingId ? meetingId : 'MaGICXMeetRoom',
-                            width: '100%',
-                            height: '100%',
-                            parentNode: document.querySelector('#meet_iframe'),
-                            userInfo: {
-                                displayName: usrName ? usrName : 'Fellow MaGICXian',
-                            },
-                            configOverwrite:{
-                                prejoinPageEnabled: true,
-                                disableDeepLinking: true,
-                                apiLogLevels: ['log'],                    
-                            },
-                            interfaceConfigOverwrite: {
-                                TOOLBAR_BUTTONS: [
-                                    'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-                                    'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                                    'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                                    'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                                    'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
-                                ],
-                            },
-                        };
-                        apiObj = new JitsiMeetExternalAPI(domain, options);
-                        
-                        apiObj.addEventListeners({
-                            videoConferenceJoined: function(data) {
-
-                                ///////////////////////////////////////////////////////////////////////
-                                //for invite meeting button while in meeting
-                                $('#invite-meeting-name').html(decodeURIComponent(data.roomName));
-                                $('#invite-invitor').html(data.displayName);
-                                $('#invite-link').html(window.location.hostname + '/meetroom?roomName=' + data.roomName);
-                                
-                                $('#whatsapp-link').attr('onclick' , 'location.href="whatsapp://send?text='+window.location.hostname+'/meetroom?roomName='+data.roomName+'"');
-                                $('#mail-link').attr('onclick' , 'location.href="mailto:?body='+window.location.hostname+'/meetroom?roomName='+data.roomName+'"');
-                                $('#gmail-link').attr('onclick' , 'window.open("https://mail.google.com/mail/u/0/?fs=1&su=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+data.roomName+'&tf=cm","_blank")');
-                                $('#outlook-link').attr('onclick' , 'window.open("https://outlook.office.com/mail/deeplink/compose?subject=Join+Communicationt+Meeting&body='+window.location.hostname+'/meetroom?roomName='+data.roomName+'","_blank")');
-                                ///////////////////////////////////////////////////////////////////////
-
-                                var currentdate = new Date();
-
-                                var datetimefordb =  currentdate.getFullYear() + "-"
-                                                + (currentdate.getMonth()+1)  + "-" 
-                                                + currentdate.getDate() + " "  
-                                                + currentdate.getHours() + ":"  
-                                                + currentdate.getMinutes() + ":" 
-                                                + currentdate.getSeconds();
-
-                                var dataMeetingLog = new URLSearchParams();
-                                dataMeetingLog.append('id_meetinglog', decodeURIComponent(data.roomName));
-                                dataMeetingLog.append('display_name', data.displayName);
-                                dataMeetingLog.append('datetime', datetimefordb);
-
-                                fetch("fetch/storeMeetingInProgress", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: dataMeetingLog,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-
-                                    updateMeetingLog(resultsJSON);
-
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-
-                            },
-                            participantRoleChanged: function(data) {
-                                if(data.role === 'moderator') {
-                                    $('#inviteBtn').removeClass('off-btn').trigger('classChange');
-                                }
-                            },
-                            readyToClose: function () {
-
-                                var _0xce56x32 = document['querySelectorAll']('.menu-active');
-
-                                for (let _0xce56xa = 0; _0xce56xa < _0xce56x32['length']; _0xce56xa++) {
-                                    _0xce56x32[_0xce56xa]['classList']['remove']('menu-active')
-                                };
-
-                                var id_meeting = $('#invite-meeting-name').html();
-
-                                var currentdate = new Date();
-
-                                var datetimefordb =  currentdate.getFullYear() + "-"
-                                                + (currentdate.getMonth()+1)  + "-" 
-                                                + currentdate.getDate() + " "  
-                                                + currentdate.getHours() + ":"  
-                                                + currentdate.getMinutes() + ":" 
-                                                + currentdate.getSeconds();
-
-                                var dataMeetingLog = new URLSearchParams();
-                                dataMeetingLog.append('id_meetinglog', id_meeting);
-                                dataMeetingLog.append('end_datetime', datetimefordb);
-
-                                fetch("fetch/storeMeetingPass", {
-                                    method: 'post',
-                                    credentials: "same-origin",
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    body: dataMeetingLog,
-                                })
-                                .then(function(response){
-                                    return response.json();
-                                }).then(function(resultsJSON){
-
-                                    updateMeetingLog(resultsJSON);
-
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                });
-
-
-                                apiObj.dispose();
-                            
-                            }
-                            
-                        });
-                    }
-                
-                    ///////////////////////////////////////////////////////////////////////
-                    //append data to meet public page when parameters available in link
-                    if (document.querySelector('#meetPublic')) {
-                            
-                        var url = new URL(window.location.href);
-                        var roomName = url.searchParams.get("roomName");
-                    
-                        if(roomName){
-                            $('#meetingIdJoin').val(''+roomName+'');
-                            $('#loginFirst').attr("href", '/login?prevUrl=/meet?roomName='+roomName+'')
-                        }
-
-                        $('body').removeClass('theme-light');
-                        $('body').addClass('theme-dark');
-                    };
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //make join meeting tab active when roomName parameters available in link
-                    var url = new URL(window.location.href);
-                    var roomName = url.searchParams.get("roomName");
-                    if(roomName)
-                    {
-                        $('#meeting-tab-1').removeClass('bg-highlight no-click');
-                        $('#meetingIdJoin').val(roomName);
-                        
-                        $('#meeting-tab-1').addClass('collapsed');
-
-                        $('#meeting-tab-2').removeClass('collapsed');
-                        $('#meeting-tab-2').addClass('bg-highlight no-click');
-                        
-                        $('#tab-1').removeClass('show');
-                        $('#tab-2').addClass('show');
-                    }
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    // fetch user and append back to selected element
-                    fetch('/fetch/user').then(function(response) {
-                        return response.json();
-                    }).then(function(data) {
-                        var results = data
-
-                        if(results === 'false')
-                        {
-
-                        }
-                        else
-                        {
-                            $('.usrName').val(results.name);
-                        }
-                    }).catch(function(err) {
-                        console.log('Error User: ' + err);
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    // for offline checkbox
-                    $('#toggle-id').change(function() {
-                        if (this.checked) {
-                            $('#password_meeting').show();
-                        } else {
-                            $('#password_meeting').hide();
-                        }
-                    });
-
-                    $('#toggle-id-schedule').change(function() {
-                        if (this.checked) {
-                            $('#password_meeting_schedule').show();
-                        } else {
-                            $('#password_meeting_schedule').hide();
-                        }
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //for start meeting button
-                    $('#start-meeting').on('click' , function(event){
-                            
-                        if (navigator.onLine) {
-                        
-                            var fsm = $("#createMeetingForm");
-
-                            // Loop over them and prevent submission
-                            Array.prototype.slice.call(fsm)
-                            .forEach(function (form) {
-                                if (!form.checkValidity()) 
-                                {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }
-                                else
-                                {
-
-                                    $('#start-meeting').addClass('off-btn').trigger('classChange');
-
-                                    var meetingName = $('#meetingName').val();
-                                    var usrName = $('#usrName').val();
-                               
-
-                                    var dataForm = new URLSearchParams();
-                                    dataForm.append('room_name', meetingName);
-                                    dataForm.append('display_name', usrName);
-                              
-                                    fetch("fetch/storeMeetingNotStart", {
-                                        method: 'post',
-                                        credentials: "same-origin",
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        body: dataForm,
-                                    })
-                                    .then(function(response){
-                                        return response.json();
-                                    }).then(function(resultsJSON){
-                    
-                                        var results = resultsJSON
-                                        
-                                        if(results.status == 'success'){
-
-                                            $('#start-meeting').removeClass('off-btn').trigger('classChange');
-
-                                            $('#portfolio-2').addClass('menu-active');
-
-                                            var meetingId = results.data.id;
-                                            var usrName = results.data.display_name;
-                                
-                                            initializeMeeting(meetingId, usrName);
-
-                                        }
-                                        else{
-                                                
-                                            if(results.type == 'Validation Error')
-                                            {
-                                                $('#start-meeting').removeClass('off-btn').trigger('classChange');
-
-                                                validationErrorBuilder(results);
-                                            }
-                                            else{
-                                                snackbar(results.status , results.message)
-                                            }
-                                        }
-                    
-                                    })
-                                    .catch(function(err) {
-                                        console.log(err);
-                                    });
-
-                                }
-                                    form.classList.add('was-validated')
-                            })
-                        
-                        } else {
-                            menu('menu-offline', 'show', 250);
-                        } 
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //for start meeting button
-                    $('#start-schedule-meeting').on('click' , function(event){
-                            
-                        if (navigator.onLine) {
-
-                            $('#start-schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                            var meeting_id = $(this).data('id-meeting');
-
-                            var dataForm = new URLSearchParams();
-                            dataForm.append('meeting_id', meeting_id);
-                        
-                            fetch("fetch/getScheduleMeeting", {
-                                method: 'post',
-                                credentials: "same-origin",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                body: dataForm,
-                            })
-                            .then(function(response){
-                                return response.json();
-                            }).then(function(resultsJSON){
-            
-                                var results = resultsJSON
-                                
-                                if(results.status == 'success'){
-
-                                    $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                    menu('menu-meeting-schedule-config', 'hide', 250);
-
-                                    $('#portfolio-2').addClass('menu-active');
-
-                                    var meetingName = results.data.id;
-                                    var usrName = results.data.display_name;
-                        
-                                    initializeMeeting(meetingName, usrName);
-
-                                }
-                                else{
-                                        
-                                    if(results.type == 'Validation Error')
-                                    {
-                                        $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                        menu('menu-meeting-schedule-config', 'hide', 250);
-
-                                        validationErrorBuilder(results);
-                                    }
-                                    else{
-
-                                        $('#start-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                        menu('menu-meeting-schedule-config', 'hide', 250);
-                                        
-                                        snackbar(results.status , results.message)
-                                    }
-                                }
-            
-                            })
-                            .catch(function(err) {
-                                console.log(err);
-                            });
-                        
-                        } else {
-                            menu('menu-offline', 'show', 250);
-                        } 
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //for join meeting button
-                    $('#join-meeting').on('click' , function(event){
-                            
-                        if (navigator.onLine) {
-
-                            var fsm = $("#joinMeetingForm");
-
-                            // Loop over them and prevent submission
-                            Array.prototype.slice.call(fsm)
-                            .forEach(function (form) {
-                                if (!form.checkValidity()) 
-                                {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }
-                                else
-                                {
-                                    $('#join-meeting').addClass('off-btn').trigger('classChange');
-
-                                    var meetingId = $('#meetingIdJoin').val();
-                                    var usrName = $('#usrNameJoin').val();
-
-                                    var dataForm = new URLSearchParams();
-                                    dataForm.append('id_meeting', meetingId);
-                                    dataForm.append('display_name', usrName);
-                              
-                                    fetch("fetch/getMeetingInProgress", {
-                                        method: 'post',
-                                        credentials: "same-origin",
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        body: dataForm,
-                                    })
-                                    .then(function(response){
-                                        return response.json();
-                                    }).then(function(resultsJSON){
-                    
-                                        var results = resultsJSON
-                                        
-                                        if(results.status == 'success'){
-
-                                            $('#join-meeting').removeClass('off-btn').trigger('classChange');
-
-                                            $('#portfolio-2').addClass('menu-active');
-
-                                            var meetingId = results.data.id;
-                                
-                                            initializeMeeting(meetingId, usrName);
-
-                                        }
-                                        else{
-                                                
-                                            if(results.type == 'Validation Error')
-                                            {
-                                                $('#join-meeting').removeClass('off-btn').trigger('classChange');
-
-                                                validationErrorBuilder(results);
-                                            }
-                                            else{
-
-                                                $('#join-meeting').removeClass('off-btn').trigger('classChange');
-
-                                                snackbar(results.status , results.message)
-                                            }
-                                        }
-
-                                    })
-                                    .catch(function(err) {
-                                        console.log(err);
-                                    });
-
-                                }
-                                    form.classList.add('was-validated')
-                            })
-
-                        } else {
-                            menu('menu-offline', 'show', 250);
-                        } 
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //fetch data for meeting log
-                    if (document.querySelector('#meeting-log')) {
-                        // var networkDataReceived = false;
-
-                        // fetch fresh meeting log
-                        var networkUpdate = fetch('/fetch/meetingLog')
-                        .then(function(response) { 
-                            return response.json();
-                        }).then(function(data){
-                            // networkDataReceived = true;
-                            
-                            updateMeetingLog(data);
-                        })
-                        .catch(function(err) {
-                            console.log('Error Meeting Log: ' + err);
-                        });
-
-                        // fetch cached meeting log
-                        // caches.match('/fetch/meetingLog')
-                        // .then(function(response) {
-                        //     if (!response) throw Error("No data");
-                        //     return response.json();
-                        // }).then(function(data) {
-                        //     // don't overwrite newer network data
-                        //     if (!networkDataReceived) {
-                            
-                        //         updateMeetingLog(data)
-
-                        //     }
-                        // }).catch(function() {
-                        //     // we didn't get cached data, the network is our last hope:
-                        //     return networkUpdate;
-                        // }).catch(function(err) {
-                        //     console.log('Error Meeting Log: ' + err);
-                        // });
-
-                        
-                    };
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //for schedule meeting button
-                    $('#schedule-meeting').on('click' , function(event){
-                            
-                        if (navigator.onLine) {
-
-                            var fsm = $("#scheduleMeetingForm");
-
-                            // Loop over them and prevent submission
-                            Array.prototype.slice.call(fsm)
-                            .forEach(function (form) {
-                                if (!form.checkValidity()) 
-                                {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }
-                                else
-                                {
-                                    
-                                    $('#schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                                    var meetingName = $('#meetingNameSchedule').val();
-                                    var meetingDate = $('#meetingDateSchedule').val();
-                                    var meetingStart = $('#meetingStartSchedule').val();
-                                    var meetingEnd = $('#meetingEndSchedule').val();
-
-                                    var dataMeetingSchedule = new URLSearchParams();
-                                    dataMeetingSchedule.append('meeting_name', meetingName);
-                                    dataMeetingSchedule.append('meeting_date', meetingDate);
-                                    dataMeetingSchedule.append('meeting_start', meetingStart);
-                                    dataMeetingSchedule.append('meeting_end', meetingEnd);
-
-                                    fetch("fetch/storeMeetingSchedule", {
-                                        method: 'post',
-                                        credentials: "same-origin",
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        body: dataMeetingSchedule,
-                                    })
-                                    .then(function(response){
-                                        return response.json();
-                                    }).then(function(resultsJSON){
-                    
-                                        var results = resultsJSON
-
-                                        if(results.status == 'success'){
-                                            // let now = new Date(meetinglog.datetime);
-                                        
-                                            // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');
-                                            $('#emptyScheduleLog').remove();
-
-                                            snackbar('success' , results.message)
-                                            $('#schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                            $('#meetingNameSchedule').val('');
-                                            $('#meetingDateSchedule').val('');
-                                            $('#meetingStartSchedule').val('');
-                                            $('#meetingEndSchedule').val('');
-
-                                            $('#schedule-log-list').prepend(``+scheduleLogBuilder(results.data)+``);
-
-                                            $('.menu-meeting-schedule-config').on('click' , function(){
-                                                var meetingName = $(this).data('meeting-name');
-                                                
-                                                startMeetingBuilder(results.data.id);
-
-                                                shareMeetingBuilder(results.data.id);
-
-                                                editMeetingBuilder(results.data.id);
-
-                                                deleteMeetingBuilder(results.data.id);
-
-                                                menu('menu-meeting-schedule-config',  'show' , '')
-                                            });
-                
-                                            $('.menu-meeting-share').on('click' , function(){
-                                                menu('menu-meeting-share',  'show' , '')
-                                            });
-                                            
-                                        }
-                                        else{
-                                        
-                                        }
-                    
-                                    })
-                                    .catch(function(err) {
-                                        console.log(err);
-                                    });
-                                        
-                                
-                                }
-                                    form.classList.add('was-validated')
-                            })
-
-                        } else {
-                            menu('menu-offline', 'show', 250);
-                        } 
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-            
-                    ///////////////////////////////////////////////////////////////////////
-                    //fetch data for schedule meeting log
-                    if (document.querySelector('#schedule-log')) {
-                        var networkDataReceived = false;
-
-                        // fetch fresh schedule log
-                        var networkUpdate = fetch('/fetch/scheduleLog')
-                        .then(function(response) { 
-                            return response.json();
-                        }).then(function(data){
-                            networkDataReceived = true;
-                            
-                            updateScheduleLog(data);
-                        })
-                        .catch(function(err) {
-                            console.log('Error Schedule Log: ' + err);
-                        });
-                    };
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //for submit edit meeting button
-                    $('#edit-schedule-meeting').on('click' , function(event){
-
-                        if (navigator.onLine) {
-                            var fsm = $("#editScheduleMeetingForm");
-
-                             // Loop over them and prevent submission
-                             Array.prototype.slice.call(fsm)
-                             .forEach(function (form) {
-                                if (!form.checkValidity()) 
-                                {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }
-                                else
-                                {
-                                    $('#edit-schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                                    var editMeetingId = $('#meetingIdScheduleEdit').val();
-                                    var editMeetingName = $('#meetingNameScheduleEdit').val();
-                                    var editMmeetingDate = $('#meetingDateScheduleEdit').val();
-                                    var editMmeetingStart = $('#meetingStartScheduleEdit').val();
-                                    var editMeetingEnd = $('#meetingEndScheduleEdit').val();
-
-                                    var dataForm = new URLSearchParams();
-                                    dataForm.append('meeting_name', editMeetingName);
-                                    dataForm.append('meeting_date', editMmeetingDate);
-                                    dataForm.append('meeting_start', editMmeetingStart);
-                                    dataForm.append('meeting_end', editMeetingEnd);
-
-                                    fetch("fetch/updateMeetingSchedule/"+editMeetingId+"", {
-                                        method: 'post',
-                                        credentials: "same-origin",
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        body: dataForm,
-                                    })
-                                    .then(function(response){
-                                        return response.json();
-                                    }).then(function(resultsJSON){
-                    
-                                        var results = resultsJSON
-
-                                        if(results.status == 'success'){
-
-                                            fetch('/fetch/scheduleLog')
-                                            .then(function(response) { 
-                                                return response.json();
-                                            }).then(function(data){
-                                                
-                                                updateScheduleLog(data);
-                                            })
-                                            .catch(function(err) {
-                                                console.log('Error Schedule Log: ' + err);
-                                            });
-
-                                            $('#edit-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                            menu('menu-edit-meeting', 'hide', 250);
-
-                                            snackbar(results.status , results.message)
-
-                                        }
-                                        else{
-                                            if(results.type == 'Validation Error')
-                                            {
-                                                $('#edit-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                                validationErrorBuilder(results);
-                                            }
-                                            else{
-                                                snackbar(results.status , results.message)
-                                            }
-                                        }
-                    
-                                    })
-                                    .catch(function(err) {
-                                        console.log(err);
-                                    });
-
-                                    form.classList.add('was-validated');
-                                }
-                            });
-                        }
-                        else{
-                            menu('menu-offline', 'show', 250);
-                        }
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    ///////////////////////////////////////////////////////////////////////
-                    //for delete meeting button
-                    $('#delete-schedule-meeting').on('click' , function(event){
-
-                        if (navigator.onLine) {
-                            var fsm = $("#deleteScheduleMeetingForm");
-
-                             // Loop over them and prevent submission
-                             Array.prototype.slice.call(fsm)
-                             .forEach(function (form) {
-                                if (!form.checkValidity()) 
-                                {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }
-                                else
-                                {
-                                    $('#delete-schedule-meeting').addClass('off-btn').trigger('classChange');
-
-                                    var editMeetingId = $('#meetingIdScheduleDelete').val();
-
-                                    var dataForm = new URLSearchParams();
-                                    dataForm.append('meeting_id', editMeetingId);
-
-                                    fetch("fetch/deleteMeetingSchedule/"+editMeetingId+"", {
-                                        method: 'post',
-                                        credentials: "same-origin",
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        body: dataForm,
-                                    })
-                                    .then(function(response){
-                                        return response.json();
-                                    }).then(function(resultsJSON){
-                    
-                                        var results = resultsJSON
-
-                                        if(results.status == 'success'){
-
-                                            fetch('/fetch/scheduleLog')
-                                            .then(function(response) { 
-                                                return response.json();
-                                            }).then(function(data){
-                                                
-                                                updateScheduleLog(data);
-                                            })
-                                            .catch(function(err) {
-                                                console.log('Error Schedule Log: ' + err);
-                                            });
-
-                                            $('#delete-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                            menu('menu-delete-meeting', 'hide', 250);
-
-                                            snackbar(results.status , results.message)
-
-                                        }
-                                        else{
-                                            if(results.type == 'Validation Error')
-                                            {
-                                                $('#delete-schedule-meeting').removeClass('off-btn').trigger('classChange');
-
-                                                validationErrorBuilder(results);
-                                            }
-                                            else{
-                                                snackbar(results.status , results.message)
-                                            }
-                                        }
-                    
-                                    })
-                                    .catch(function(err) {
-                                        console.log(err);
-                                    });
-
-                                    form.classList.add('was-validated');
-                                }
-                            });
-                        }
-                        else{
-                            menu('menu-offline', 'show', 250);
-                        }
-                    });
-                    ///////////////////////////////////////////////////////////////////////
-
-                    
-            }
-            ///////////////////////////////////////////////////////////////////////
-        
-        }, 250);
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -1732,122 +142,7 @@ document['addEventListener']('DOMContentLoaded', () => {
         document['querySelectorAll']('.menu')['forEach']((_0xce56xc) => {
             _0xce56xc['style']['display'] = 'block'
         });
-        
-        // var _0xce56xe = document['querySelectorAll']('input');
-        // if (_0xce56xe['length']) {
-        //     var _0xce56xf = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-        //     var _0xce56x10 = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
-        //     var _0xce56x11 = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
-        //     var _0xce56x12 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
-        //     var _0xce56x13 = /^(0|[1-9]\d*)$/;
-        //     var _0xce56x14 = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
-        //     var _0xce56x15 = /[A-Za-z]{2}[A-Za-z]*[ ]?[A-Za-z]*/;
-        
-        //     function _0xce56x16(_0xce56xc) {
-        //         _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
-        //         _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
-        //     }
-        
-        //     function _0xce56x17(_0xce56xc) {
-        //         _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
-        //         _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled')
-        //     }
-        
-        //     function _0xce56x18(_0xce56xc) {
-        //         _0xce56xc['parentElement']['querySelectorAll']('em')[0]['classList']['remove']('disabled');
-        //         _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
-        //         _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
-        //     }
-        
-        //     var _0xce56x19 = document['querySelectorAll']('.input-style input:not([type=\"date\"])');
-        //     _0xce56x19['forEach']((_0xce56xc) => {
-        //         return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
-        //             if (!_0xce56xc['value'] == '') {
-        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active');
-        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['add']('disabled')
-        //             } else {
-        //                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['add']('disabled');
-        //                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled');
-        //                 _0xce56xc['parentElement']['classList']['remove']('input-style-active');
-        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['remove']('disabled')
-        //             }
-        //         })
-        //     });
-        
-        //     var _0xce56x1a = document['querySelectorAll']('.input-style textarea');
-        //     _0xce56x1a['forEach']((_0xce56xc) => {
-        //         return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
-        //             if (!_0xce56xc['value'] == '') {
-        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active');
-        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['add']('disabled')
-        //             } else {
-        //                 _0xce56xc['parentElement']['classList']['remove']('input-style-active');
-        //                 _0xce56xc['parentElement']['querySelector']('em')['classList']['remove']('disabled')
-        //             }
-        //         })
-        //     });
-        
-        //     var _0xce56x1b = document['querySelectorAll']('.input-style select');
-        //     _0xce56x1b['forEach']((_0xce56xc) => {
-        //         return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
-        //             if (_0xce56xc['value'] !== 'default') {
-        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active');
-        //                 _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
-        //                 _0xce56xc['parentElement']['querySelectorAll']('.invalid, em, span')[0]['classList']['add']('disabled')
-        //             };
-        //             if (_0xce56xc['value'] == 'default') {
-        //                 _0xce56xc['parentElement']['querySelectorAll']('span, .valid, em')[0]['classList']['add']('disabled');
-        //                 _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['remove']('disabled');
-        //                 _0xce56xc['parentElement']['classList']['add']('input-style-active')
-        //             }
-        //         })
-        //     });
-        
-        //     var _0xce56x1c = document['querySelectorAll']('.input-style input[type=\"date\"]');
-        //     _0xce56x1c['forEach']((_0xce56xc) => {
-        //         return _0xce56xc['addEventListener']('change', (_0xce56xb) => {
-        //             _0xce56xc['parentElement']['classList']['add']('input-style-active');
-        //             _0xce56xc['parentElement']['querySelectorAll']('.valid')[0]['classList']['remove']('disabled');
-        //             _0xce56xc['parentElement']['querySelectorAll']('.invalid')[0]['classList']['add']('disabled')
-        //         })
-        //     });
-        
-        //     var _0xce56x1d = document['querySelectorAll']('.validate-field input, .validator-field textarea');
-        //     if (_0xce56x1d['length']) {
-        //         _0xce56x1d['forEach']((_0xce56xc) => {
-        //             return _0xce56xc['addEventListener']('keyup', (_0xce56xb) => {
-        //                 var _0xce56x1e = _0xce56xc['getAttribute']('type');
-        //                 switch (_0xce56x1e) {
-        //                     case 'name':
-        //                         _0xce56x11['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break;
-        //                     case 'number':
-        //                         _0xce56x13['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break;
-        //                     case 'email':
-        //                         _0xce56xf['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break;
-        //                     case 'text':
-        //                         _0xce56x15['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break;
-        //                     case 'url':
-        //                         _0xce56x14['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break;
-        //                     case 'tel':
-        //                         _0xce56x10['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break;
-        //                     case 'password':
-        //                         _0xce56x12['test'](_0xce56xc['value']) ? _0xce56x16(_0xce56xc) : _0xce56x17(_0xce56xc);
-        //                         break
-        //                 };
-        //                 if (_0xce56xc['value'] === '') {
-        //                     _0xce56x18(_0xce56xc)
-        //                 }
-        //             })
-        //         })
-        //     }
-        // };
-        
+
         var _0xce56x1f = document['getElementsByClassName']('splide');
         if (_0xce56x1f['length']) {
             
@@ -1874,7 +169,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     })
                 })
             };
-        
+
             var _0xce56x24 = document['querySelectorAll']('.double-slider');
             if (_0xce56x24['length']) {
                 _0xce56x24['forEach'](function(_0xce56xb) {
@@ -1887,7 +182,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     })['mount']()
                 })
             };
-        
+
             var _0xce56x26 = document['querySelectorAll']('.tripple-slider');
             if (_0xce56x26['length']) {
                 _0xce56x26['forEach'](function(_0xce56xb) {
@@ -1906,7 +201,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             };
         };
-        
+
         const _0xce56x28 = document['querySelectorAll']('a[href=\"#\"]');
         _0xce56x28['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -1914,7 +209,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 return false
             })
         });
-        
+
         var _0xce56x29 = document['querySelectorAll']('.map-full');
         if (_0xce56x29['length']) {
             var _0xce56x2a = document['querySelectorAll']('.show-map');
@@ -1930,7 +225,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('hide-map')[0]['classList']['add']('disabled')
             })
         };
-        
+
         var _0xce56x2c = document['querySelectorAll']('.todo-list a');
         _0xce56x2c['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -1942,10 +237,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56xc['querySelector']('i:last-child')['classList']['toggle']('color-green-dark')
             })
         });
-        
+
         var _0xce56x2d = document['querySelectorAll']('.menu');
         if (_0xce56x2d['length']) {
-        
+
             var _0xce56x2e = document['querySelectorAll']('.menu-box-left, .menu-box-right');
             _0xce56x2e['forEach'](function(_0xce56xb) {
                 if (_0xce56xb['getAttribute']('data-menu-width') === 'cover') {
@@ -1954,7 +249,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56xb['style']['width'] = (_0xce56xb['getAttribute']('data-menu-width')) + 'px'
                 }
             });
-        
+
             var _0xce56x2f = document['querySelectorAll']('.menu-box-bottom, .menu-box-top, .menu-box-modal');
             _0xce56x2f['forEach'](function(_0xce56xb) {
                 if (_0xce56xb['getAttribute']('data-menu-width') === 'cover') {
@@ -1965,7 +260,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56xb['style']['height'] = (_0xce56xb['getAttribute']('data-menu-height')) + 'px'
                 }
             });
-        
+
             var _0xce56x30 = document['querySelectorAll']('[data-menu]');
             var _0xce56x31 = document['querySelectorAll']('.header, #footer-bar, .page-content');
             _0xce56x30['forEach']((_0xce56xc) => {
@@ -2046,7 +341,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x3d = document['querySelectorAll']('[data-back-button]');
         if (_0xce56x3d['length']) {
             _0xce56x3d['forEach']((_0xce56xc) => {
@@ -2057,7 +352,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x3e = document['querySelectorAll']('.back-to-top-icon, .back-to-top-badge, .back-to-top');
         if (_0xce56x3e['length']) {
             _0xce56x3e['forEach']((_0xce56xc) => {
@@ -2069,9 +364,9 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x3f = document['getElementsByClassName']('card');
-        
+
         function _0xce56x40() {
             var _0xce56x41, _0xce56x42, _0xce56x43;
             var _0xce56x43 = document['querySelectorAll']('.header:not(.header-transparent)')[0];
@@ -2098,12 +393,12 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         }
-        
+
         if (_0xce56x3f['length']) {
             _0xce56x40();
             window['addEventListener']('resize', _0xce56x40)
         };
-        
+
         var _0xce56x49 = document['querySelectorAll']('[data-change-highlight]');
         _0xce56x49['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -2124,7 +419,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 localStorage['setItem'](_0xce56x4 + '-Highlight', _0xce56x4a)
             })
         });
-        
+
         var _0xce56x4d = localStorage['getItem'](_0xce56x4 + '-Highlight');
         if (_0xce56x4d) {
             document['body']['setAttribute']('data-highlight', _0xce56x4d);
@@ -2138,7 +433,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['body']['setAttribute']('data-highlight', 'highlight-' + _0xce56x4d)
             }
         };
-        
+
         var _0xce56x4e = document['querySelectorAll']('[data-change-background]');
         _0xce56x4e['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -2147,13 +442,13 @@ document['addEventListener']('DOMContentLoaded', () => {
                 localStorage['setItem'](_0xce56x4 + '-Gradient', _0xce56x4f)
             })
         });
-        
+
         var _0xce56x50 = localStorage['getItem'](_0xce56x4 + '-Gradient');
         if (_0xce56x50) {
             document['body']['setAttribute']('data-gradient', 'body-' + _0xce56x50 + '')
         };
         const _0xce56x51 = document['querySelectorAll']('[data-toggle-theme]');
-        
+
         function _0xce56x52() {
             document['body']['classList']['add']('theme-dark');
             document['body']['classList']['remove']('theme-light', 'detect-theme');
@@ -2162,7 +457,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             localStorage['setItem'](_0xce56x4 + '-Theme', 'dark-mode')
         }
-        
+
         function _0xce56x53() {
             document['body']['classList']['add']('theme-light');
             document['body']['classList']['remove']('theme-dark', 'detect-theme');
@@ -2171,21 +466,21 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             localStorage['setItem'](_0xce56x4 + '-Theme', 'light-mode')
         }
-        
+
         function _0xce56x54() {
             var _0xce56x55 = document['querySelectorAll']('.btn, .header, #footer-bar, .menu-box, .menu-active');
             for (let _0xce56xa = 0; _0xce56xa < _0xce56x55['length']; _0xce56xa++) {
                 _0xce56x55[_0xce56xa]['style']['transition'] = 'all 0s ease'
             }
         }
-        
+
         function _0xce56x56() {
             var _0xce56x57 = document['querySelectorAll']('.btn, .header, #footer-bar, .menu-box, .menu-active');
             for (let _0xce56xa = 0; _0xce56xa < _0xce56x57['length']; _0xce56xa++) {
                 _0xce56x57[_0xce56xa]['style']['transition'] = ''
             }
         }
-        
+
         function _0xce56x58() {
             const _0xce56x59 = window['matchMedia']('(prefers-color-scheme: dark)')['matches'];
             const _0xce56x5a = window['matchMedia']('(prefers-color-scheme: light)')['matches'];
@@ -2203,7 +498,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x53()
             }
         }
-        
+
         const _0xce56x5c = document['querySelectorAll']('[data-toggle-theme]');
         _0xce56x5c['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -2221,22 +516,22 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }, 350)
             })
         });
-        
+
         if (localStorage['getItem'](_0xce56x4 + '-Theme') == 'dark-mode') {
             for (let _0xce56xa = 0; _0xce56xa < _0xce56x51['length']; _0xce56xa++) {
                 _0xce56x51[_0xce56xa]['checked'] = 'checked'
             };
             document['body']['className'] = 'theme-dark'
         };
-        
+
         if (localStorage['getItem'](_0xce56x4 + '-Theme') == 'light-mode') {
             document['body']['className'] = 'theme-light'
         };
-        
+
         if (document['body']['className'] == 'detect-theme') {
             _0xce56x58()
         };
-        
+
         const _0xce56x5d = document['querySelectorAll']('.detect-dark-mode');
         _0xce56x5d['forEach']((_0xce56xc) => {
             return _0xce56xc['addEventListener']('click', (_0xce56xb) => {
@@ -2247,7 +542,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }, 50)
             })
         });
-        
+
         const _0xce56x5e = document['querySelectorAll']('.accordion-btn');
         if (_0xce56x5e['length']) {
             _0xce56x5e['forEach']((_0xce56xc) => {
@@ -2256,11 +551,11 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x60 = document['getElementsByClassName']('upload-file');
         if (_0xce56x60['length']) {
             _0xce56x60[0]['addEventListener']('change', _0xce56x61, false);
-        
+
             function _0xce56x61(_0xce56x5f) {
                 if (this['files'] && this['files'][0]) {
                     var _0xce56x62 = document['getElementById']('image-data');
@@ -2276,7 +571,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('upload-file-type')[0]['innerHTML'] = _0xce56x63[0]['type']
             }
         };
-        
+
         var _0xce56x65 = document['querySelectorAll']('.get-location');
         if (_0xce56x65['length']) {
             var _0xce56x66 = document['getElementsByClassName']('location-support')[0];
@@ -2287,10 +582,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                     _0xce56x66['innerHTML'] = 'Your browser and device <strong class=\"color-red2-dark\">support</strong> Geolocation.'
                 }
             };
-        
+
             function _0xce56x67() {
                 const _0xce56x68 = document['querySelector']('.location-coordinates');
-        
+
                 function _0xce56x69(_0xce56x6a) {
                     const _0xce56x6b = _0xce56x6a['coords']['latitude'];
                     const _0xce56x6c = _0xce56x6a['coords']['longitude'];
@@ -2306,7 +601,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     document['getElementsByClassName']('location-button')[0]['setAttribute']('href', _0xce56x73);
                     document['getElementsByClassName']('location-button')[0]['classList']['remove']('disabled')
                 }
-        
+
                 function _0xce56x74() {
                     _0xce56x68['textContent'] = 'Unable to retrieve your location'
                 }
@@ -2317,7 +612,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                     navigator['geolocation']['getCurrentPosition'](_0xce56x69, _0xce56x74)
                 }
             }
-        
+
             var _0xce56x75 = document['getElementsByClassName']('get-location')[0];
             if (typeof(_0xce56x75) != 'undefined' && _0xce56x75 != null) {
                 _0xce56x75['addEventListener']('click', function() {
@@ -2326,7 +621,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             }
         };
-        
+
         const _0xce56x76 = document['querySelectorAll']('.card-scale');
         if (_0xce56x76['length']) {
             _0xce56x76['forEach']((_0xce56xc) => {
@@ -2340,7 +635,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x77 = document['querySelectorAll']('.card-hide');
         if (_0xce56x77['length']) {
             _0xce56x77['forEach']((_0xce56xc) => {
@@ -2354,7 +649,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x78 = document['querySelectorAll']('.card-rotate');
         if (_0xce56x78['length']) {
             _0xce56x78['forEach']((_0xce56xc) => {
@@ -2368,7 +663,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x79 = document['querySelectorAll']('.card-grayscale');
         if (_0xce56x79['length']) {
             _0xce56x79['forEach']((_0xce56xc) => {
@@ -2382,7 +677,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         const _0xce56x7a = document['querySelectorAll']('.card-blur');
         if (_0xce56x7a['length']) {
             _0xce56x7a['forEach']((_0xce56xc) => {
@@ -2396,7 +691,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56x7b = document['querySelectorAll']('.check-visited');
         if (_0xce56x7b['length']) {
             function _0xce56x7c() {
@@ -2418,7 +713,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }
             _0xce56x7c()
         };
-        
+
         var _0xce56x81 = document['querySelectorAll']('.scroll-ad, .header-auto-show');
         if (_0xce56x81['length']) {
             var _0xce56x82 = document['querySelectorAll']('.scroll-ad');
@@ -2428,15 +723,15 @@ document['addEventListener']('DOMContentLoaded', () => {
                     function _0xce56x84() {
                         _0xce56x82[0]['classList']['add']('scroll-ad-visible')
                     }
-        
+
                     function _0xce56x85() {
                         _0xce56x82[0]['classList']['remove']('scroll-ad-visible')
                     }
-        
+
                     function _0xce56x86() {
                         _0xce56x83[0]['classList']['add']('header-active')
                     }
-        
+
                     function _0xce56x87() {
                         _0xce56x83[0]['classList']['remove']('header-active')
                     }
@@ -2457,7 +752,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             })
         };
-        
+
         var _0xce56x8d = document['querySelectorAll']('.stepper-add');
         var _0xce56x8e = document['querySelectorAll']('.stepper-sub');
         if (_0xce56x8d['length']) {
@@ -2474,7 +769,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56x90 = document['querySelectorAll']('[data-trigger-switch]:not([data-toggle-theme])');
         if (_0xce56x90['length']) {
             _0xce56x90['forEach']((_0xce56xc) => {
@@ -2485,7 +780,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56x93 = document['querySelectorAll']('.classic-toggle');
         if (_0xce56x93['length']) {
             _0xce56x93['forEach']((_0xce56xc) => {
@@ -2495,7 +790,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56x94 = document['querySelectorAll']('[data-toast]');
         if (_0xce56x94['length']) {
             _0xce56x94['forEach']((_0xce56xc) => {
@@ -2507,14 +802,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56x97 = []['slice']['call'](document['querySelectorAll']('[data-bs-toggle=\"dropdown\"]'));
         if (_0xce56x97['length']) {
             var _0xce56x98 = _0xce56x97['map'](function(_0xce56x99) {
                 return new bootstrap.Dropdown(_0xce56x99)
             })
         };
-        
+
         var _0xce56x9a = document['querySelectorAll']('.show-business-opened, .show-business-closed, .working-hours');
         if (_0xce56x9a['length']) {
             var _0xce56x9b = new Date();
@@ -2566,7 +861,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             })
         };
-        
+
         var _0xce56xa6 = document['querySelectorAll']('[data-vibrate]');
         if (_0xce56xa6['length']) {
             var _0xce56xa7 = document['getElementsByClassName']('start-vibrating')[0];
@@ -2585,7 +880,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56xaa = document['querySelectorAll']('[data-timed-ad]');
         if (_0xce56xaa['length']) {
             _0xce56xaa['forEach']((_0xce56xc) => {
@@ -2605,7 +900,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56xaf = document['querySelectorAll']('[data-auto-show-ad]');
         if (_0xce56xaf['length']) {
             var _0xce56xb0 = _0xce56xaf[0]['getAttribute']('data-auto-show-ad');
@@ -2628,7 +923,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56xb0 -= 1
             }, 1000)
         };
-        
+
         var _0xce56xb4 = document['querySelectorAll']('.reading-progress-text');
         if (_0xce56xb4['length']) {
             var _0xce56xb5 = _0xce56xb4[0]['innerHTML']['split'](' ')['length'];
@@ -2637,7 +932,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             document['getElementsByClassName']('reading-progress-words')[0]['innerHTML'] = _0xce56xb5;
             document['getElementsByClassName']('reading-progress-time')[0]['innerHTML'] = _0xce56xb6 + ':' + _0xce56xb7
         };
-        
+
         var _0xce56xb8 = document['querySelectorAll']('.text-size-changer');
         if (_0xce56xb8['length']) {
             var _0xce56xb9 = document['querySelectorAll']('.text-size-increase');
@@ -2662,7 +957,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56xbe = document['querySelectorAll']('.qr-image');
         if (_0xce56xbe['length']) {
             var _0xce56xbf = window['location']['href'];
@@ -2682,21 +977,21 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             }
         };
-        
+
         if (window['location']['protocol'] === 'file:') {
             var _0xce56xc5 = document['querySelectorAll']('a');
             _0xce56xc5['forEach']((_0xce56xc) => {
                 return _0xce56xc['addEventListener']('mouseover', (_0xce56x5f) => {})
             })
         };
-        
+
         var _0xce56xc6 = document['querySelectorAll']('[data-search]');
         if (_0xce56xc6['length']) {
             var _0xce56xc7 = document['querySelectorAll']('.search-results');
             var _0xce56xc8 = document['querySelectorAll']('.search-no-results');
             var _0xce56xc9 = document['querySelectorAll']('.search-results div')[0]['childElementCount'];
             var _0xce56xca = document['querySelectorAll']('.search-trending');
-        
+
             function _0xce56xcb() {
                 var _0xce56xcc = _0xce56xc6[0]['value'];
                 if (_0xce56xcc != '') {
@@ -2752,7 +1047,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56xd2 = document['querySelectorAll']('.shareToFacebook, .shareToTwitter, .shareToLinkedIn');
         if (_0xce56xd2['length']) {
             var _0xce56xd3 = window['location']['href'];
@@ -2776,7 +1071,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 return _0xce56xd5['setAttribute']('href', 'https://www.linkedin.com/shareArticle?mini=true&url=' + _0xce56xd3 + '&title=' + _0xce56xd4 + '&summary=&source=')
             })
         };
-        
+
         var _0xce56xd6 = document['querySelectorAll']('.contact-form');
         if (_0xce56xd6['length']) {
             var _0xce56xd7 = document['getElementById']('contactForm');
@@ -2843,7 +1138,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         };
-        
+
         var _0xce56xe1 = document['querySelectorAll']('[data-bs-toggle=\"collapse\"]:not(.no-effect)');
         if (_0xce56xe1['length']) {
             _0xce56xe1['forEach']((_0xce56xc) => {
@@ -2854,7 +1149,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         var _0xce56xe2 = document['querySelectorAll']('.tab-controls a');
         if (_0xce56xe2['length']) {
             _0xce56xe2['forEach'](function(_0xce56xb) {
@@ -2877,7 +1172,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         };
-        
+
         function _0xce56x34(_0xce56xe5, _0xce56xe6, _0xce56xe7) {
             setTimeout(function() {
                 if (_0xce56xe6 === 'show') {
@@ -2887,7 +1182,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }, _0xce56xe7)
         }
-        
+
         var _0xce56xe8 = document['querySelectorAll']('[data-auto-activate]');
         if (_0xce56xe8['length']) {
             setTimeout(function() {
@@ -2895,14 +1190,14 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56xd[0]['classList']['add']('menu-active')
             }, 0)
         };
-        
+
         var _0xce56xe9 = document['getElementById']('copyright-year');
         if (_0xce56xe9) {
             var _0xce56xea = new Date();
             const _0xce56xeb = _0xce56xea['getFullYear']();
             _0xce56xe9['textContent'] = _0xce56xeb
         };
-        
+
         var _0xce56xec = document['querySelectorAll']('.check-age');
         if (_0xce56xec['length']) {
             _0xce56xec[0]['addEventListener']('click', function() {
@@ -2932,7 +1227,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 return true
             })
         };
-        
+
         var _0xce56xf7 = document['querySelectorAll']('.offline-message');
         if (!_0xce56xf7['length']) {
             const _0xce56xf8 = document['createElement']('p');
@@ -2944,7 +1239,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             document['getElementsByTagName']('body')[0]['appendChild'](_0xce56xf8);
             document['getElementsByTagName']('body')[0]['appendChild'](_0xce56xf9)
         };
-        
+
         function _0xce56xfa() {
             var _0xce56xfb = document['querySelectorAll']('a');
             _0xce56xfb['forEach'](function(_0xce56xb) {
@@ -2965,7 +1260,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 })
             })
         }
-        
+
         function _0xce56xfe() {
             var _0xce56xff = document['querySelectorAll']('[data-link]');
             _0xce56xff['forEach'](function(_0xce56xb) {
@@ -2976,10 +1271,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             })
         }
-        
+
         var _0xce56x100 = document['getElementsByClassName']('offline-message')[0];
         var _0xce56x101 = document['getElementsByClassName']('online-message')[0];
-        
+
         function _0xce56x102() {
             _0xce56xfe();
             _0xce56x101['classList']['add']('online-message-active');
@@ -2988,7 +1283,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }, 2000);
             console['info']('Connection: Online')
         }
-        
+
         function _0xce56x103() {
             _0xce56xfa();
             _0xce56x100['classList']['add']('offline-message-active');
@@ -2997,7 +1292,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             }, 2000);
             console['info']('Connection: Offline')
         }
-        
+
         var _0xce56x104 = document['querySelectorAll']('.simulate-offline');
         var _0xce56x105 = document['querySelectorAll']('.simulate-online');
         if (_0xce56x104['length']) {
@@ -3008,16 +1303,16 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x102()
             })
         };
-        
+
         function _0xce56x106(_0xce56x5f) {
             var _0xce56x107 = navigator['onLine'] ? 'online' : 'offline';
             _0xce56x102()
         }
-        
+
         function _0xce56x108(_0xce56x5f) {
             _0xce56x103()
         }
-        
+
         window['addEventListener']('online', _0xce56x106);
         window['addEventListener']('offline', _0xce56x108);
         const _0xce56x109 = document['querySelectorAll']('.simulate-iphone-badge');
@@ -3040,7 +1335,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 document['getElementsByClassName']('add-to-home')[0]['classList']['remove']('add-to-home-visible')
             })
         });
-        
+
         if (_0xce56x6 === true) {
             caches['delete']('workbox-runtime')['then'](function() {});
             sessionStorage['clear']();
@@ -3049,105 +1344,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                     caches['delete'](_0xce56x11b)
                 })
             })
-        
+
         };
-        
-        var _0xce56x11c = new LazyLoad();
-        var _0xce56x11d, _0xce56x11e, _0xce56x11f, _0xce56x120;
-        var _0xce56x121 = 'scripts/plugins/';
-        let _0xce56x122 = [{
-            id: 'uniqueID',
-            plug: 'pluginName/plugin.js',
-            call: 'pluginName/pluginName-call.js',
-            style: 'pluginName/pluginName-style.css',
-            trigger: '.pluginTriggerClass'
-        }, {
-            id: 'chart',
-            plug: 'charts/charts.js',
-            call: 'charts/charts-call-charts.js',
-            trigger: '.chart'
-        }, {
-            id: 'chart',
-            plug: 'charts/charts.js',
-            call: 'charts/charts-call-wallet.js',
-            trigger: '.wallet-chart'
-        }, {
-            id: 'graph',
-            plug: 'charts/charts.js',
-            call: 'charts/charts-call-graphs.js',
-            trigger: '.graph'
-        }, {
-            id: 'count',
-            plug: 'countdown/countdown.js',
-            trigger: '.countdown'
-        }, {
-            id: 'gallery',
-            plug: 'glightbox/glightbox.js',
-            call: 'glightbox/glightbox-call.js',
-            style: 'glightbox/glightbox.css',
-            trigger: '[data-gallery]'
-        }, {
-            id: 'gallery-views',
-            call: 'galleryViews/gallery-views.js',
-            trigger: '.gallery-view-controls'
-        }, {
-            id: 'filter',
-            plug: 'filterizr/filterizr.js',
-            call: 'filterizr/filterizr-call.js',
-            style: 'filterizr/filterizr.css',
-            trigger: '.gallery-filter'
-        }, {
-            id: 'ba-slider',
-            call: 'before-after/before-after.js',
-            style: 'before-after/before-after.css',
-            trigger: '#before-after-slider'
-        }];
-        for (let _0xce56xa = 0; _0xce56xa < _0xce56x122['length']; _0xce56xa++) {
-            if (document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-c')['length']) {
-                document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-c')[0]['remove']()
-            };
-            var _0xce56x123 = document['querySelectorAll'](_0xce56x122[_0xce56xa]['trigger']);
-            if (_0xce56x123['length']) {
-                var _0xce56x124 = document['getElementsByTagName']('script')[1],
-                    _0xce56x125 = document['createElement']('script');
-                _0xce56x125['type'] = 'text/javascript';
-                _0xce56x125['className'] = _0xce56x122[_0xce56xa]['id'] + '-p';
-                _0xce56x125['src'] = _0xce56x121 + _0xce56x122[_0xce56xa]['plug'];
-                _0xce56x125['addEventListener']('load', function() {
-                    if (_0xce56x122[_0xce56xa]['call'] !== undefined) {
-                        var _0xce56x126 = document['getElementsByTagName']('script')[2],
-                            _0xce56x127 = document['createElement']('script');
-                        _0xce56x127['type'] = 'text/javascript';
-                        _0xce56x127['className'] = _0xce56x122[_0xce56xa]['id'] + '-c';
-                        _0xce56x127['src'] = _0xce56x121 + _0xce56x122[_0xce56xa]['call'];
-                        _0xce56x126['parentNode']['insertBefore'](_0xce56x127, _0xce56x126)
-                    }
-                });
-                if (!document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-p')['length'] && _0xce56x122[_0xce56xa]['plug'] !== undefined) {
-                    _0xce56x124['parentNode']['insertBefore'](_0xce56x125, _0xce56x124)
-                } else {
-                    setTimeout(function() {
-                        var _0xce56x124 = document['getElementsByTagName']('script')[1],
-                            _0xce56x125 = document['createElement']('script');
-                        _0xce56x125['type'] = 'text/javascript';
-                        _0xce56x125['className'] = _0xce56x122[_0xce56xa]['id'] + '-c';
-                        _0xce56x125['src'] = _0xce56x121 + _0xce56x122[_0xce56xa]['call'];
-                        _0xce56x124['parentNode']['insertBefore'](_0xce56x125, _0xce56x124)
-                    }, 50)
-                };
-                if (_0xce56x122[_0xce56xa]['style'] !== undefined) {
-                    if (!document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-s')['length']) {
-                        var _0xce56x128 = document['createElement']('link');
-                        _0xce56x128['className'] = _0xce56x122[_0xce56xa]['id'] + '-s';
-                        _0xce56x128['rel'] = 'stylesheet';
-                        _0xce56x128['type'] = 'text/css';
-                        _0xce56x128['href'] = _0xce56x121 + _0xce56x122[_0xce56xa]['style'];
-                        document['getElementsByTagName']('head')[0]['appendChild'](_0xce56x128)
-                    }
-                }
-            }
-        }
-        
+
+
         let _0xce56x10c = {
             Android: function() {
                 return navigator['userAgent']['match'](/Android/i)
@@ -3186,7 +1386,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x10f[_0xce56xa]['classList']['add']('disabled')
             }
         };
-        
+
         if (_0xce56x2 === true) {
             var _0xce56x110 = document['getElementsByTagName']('html')[0];
             if (!_0xce56x110['classList']['contains']('isPWA')) {
@@ -3281,6 +1481,124 @@ document['addEventListener']('DOMContentLoaded', () => {
             };
             _0xce56x110['setAttribute']('class', 'isPWA')
         };
+        
+        var _0xce56x121 = 'scripts/';
+        let _0xce56x122 = [
+            //SCRIPTS FOR PAGES
+            {
+                id: 'default',
+                call: 'pages/default/default.js',
+                trigger: '#default'
+            },
+            {
+                id: 'auth',
+                call: 'pages/auth/auth.js',
+                trigger: '#auth'
+            },
+            {
+                id: 'meeting-index',
+                call: 'pages/meet/meet.js',
+                trigger: '#meeting-index'
+            },
+            //SCRIPTS FOR PLUGINS
+            {
+                id: 'uniqueID',
+                plug: 'pluginName/plugin.js',
+                call: 'pluginName/pluginName-call.js',
+                style: 'pluginName/pluginName-style.css',
+                trigger: '.pluginTriggerClass'
+            }, {
+                id: 'chart',
+                plug: 'plugins/charts/charts.js',
+                call: 'plugins/charts/charts-call-charts.js',
+                trigger: '.chart'
+            }, {
+                id: 'chart',
+                plug: 'plugins/charts/charts.js',
+                call: 'plugins/charts/charts-call-wallet.js',
+                trigger: '.wallet-chart'
+            }, {
+                id: 'graph',
+                plug: 'plugins/charts/charts.js',
+                call: 'plugins/charts/charts-call-graphs.js',
+                trigger: '.graph'
+            }, {
+                id: 'count',
+                plug: 'plugins/countdown/countdown.js',
+                trigger: '.countdown'
+            }, {
+                id: 'gallery',
+                plug: 'plugins/glightbox/glightbox.js',
+                call: 'plugins/glightbox/glightbox-call.js',
+                style: 'plugins/glightbox/glightbox.css',
+                trigger: '[data-gallery]'
+            }, {
+                id: 'gallery-views',
+                call: 'plugins/galleryViews/gallery-views.js',
+                trigger: '.gallery-view-controls'
+            }, {
+                id: 'filter',
+                plug: 'plugins/filterizr/filterizr.js',
+                call: 'plugins/filterizr/filterizr-call.js',
+                style: 'plugins/filterizr/filterizr.css',
+                trigger: '.gallery-filter'
+            }, {
+                id: 'ba-slider',
+                call: 'plugins/before-after/before-after.js',
+                style: 'plugins/before-after/before-after.css',
+                trigger: '#before-after-slider'
+            }
+    
+        ];
+
+        for (let _0xce56xa = 0; _0xce56xa < _0xce56x122['length']; _0xce56xa++) {
+            if (document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-c')['length']) {
+                document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-c')[0]['remove']()
+            };
+            var _0xce56x123 = document['querySelectorAll'](_0xce56x122[_0xce56xa]['trigger']);
+            if (_0xce56x123['length']) {
+                var _0xce56x124 = document['getElementsByTagName']('script')[1],
+                    _0xce56x125 = document['createElement']('script');
+                _0xce56x125['type'] = 'text/javascript';
+                _0xce56x125['className'] = _0xce56x122[_0xce56xa]['id'] + '-p';
+                _0xce56x125['src'] = _0xce56x121 + _0xce56x122[_0xce56xa]['plug'];
+                _0xce56x125['addEventListener']('load', function() {
+                    if (_0xce56x122[_0xce56xa]['call'] !== undefined) {
+                        var _0xce56x126 = document['getElementsByTagName']('script')[2],
+                            _0xce56x127 = document['createElement']('script');
+                        _0xce56x127['type'] = 'text/javascript';
+                        _0xce56x127['className'] = _0xce56x122[_0xce56xa]['id'] + '-c';
+                        _0xce56x127['src'] = _0xce56x121 + _0xce56x122[_0xce56xa]['call'];
+                        _0xce56x126['parentNode']['insertBefore'](_0xce56x127, _0xce56x126)
+                    }
+                });
+                if (!document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-p')['length'] && _0xce56x122[_0xce56xa]['plug'] !== undefined) {
+                    _0xce56x124['parentNode']['insertBefore'](_0xce56x125, _0xce56x124)
+                } else {
+                    if(_0xce56x122[_0xce56xa]['call'] !== undefined)
+                    {
+                        setTimeout(function() {
+                            var _0xce56x124 = document['getElementsByTagName']('script')[1],
+                                _0xce56x125 = document['createElement']('script');
+                            _0xce56x125['type'] = 'text/javascript';
+                            _0xce56x125['className'] = _0xce56x122[_0xce56xa]['id'] + '-c';
+                            _0xce56x125['src'] = _0xce56x121 + _0xce56x122[_0xce56xa]['call'];
+                            _0xce56x124['parentNode']['insertBefore'](_0xce56x125, _0xce56x124)
+                        }, 50)
+                    } 
+                };
+                if (_0xce56x122[_0xce56xa]['style'] !== undefined) {
+                    if (!document['querySelectorAll']('.' + _0xce56x122[_0xce56xa]['id'] + '-s')['length']) {
+                        var _0xce56x128 = document['createElement']('link');
+                        _0xce56x128['className'] = _0xce56x122[_0xce56xa]['id'] + '-s';
+                        _0xce56x128['rel'] = 'stylesheet';
+                        _0xce56x128['type'] = 'text/css';
+                        _0xce56x128['href'] = _0xce56x121 + _0xce56x122[_0xce56xa]['style'];
+                        document['getElementsByTagName']('head')[0]['appendChild'](_0xce56x128)
+                    }
+                }
+            }
+        }  
      
     }
 

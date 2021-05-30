@@ -72,12 +72,16 @@
 
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
 
+    
+
     <div id="preloader" style="background-color:transparent">
         {{-- <div class="spinner-border color-highlight" role="status"></div> --}}
     </div>
 
     <div id="page">
-
+    
+    <div id="default"></div>
+        
         <div id="footer-bar" class="footer-bar-1">
             <a id="home" href="home"><i class="fa fa-home"></i><span>Home</span></a>
             <a id="chat" href="chat"><i class="fas fa-comments"></i><span>Chat</span></a>
@@ -95,7 +99,7 @@
         </div>
 
         @yield('content2')
-
+ 
         <div id="menu-settings" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached">
             <div class="menu-title mt-0 pt-0">
                 <h1>Settings</h1>
