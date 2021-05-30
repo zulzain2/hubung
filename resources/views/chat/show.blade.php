@@ -25,10 +25,37 @@
 
 @section('content')
 
-
-
+<div class="c">
+    <div class="chat-header clearfix">
+      <a href="/chat">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
+      <div class="chat-about">
+        <div class="chat-with">Chat with Kamil</div>
+      </div>
+    </div> <!-- end chat-header -->
+</div>
+<div class="clearfix"></div>
 <div class="content">
     <p class="text-center mb-0 font-11">Yesterday, 1:45 AM</p>
+    <div class="speech-bubble speech-right color-black">
+        These are chat bubbles, right? They look awesome don't they?
+    </div>
+    <div class="clearfix"></div>
+    <div class="speech-bubble speech-left bg-highlight">
+        Yeap!
+    </div>
+    <div class="clearfix"></div>
+    <div class="speech-bubble speech-left bg-highlight">
+        They also expand to a certain point, just like the ones that Mobile Chat apps have!
+    </div><div class="clearfix"></div>
+    <em class="speech-read mb-3">Delivered & Read - 07:18 PM</em>
+    <div class="clearfix"></div>
+    <div class="speech-bubble speech-right color-black">
+        Awesome! Images too?
+    </div>
+    <div class="clearfix"></div>
     <div class="speech-bubble speech-right color-black">
         These are chat bubbles, right? They look awesome don't they?
     </div>
