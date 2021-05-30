@@ -63,18 +63,16 @@
 @stack('styles')
 </head>
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
-
     
-
     <div id="preloader" style="background-color:transparent">
         {{-- <div class="spinner-border color-highlight" role="status"></div> --}}
     </div>
 
     <div id="page" class="mb-0 pb-0">
-
-    <div id="default"></div>
-    <div id="auth"></div>
     
+        <div id="default"></div>
+        <div id="auth"></div>
+
         <div class="page-content mb-0 pb-0 csrf-token">
 
             <input type="hidden" name="allow_sw" id="allow_sw" value="false">

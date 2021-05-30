@@ -1344,7 +1344,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                     caches['delete'](_0xce56x11b)
                 })
             })
-
         };
 
 
@@ -1599,7 +1598,6 @@ document['addEventListener']('DOMContentLoaded', () => {
                 }
             }
         }  
-     
     }
 
     if ('scrollRestoration' in window['history']) {

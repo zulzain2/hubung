@@ -72,15 +72,13 @@
 
 <body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
 
-    
-
     <div id="preloader" style="background-color:transparent">
         {{-- <div class="spinner-border color-highlight" role="status"></div> --}}
     </div>
 
     <div id="page">
-    
-    <div id="default"></div>
+
+        <div id="default"></div>
         
         <div id="footer-bar" class="footer-bar-1">
             <a id="home" href="home"><i class="fa fa-home"></i><span>Home</span></a>
