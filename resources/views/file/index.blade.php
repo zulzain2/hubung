@@ -85,7 +85,7 @@
                     </a>
                     <a class="text-center" data-gallery="gallery-1" href="images/pictures/18t.jpg" title="Pots and Stuff">
                             <div class="rounded-m preload-img ">
-                                <img src="images/empty.png"
+                                <img src="images/document/svg/pdf.svg"
                                     data-src="images/document/svg/pdf.svg"
                                     class="p-2 rounded-m preload-img w-75" alt="img">
                             </div>
@@ -99,7 +99,7 @@
                     <a class="text-center" data-gallery="gallery-1" href="images/pictures/14t.jpg"
                         title="Delicious Strawberries">
                         <div class="rounded-m preload-img">
-                            <img src="images/empty.png"
+                            <img src="images/document/svg/doc.svg"
                                 data-src="images/document/svg/doc.svg"
                                 class="p-2 rounded-m preload-img w-75" alt="img">
                         </div>
@@ -112,7 +112,7 @@
                     </a>
                     <a class="text-center" data-gallery="gallery-1" href="images/pictures/15t.jpg" title="A Beautiful Camera">
                         <div class="rounded-m preload-img">
-                            <img src="images/empty.png"
+                            <img src="images/document/svg/xls.svg"
                                 data-src="images/document/svg/xls.svg"
                                 class="p-2 rounded-m preload-img w-75" alt="img">
                         </div>
