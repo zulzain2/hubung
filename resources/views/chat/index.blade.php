@@ -35,11 +35,11 @@
               @foreach ($users as $user)
               <ul class="no-bullet">
                 <li>
-                  <a href="chat/13">
+                  {{-- <a href="{{ chat/13 }}"> --}}
+                  <a href="{{ route('chat.show',$user->id)}}">
                     <span style="margin-left:5%;margin-top:1%;text-align:center;">{{substr($user->name,0,1) }}</span>
                     <img src="images/profile.png" style="width:40px !important;margin-right: 15px;"
                       class="preload-img img-fluid rounded-circle bg-highlight">
-
                     <span>{{ $user->name }}</span>
                     <strong>A powerful Mobile Template</strong>
                     {{-- <span class="badge bg-dark-light mt-2">12:15 PM</span>
