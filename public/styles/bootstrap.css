@@ -15785,7 +15785,6 @@ input[type=number] {
     color: #1f1f1f;
     font-weight: 500;
     font-size: 13px;
-    border-bottom: solid 1px rgba(0, 0, 0, .05)
 }
 
 .list-custom-large a span:not(.badge) {

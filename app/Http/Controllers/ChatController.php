@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
@@ -17,8 +18,8 @@ class ChatController extends Controller
      */
     public function index()
     {
-  
-        return view('chat.index');
+        $users = User::all();
+        return view('chat.index')->with(compact('users'));
     }
 
     /**
