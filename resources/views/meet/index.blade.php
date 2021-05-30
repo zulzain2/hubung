@@ -44,7 +44,7 @@
                                 <input id="usrName" type="hidden" class="form-control validate-name usrName"
                                     placeholder="Enter display name">
 
-                                <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id"
+                                {{-- <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id"
                                     data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false"
                                     aria-controls="collapseExample4">
                                     <div class="pt-1">
@@ -65,7 +65,7 @@
                                     <input type="name" class="form-control" placeholder="Enter room password">
                                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
                                     <em>(optional)</em>
-                                </div>
+                                </div> --}}
 
                                 <div class="row">
                                     <div class="col-12 text-center">
@@ -85,9 +85,8 @@
                                 <div class="input-style input-style-always-active has-borders has-icon validate-field mb-4">
                                     <i class="fas fa-home color-highlight"></i>
                                     <input id="meetingIdJoin" type="name" class="form-control validate-name"
-                                        placeholder="Enter meeting name" required>
-                                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting
-                                        Name</label>
+                                        placeholder="Enter meeting ID" required>
+                                    <label class="color-theme opacity-50 text-uppercase font-700 font-10">Meeting ID</label>
                                     <em>(required)</em>
                                 </div>
 
@@ -139,7 +138,7 @@
                                     <em>(required)</em>
                                 </div>
 
-                                <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id-schedule"
+                                {{-- <div class="d-flex no-effect collapsed" data-trigger-switch="toggle-id-schedule"
                                     data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false"
                                     aria-controls="collapseExample4">
                                     <div class="pt-1">
@@ -160,7 +159,7 @@
                                     <input type="name" class="form-control" placeholder="Enter room password">
                                     <label class="color-theme opacity-50 text-uppercase font-700 font-10">Password</label>
                                     <em>(optional)</em>
-                                </div>
+                                </div> --}}
 
                                 <div class="row">
                                     <div class="col-12 text-center">
