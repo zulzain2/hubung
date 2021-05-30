@@ -18,23 +18,9 @@ class ChatController extends Controller
      */
     public function index()
     {
-        // $users = User::where('id','=',Auth()->id())->get();
-        $users = User::all();
+        $users = User::where('id','!=',Auth()->id())->get();
+        // $users = User::all();
         return view('chat.index')->with(compact('users'));
-    }
-
-    //this is a conversation function to create
-    public function conversation($user_id)
-    {
-      $users = User::where('id','=',Auth()->id())->get();
-      $friendInfo = User::findOrFail($user_id);
-      $myInfo = User::find(auth()->id());
-      $this->data['users'] = $users;
-      $this->data['friendInfo'] = $friendInfo;
-      $this->data['myInfo'] = $myInfo;
-      $this->data['user_id'] = $user_id;
-
-      return view('chat.conversation',$this->data);
     }
 
     /**
@@ -66,7 +52,7 @@ class ChatController extends Controller
      */
     public function show($user_id)
     {
-        $users = User::where('id','=',Auth()->id())->get();
+        $users = User::where('id','!=',Auth()->id())->get();
         $friendInfo = User::findOrFail($user_id);
         $myInfo = User::find(auth()->id());
         $this->data['users'] = $users;
