@@ -1,33 +1,14 @@
 @extends('layouts.app')
 
-@push('styles')
-
-<style>
-    /* #footer-chat {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 98;
-    background-color: rgba(249,249,249,.98);
-    box-shadow: 0 -5px 10px 0 rgb(0 0 0 / 6%);
-    min-height: 60px;
-    min-height: calc(60px + (constant(safe-area-inset-bottom))*1.1);
-    min-height: calc(60px + (env(safe-area-inset-bottom))*1.1);
-    display: flex;
-    text-align: center;
-    transition: all 350ms ease;
-} */
-</style>
-
-    
-@endpush
-
 @section('content')
 
+<div class="header header-fixed header-logo-center">
+    <a href="index.html" class="header-title">Unknown</a>
+    <a href="#" data-back-button="" class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a>
+    <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-ellipsis-v"></i></a>
+</div>
 
-
-<div class="content">
+<div class="content mt-5">
     <div class="speech-bubble speech-right color-black">
         These are chat bubbles, right? They look awesome don't they?
     </div>
@@ -125,16 +106,3 @@
         </div>
     </div>
 @endsection
-
-
-
-
-{{-- @push('scripts')
-
-<script>
-    $(document).ready(function() {
-        $('#footer-bar').hide();
-    });
-    </script>
-
-@endpush --}}
