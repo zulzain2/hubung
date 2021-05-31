@@ -7,10 +7,10 @@
       <a href="/chat">
         <i class="fas fa-chevron-left"></i>
       </a>
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
-      <div class="chat-about">
-        <div class="chat-with">Chat with Kamil</div>
+      <div class="name-image bg-highlight">
+        {{substr($friendInfo->name,0,1) }}
       </div>
+        <div class="chat-with">{{ $friendInfo->name }}</div>
     </div> <!-- end chat-header -->
 </div>
 <div class="clearfix"></div>

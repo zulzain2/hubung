@@ -27,35 +27,29 @@
       <div class="card card-style ms-3 mt-3" style="height:100%;">
         <div class="content my-2">
           <div class="list-group list-custom-large">
-            <a href="chat/13">
-              <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;"
-                class="preload-img img-fluid rounded-circle">
-              <span>Kamil</span>
-              <strong>A powerful Mobile Template</strong>
-              <span class="badge bg-dark-light mt-2">12:15 PM</span>
-              <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
-            </a>
-            <a href="#">
-              <img src="images/pictures/4s.jpg" style="width:40px !important;margin-right: 15px;"
-                class="preload-img img-fluid rounded-circle">
-
-              <span>Nabila</span>
-              <strong>A powerful Mobile Template</strong>
-              <span class="badge bg-dark-light mt-2">12:15 PM</span>
-              <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
-            </a>
-            <a href="#" style="border-bottom: none;">
-              <img src="images/pictures/6s.jpg" style="width:40px !important;margin-right: 15px;"
-                class="preload-img img-fluid rounded-circle">
-              <span>Hafiz</span>
-              <strong>A powerful Mobile Template</strong>
-              <span class="badge bg-dark-light mt-2">12:15 PM</span>
-            </a>
+            @if ($users->count())
+              @foreach ($users as $user)
+              <ul class="no-bullet">
+                <li>
+                  {{-- <a href="{{ chat/13 }}"> --}}
+                  <a href="{{ route('chat.show',$user->id)}}">
+                    <span style="margin-left:5%;margin-top:1%;text-align:center;">{{substr($user->name,0,1) }}</span>
+                    <img src="images/profile.png" style="width:40px !important;margin-right: 15px;"
+                      class="preload-img img-fluid rounded-circle bg-highlight">
+                    <span>{{ $user->name }}</span>
+                    <strong>A powerful Mobile Template</strong>
+                    {{-- <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span> --}}
+                  </a>
+                </li>
+              </ul>
+              @endforeach
+            @endif
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-8 col-lg-9 col-sm-12 d-none d-lg-block d-md-block" style="height:82vh;overflow-y: scroll;">
+    <div class="col-md-8 col-lg-9 col-sm-12 d-none d-lg-block d-md-block" style="height:73vh;overflow-y: scroll;">
 
       <div class="content">
         <div class="speech-bubble speech-right color-black">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
@@ -17,8 +18,9 @@ class ChatController extends Controller
      */
     public function index()
     {
-  
-        return view('chat.index');
+        $users = User::where('id','!=',Auth()->id())->get();
+        // $users = User::all();
+        return view('chat.index')->with(compact('users'));
     }
 
     /**
@@ -48,11 +50,18 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
-        $topBarTitle = 'Chat Show';
-        $topBarPrevUrl = 'chat';
-        return view('chat.show')->with(compact('topBarTitle' , 'topBarPrevUrl'));
+        $users = User::where('id','!=',Auth()->id())->get();
+        $friendInfo = User::findOrFail($user_id);
+        $myInfo = User::find(auth()->id());
+        $this->data['users'] = $users;
+        $this->data['friendInfo'] = $friendInfo;
+        $this->data['myInfo'] = $myInfo;
+        $this->data['user_id'] = $user_id;
+        // $topBarTitle = 'Chat Show';
+        // $topBarPrevUrl = 'chat';
+        return view('chat.show')->with($this->data);
     }
 
     /**
