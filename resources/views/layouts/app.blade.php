@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::to('fonts/font-awesome-pro/css/all.min.css') }}">
     <link rel="stylesheet" href="{{URL::to('fonts/google/googleapis.css')}}">
     <link rel="stylesheet" href="{{URL::to('styles/placeholder/placeholder-loading.min.css')}}">
-    <link rel="manifest" href="{{ URL::to('_manifest.json') }}" data-pwa-version="set_in_manifest_and_pwa_js">
+    <link rel="manifest" href="{{URL::to('_manifest.json')}}" data-pwa-version="set_in_manifest_and_pwa_js">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::to('app/icons/icon-192x192.png') }}">
 </head>
 
