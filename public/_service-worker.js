@@ -5,6 +5,7 @@ var STATIC_FILES = [
     '/splashscreen',
     '/home',
     '/chat',
+    '/contact',
     '/meet',
     '/file',
     '/scripts/plugins/meet/external_api.js',

@@ -763,6 +763,9 @@ setTimeout(function() {
                         updateScheduleLog(data);
                     })
                     .catch(function(err) {
+                        
+                        textErrorBuilder('schedule-log-list' , err);
+                        
                         console.log('Error Schedule Log: ' + err);
                     });
                 };

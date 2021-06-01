@@ -121,6 +121,17 @@ function validationErrorBuilder(results){
 } 
 
 
+function textErrorBuilder(id_element , textErr){
+
+    $('#'.id_element).html('');
+
+    $('#'.id_element).append(`
+        <p class="text-center mx-0"><br>${textErr}<br><br></p>
+    `);
+
+}
+
+
 document['addEventListener']('DOMContentLoaded', () => {
     
     'use strict';
