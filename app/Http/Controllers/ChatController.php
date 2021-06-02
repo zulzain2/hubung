@@ -102,4 +102,8 @@ class ChatController extends Controller
         ];
         return json_encode($data);
     }
+
+    public function chatpreview(){
+        return json_encode('ststsu');
+    }
 }

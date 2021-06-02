@@ -1,5 +1,89 @@
 
-function chatBuilder(data){
+function chatPreviewBuilder(data){
+    $('#chat-preview').html('');
+
+    if (data.chat && data.chat.length) {
+        data.chat.map(chat => {
+
+            $('#chat-preview').html(
+                `<a href="#">
+                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;"
+                        class="preload-img img-fluid rounded-circle">
+
+                    <span>Kamil</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
+                </a>
+                <a href="#">
+
+                    <img src="images/pictures/2s.jpg" style="width:40px !important;margin-right: 15px;"
+                        class="preload-img img-fluid rounded-circle">
+
+                    <span>Sara</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
+                </a>
+                <a href="#">
+
+                    <img src="images/pictures/3s.jpg" style="width:40px !important;margin-right: 15px;"
+                        class="preload-img img-fluid rounded-circle">
+
+                    <span>Fuad</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    
+                </a>
+                <a href="#">
+
+                    <img src="images/pictures/4s.jpg" style="width:40px !important;margin-right: 15px;"
+                        class="preload-img img-fluid rounded-circle">
+
+                    <span>Nabila</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
+                </a>
+                <a href="#">
+
+                    <img src="images/pictures/5s.jpg" style="width:40px !important;margin-right: 15px;"
+                        class="preload-img img-fluid rounded-circle">
+
+                    <span>Intan</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                
+                </a>
+                <a href="#" style="border-bottom: none;">
+
+                    <img src="images/pictures/6s.jpg" style="width:40px !important;margin-right: 15px;"
+                        class="preload-img img-fluid rounded-circle">
+
+                    <span>Hafiz</span>
+                    <strong>A powerful Mobile Template</strong>
+                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    
+                </a>`);
+
+        });
+    }
+    else{
+        $('#chat-preview').html(`
+            <table class="w-100" style="height:80vh;border:none;background-color: transparent!important;">
+                <tr>
+                    <td class="align-middle text-center" style="background-color: transparent!important">
+                        <i class="fas fa-comments fa-7x mb-5"></i>
+                        <br>
+                        <strong>Add contact or select any contact to start chat.</strong>
+                    </td>
+                </tr>
+            </table>
+        `);
+    }
+}
+
+function chatContentBuilder(data){
 
     $('#chat-content').html('');
 
@@ -100,7 +184,7 @@ setTimeout(function() {
                 
                 $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
                 
-                chatBuilder(data);
+                chatContentBuilder(data);
 
             })
             .catch(function(err) {
@@ -119,7 +203,7 @@ setTimeout(function() {
 
                     $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
                 
-                    chatBuilder(data);
+                    chatContentBuilder(data);
 
                 }
             }).catch(function() {
@@ -137,7 +221,7 @@ setTimeout(function() {
             <table class="w-100" style="height:75vh;border:none">
                 <tr>
                     <td class="align-middle text-center">
-                        <strong>Welcome, start chatting right away with your contact on the left bar.</strong>
+                        <strong>Welcome, start texting with your contact right away on the left bar.</strong>
                     </td>
                 </tr>
             </table>
@@ -151,6 +235,7 @@ setTimeout(function() {
     ///////////////////////////////////////////////////////////////////////
     //fetch data for chat preview
     if (document.querySelector('#chat-preview')) {
+
         var networkDataReceived = false;
 
         if(id_user){
@@ -162,9 +247,9 @@ setTimeout(function() {
 
                 networkDataReceived = true;
                 
-                $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
+               
                 
-                chatBuilder(data);
+                chatPreviewBuilder(data);
 
             })
             .catch(function(err) {
@@ -173,7 +258,7 @@ setTimeout(function() {
 
 
             // fetch cached chat
-            caches.match(`/fetch/chatcontent/${id_user}`)
+            caches.match(`/fetch/chatpreview`)
             .then(function(response) {
                 if (!response) throw Error("No data");
                 return response.json();
@@ -181,9 +266,9 @@ setTimeout(function() {
                 // don't overwrite newer network data
                 if (!networkDataReceived) {
 
-                    $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
+                   
                 
-                    chatBuilder(data);
+                    chatPreviewBuilder(data);
 
                 }
             }).catch(function() {
@@ -195,13 +280,15 @@ setTimeout(function() {
         }
         else{
 
-            $('#chat-content').html('');
+            $('#chat-preview').html('');
 
-            $('#chat-content').html(`
-            <table class="w-100" style="height:75vh;border:none">
+            $('#chat-preview').html(`
+            <table class="w-100" style="height:80vh;border:none;background-color: transparent!important;">
                 <tr>
-                    <td class="align-middle text-center">
-                        <strong>Welcome, start chatting right away with your contact on the left bar.</strong>
+                    <td class="align-middle text-center" style="background-color: transparent!important">
+                        <i class="fas fa-comments fa-7x mb-5"></i>
+                        <br>
+                        <strong>Add contact or select any contact to start chat.</strong>
                     </td>
                 </tr>
             </table>

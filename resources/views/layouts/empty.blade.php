@@ -9,10 +9,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="domain" content="{{ URL::to('') }}">
     <meta name="theme-color" content="#000">
-    <title>MaGICX Communication</title>
+    <title>Hubung</title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{URL::to('icons/icon-72x72.png')}}">
+    <link rel="shortcut icon" href="{{URL::to('icons/72.png')}}">
 
     <link rel="stylesheet" type="text/css" href="{{URL::to('styles/bootstrap.css')}}">
     <link rel="stylesheet" href="{{URL::to('fonts/google/googleapis.css')}}">

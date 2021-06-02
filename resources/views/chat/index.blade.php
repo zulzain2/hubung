@@ -27,67 +27,9 @@
             <div class="card card-style h-100 mb-0">
             
                         <div class="content my-2">
-                            <div id="chat-preview" class="list-group list-custom-large">
-                                {{-- <a href="#">
-                                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;"
-                                        class="preload-img img-fluid rounded-circle">
 
-                                    <span>Kamil</span>
-                                    <strong>A powerful Mobile Template</strong>
-                                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
-                                </a>
-                                <a href="#">
+                            <div id="chat-preview" class="list-group list-custom-large"></div>
 
-                                    <img src="images/pictures/2s.jpg" style="width:40px !important;margin-right: 15px;"
-                                        class="preload-img img-fluid rounded-circle">
-
-                                    <span>Sara</span>
-                                    <strong>A powerful Mobile Template</strong>
-                                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
-                                </a>
-                                <a href="#">
-
-                                    <img src="images/pictures/3s.jpg" style="width:40px !important;margin-right: 15px;"
-                                        class="preload-img img-fluid rounded-circle">
-
-                                    <span>Fuad</span>
-                                    <strong>A powerful Mobile Template</strong>
-                                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                                    
-                                </a>
-                                <a href="#">
-
-                                    <img src="images/pictures/4s.jpg" style="width:40px !important;margin-right: 15px;"
-                                        class="preload-img img-fluid rounded-circle">
-
-                                    <span>Nabila</span>
-                                    <strong>A powerful Mobile Template</strong>
-                                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
-                                </a>
-                                <a href="#">
-
-                                    <img src="images/pictures/5s.jpg" style="width:40px !important;margin-right: 15px;"
-                                        class="preload-img img-fluid rounded-circle">
-
-                                    <span>Intan</span>
-                                    <strong>A powerful Mobile Template</strong>
-                                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                                
-                                </a>
-                                <a href="#" style="border-bottom: none;">
-
-                                    <img src="images/pictures/6s.jpg" style="width:40px !important;margin-right: 15px;"
-                                        class="preload-img img-fluid rounded-circle">
-
-                                    <span>Hafiz</span>
-                                    <strong>A powerful Mobile Template</strong>
-                                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                                    
-                                </a> --}}
-                            </div>
                         </div>
                
 
@@ -136,7 +78,7 @@
             <input type="text" class="form-control" placeholder="Enter your Message here">
             </div>
             <div class="ms-3 speach-icon text-center me-2">
-            <a href="#" class="bg-highlight me-2"><i class="fa fa-arrow-up pt-2"></i></a>
+            <a href="#" class="bg-highlight me-2"><i class="fas fa-paper-plane pt-2"></i></a>
             </div>
         </div>
       </div>
