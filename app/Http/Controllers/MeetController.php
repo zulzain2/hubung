@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class MeetController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth')->except('index' , 'indexpublic' , 'storeMeetingNotStart' , 'storeMeetingInProgress' , 'storeMeetingPass');
+        $this->middleware('auth')->except('index' , 'indexpublic' , 'storeMeetingNotStart' , 'storeMeetingInProgress' , 'storeMeetingPass' , 'getMeetingInProgress');
     }
 
     /**
@@ -381,6 +381,7 @@ class MeetController extends Controller
     }
 
     public function getMeetingInProgress(Request $request){
+
         $validator = Validator::make($request->all(), [
             'id_meeting' 	    => 'required',
         ]);

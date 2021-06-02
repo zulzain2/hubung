@@ -411,7 +411,7 @@ setTimeout(function() {
                 
                                     var results = resultsJSON
                                     
-                                    if(results.status == 'success'){
+                                    if(results.status === 'success'){
 
                                         $('#start-meeting').removeClass('off-btn').trigger('classChange');
 
@@ -425,7 +425,7 @@ setTimeout(function() {
                                     }
                                     else{
                                             
-                                        if(results.type == 'Validation Error')
+                                        if(results.type === 'Validation Error')
                                         {
                                             $('#start-meeting').removeClass('off-btn').trigger('classChange');
 
@@ -549,7 +549,7 @@ setTimeout(function() {
                                 var dataForm = new URLSearchParams();
                                 dataForm.append('id_meeting', meetingId);
                                 dataForm.append('display_name', usrName);
-                          
+                                
                                 fetch("fetch/getMeetingInProgress", {
                                     method: 'post',
                                     credentials: "same-origin",
@@ -564,7 +564,7 @@ setTimeout(function() {
                 
                                     var results = resultsJSON
                                     
-                                    if(results.status == 'success'){
+                                    if(results.status === 'success'){
 
                                         $('#join-meeting').removeClass('off-btn').trigger('classChange');
 
@@ -577,7 +577,7 @@ setTimeout(function() {
                                     }
                                     else{
                                             
-                                        if(results.type == 'Validation Error')
+                                        if(results.type === 'Validation Error')
                                         {
                                             $('#join-meeting').removeClass('off-btn').trigger('classChange');
 
