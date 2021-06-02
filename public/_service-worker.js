@@ -4,8 +4,8 @@ var STATIC_FILES = [
     '/offline',
     '/splashscreen',
     '/home',
-    '/chat',
     '/chat/show',
+    '/chat',
     '/contact',
     '/meet',
     '/file',
@@ -103,12 +103,32 @@ self.addEventListener('fetch', function(event) {
                           return res;
                   })
                   .catch(function (err) {
-                      return caches.open(CACHE_STATIC_NAME)
+
+                    return caches.match(event.request)
+                    .then(function (response) {
+                        if(response){
+                          return response;
+                        }
+                        else{
+                          return caches.open(CACHE_STATIC_NAME)
+                          .then(function (cache) {
+                            if (event.request.headers.get('accept').includes('text/html')) {
+                              return cache.match('/offline');
+                            }
+                          });
+                        }
+                      })
+                      .catch(function (err) {
+                        return caches.open(CACHE_STATIC_NAME)
                         .then(function (cache) {
                           if (event.request.headers.get('accept').includes('text/html')) {
                             return cache.match('/offline');
                           }
                         });
+                      });
+                     
+
+                      
                     });
               //   }
               // })
