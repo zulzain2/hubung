@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
@@ -48,11 +50,9 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $topBarTitle = 'Chat Show';
-        $topBarPrevUrl = 'chat';
-        return view('chat.show')->with(compact('topBarTitle' , 'topBarPrevUrl'));
+        return view('chat.show');
     }
 
     /**
@@ -87,5 +87,19 @@ class ChatController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function chatcontent($id){
+
+        $chats = Chat::where('id_user' , auth()->user()->id)->where('id_user_other' , $id)->orderBy('created_at')->get(); 
+        $other_user = User::find($id);
+
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully fetch chat data.',
+            'other_user' => $other_user, 
+            'chat' => $chats,
+        ];
+        return json_encode($data);
     }
 }

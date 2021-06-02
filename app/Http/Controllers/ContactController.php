@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -83,5 +84,12 @@ class ContactController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function contactList(){
+        
+        $contacts = User::orderBy('nick_name')->get();
+
+        return json_encode($contacts);
     }
 }

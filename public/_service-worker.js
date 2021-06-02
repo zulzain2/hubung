@@ -5,6 +5,7 @@ var STATIC_FILES = [
     '/splashscreen',
     '/home',
     '/chat',
+    '/chat/show',
     '/contact',
     '/meet',
     '/file',

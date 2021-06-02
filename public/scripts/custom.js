@@ -3,57 +3,57 @@
 if (document.querySelector('#footer-bar')) {
     if (window.location.href.indexOf("home") > -1) 
     {
-        $('#notification').removeClass('color-highlight');
-        $('#home').addClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
+        $('#notification-footer').removeClass('color-highlight');
+        $('#home-footer').addClass('active-nav');
+        $('#chat-footer').removeClass('active-nav');
+        $('#meet-footer').removeClass('active-nav');
+        $('#file-footer').removeClass('active-nav');
+        $('#setting-footer').removeClass('active-nav');
     }
     else if (window.location.href.indexOf("chat") > -1) 
     {
-        $('#notification').removeClass('color-highlight');
-        $('#home').removeClass('active-nav');
-        $('#chat').addClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
+        $('#notification-footer').removeClass('color-highlight');
+        $('#home-footer').removeClass('active-nav');
+        $('#chat-footer').addClass('active-nav');
+        $('#meet-footer').removeClass('active-nav');
+        $('#file-footer').removeClass('active-nav');
+        $('#setting-footer').removeClass('active-nav');
     }
     else if(window.location.href.indexOf("meet") > -1)
     {
-        $('#notification').removeClass('color-highlight');
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').addClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
+        $('#notification-footer').removeClass('color-highlight');
+        $('#home-footer').removeClass('active-nav');
+        $('#chat-footer').removeClass('active-nav');
+        $('#meet-footer').addClass('active-nav');
+        $('#file-footer').removeClass('active-nav');
+        $('#setting-footer').removeClass('active-nav');
     }
     else if(window.location.href.indexOf("file") > -1)
     {
-        $('#notification').removeClass('color-highlight');
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').addClass('active-nav');
-        $('#setting').removeClass('active-nav');
+        $('#notification-footer').removeClass('color-highlight');
+        $('#home-footer').removeClass('active-nav');
+        $('#chat-footer').removeClass('active-nav');
+        $('#meet-footer').removeClass('active-nav');
+        $('#file-footer').addClass('active-nav');
+        $('#setting-footer').removeClass('active-nav');
     }
     else if(window.location.href.indexOf("setting") > -1)
     {
-        $('#notification').removeClass('color-highlight');
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').addClass('active-nav');
+        $('#notification-footer').removeClass('color-highlight');
+        $('#home-footer').removeClass('active-nav');
+        $('#chat-footer').removeClass('active-nav');
+        $('#meet-footer').removeClass('active-nav');
+        $('#file-footer').removeClass('active-nav');
+        $('#setting-footer').addClass('active-nav');
     }
     else if(window.location.href.indexOf("notification") > -1)
     {
-        $('#notification').addClass('color-highlight');
-        $('#home').removeClass('active-nav');
-        $('#chat').removeClass('active-nav');
-        $('#meet').removeClass('active-nav');
-        $('#file').removeClass('active-nav');
-        $('#setting').removeClass('active-nav');
+        $('#notification-footer').addClass('color-highlight');
+        $('#home-footer').removeClass('active-nav');
+        $('#chat-footer').removeClass('active-nav');
+        $('#meet-footer').removeClass('active-nav');
+        $('#file-footer').removeClass('active-nav');
+        $('#setting-footer').removeClass('active-nav');
     }
 }
 ///////////////////////////////////////////////////////////////////////

@@ -1511,6 +1511,16 @@ document['addEventListener']('DOMContentLoaded', () => {
                 call: 'scripts/pages/meet/meet.js',
                 trigger: '#meet'
             },
+            {
+                id: 'contact',
+                call: 'scripts/pages/contact/contact.js',
+                trigger: '#contact'
+            },
+            {
+                id: 'chat',
+                call: 'scripts/pages/chat/chat.js',
+                trigger: '#chat'
+            },
             //SCRIPTS/STYLES FOR PLUGINS
             {
                 id: 'uniqueID',
