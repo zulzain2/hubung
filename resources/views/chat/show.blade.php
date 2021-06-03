@@ -24,7 +24,7 @@
             <input type="text" class="form-control" placeholder="Enter your Message here">
         </div>
         <div class="ms-3 speach-icon">
-            <a href="#" class="bg-blue-dark me-2"><i class="fas fa-feather-alt pt-2"></i></a>
+            <a href="#" class="bg-highlight-dark me-2"><i class="fas fa-feather-alt pt-2"></i></a>
         </div>
     </div>
 

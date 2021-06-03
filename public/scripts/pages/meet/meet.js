@@ -609,14 +609,14 @@ setTimeout(function() {
                 ///////////////////////////////////////////////////////////////////////
                 //fetch data for meeting log
                 if (document.querySelector('#meeting-log')) {
-                    // var networkDataReceived = false;
+                    var networkDataReceived = false;
 
                     // fetch fresh meeting log
                     var networkUpdate = fetch('/fetch/meetingLog')
                     .then(function(response) { 
                         return response.json();
                     }).then(function(data){
-                        // networkDataReceived = true;
+                        networkDataReceived = true;
                         
                         updateMeetingLog(data);
                     })
@@ -624,24 +624,25 @@ setTimeout(function() {
                         console.log('Error Meeting Log: ' + err);
                     });
 
-                    // fetch cached meeting log
-                    // caches.match('/fetch/meetingLog')
-                    // .then(function(response) {
-                    //     if (!response) throw Error("No data");
-                    //     return response.json();
-                    // }).then(function(data) {
-                    //     // don't overwrite newer network data
-                    //     if (!networkDataReceived) {
-                        
-                    //         updateMeetingLog(data)
+                    // fetch cached schedule log
+                    caches.match(`/fetch/meetingLog`)
+                    .then(function(response) {
+                        if (!response) throw Error("No data");
+                        return response.json();
+                    }).then(function(data) {
+                        // don't overwrite newer network data
+                        if (!networkDataReceived) {
 
-                    //     }
-                    // }).catch(function() {
-                    //     // we didn't get cached data, the network is our last hope:
-                    //     return networkUpdate;
-                    // }).catch(function(err) {
-                    //     console.log('Error Meeting Log: ' + err);
-                    // });
+                            updateMeetingLog(data);
+
+                        }
+                    }).catch(function() {
+                        // we didn't get cached data, the network is our last hope:
+                        return networkUpdate;
+                    }).catch(function(err) {
+                        
+                        console.log('Error Meeting Log: ' + err);
+                    });
 
                     
                 };
@@ -759,11 +760,32 @@ setTimeout(function() {
                         return response.json();
                     }).then(function(data){
                         networkDataReceived = true;
-                        
+                        console.log('1');
                         updateScheduleLog(data);
                     })
                     .catch(function(err) {
                         
+                        textErrorBuilder('schedule-log-list' , err);
+                        
+                        console.log('Error Schedule Log: ' + err);
+                    });
+
+                    // fetch cached schedule log
+                    caches.match(`/fetch/scheduleLog`)
+                    .then(function(response) {
+                        if (!response) throw Error("No data");
+                        return response.json();
+                    }).then(function(data) {
+                        // don't overwrite newer network data
+                        if (!networkDataReceived) {
+                            console.log('2');
+                            updateScheduleLog(data);
+
+                        }
+                    }).catch(function() {
+                        // we didn't get cached data, the network is our last hope:
+                        return networkUpdate;
+                    }).catch(function(err) {
                         textErrorBuilder('schedule-log-list' , err);
                         
                         console.log('Error Schedule Log: ' + err);

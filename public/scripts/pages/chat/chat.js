@@ -292,7 +292,7 @@ setTimeout(function() {
             <table class="w-100" style="height:80vh;border:none;background-color: transparent!important;">
                 <tr>
                     <td class="align-middle text-center" style="background-color: transparent!important">
-                        <i class="fas fa-comments fa-7x mb-5"></i>
+                        <i class="fas fa-feather-alt fa-7x mb-5 color-highlight"></i>
                         <br>
                         <strong>Add contact or select any contact to start chat.</strong>
                     </td>
