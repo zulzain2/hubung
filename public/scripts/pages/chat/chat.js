@@ -90,6 +90,8 @@ function chatContentBuilder(data){
     if (data.chat && data.chat.length) {
         data.chat.map(chat => {
 
+            $('.chat-send').show();
+
             $('#chat-content').html(
                 `<div class="speech-bubble speech-right color-black">
                 These are chat bubbles, right? They look awesome don't they?
@@ -148,6 +150,8 @@ function chatContentBuilder(data){
     }
     else{
 
+        $('.chat-send').show();
+
         $('#chat-content').html(`
         <table class="w-100" style="height:75vh;border:none">
             <tr>
@@ -174,7 +178,7 @@ setTimeout(function() {
         var id_user = url.searchParams.get("id_user");
 
         if(id_user){
-            // fetch fresh meeting log
+            // fetch fresh chat content
             var networkUpdate = fetch(`/fetch/chatcontent/${id_user}`)
             .then(function(response) { 
                 return response.json();
@@ -214,6 +218,8 @@ setTimeout(function() {
             });
         }
         else{
+
+            $('.chat-send').hide();
 
             $('#chat-content').html('');
 

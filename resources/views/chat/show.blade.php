@@ -18,17 +18,17 @@
 @section('content2')
     <div id="footer-bar" class="d-flex">
         <div class="me-3 speach-icon">
-        <a href="#" data-menu="menu-upload" class="bg-gray-dark ms-2"><i class="fa fa-plus pt-2"></i></a>
+            <a href="#" data-menu="menu-upload" class="bg-gray-dark ms-2"><i class="fa fa-plus pt-2"></i></a>
         </div>
         <div class="flex-fill speach-input">
-        <input type="text" class="form-control" placeholder="Enter your Message here">
+            <input type="text" class="form-control" placeholder="Enter your Message here">
         </div>
         <div class="ms-3 speach-icon">
-        <a href="#" class="bg-blue-dark me-2"><i class="fa fa-arrow-up pt-2"></i></a>
+            <a href="#" class="bg-blue-dark me-2"><i class="fas fa-feather-alt pt-2"></i></a>
         </div>
     </div>
 
-    <div id="menu-upload" class="menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="255" data-menu-effect="menu-over">
+    <div id="menu-upload" class="col-lg-6 offset-lg-3 menu menu-box-bottom menu-box-detached rounded-m" data-menu-height="255" data-menu-effect="menu-over">
         <div class="list-group list-custom-small ps-2 me-4">
         <a href="#">
             <i class="font-14 fa fa-file color-gray-dark"></i>

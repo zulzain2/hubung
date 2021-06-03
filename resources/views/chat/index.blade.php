@@ -11,7 +11,7 @@
 <div id="chat"></div>
 
 <div class="row h-100 mb-0">
-  <div class="col-md-4 col-lg-3 col-sm-12 h-100">
+  <div class="col-xl-4 col-lg-4 col-sm-12 h-100">
     <div class="row h-100 mb-0">
       <div class="col-12 h-100">
 
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <div class="col-md-8 col-lg-9 col-sm-12 d-none d-lg-block d-md-block h-100">
+  <div class="col-xl-8 col-lg-8 col-sm-12 d-none d-xl-block d-lg-block h-100">
     <div class="row mb-0" style="height: calc(100% - 60px);">
       <div class="col-12 h-100" style="overflow-y: scroll;">
 
@@ -68,7 +68,7 @@
 
       </div>
     </div>
-    <div class="row mb-0" style="height:60px">
+    <div class="chat-send row mb-0" style="height:60px;display:none">
       <div class="col-12 h-100">
         <div  class="d-flex" style="">
             <div class="me-3 speach-icon text-center">
@@ -78,7 +78,7 @@
             <input type="text" class="form-control" placeholder="Enter your Message here">
             </div>
             <div class="ms-3 speach-icon text-center me-2">
-            <a href="#" class="bg-highlight me-2"><i class="fas fa-paper-plane pt-2"></i></a>
+            <a href="#" class="bg-highlight me-2"><i class="fas fa-feather-alt pt-2"></i></a>
             </div>
         </div>
       </div>

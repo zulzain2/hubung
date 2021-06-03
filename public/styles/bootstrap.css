@@ -17907,40 +17907,40 @@ input[type=number] {
 }
 
 .bg-highlight-light {
-    background-color: #7DB1B1 !important;
+    background-color: #a0cecb !important;
     color: #fff !important
 }
 
 .bg-fade-highlight-dark {
-    background-color: #7db1b1b3 !important;
-    color: #7DB1B1 !important
+    background-color: rgba(125, 177, 177, .7) !important;
+    color: #fff !important
 }
 
 .bg-fade-highlight-light {
-    background-color: #7db1b145 !important;
-    color: #7DB1B1 !important
+    background-color: rgba(125, 177, 177, .3) !important;
+    color: #fff !important
 }
 
 .color-highlight-dark {
-    color: #7DB1B1 !important
+    color: #7db1b1 !important
 }
 
 .color-icon-highlight {
-    stroke: #7DB1B1 !important;
-    /* fill:  !important; */
+    stroke: #7db1b1 !important;
+    fill: rgba(125, 177, 177, .3) !important
 }
 
 .bg-highlight-dark {
-    background-color: #7DB1B1 !important;
+    background-color: #7db1b1 !important;
     color: #fff !important
 }
 
 .border-highlight-light {
-    border-color: #7DB1B1 !important
+    border-color: #a0cecb !important
 }
 
 .border-highlight-dark {
-    border-color: #7DB1B1 !important
+    border-color: #7db1b1 !important
 }
 
 .focus-highlight:focus {
