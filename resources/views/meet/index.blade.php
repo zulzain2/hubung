@@ -172,7 +172,7 @@
                                     <p class="font-10 color-highlight mt-n2 mb-0">All your recent meeting displayed here.
                                     </p>
                                     <div class="divider my-3"></div>
-                                    <div id="meeting-log-list" class="mb-4" style="height: 360px;overflow-y: scroll;">
+                                    <div id="meeting-log-list" class="mb-4" style="max-height: 360px;overflow-y: scroll;">
 
                                         <br>
 
