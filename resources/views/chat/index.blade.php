@@ -8,6 +8,7 @@
   }
 </style>
 
+<div id="socketio"></div>
 <div id="chat"></div>
 
 <div class="row h-100 mb-0">
@@ -60,27 +61,33 @@
     </div>
   </div>
 
-  <div class="col-xl-8 col-lg-8 col-sm-12 d-none d-xl-block d-lg-block h-100">
+  <div id="chat-check" class="col-xl-8 col-lg-8 col-sm-12 d-none d-xl-block d-lg-block h-100">
     <div class="row mb-0" style="height: calc(100% - 60px);">
       <div class="col-12 h-100" style="overflow-y: scroll;">
 
-        <div id="chat-content" class="content"></div>
+        <div id="chat-content" class="content mx-0 my-0 px-3 pt-5 pb-0" style="height:100%;overflow-y:scroll"></div>
 
       </div>
     </div>
     <div class="chat-send row mb-0" style="height:60px;display:none">
       <div class="col-12 h-100">
-        <div  class="d-flex" style="">
-            <div class="me-3 speach-icon text-center">
-            <a href="#" data-menu="menu-upload" class="bg-gray-dark ms-2"><i class="fa fa-plus pt-2"></i></a>
-            </div>
-            <div class="flex-fill speach-input">
-            <input type="text" class="form-control" placeholder="Enter your Message here">
-            </div>
-            <div class="ms-3 speach-icon text-center me-2">
-            <a href="#" class="bg-highlight me-2"><i class="fas fa-feather-alt pt-2"></i></a>
-            </div>
-        </div>
+        <form id="chat-form">
+          <div class="d-flex">
+              
+                  <div class="me-3 speach-icon text-center">
+                    <a href="#" data-menu="menu-upload" class="bg-gray-dark ms-2"><i class="fa fa-plus pt-2"></i></a>
+                  </div>
+                  <div class="flex-fill speach-input">
+                      <input type="hidden" id="id_user" name="id_user">
+                      <input type="hidden" id="id_user_other" name="id_user_other">
+                      <input id="msg" type="text" class="form-control" placeholder="Enter your Message here" autocomplete="off">
+                  </div>
+                  <div class="ms-3 speach-icon">
+                      <button type="submit" class="btn rounded-xl bg-highlight-dark me-2 mt-2"><i class="fas fa-feather-alt pt-2"></i></button>
+                  </div>
+              
+          </div>
+      </form>
       </div>
     </div>
   </div>

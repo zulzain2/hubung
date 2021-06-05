@@ -694,7 +694,7 @@ setTimeout(function() {
                 
                                     var results = resultsJSON
 
-                                    if(results.status == 'success'){
+                                    if(results.status === 'success'){
                                         // let now = new Date(meetinglog.datetime);
                                     
                                         // var dateStringWithTime = moment(now).format('MMMM Do YYYY, h:mm:ss a');

@@ -72,6 +72,7 @@ Route::resource('contact', 'App\Http\Controllers\ContactController');
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //Chat Controller
 //////////////////////////////////////////////////////////////////////////////////////////////////
+Route::post('store/chatcontent', 'App\Http\Controllers\ChatController@store');
 Route::get('fetch/chatpreview', 'App\Http\Controllers\ChatController@chatpreview');
 Route::get('fetch/chatcontent/{id_user}', 'App\Http\Controllers\ChatController@chatcontent');
 Route::get('chat/show', 'App\Http\Controllers\ChatController@show');

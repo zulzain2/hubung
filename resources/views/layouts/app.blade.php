@@ -226,6 +226,7 @@
 
 
 
+
     @stack('scripts')
 
 </body>

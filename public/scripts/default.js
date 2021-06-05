@@ -424,7 +424,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _0xce56x4c['rel'] = 'stylesheet';
                 _0xce56x4c['className'] = 'page-highlight';
                 _0xce56x4c['type'] = 'text/css';
-                _0xce56x4c['href'] = 'styles/highlights/highlight_' + _0xce56x4a + '.css';
+                _0xce56x4c['href'] = '../styles/highlights/highlight_' + _0xce56x4a + '.css';
                 document['getElementsByTagName']('head')[0]['appendChild'](_0xce56x4c);
                 document['body']['setAttribute']('data-highlight', 'highlight-' + _0xce56x4a);
                 localStorage['setItem'](_0xce56x4 + '-Highlight', _0xce56x4a)
@@ -438,7 +438,7 @@ document['addEventListener']('DOMContentLoaded', () => {
             _0xce56x4c['rel'] = 'stylesheet';
             _0xce56x4c['className'] = 'page-highlight';
             _0xce56x4c['type'] = 'text/css';
-            _0xce56x4c['href'] = 'styles/highlights/highlight_' + _0xce56x4d + '.css';
+            _0xce56x4c['href'] = '../styles/highlights/highlight_' + _0xce56x4d + '.css';
             if (!document['querySelectorAll']('.page-highlight')['length']) {
                 document['getElementsByTagName']('head')[0]['appendChild'](_0xce56x4c);
                 document['body']['setAttribute']('data-highlight', 'highlight-' + _0xce56x4d)
@@ -1522,6 +1522,11 @@ document['addEventListener']('DOMContentLoaded', () => {
                 trigger: '#chat'
             },
             //SCRIPTS/STYLES FOR PLUGINS
+            {
+                id: 'socketio',
+                call: 'scripts/plugins/socketio/socket.io.min.js',
+                trigger: '#socketio'
+            },
             {
                 id: 'uniqueID',
                 plug: 'scripts/pluginName/plugin.js',

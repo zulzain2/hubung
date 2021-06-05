@@ -16,7 +16,8 @@ var STATIC_FILES = [
 var EXCLUDE_ROUTES = [
   '/',
   '/verifyOtp',
-  '/logout' 
+  '/logout',
+  '/socket.io' 
 ];
 
 // function trimCache(cacheName, maxItems) {
@@ -98,7 +99,10 @@ self.addEventListener('fetch', function(event) {
                       else
                       {
                         // trimCache(CACHE_DYNAMIC_NAME, 3);
-                        cache.put(event.request, res.clone());
+                        cache.put(event.request, res.clone())
+                        .catch(function(err) {
+                          console.log('Error Put Dynamic Cache: ' + err);
+                        });
                       }
                           return res;
                   })

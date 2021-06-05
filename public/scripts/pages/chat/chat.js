@@ -1,3 +1,6 @@
+var url = new URL(window.location.href);
+var id_user = url.searchParams.get("id_user");
+
 
 function chatPreviewBuilder(data){
     $('#chat-preview').html('');
@@ -5,66 +8,34 @@ function chatPreviewBuilder(data){
     if (data.chat && data.chat.length) {
         data.chat.map(chat => {
 
-            $('#chat-preview').html(
-                `<a href="#">
-                    <img src="images/pictures/1s.jpg" style="width:40px !important;margin-right: 15px;"
+            if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
+                $('#chat-preview').append(`
+                <a href="#" class="chat-preview-select" data-iduser="${chat.user.id}">
+                    <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
                         class="preload-img img-fluid rounded-circle">
 
-                    <span>Kamil</span>
-                    <strong>A powerful Mobile Template</strong>
-                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    <span>${chat.user.nick_name}</span>
+                    <strong>${chat.last_text}</strong>
+                    <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
                     <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
                 </a>
-                <a href="#">
-
-                    <img src="images/pictures/2s.jpg" style="width:40px !important;margin-right: 15px;"
+            `);
+            }
+            else
+            {
+                $('#chat-preview').append(`
+                <a href="chat/show?id_user=${chat.user.id}" class="">
+                    <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
                         class="preload-img img-fluid rounded-circle">
 
-                    <span>Sara</span>
-                    <strong>A powerful Mobile Template</strong>
-                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
+                    <span>${chat.user.nick_name}</span>
+                    <strong>${chat.last_text}</strong>
+                    <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
                     <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
                 </a>
-                <a href="#">
-
-                    <img src="images/pictures/3s.jpg" style="width:40px !important;margin-right: 15px;"
-                        class="preload-img img-fluid rounded-circle">
-
-                    <span>Fuad</span>
-                    <strong>A powerful Mobile Template</strong>
-                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                    
-                </a>
-                <a href="#">
-
-                    <img src="images/pictures/4s.jpg" style="width:40px !important;margin-right: 15px;"
-                        class="preload-img img-fluid rounded-circle">
-
-                    <span>Nabila</span>
-                    <strong>A powerful Mobile Template</strong>
-                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
-                </a>
-                <a href="#">
-
-                    <img src="images/pictures/5s.jpg" style="width:40px !important;margin-right: 15px;"
-                        class="preload-img img-fluid rounded-circle">
-
-                    <span>Intan</span>
-                    <strong>A powerful Mobile Template</strong>
-                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                
-                </a>
-                <a href="#" style="border-bottom: none;">
-
-                    <img src="images/pictures/6s.jpg" style="width:40px !important;margin-right: 15px;"
-                        class="preload-img img-fluid rounded-circle">
-
-                    <span>Hafiz</span>
-                    <strong>A powerful Mobile Template</strong>
-                    <span class="badge bg-dark-light mt-2">12:15 PM</span>
-                    
-                </a>`);
+            `);
+            }
+            
 
         });
     }
@@ -85,97 +56,87 @@ function chatPreviewBuilder(data){
 
 function chatContentBuilder(data){
 
-    $('#chat-content').html('');
+
+    
+    // $('#chat-content').html('');
 
     if (data.chat && data.chat.length) {
+        $('.chat-send').show();
+        $('#chat-content').html('');
+
+        
         data.chat.map(chat => {
-
-            $('.chat-send').show();
-
-            $('#chat-content').html(
-                `<div class="speech-bubble speech-right color-black">
-                These are chat bubbles, right? They look awesome don't they?
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-left bg-highlight">
-                Yeap!
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-left bg-highlight">
-                They also expand to a certain point, just like the ones that Mobile Chat apps have!
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-right color-black">
-                Awesome! Images too?
-                </div>
-                <div class="clearfix"></div>
-                <p class="text-center mb-0 font-11">Yesterday, 1:45 AM</p>
-                <div class="speech-bubble speach-image speech-left bg-highlight">
-                <img class="img-fluid preload-img" src="../images/pictures/5s.jpg" data-src="../images/pictures/5s.jpg" alt="img">
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-left bg-highlight">
-                Images can be used here as well, very easy! Just add an image tag!
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-right color-black">
-                WOW! Videos?!
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-right color-black">
-                Can I Embed videos or wait, actually, can I add maps?
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speach-image speech-left">
-                <iframe class="w-100" src='https://www.youtube.com/watch?v=mnwj6KxAvFc' frameborder='0' allowfullscreen=""></iframe>
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-left bg-highlight">
-                Yep! Just embed your stuff here. It's super simple. You just copy the embed code in this place.
-                </div>
-                <div class="clearfix"></div>
-                <p class="text-center mb-0 font-11">25 Minutes Ago</p>
-                <div class="speech-bubble speech-right color-black">
-                Is this an actual chat system? Can i send messages already?
-                </div>
-                <div class="clearfix"></div>
-                <div class="speech-bubble speech-last speech-left bg-highlight">
-                It's just a chat template, but it's ready and able to be coded into a full chat system. Great huh?
-                </div>
-                <div class="clearfix"></div>
-                <em class="speech-read mb-3">Delivered & Read - 07:18 PM</em>`
-            );
-
+            if(chat.id_user === id_user || `${chat.id_user}` === id_user)
+            {
+                $('#chat-content').append(
+                    `<div class="speech-bubble speech-right color-black pb-1" style="max-width:90% !important">
+                        ${chat.text}
+                        <br>
+                        <small style="font-size: 9px;float: right;">${moment(chat.created_at).format('h:mm a')}</small>
+                    </div>
+                    <div class="clearfix"></div>`
+                );
+            }
+            else{
+                $('#chat-content').append(
+                    `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
+                        ${chat.text}
+                        <br>
+                        <small style="font-size: 9px;float: right;">${moment(chat.created_at).format('h:mm a')}</small>
+                    </div>
+                    <div class="clearfix"></div>`
+                );
+            }
         });
     }
     else{
 
         $('.chat-send').show();
-
+        $('#chat-content').html('');
         $('#chat-content').html(`
-        <table class="w-100" style="height:75vh;border:none">
+        <table id="chat-empty" class="w-100" style="height:75vh;border:none">
             <tr>
                 <td class="align-middle text-center">
                     <strong>No message between you and ${data.other_user.nick_name} yet.</strong>
                 </td>
             </tr>
         </table>
-        
         `);
        
     }
 
 }
 
-setTimeout(function() {
+function outputMessage(message){
 
-    ///////////////////////////////////////////////////////////////////////
-    //fetch data for chat content
-    if (document.querySelector('#chat-content')) {
-        var networkDataReceived = false;
+    if(message.data)
+    {
+        if(message.data.id_user === $('#id_user').val()){
+            $('#chat-content').append(
+                `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
+                    ${message.data.text}
+                    <br>
+                    <small style="font-size: 9px;float: right;">${moment(message.data.created_at).format('h:mm a')}</small>
+                </div>
+                <div class="clearfix"></div>`
+            );
+        }
+        else{
+            $('#chat-content').append(
+                `<div class="speech-bubble speech-right color-black pb-1" style="max-width:90% !important">
+                    ${message.data.text}
+                    <br>
+                    <small style="font-size: 9px;float: right;">${moment(message.data.created_at).format('h:mm a')}</small>
+                </div>
+                <div class="clearfix"></div>`
+            );
+        }
+    }
+    
+}
 
-        var url = new URL(window.location.href);
-        var id_user = url.searchParams.get("id_user");
+function fetchChatContent(socket){
+    var networkDataReceived = false;
 
         if(id_user){
             // fetch fresh chat content
@@ -187,16 +148,20 @@ setTimeout(function() {
                 networkDataReceived = true;
                 
                 $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
+                $('#id_user').val(data.user.id);
+                $('#id_user_other').val(data.other_user.id);
+
+                socket.emit('myroom', data.user.id , data.other_user.id);
                 
                 chatContentBuilder(data);
 
             })
             .catch(function(err) {
-                console.log('Error Chat: ' + err);
+                console.log('Error Chat Content: ' + err);
             });
 
 
-            // fetch cached chat
+            // fetch cached chat content
             caches.match(`/fetch/chatcontent/${id_user}`)
             .then(function(response) {
                 if (!response) throw Error("No data");
@@ -206,7 +171,9 @@ setTimeout(function() {
                 if (!networkDataReceived) {
 
                     $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
-                
+                    $('#id_user').val(data.user.id);
+                    $('#id_user_other').val(data.other_user.id);
+
                     chatContentBuilder(data);
 
                 }
@@ -214,7 +181,7 @@ setTimeout(function() {
                 // we didn't get cached data, the network is our last hope:
                 return networkUpdate;
             }).catch(function(err) {
-                console.log('Error Chat: ' + err);
+                console.log('Error Chat Content: ' + err);
             });
         }
         else{
@@ -234,6 +201,58 @@ setTimeout(function() {
             
             `);
         }
+}
+
+
+
+setTimeout(function() {
+    const socket = io("http://localhost:3000/");
+
+    ///////////////////////////////////////////////////////////////////////
+    //Socket IO for send chat
+    if (document.querySelector('#chat-form')) {
+
+        $('#back-button').on('click' , () => {
+            socket.disconnect();
+        });
+
+        const chatForm = $('#chat-form');
+        const chatContent = document.querySelector('#chat-content');
+
+        // Message from server
+        socket.on('message', (message) => {
+
+            $('#chat-empty').remove();
+
+            outputMessage(message);
+
+            // Scroll down
+            chatContent.scrollTop = chatContent.scrollHeight;
+        });
+
+        //Message Submit
+        chatForm.on('submit' , (e) => {
+            e.preventDefault();
+
+            // Get message text
+            const msg = e.target.elements.msg.value;
+            const id_user = e.target.elements.id_user.value;
+            const id_user_other = e.target.elements.id_user_other.value;
+            // Emit message to server
+            socket.emit('chatMessage' , msg , id_user_other, id_user);
+
+             // Clear input
+            e.target.elements.msg.value = '';
+            e.target.elements.msg.focus();
+        });
+    }
+    
+
+    ///////////////////////////////////////////////////////////////////////
+    //fetch data for chat content
+    if (document.querySelector('#chat-content')) {
+        
+        fetchChatContent(socket);
 
     };
     ///////////////////////////////////////////////////////////////////////
@@ -244,7 +263,7 @@ setTimeout(function() {
 
         var networkDataReceived = false;
 
-        if(id_user){
+            
             // fetch fresh chat preview
             var networkUpdate = fetch(`/fetch/chatpreview`)
             .then(function(response) { 
@@ -253,17 +272,24 @@ setTimeout(function() {
 
                 networkDataReceived = true;
                 
-               
-                
                 chatPreviewBuilder(data);
 
+            })
+            .then(function(){
+         
+                    $('.chat-preview-select').on('click' , function(e){
+                        id_user = $(this).data('iduser');
+                 
+                        fetchChatContent(socket);
+                    });
+              
             })
             .catch(function(err) {
                 console.log('Error Chat Preview: ' + err);
             });
 
 
-            // fetch cached chat
+            // fetch cached chat preview
             caches.match(`/fetch/chatpreview`)
             .then(function(response) {
                 if (!response) throw Error("No data");
@@ -271,8 +297,6 @@ setTimeout(function() {
             }).then(function(data) {
                 // don't overwrite newer network data
                 if (!networkDataReceived) {
-
-                   
                 
                     chatPreviewBuilder(data);
 
@@ -283,26 +307,11 @@ setTimeout(function() {
             }).catch(function(err) {
                 console.log('Error Chat Preview: ' + err);
             });
-        }
-        else{
-
-            $('#chat-preview').html('');
-
-            $('#chat-preview').html(`
-            <table class="w-100" style="height:80vh;border:none;background-color: transparent!important;">
-                <tr>
-                    <td class="align-middle text-center" style="background-color: transparent!important">
-                        <i class="fas fa-feather-alt fa-7x mb-5 color-highlight"></i>
-                        <br>
-                        <strong>Add contact or select any contact to start chat.</strong>
-                    </td>
-                </tr>
-            </table>
-            
-            `);
-        }
 
     };
     ///////////////////////////////////////////////////////////////////////
+
+    
+    
 
 }, 250);
