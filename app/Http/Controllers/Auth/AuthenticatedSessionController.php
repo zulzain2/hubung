@@ -69,7 +69,7 @@ class AuthenticatedSessionController extends Controller
         $otp_expired = date("Y-m-d H:i:s", time() + 300);
 
         $content = "Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired))."";
-        // Notification::notificationSMS($request->phone_number,$content);
+        Notification::notificationSMS($request->phone_number,$content);
 
         $user->otp = $otp;
         $user->otp_expired = $otp_expired;
