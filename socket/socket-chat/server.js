@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const fetch = require('node-fetch'); 
+const dotenv = require('dotenv').config({ path: '../../.env' })
 
 const app = express();
 const server = http.createServer(app);
@@ -14,7 +15,7 @@ const io = socketio(server, {
       origin: "*",
     }
   });
-const url = 'http://communication.test';
+const url = process.env.APP_URL;
 
 // Run when client connects
 io.on('connection', socket => {

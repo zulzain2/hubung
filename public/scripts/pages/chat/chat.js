@@ -203,7 +203,7 @@ function fetchChatContent(socket){
 
 
 setTimeout(function() {
-    const socket = io("http://localhost:3000/");
+    const socket = io("http://167.99.76.116:3000/");
 
     ///////////////////////////////////////////////////////////////////////
     //Socket IO for send chat
