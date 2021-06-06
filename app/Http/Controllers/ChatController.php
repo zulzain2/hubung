@@ -146,7 +146,7 @@ class ChatController extends Controller
     public function chatpreview(){
 
         $chatgroups = Chat::where('id_user' , auth()->user()->id)
-        ->orderBy('created_at')
+        ->orderBy('created_at' , 'DESC')
         ->get()
         ->groupBy('id_user_other'); 
 
@@ -155,7 +155,7 @@ class ChatController extends Controller
         foreach ($chatgroups as $keyA => $user) {
             foreach ($user as $keyB => $chat) {
 
-                if($keyB == (count($user)-1)){
+                if($keyB == 0){
                     $lasttext = $chat->text;
                     $lastcreated = $chat->created_at;
                 }
