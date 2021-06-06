@@ -203,7 +203,7 @@ function fetchChatContent(socket){
 
 
 setTimeout(function() {
-    const socket = io("https://167.99.76.116:3000/");
+    const socket = io("https://socket.zulzayn.com/");
 
     ///////////////////////////////////////////////////////////////////////
     //Socket IO for send chat
