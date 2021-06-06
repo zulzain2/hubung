@@ -61,7 +61,7 @@ class RegisteredUserController extends Controller
          }
      
         $otp = rand(1000,9999);
-        $otp_expired = date("Y-m-d h:i:s", time() + 300);
+        $otp_expired = date("Y-m-d H:i:s", time() + 300);
         
         $content = "Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired))."";
         Notification::notificationSMS($request->phone_number,$content);

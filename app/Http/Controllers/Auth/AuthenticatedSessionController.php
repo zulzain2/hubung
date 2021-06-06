@@ -63,10 +63,13 @@ class AuthenticatedSessionController extends Controller
         }
 
         $otp = rand(1000,9999);
-        $otp_expired = date("Y-m-d h:i:s", time() + 300);
-        
+
+   
+
+        $otp_expired = date("Y-m-d H:i:s", time() + 300);
+
         $content = "Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired))."";
-        Notification::notificationSMS($request->phone_number,$content);
+        // Notification::notificationSMS($request->phone_number,$content);
 
         $user->otp = $otp;
         $user->otp_expired = $otp_expired;
@@ -170,6 +173,7 @@ class AuthenticatedSessionController extends Controller
             $user = User::find($request->tempuser_id);
 
             $dbtimestamp = strtotime($user->otp_expired);
+            
             if (($dbtimestamp - time()) > (5 * 60)) {
                 $data = [
                     'status' => 'error', 
@@ -177,6 +181,7 @@ class AuthenticatedSessionController extends Controller
                     'message' => 'Otp has expired, you`ll redirect back.' ,
                     'error_list' => '' ,
                 ];
+             
                 return json_encode($data);
             }
     
@@ -272,7 +277,7 @@ class AuthenticatedSessionController extends Controller
             $user = User::find($request->user_id);
 
             $otp = rand(1000,9999);
-            $otp_expired = date("Y-m-d h:i:s", time() + 300);
+            $otp_expired = date("Y-m-d H:i:s", time() + 300);
             
             $user->otp = $otp;
             $user->otp_expired = $otp_expired;
@@ -292,7 +297,7 @@ class AuthenticatedSessionController extends Controller
             $tempuser = UserTemporary::find($request->user_id);
 
             $otp = rand(1000,9999);
-            $otp_expired = date("Y-m-d h:i:s", time() + 300);
+            $otp_expired = date("Y-m-d H:i:s", time() + 300);
             
             $content = "Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired))."";
             Notification::notificationSMS($tempuser->phone_number,$content);
