@@ -55,15 +55,28 @@ function chatPreviewBuilder(data){
 }
 
 function chatContentBuilder(data){
-
+console.log(data);
     $('#chat-content').html('');
 
     if (data.chat && data.chat.length) {
         $('.chat-send').show();
         
         data.chat.map(chat => {
-            if(chat.id_user === id_user || `${chat.id_user}` === id_user)
+
+            if(chat.id_user_other === id_user || `${chat.id_user_other}` === id_user)
             {
+                
+                    $('#chat-content').append(
+                        `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
+                            ${chat.text}
+                            <br>
+                            <small style="font-size: 9px;float: right;">${moment(chat.created_at).format('h:mm a')}</small>
+                        </div>
+                        <div class="clearfix"></div>`
+                    );
+               
+            }
+            else{
                 $('#chat-content').append(
                     `<div class="speech-bubble speech-right color-black pb-1" style="max-width:90% !important">
                         ${chat.text}
@@ -73,17 +86,7 @@ function chatContentBuilder(data){
                     <div class="clearfix"></div>`
                 );
             }
-            else{
-                
-                $('#chat-content').append(
-                    `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
-                        ${chat.text}
-                        <br>
-                        <small style="font-size: 9px;float: right;">${moment(chat.created_at).format('h:mm a')}</small>
-                    </div>
-                    <div class="clearfix"></div>`
-                );
-            }
+            
         });
     }
     else{
@@ -203,8 +206,8 @@ function fetchChatContent(socket){
 
 
 setTimeout(function() {
-    // const socket = io("https://communication.test:3000/");
-    const socket = io("https://socket.zulzayn.com/");
+    const socket = io("http://localhost:3000/");
+    // const socket = io("https://socket.zulzayn.com/");
 
     ///////////////////////////////////////////////////////////////////////
     //Socket IO for send chat
