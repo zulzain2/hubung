@@ -6,7 +6,7 @@
 "lang" : "en",
 "name" : "Hubung",
 "scope" : "./",
-"display" : "standalone",
+"display" : "browser",
 "start_url" : "./splashscreen",
 "short_name" : "Hubung",
 "description" : "", 
