@@ -1400,6 +1400,7 @@ document['addEventListener']('DOMContentLoaded', () => {
         if (_0xce56x2 === true) {
             var _0xce56x110 = document['getElementsByTagName']('html')[0];
             if (!_0xce56x110['classList']['contains']('isPWA')) {
+                console.log('serviceWorker' in navigator);
                 if ('serviceWorker' in navigator) {
                     window['addEventListener']('load', function() {
                         navigator['serviceWorker']['register'](_0xce56x8, {
