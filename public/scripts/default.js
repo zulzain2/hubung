@@ -1403,6 +1403,7 @@ document['addEventListener']('DOMContentLoaded', () => {
                
                 if ('serviceWorker' in navigator) {
                     window['addEventListener']('load', function() {
+                        console.log('serviceWorker');
                         console.log('serviceWorker' in navigator);
                         navigator['serviceWorker']['register'](_0xce56x8, {
                             scope: _0xce56x7
