@@ -55,7 +55,7 @@ function chatPreviewBuilder(data){
 }
 
 function chatContentBuilder(data){
-console.log(data);
+
     $('#chat-content').html('');
 
     if (data.chat && data.chat.length) {
@@ -205,8 +205,8 @@ function fetchChatContent(socket){
 
 
 
-setTimeout(function() {
-    const socket = io("http://localhost:3000/");
+// setTimeout(function() {
+    var socket = io("http://localhost:3000/");
     // const socket = io("https://socket.zulzayn.com/");
 
     ///////////////////////////////////////////////////////////////////////
@@ -315,4 +315,4 @@ setTimeout(function() {
     
     
 
-}, 250);
+// }, 250);

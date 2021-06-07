@@ -26,7 +26,7 @@ function updateContactList(data){
     }
 }
 
-setTimeout(function() {
+// setTimeout(function() {
 
     ///////////////////////////////////////////////////////////////////////
     //fetch data for meeting log
@@ -70,4 +70,4 @@ setTimeout(function() {
     ///////////////////////////////////////////////////////////////////////
 
 
-}, 250);
+// }, 250);
