@@ -206,8 +206,8 @@ function fetchChatContent(socket){
 
 
 // setTimeout(function() {
-    var socket = io("http://localhost:3000/");
-    // const socket = io("https://socket.zulzayn.com/");
+    // var socket = io("http://localhost:3000/");
+    var socket = io("https://socket.zulzayn.com/");
 
     ///////////////////////////////////////////////////////////////////////
     //Socket IO for send chat
