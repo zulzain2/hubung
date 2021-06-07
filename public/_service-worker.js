@@ -34,25 +34,25 @@ var EXCLUDE_ROUTES = [
 // }
 
 self.addEventListener('install', function (event) {
-  // console.log('[Service Worker] Installing Service Worker ...', event);
+  console.log('[Service Worker] Installing Service Worker ...', event);
   self.skipWaiting()
   event.waitUntil(
     caches.open(CACHE_STATIC_NAME)
       .then(function (cache) {
-        // console.log('[Service Worker] Precaching App Shell');
+        console.log('[Service Worker] Precaching App Shell');
           cache.addAll(STATIC_FILES);
       })
   )
 });
 
 self.addEventListener('activate', function (event) {
-  // console.log('[Service Worker] Activating Service Worker ....', event);
+  console.log('[Service Worker] Activating Service Worker ....', event);
   event.waitUntil(
     caches.keys()
       .then(function (keyList) {
         return Promise.all(keyList.map(function (key) {
           if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
-            // console.log('[Service Worker] Removing old cache.', key);
+            console.log('[Service Worker] Removing old cache.', key);
             return caches.delete(key);
           }
         }));
