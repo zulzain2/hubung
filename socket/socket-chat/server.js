@@ -26,7 +26,7 @@ io.on('connection', socket => {
     // Welcome current user
     console.log('connect');
 
-    // socket.emit('message', 'Welcome to ChatCord!');
+    // socket.emit('message', 'Welcome to ChatCord!'); 
 
     // Broadcast when a user connects
     // socket.broadcast.emit('message', 'A user has joined the chat!');
