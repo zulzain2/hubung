@@ -9,6 +9,9 @@ const server = http.createServer(app);
 app.get('/', (req, res) => {
     res.send('Socket Chat Successful response.');
   });
+app.get('/socketchat', (req, res) => {
+    res.send('Socket Chat Successful response.');
+  });
   
 const io = socketio(server, {
     cors: {
