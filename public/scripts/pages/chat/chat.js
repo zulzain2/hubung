@@ -65,7 +65,7 @@ function chatContentBuilder(data){
             if(chat.id_user === id_user || `${chat.id_user}` === id_user)
             {
                 $('#chat-content').append(
-                    `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
+                    `<div class="speech-bubble speech-right color-black pb-1" style="max-width:90% !important">
                         ${chat.text}
                         <br>
                         <small style="font-size: 9px;float: right;">${moment(chat.created_at).format('h:mm a')}</small>
@@ -76,7 +76,7 @@ function chatContentBuilder(data){
             else{
                 
                 $('#chat-content').append(
-                    `<div class="speech-bubble speech-right color-black pb-1" style="max-width:90% !important">
+                    `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
                         ${chat.text}
                         <br>
                         <small style="font-size: 9px;float: right;">${moment(chat.created_at).format('h:mm a')}</small>
