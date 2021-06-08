@@ -128,9 +128,11 @@ class ChatController extends Controller
         $other_user = User::find($id);
         $chats = Chat::where('id_user' , auth()->user()->id)
         ->where('id_user_other' , $id)
+        ->orderBy('created_at')
         ->orWhere('id_user' , $id)
         ->where('id_user_other' , auth()->user()->id)
-        ->orderBy('created_at')->get(); 
+        ->orderBy('created_at')
+        ->get(); 
         
 
         $data = [
@@ -146,14 +148,26 @@ class ChatController extends Controller
     public function chatpreview(){
 
         $chatgroups = Chat::where('id_user' , auth()->user()->id)
-        ->orderBy('created_at' , 'DESC')
+        ->orWhere('id_user_other' , auth()->user()->id)
+        ->orderBy('created_at' , 'DESC') 
         ->get()
         ->groupBy('id_user_other'); 
+
+    
 
         $dataArrs = array();
 
         foreach ($chatgroups as $keyA => $user) {
-            foreach ($user as $keyB => $chat) {
+
+            $chatspecifics = Chat::where('id_user' , auth()->user()->id)
+                            ->where('id_user_other' , $keyA)
+                            ->orderBy('created_at' , 'DESC') 
+                            ->orWhere('id_user' , $keyA)
+                            ->where('id_user_other' , auth()->user()->id)
+                            ->orderBy('created_at' , 'DESC') 
+                            ->get(); 
+
+            foreach ($chatspecifics as $keyB => $chat) {
 
                 if($keyB == 0){
                     $lasttext = $chat->text;
@@ -170,7 +184,22 @@ class ChatController extends Controller
             array_push($dataArrs, $dataArr);
 
         }
+        
 
+
+usort($dataArrs, function($a, $b) {
+    return $a['last_created'] < $b['last_created'];
+});
+
+
+        // $dataArrs = collect($dataArrs)->sortBy('last_created')->toArray();
+
+        // foreach (collect($dataArrs) as $key => $arrs) {
+     
+        //         dd($arrs['last_created']);
+           
+        // }
+        // dd(collect($dataArrs)->sortByDesc('last_created')->toArray());
 
         $data = [
             'status' => 'success', 
