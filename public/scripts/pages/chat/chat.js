@@ -206,112 +206,128 @@ function fetchChatContent(socket){
 
 
 // setTimeout(function() {
-    // var socket = io("http://localhost:3000/");
-    var socket = io("https://socket.zulzayn.com/");
+   
 
-    ///////////////////////////////////////////////////////////////////////
-    //Socket IO for send chat
-    if (document.querySelector('#chat-form')) {
+    async function socketInitialize() {
+         // var socket = io("http://localhost:3000/");
+        var socket = await io("https://socket.zulzayn.com/");
+      
+        return socket;
+      }
+      
+    socketInitialize()
+      .then(socket => {
 
-        $('#back-button').on('click' , () => {
-            socket.disconnect();
-        });
+        ///////////////////////////////////////////////////////////////////////
+        //Socket IO for send chat
+        if (document.querySelector('#chat-form')) {
 
-        const chatForm = $('#chat-form');
-        const chatContent = document.querySelector('#chat-content');
-
-        // Message from server
-        socket.on('message', (message) => {
-
-            $('#chat-empty').remove();
-
-            outputMessage(message);
-
-            // Scroll down
-            chatContent.scrollTop = chatContent.scrollHeight;
-        });
-
-        //Message Submit
-        chatForm.on('submit' , (e) => {
-            e.preventDefault();
-
-            // Get message text
-            const msg = e.target.elements.msg.value;
-            const id_user = e.target.elements.id_user.value;
-            const id_user_other = e.target.elements.id_user_other.value;
-            // Emit message to server
-            socket.emit('chatMessage' , msg , id_user_other, id_user);
-
-             // Clear input
-            e.target.elements.msg.value = '';
-            e.target.elements.msg.focus();
-        });
-    }
-    
-
-    ///////////////////////////////////////////////////////////////////////
-    //fetch data for chat content
-    if (document.querySelector('#chat-content')) {
-        
-        fetchChatContent(socket);
-
-    };
-    ///////////////////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////////////////
-    //fetch data for chat preview
-    if (document.querySelector('#chat-preview')) {
-
-        var networkDataReceived = false;
-
-            
-            // fetch fresh chat preview
-            var networkUpdate = fetch(`/fetch/chatpreview`)
-            .then(function(response) { 
-                return response.json();
-            }).then(function(data){
-
-                networkDataReceived = true;
-                
-                chatPreviewBuilder(data);
-
-            })
-            .then(function(){
-         
-                    $('.chat-preview-select').on('click' , function(e){
-                        id_user = $(this).data('iduser');
-                 
-                        fetchChatContent(socket);
-                    });
-              
-            })
-            .catch(function(err) {
-                console.log('Error Chat Preview: ' + err);
+            $('#back-button').on('click' , () => {
+                socket.disconnect();
             });
 
+            const chatForm = $('#chat-form');
+            const chatContent = document.querySelector('#chat-content');
 
-            // fetch cached chat preview
-            caches.match(`/fetch/chatpreview`)
-            .then(function(response) {
-                if (!response) throw Error("No data");
-                return response.json();
-            }).then(function(data) {
-                // don't overwrite newer network data
-                if (!networkDataReceived) {
+            // Message from server
+            socket.on('message', (message) => {
+
+                $('#chat-empty').remove();
+
+                outputMessage(message);
+
+                // Scroll down
+                chatContent.scrollTop = chatContent.scrollHeight;
+            });
+
+            //Message Submit
+            chatForm.on('submit' , (e) => {
+                e.preventDefault();
+
+                // Get message text
+                const msg = e.target.elements.msg.value;
+                const id_user = e.target.elements.id_user.value;
+                const id_user_other = e.target.elements.id_user_other.value;
+                // Emit message to server
+                socket.emit('chatMessage' , msg , id_user_other, id_user);
+
+                // Clear input
+                e.target.elements.msg.value = '';
+                e.target.elements.msg.focus();
+            });
+        }
+        
+
+        ///////////////////////////////////////////////////////////////////////
+        //fetch data for chat content
+        if (document.querySelector('#chat-content')) {
+            
+            fetchChatContent(socket);
+
+        };
+        ///////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////
+        //fetch data for chat preview
+        if (document.querySelector('#chat-preview')) {
+
+            var networkDataReceived = false;
+
                 
+                // fetch fresh chat preview
+                var networkUpdate = fetch(`/fetch/chatpreview`)
+                .then(function(response) { 
+                    return response.json();
+                }).then(function(data){
+
+                    networkDataReceived = true;
+                    
                     chatPreviewBuilder(data);
 
-                }
-            }).catch(function() {
-                // we didn't get cached data, the network is our last hope:
-                return networkUpdate;
-            }).catch(function(err) {
-                console.log('Error Chat Preview: ' + err);
-            });
+                })
+                .then(function(){
+            
+                        $('.chat-preview-select').on('click' , function(e){
+                            id_user = $(this).data('iduser');
+                    
+                            fetchChatContent(socket);
+                        });
+                
+                })
+                .catch(function(err) {
+                    console.log('Error Chat Preview: ' + err);
+                });
 
-    };
-    ///////////////////////////////////////////////////////////////////////
 
+                // fetch cached chat preview
+                caches.match(`/fetch/chatpreview`)
+                .then(function(response) {
+                    if (!response) throw Error("No data");
+                    return response.json();
+                }).then(function(data) {
+                    // don't overwrite newer network data
+                    if (!networkDataReceived) {
+                    
+                        chatPreviewBuilder(data);
+
+                    }
+                }).catch(function() {
+                    // we didn't get cached data, the network is our last hope:
+                    return networkUpdate;
+                }).catch(function(err) {
+                    console.log('Error Chat Preview: ' + err);
+                });
+
+        };
+        ///////////////////////////////////////////////////////////////////////
+
+
+       })
+      .catch(e => {
+        console.log('There has been a problem with your fetch operation: ' + e.message);
+      });
+
+    
     
     
 

@@ -7,8 +7,6 @@
     height: 100vh;
   }
 </style>
-
-<div id="socketio"></div>
 <div id="chat"></div>
 
 <div class="row h-100 mb-0">

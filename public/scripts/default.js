@@ -1526,15 +1526,10 @@ document['addEventListener']('DOMContentLoaded', () => {
             },
             //SCRIPTS/STYLES FOR PLUGINS
             {
-                id: 'socketio',
-                call: 'scripts/plugins/socketio/socket.io.min.js',
-                trigger: '#socketio'
-            },
-            {
                 id: 'uniqueID',
                 plug: 'scripts/pluginName/plugin.js',
                 call: 'scripts/pluginName/pluginName-call.js',
-                style: 'scripts/pluginName/pluginName-style.css',
+                style: 'scripts/pluginName/pluginName-style.css', 
                 trigger: '.pluginTriggerClass'
             }, {
                 id: 'chart',

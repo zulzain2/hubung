@@ -8,7 +8,6 @@
 }
 </style>
 
-    <div id="socketio"></div>
     <div id="chat"></div>
 
     <div class="header header-fixed header-logo-center">
