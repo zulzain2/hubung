@@ -91,8 +91,10 @@ if (document.querySelector('#footer-bar')) {
         }).then(function(data) {
             var results = data
 
-            if(results === 'true')
+            if(results.status === 'success')
             {
+                document.querySelector('meta[name="id_user"]').setAttribute("content", results.user_id);
+
                 if(window.location.href.indexOf("splashscreen") > -1){
                     swup.loadPage({
                         url: 'home',

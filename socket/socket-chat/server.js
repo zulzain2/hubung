@@ -19,12 +19,35 @@ const io = socketio(server, {
     }
   });
 const url = process.env.APP_URL;
-
+const userssocketid = {};
+const usersid = {};
 // Run when client connects
 io.on('connection', socket => {
 
     // Welcome current user
     console.log('connect');
+
+    socket.on('userOnline', function(data){
+        console.log('user ' + data.userId + ' online');
+        // saving userId to object with socket ID
+        userssocketid[socket.id] = data.userId;
+        usersid[data.userId] = socket.id;
+    });
+
+    socket.on('userOtherOnline', function(data){
+        var userId = data.userId;
+       
+        if(usersid[userId]){
+            console.log('User' + userssocketid[usersid[userId]] + ' is online.')
+            socket.emit("userOtherOnline", data.userId);
+        }
+        else
+        {
+            console.log('User' + userId + ' is offline.')
+        }
+    
+        
+    });
 
     // socket.emit('message', 'Welcome to ChatCord!'); 
 
@@ -35,6 +58,13 @@ io.on('connection', socket => {
     socket.on('disconnect' , () => {
         console.log('disconnect');
         // io.emit('message' , 'A user has left the chat.');
+
+        console.log('user ' + userssocketid[socket.id] + ' offline');
+        // remove saved socket from userssocketid object
+        delete usersid[userssocketid[socket.id]];
+        delete userssocketid[socket.id];
+        
+        
     });
 
     // Listen for chatMessage

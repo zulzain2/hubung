@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="domain" content="{{ URL::to('') }}">
+    <meta name="id_user" content="">
     <meta name="theme-color" content="#000">
     <title>Hubung</title>
 
@@ -224,6 +225,8 @@
     <script type="text/javascript" src="{{ URL::to('scripts/plugins/clipboard/clipboard.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::to('scripts/plugins/socketio/socket.io.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::to('scripts/default.js') }}"></script>
+
+    
 
 
     @stack('scripts')

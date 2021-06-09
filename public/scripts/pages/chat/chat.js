@@ -152,6 +152,18 @@ function fetchChatContent(socket){
                 $('#id_user_other').val(data.other_user.id);
 
                 socket.emit('myroom', data.user.id , data.other_user.id);
+
+                socket.emit('userOnline',{userId: $('meta[name="id_user"]').attr('content')});
+
+                socket.emit('userOtherOnline',{userId: data.other_user.id});
+
+                socket.on('userOtherOnline', (userId) => {
+                    console.log($('#id_user_other').val() , userId)
+                    if( ''+$('#id_user_other').val()+'' === ''+userId+''){
+                        $('#chat-show-name').append(' <i class="fas fa-xs fa-circle" style="color:#37bc9b"></i>');
+                    }
+                
+                });
                 
                 chatContentBuilder(data);
 

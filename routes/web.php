@@ -36,9 +36,18 @@ Route::get('/fetch/csrf', function () {
 
 Route::get('/fetch/checkAuth', function () {
     if (Auth::check()) {
-        return json_encode('true');
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully check auth.',
+            'user_id' => auth()->user()->id,
+        ];
+        return json_encode($data);
     } else {
-        return json_encode('false');
+        $data = [
+            'status' => 'error', 
+            'message' => 'Successfully check auth.'
+        ];
+        return json_encode($data);
     }
 });
 
