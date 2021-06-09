@@ -147,7 +147,7 @@ function fetchChatContent(socket){
 
                 networkDataReceived = true;
                 
-                $('#chat-show-name').prepend(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
+                $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
                 $('#id_user').val(data.user.id);
                 $('#id_user_other').val(data.other_user.id);
 
