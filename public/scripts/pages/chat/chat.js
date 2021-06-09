@@ -236,8 +236,8 @@ function fetchChatContent(socket){
    
 
     async function socketInitialize() {
-         var socket = io("http://localhost:3000/");
-        // var socket = await io("https://socket.zulzayn.com/");
+        //  var socket = io("http://localhost:3000/");
+        var socket = await io("https://socket.zulzayn.com/");
       
         return socket;
       }
