@@ -11,7 +11,7 @@
     <div id="chat"></div>
 
     <div class="header header-fixed header-logo-center">
-        <a id="chat-show-name" href="index.html" class="header-title"></a>
+        <a id="chat-show-name" href="index.html" class="header-title"><small id="chat-show-status"></small></a>
         <a id="back-button" href="#" data-back-button="" class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a>
         <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-ellipsis-v"></i></a>
     </div>

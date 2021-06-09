@@ -147,23 +147,38 @@ function fetchChatContent(socket){
 
                 networkDataReceived = true;
                 
-                $('#chat-show-name').html(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
+                $('#chat-show-name').prepend(data.other_user ? (data.other_user.nick_name ? data.other_user.nick_name : data.other_user.name) : 'Unknown');
                 $('#id_user').val(data.user.id);
                 $('#id_user_other').val(data.other_user.id);
 
+                //Join chat room between logged user and other user
                 socket.emit('myroom', data.user.id , data.other_user.id);
 
+                //Save user online to socket 
                 socket.emit('userOnline',{userId: $('meta[name="id_user"]').attr('content')});
 
-                socket.emit('userOtherOnline',{userId: data.other_user.id});
+                //Check if other user is online or offline
+
+                function checkOtherUser(){
+                    setTimeout(function() {
+                        socket.emit('userOtherOnline',{userId: data.other_user.id});
+                        checkOtherUser();
+                    }, 3000);
+                }
+
+                checkOtherUser()
 
                 socket.on('userOtherOnline', (userId) => {
                     console.log($('#id_user_other').val() , userId)
                     if( ''+$('#id_user_other').val()+'' === ''+userId+''){
-                        $('#chat-show-name').append(' <i class="fas fa-xs fa-circle" style="color:#37bc9b"></i>');
+                        $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:#37bc9b"></i>');
                     }
-                
+                    else
+                    {
+                        $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:lightgray"></i>');
+                    }
                 });
+
                 
                 chatContentBuilder(data);
 
@@ -221,8 +236,8 @@ function fetchChatContent(socket){
    
 
     async function socketInitialize() {
-         // var socket = io("http://localhost:3000/");
-        var socket = await io("https://socket.zulzayn.com/");
+         var socket = io("http://localhost:3000/");
+        // var socket = await io("https://socket.zulzayn.com/");
       
         return socket;
       }
