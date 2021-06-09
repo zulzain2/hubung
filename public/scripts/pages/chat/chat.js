@@ -166,6 +166,7 @@ function fetchChatContent(socket){
                     }, 3000);
                 }
 
+                socket.emit('userOtherOnline',{userId: data.other_user.id});
                 checkOtherUser()
 
                 socket.on('userOtherOnline', (userId) => {
@@ -173,8 +174,11 @@ function fetchChatContent(socket){
                     if( ''+$('#id_user_other').val()+'' === ''+userId+''){
                         $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:#37bc9b"></i>');
                     }
-                    else
-                    {
+                });
+
+                socket.on('userOtherOffline', (userId) => {
+                    console.log($('#id_user_other').val() , userId)
+                    if( ''+$('#id_user_other').val()+'' === ''+userId+''){
                         $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:lightgray"></i>');
                     }
                 });

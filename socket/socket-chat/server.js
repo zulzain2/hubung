@@ -44,6 +44,7 @@ io.on('connection', socket => {
         else
         {
             console.log('User' + userId + ' is offline.')
+            socket.emit("userOtherOffline", userId);
         }
     
         
