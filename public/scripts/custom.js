@@ -85,6 +85,8 @@ if (document.querySelector('#footer-bar')) {
     // for checking user auth
     if (document.querySelector('.check-auth')) {
         
+        // var socket = io("http://localhost:3000/");
+
         // fetch auth status and if no auth kick user to login
         fetch('/fetch/checkAuth').then(function(response) { 
             return response.json();
@@ -131,6 +133,20 @@ if (document.querySelector('#footer-bar')) {
                         customTransition: '' 
                     });
                 }
+            }
+
+            return results;
+        }).then(function(results) {
+
+            if(results.status === 'success')
+            {
+                console.log('masuk' , $('meta[name="id_user"]').attr('content'));
+                //Save user online to socket 
+                socket.emit('userOnline',{userId: $('meta[name="id_user"]').attr('content')});
+            }
+            else
+            {
+
             }
 
         }).catch(function(err) {

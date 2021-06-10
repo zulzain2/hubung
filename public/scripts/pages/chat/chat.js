@@ -237,25 +237,23 @@ function fetchChatContent(socket){
 
 
 // setTimeout(function() {
-   
-
-    async function socketInitialize() {
-        //  var socket = io("http://localhost:3000/");
-        var socket = await io("https://socket.zulzayn.com/");
+    // async function socketInitialize() {
+        //  var socket = await io("http://localhost:3000/");
+        // var socket = await io("https://socket.zulzayn.com/");
       
-        return socket;
-      }
+        // return socket;
+    //   }
       
-    socketInitialize()
-      .then(socket => {
+    // socketInitialize()
+    //   .then(socket => {
 
         ///////////////////////////////////////////////////////////////////////
         //Socket IO for send chat
         if (document.querySelector('#chat-form')) {
 
-            $('#back-button').on('click' , () => {
-                socket.disconnect();
-            });
+            // $('#back-button').on('click' , () => {
+            //     socket.disconnect();
+            // });
 
             const chatForm = $('#chat-form');
             const chatContent = document.querySelector('#chat-content');
@@ -353,10 +351,10 @@ function fetchChatContent(socket){
         ///////////////////////////////////////////////////////////////////////
 
 
-       })
-      .catch(e => {
-        console.log('There has been a problem with your fetch operation: ' + e.message);
-      });
+    //    })
+    //   .catch(e => {
+    //     console.log('There has been a problem with your fetch operation: ' + e.message);
+    //   });
 
     
     
