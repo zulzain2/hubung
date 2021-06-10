@@ -1626,6 +1626,10 @@ document['addEventListener']('DOMContentLoaded', () => {
         }  
     }
 
+    function unload() {
+        console.log('Unload');
+    }
+
     if ('scrollRestoration' in window['history']) {
         window['history']['scrollRestoration'] = 'manual'
     };
@@ -1647,6 +1651,10 @@ document['addEventListener']('DOMContentLoaded', () => {
                 _initCopyBtn();
                 _initBtnLoader();
             })
+            
+            swup.on('willReplaceContent', () => {
+                unload();
+            });
         }
     } 
   

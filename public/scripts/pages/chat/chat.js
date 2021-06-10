@@ -135,6 +135,15 @@ function outputMessage(message){
     
 }
 
+function checkOtherUser(id_other_user){
+    if(document.querySelector('#chat-content')){
+        setTimeout(function() {
+            socket.emit('userOtherOnline',{userId: id_other_user});
+            checkOtherUser(id_other_user);
+        }, 3000);
+    }  
+}
+
 function fetchChatContent(socket){
     var networkDataReceived = false;
 
@@ -158,16 +167,8 @@ function fetchChatContent(socket){
                 socket.emit('userOnline',{userId: $('meta[name="id_user"]').attr('content')});
 
                 //Check if other user is online or offline
-
-                function checkOtherUser(){
-                    setTimeout(function() {
-                        socket.emit('userOtherOnline',{userId: data.other_user.id});
-                        checkOtherUser();
-                    }, 3000);
-                }
-
                 socket.emit('userOtherOnline',{userId: data.other_user.id});
-                checkOtherUser()
+                checkOtherUser(data.other_user.id)
 
                 socket.on('userOtherOnline', (userId) => {
                     console.log($('#id_user_other').val() , userId)
@@ -247,13 +248,13 @@ function fetchChatContent(socket){
     // socketInitialize()
     //   .then(socket => {
 
+        // $('#back-button').on('click' , () => {
+        //     checkOtherUser.destroy();
+        // });
+
         ///////////////////////////////////////////////////////////////////////
         //Socket IO for send chat
         if (document.querySelector('#chat-form')) {
-
-            // $('#back-button').on('click' , () => {
-            //     socket.disconnect();
-            // });
 
             const chatForm = $('#chat-form');
             const chatContent = document.querySelector('#chat-content');
