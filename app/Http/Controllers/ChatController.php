@@ -150,12 +150,15 @@ class ChatController extends Controller
         $chatgroups = Chat::where('id_user' , auth()->user()->id)
         ->orWhere('id_user_other' , auth()->user()->id)
         ->orderBy('created_at' , 'DESC') 
-        ->get()
+        ->get() 
         ->groupBy('id_user_other'); 
 
     
 
         $dataArrs = array();
+
+        $lasttext = '';
+        $lastcreated = '';
 
         foreach ($chatgroups as $keyA => $user) {
 

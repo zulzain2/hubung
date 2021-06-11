@@ -27,11 +27,27 @@ io.on('connection', socket => {
     // Welcome current user
     console.log('connect');
 
+    socket.on('myroom', (id_user , id_other_user) => {
+        console.log('Join MyRoom ' + id_user+id_other_user + ' created');
+        socket.join(''+id_user+id_other_user+'');
+    });
+
+    socket.on('leavemyroom',function(id_user , id_other_user){   
+        try{
+          console.log('Leave MyRoom :', ''+id_user+id_other_user+'');
+          socket.leave(''+id_user+id_other_user+'');
+        }catch(e){
+          console.log('[error]','leave room :', e);
+        }
+      })
+
     socket.on('userOnline', function(data){
-        console.log('user ' + data.userId + ' online');
+        console.log('User ' + data.userId + ' created');
         // saving userId to object with socket ID
         userssocketid[socket.id] = data.userId;
         usersid[data.userId] = socket.id;
+        console.log(userssocketid);
+        console.log(usersid);
     });
 
     socket.on('userOtherOnline', function(data){
@@ -45,9 +61,7 @@ io.on('connection', socket => {
         {
             console.log('User' + userId + ' is offline.')
             socket.emit("userOtherOffline", userId);
-        }
-    
-        
+        } 
     });
 
     // socket.emit('message', 'Welcome to ChatCord!'); 
@@ -60,7 +74,7 @@ io.on('connection', socket => {
         console.log('disconnect');
         // io.emit('message' , 'A user has left the chat.');
 
-        console.log('user ' + userssocketid[socket.id] + ' offline');
+        console.log('User ' + userssocketid[socket.id] + ' deleted');
         // remove saved socket from userssocketid object
         delete usersid[userssocketid[socket.id]];
         delete userssocketid[socket.id];
@@ -87,6 +101,7 @@ io.on('connection', socket => {
             var results = resultsJSON;
 
             if(results.status === 'success'){
+                console.log("Send chat message");
                 io.to(''+id_user_other+id_user+'')
                 .to(''+id_user+id_user_other+'')
                 .emit('message' , results);
@@ -104,9 +119,7 @@ io.on('connection', socket => {
     });
 
 
-    socket.on('myroom', (id_user , id_other_user) => {
-        socket.join(''+id_user+id_other_user+'');
-    });
+    
 
 });
 

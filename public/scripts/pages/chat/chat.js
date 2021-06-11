@@ -1,6 +1,8 @@
 var url = new URL(window.location.href);
 var id_user = url.searchParams.get("id_user");
 
+// var socket = io("http://localhost:3000/");
+var socket = io("https://socket.zulzayn.com/");
 
 function chatPreviewBuilder(data){
     $('#chat-preview').html('');
@@ -144,7 +146,7 @@ function checkOtherUser(id_other_user){
     }  
 }
 
-function fetchChatContent(socket){
+function fetchChatContent(){
     var networkDataReceived = false;
 
         if(id_user){
@@ -248,9 +250,10 @@ function fetchChatContent(socket){
     // socketInitialize()
     //   .then(socket => {
 
-        // $('#back-button').on('click' , () => {
-        //     checkOtherUser.destroy();
-        // });
+        $('#back-button').on('click' , () => {
+            //Join chat room between logged user and other user
+            socket.emit('leavemyroom', $('#id_user').val() , $('#id_user_other').val());
+        });
 
         ///////////////////////////////////////////////////////////////////////
         //Socket IO for send chat
@@ -261,7 +264,7 @@ function fetchChatContent(socket){
 
             // Message from server
             socket.on('message', (message) => {
-
+                console.log('  mesej');
                 $('#chat-empty').remove();
 
                 outputMessage(message);
@@ -272,6 +275,7 @@ function fetchChatContent(socket){
 
             //Message Submit
             chatForm.on('submit' , (e) => {
+                
                 e.preventDefault();
 
                 // Get message text
@@ -292,7 +296,7 @@ function fetchChatContent(socket){
         //fetch data for chat content
         if (document.querySelector('#chat-content')) {
             
-            fetchChatContent(socket);
+            fetchChatContent();
 
         };
         ///////////////////////////////////////////////////////////////////////
@@ -320,7 +324,7 @@ function fetchChatContent(socket){
                         $('.chat-preview-select').on('click' , function(e){
                             id_user = $(this).data('iduser');
                     
-                            fetchChatContent(socket);
+                            fetchChatContent();
                         });
                 
                 })

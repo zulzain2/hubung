@@ -1,5 +1,5 @@
 var swup = {};
-var socket = io("https://socket.zulzayn.com/");
+
 
 //for preloader spinner
 setTimeout(function() {
