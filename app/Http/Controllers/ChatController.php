@@ -151,10 +151,24 @@ class ChatController extends Controller
         ->orWhere('id_user_other' , auth()->user()->id)
         ->orderBy('created_at' , 'DESC') 
         ->get() 
-        ->groupBy('id_user_other'); 
+        ->groupBy(function($data) {
 
-    
+            if($data->id_user > $data->id_user_other)
+            {
+                return $data->id_user.$data->id_user_other;
+            }
+            elseif($data->id_user < $data->id_user_other)
+            {
+                return $data->id_user_other.$data->id_user;
+            }
+            else
+            {
+                return $data->id_user.$data->id_user_other;
+            }
+            
+        });
 
+        
         $dataArrs = array();
 
         $lasttext = '';
@@ -162,32 +176,46 @@ class ChatController extends Controller
 
         foreach ($chatgroups as $keyA => $user) {
 
-            $chatspecifics = Chat::where('id_user' , auth()->user()->id)
-                            ->where('id_user_other' , $keyA)
-                            ->orderBy('created_at' , 'DESC') 
-                            ->orWhere('id_user' , $keyA)
-                            ->where('id_user_other' , auth()->user()->id)
-                            ->orderBy('created_at' , 'DESC') 
-                            ->get(); 
+            foreach ($user as $keyB => $chat) {
 
-            foreach ($chatspecifics as $keyB => $chat) {
+                
 
                 if($keyB == 0){
-                    $lasttext = $chat->text;
-                    $lastcreated = $chat->created_at;
-                }
-                
-            }
 
-            $user_other = User::find($keyA);
+                    if($chat->id_user == $chat->id_user_other)
+                    {
+                        $user_other = User::find($chat->id_user);
+                        $lasttext = $chat->text;
+                        $lastcreated = $chat->created_at;
+                    }
+                    else
+                    {
+                        
+                        if($chat->id_user == auth()->user()->id)
+                        {
+                            $user_other = User::find($chat->id_user_other);
+                            $lasttext = $chat->text;
+                            $lastcreated = $chat->created_at;
+                        }
+                        else
+                        {
+                            $user_other = User::find($chat->id_user);
+                            $lasttext = $chat->text;
+                            $lastcreated = $chat->created_at;
+                        }
+                      
+                    }
+                    
+                }
+
+            }
 
             $dataArr["user"] 	        = $user_other;
             $dataArr["last_text"] 	    = $lasttext;
             $dataArr["last_created"] 	= $lastcreated;
             array_push($dataArrs, $dataArr);
 
-        }
-        
+        } 
 
 
 usort($dataArrs, function($a, $b) {
@@ -195,14 +223,6 @@ usort($dataArrs, function($a, $b) {
 });
 
 
-        // $dataArrs = collect($dataArrs)->sortBy('last_created')->toArray();
-
-        // foreach (collect($dataArrs) as $key => $arrs) {
-     
-        //         dd($arrs['last_created']);
-           
-        // }
-        // dd(collect($dataArrs)->sortByDesc('last_created')->toArray());
 
         $data = [
             'status' => 'success', 
