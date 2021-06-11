@@ -86,7 +86,7 @@ if (document.querySelector('#footer-bar')) {
     if (document.querySelector('.check-auth')) {
         
         // var socket = io("http://localhost:3000/");
-        var socket = io("https://socket.zulzayn.com/");
+        // var socket = io("https://socket.zulzayn.com/");
 
         // fetch auth status and if no auth kick user to login
         fetch('/fetch/checkAuth').then(function(response) { 

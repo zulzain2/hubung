@@ -11,9 +11,14 @@
 
 <div class="row h-100 mb-0">
   <div class="col-xl-4 col-lg-4 col-sm-12 h-100">
-    <div class="row h-100 mb-0">
+    <div class="row h-100 mb-0" style="padding-top: 45px;">
       <div class="col-12 h-100">
 
+        <div class="header header-fixed header-logo-center col-xl-4 col-lg-4 col-sm-12">
+          <a href="index.html" class="header-title"></a>
+          {{-- <a id="back-button" href="#" data-back-button="" class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a> --}}
+          <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-ellipsis-v"></i></a>
+        </div>
             {{-- <div class="search-page">
                 <div class="search-box search-header bg-theme card-style me-3 ms-3 mb-0">
                     <i class="fa fa-search"></i>
@@ -63,6 +68,13 @@
     <div class="row mb-0" style="height: calc(100% - 60px);">
       <div class="col-12 h-100" style="overflow-y: scroll;">
 
+        <div class="header header-fixed header-logo-center offset-xl-4 offset-lg-4 col-xl-8 col-lg-8 col-sm-12 d-none d-xl-block d-lg-block">
+          <a href="index.html" class="header-title"><strong id="chat-show-name"></strong><small id="chat-show-status"></small></a>
+          {{-- <a id="back-button" href="#" data-back-button="" class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a> --}}
+          <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-ellipsis-v"></i></a>
+        </div>
+
+      
         <div id="chat-content" class="content mx-0 my-0 px-3 pt-5 pb-0" style="height:100%;overflow-y:scroll"></div>
 
       </div>

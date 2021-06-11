@@ -2,7 +2,7 @@ var url = new URL(window.location.href);
 var id_user = url.searchParams.get("id_user");
 
 // var socket = io("http://localhost:3000/");
-var socket = io("https://socket.zulzayn.com/");
+// var socket = io("https://socket.zulzayn.com/");
 
 function chatPreviewBuilder(data){
     $('#chat-preview').html('');

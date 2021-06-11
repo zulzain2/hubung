@@ -1,5 +1,6 @@
 var swup = {};
-
+// var socket = io("http://localhost:3000/");
+var socket = io("https://socket.zulzayn.com/");
 
 //for preloader spinner
 setTimeout(function() {
@@ -145,6 +146,9 @@ document['addEventListener']('DOMContentLoaded', () => {
     var _0xce56x8 = ''+$('meta[name="domain"]').attr('content')+'/_service-worker.js';
 
     function _init() {
+
+        // socket = io("http://localhost:3000/");
+        socket = io("https://socket.zulzayn.com/");
 
         var _0xce56xa, _0xce56xb, _0xce56xc;
         var _0xce56xd = document['getElementsByClassName']('menu-hider');
@@ -1627,7 +1631,7 @@ document['addEventListener']('DOMContentLoaded', () => {
     }
 
     function unload() {
-        console.log('Unload');
+        socket.disconnect();
     }
 
     if ('scrollRestoration' in window['history']) {
