@@ -12,12 +12,26 @@
 <div class="row h-100 mb-0">
   <div class="col-xl-4 col-lg-4 col-sm-12 h-100">
     <div class="row h-100 mb-0" style="padding-top: 45px;">
-      <div class="col-12 h-100">
+      <div class="col-12 h-100 pe-0">
 
         <div class="header header-fixed header-logo-center col-xl-4 col-lg-4 col-sm-12">
-          <a href="index.html" class="header-title"></a>
-          {{-- <a id="back-button" href="#" data-back-button="" class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a> --}}
-          <a href="#" data-toggle-theme="" class="header-icon header-icon-4"><i class="fas fa-ellipsis-v"></i></a>
+
+          
+          <div class="d-none" style="padding-left: 20px;margin-top: 5px;margin-bottom: 5px !important;height: 40px !important;">
+            <table class="w-100 h-100" style="border: none;background-color: transparent !important;">
+              <tr>
+                <td style="background-color: transparent !important;">
+                  <a href="#" data-back-button="" class="color-highlight"><i class="fas fa-arrow-left"></i></a>
+                </td>
+                <td style="background-color: transparent !important;">
+                  <input type="email" class="" id="form2" placeholder="Search" style="border:none;height:100%">
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <a href="#" class="header-icon header-icon-3"><i class="fa fa-search"></i></a>
+          <a href="#" class="header-icon header-icon-4"><i class="fas fa-ellipsis-v"></i></a>
         </div>
             {{-- <div class="search-page">
                 <div class="search-box search-header bg-theme card-style me-3 ms-3 mb-0">
