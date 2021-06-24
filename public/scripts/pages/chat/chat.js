@@ -17,7 +17,11 @@ function chatPreviewBuilder(data){
                         class="preload-img img-fluid rounded-circle">
 
                     <span>${chat.user.nick_name}</span>
-                    <strong>${chat.last_text}</strong>
+                    <strong style="display: -webkit-inline-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    width: 70%;">${chat.last_text}</strong>
                     <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
                     <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
                 </a>
@@ -31,7 +35,11 @@ function chatPreviewBuilder(data){
                         class="preload-img img-fluid rounded-circle">
 
                     <span>${chat.user.nick_name}</span>
-                    <strong>${chat.last_text}</strong>
+                    <strong style="display: -webkit-inline-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    width: 70%;">${chat.last_text}</strong>
                     <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
                     <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
                 </a>

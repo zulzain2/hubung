@@ -42,7 +42,7 @@
                 </div>
             </div>  --}}
 
-            <div class="card card-style h-100 mb-0">
+            <div class="card card-style h-100 mb-0 me-3 ms-1">
             
                         <div class="content my-2">
 
