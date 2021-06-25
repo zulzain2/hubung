@@ -67,14 +67,23 @@ class ChatController extends Controller
         $add->created_at = date('Y-m-d H:i:s');
         $add->save();
 
+        $unread_count = Chat::where('id_user' , $add->id_user)
+                            ->where('id_user_other' , $add->id_user_other)
+                            ->where('status' , 'S')
+                            ->orWhere('id_user' , $add->id_user_other)
+                            ->where('id_user_other' , $add->id_user)
+                            ->where('status' , 'S')
+                            ->get();
+                                
+        $chat = Chat::find($add->id);
+        $chat->unread_count = count($unread_count);
+
         $data = [
             'status' => 'success', 
             'message' => 'Successfully send chat.',
-            'data' => $add,
+            'data' => $chat,
         ];
         return json_encode($data);
-
-        // return json_encode('dfsgsdfgdsfg');
     }
 
     /**
@@ -133,7 +142,6 @@ class ChatController extends Controller
         ->where('id_user_other' , auth()->user()->id)
         ->orderBy('created_at')
         ->get(); 
-        
 
         $data = [
             'status' => 'success', 
@@ -176,10 +184,16 @@ class ChatController extends Controller
 
         foreach ($chatgroups as $keyA => $user) {
 
+            $unread_count = 0;
+
             foreach ($user as $keyB => $chat) {
 
-                
-
+                if($chat->id_user != auth()->user()->id){
+                    if($chat->status == "S"){
+                        $unread_count++;
+                    }
+                }
+                  
                 if($keyB == 0){
 
                     if($chat->id_user == $chat->id_user_other)
@@ -213,14 +227,15 @@ class ChatController extends Controller
             $dataArr["user"] 	        = $user_other;
             $dataArr["last_text"] 	    = $lasttext;
             $dataArr["last_created"] 	= $lastcreated;
+            $dataArr["unread_count"] 	= $unread_count;
             array_push($dataArrs, $dataArr);
 
         } 
 
 
-usort($dataArrs, function($a, $b) {
-    return $a['last_created'] < $b['last_created'];
-});
+        usort($dataArrs, function($a, $b) {
+            return $a['last_created'] < $b['last_created'];
+        });
 
 
 

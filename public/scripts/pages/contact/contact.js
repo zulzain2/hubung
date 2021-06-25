@@ -11,7 +11,7 @@ function updateContactList(data){
                         class="preload-img img-fluid rounded-circle">
 
                     <span>${contact.nick_name}</span>
-                    <strong>A powerful Mobile Template</strong>
+                    <strong>${contact.phone_number}</strong>
                 </a>
             `)
         })

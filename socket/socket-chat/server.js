@@ -43,13 +43,18 @@ io.on('connection', socket => {
 
     socket.on('userOnline', function(data){
         console.log('User ' + data.userId + ' created');
+
         // saving userId to object with socket ID
         userssocketid[socket.id] = data.userId;
         usersid[data.userId] = socket.id;
+
+        socket.join(''+data.userId+'');
+
         console.log(userssocketid);
         console.log(usersid);
     });
 
+    // Run to check user online/offline
     socket.on('userOtherOnline', function(data){
         var userId = data.userId;
        
@@ -63,11 +68,6 @@ io.on('connection', socket => {
             socket.emit("userOtherOffline", userId);
         } 
     });
-
-    // socket.emit('message', 'Welcome to ChatCord!'); 
-
-    // Broadcast when a user connects
-    // socket.broadcast.emit('message', 'A user has joined the chat!');
 
     // Run when client disconnects
     socket.on('disconnect' , () => {
@@ -101,10 +101,27 @@ io.on('connection', socket => {
             var results = resultsJSON;
 
             if(results.status === 'success'){
+
                 console.log("Send chat message");
-                io.to(''+id_user_other+id_user+'')
-                .to(''+id_user+id_user_other+'')
-                .emit('message' , results);
+
+                if(id_user_other === id_user){
+                    io.to(''+id_user+id_user_other+'')
+                    .emit('showMessage' , results);
+    
+                    io.to(''+id_user+'')
+                    .emit('previewMessage' , results);
+                }
+                else{
+                    io.to(''+id_user_other+id_user+'')
+                    .to(''+id_user+id_user_other+'')
+                    .emit('showMessage' , results);
+    
+                    io.to(''+id_user+'')
+                    .to(''+id_user_other+'')
+                    .emit('previewMessage' , results);
+                }
+               
+
             }
             else
             {

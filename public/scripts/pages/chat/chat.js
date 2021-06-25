@@ -1,9 +1,6 @@
 var url = new URL(window.location.href);
 var id_user = url.searchParams.get("id_user");
 
-// var socket = io("http://localhost:3000/");
-// var socket = io("https://socket.zulzayn.com/");
-
 function chatPreviewBuilder(data){
     $('#chat-preview').html('');
 
@@ -12,7 +9,7 @@ function chatPreviewBuilder(data){
 
             if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
                 $('#chat-preview').append(`
-                <a href="#" class="chat-preview-select" data-iduser="${chat.user.id}">
+                <a id="preview_${chat.user.id}" href="#" class="chat-preview-select" data-iduser="${chat.user.id}">
                     <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
                         class="preload-img img-fluid rounded-circle">
 
@@ -23,14 +20,14 @@ function chatPreviewBuilder(data){
                     overflow: hidden;
                     width: 70%;">${chat.last_text}</strong>
                     <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
-                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
+                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${chat.unread_count ? (chat.unread_count > 0 ? chat.unread_count : '') : ''}</span>
                 </a>
             `);
             }
             else
             {
                 $('#chat-preview').append(`
-                <a href="chat/show?id_user=${chat.user.id}" class="">
+                <a id="preview_${chat.user.id}" href="chat/show?id_user=${chat.user.id}" class="">
                     <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
                         class="preload-img img-fluid rounded-circle">
 
@@ -41,7 +38,7 @@ function chatPreviewBuilder(data){
                     overflow: hidden;
                     width: 70%;">${chat.last_text}</strong>
                     <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
-                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">06</span>
+                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${chat.unread_count ? (chat.unread_count > 0 ? chat.unread_count : '') : ''}</span>
                 </a>
             `);
             }
@@ -62,6 +59,55 @@ function chatPreviewBuilder(data){
             </table>
         `);
     }
+}
+
+function chatSinglePreviewBuilder(data){
+
+   
+    $(`#preview_${data.id_user}`).remove();
+
+    if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
+        $('#chat-preview').prepend(`
+        <a id="preview_${data.id_user}" href="#" class="chat-preview-select" data-iduser="${data.id_user}">
+            <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
+                class="preload-img img-fluid rounded-circle">
+
+            <span>${data.user}</span>
+            <strong style="display: -webkit-inline-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            width: 70%;">${data.last_text}</strong>
+            <span class="badge bg-dark-light mt-2">${data.last_created}</span>
+            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${data.unread_count ? (data.unread_count > 0 ? data.unread_count : '') : ''}</span>
+        </a>
+    `);
+    }
+    else
+    {
+        $('#chat-preview').prepend(`
+        <a id="preview_${data.id_user}" href="chat/show?id_user=${data.id_user}" class="">
+            <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
+                class="preload-img img-fluid rounded-circle">
+
+                <span>${data.user}</span>
+                <strong style="display: -webkit-inline-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                width: 70%;">${data.last_text}</strong>
+                <span class="badge bg-dark-light mt-2">${data.last_created}</span>
+                <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${data.unread_count ? (data.unread_count > 0 ? data.unread_count : '') : ''}</span>
+        </a>
+    `);
+    }
+
+    $(`#preview_${data.id_user}`).on('click' , function(e){
+        id_user = $(this).data('iduser');
+
+        fetchChatContent();
+    });
+
 }
 
 function chatContentBuilder(data){
@@ -117,11 +163,11 @@ function chatContentBuilder(data){
 
 }
 
-function outputMessage(message){
+function chatSingleContentBuilder(message){
 
     if(message.data)
     {
-        if(message.data.id_user === $('#id_user').val()){
+        if(message.data.id_user === $('#id_user').val() || `${message.data.id_user}` === $('#id_user').val()){
             $('#chat-content').append(
                 `<div class="speech-bubble speech-left bg-highlight pb-1" style="max-width:90% !important">
                     ${message.data.text}
@@ -245,23 +291,45 @@ function fetchChatContent(){
         }
 }
 
+        // Message from server
+        socket.on('previewMessage', (message) => {
 
+            var previewMessage_id_user = '';
+            var previewMessage_nickname = '';
+            var previewMessage_count = 0;
 
-// setTimeout(function() {
-    // async function socketInitialize() {
-        //  var socket = await io("http://localhost:3000/");
-        // var socket = await io("https://socket.zulzayn.com/");
+            if(message.data.id_user === message.data.id_user_other){
+                previewMessage_id_user = message.data.id_user;
+                previewMessage_nickname = message.data.user.nick_name;
+            }
+            else if(message.data.id_user === $('#id_user').val() || `${message.data.id_user}` === $('#id_user').val()){
+                previewMessage_id_user = message.data.id_user_other;
+                previewMessage_nickname = message.data.user_other.nick_name;
+            }
+            else if(message.data.id_user_other === $('#id_user').val() || `${message.data.id_user_other}` === $('#id_user').val()){
+                previewMessage_id_user = message.data.id_user;
+                previewMessage_nickname = message.data.user.nick_name;
+            }
+
+          
+            var data = {
+                user : `${previewMessage_nickname}`, 
+                id_user : `${previewMessage_id_user}`, 
+                last_text: `${message.data.text}`, 
+                last_created: `${moment(message.data.created_at).format('h:mm a')}`, 
+                unread_count: message.data.unread_count
+            };
       
-        // return socket;
-    //   }
+            chatSinglePreviewBuilder(data);
       
-    // socketInitialize()
-    //   .then(socket => {
+        });
 
+        ///////////////////////////////////////////////////////////////////////
+        //Leaves chat room between logged user and other user
         $('#back-button').on('click' , () => {
-            //Join chat room between logged user and other user
             socket.emit('leavemyroom', $('#id_user').val() , $('#id_user_other').val());
         });
+        ///////////////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////////////
         //Socket IO for send chat
@@ -271,11 +339,11 @@ function fetchChatContent(){
             const chatContent = document.querySelector('#chat-content');
 
             // Message from server
-            socket.on('message', (message) => {
-                console.log('  mesej');
+            socket.on('showMessage', (message) => {
+
                 $('#chat-empty').remove();
 
-                outputMessage(message);
+                chatSingleContentBuilder(message);
 
                 // Scroll down
                 chatContent.scrollTop = chatContent.scrollHeight;
@@ -314,7 +382,6 @@ function fetchChatContent(){
         if (document.querySelector('#chat-preview')) {
 
             var networkDataReceived = false;
-
                 
                 // fetch fresh chat preview
                 var networkUpdate = fetch(`/fetch/chatpreview`)
@@ -363,14 +430,3 @@ function fetchChatContent(){
         };
         ///////////////////////////////////////////////////////////////////////
 
-
-    //    })
-    //   .catch(e => {
-    //     console.log('There has been a problem with your fetch operation: ' + e.message);
-    //   });
-
-    
-    
-    
-
-// }, 250);
