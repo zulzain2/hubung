@@ -1,21 +1,23 @@
 ///////////////////////////////////////////////////////////////////////
 //for footer
 if (document.querySelector('#footer-bar')) {
-    if (window.location.href.indexOf("home") > -1) 
-    {
-        $('#notification-footer').removeClass('color-highlight');
-        $('#home-footer').addClass('active-nav');
-        $('#chat-footer').removeClass('active-nav');
-        $('#meet-footer').removeClass('active-nav');
-        $('#file-footer').removeClass('active-nav');
-        $('#setting-footer').removeClass('active-nav');
-    }
-    else if (window.location.href.indexOf("chat") > -1) 
+    // if (window.location.href.indexOf("home") > -1) 
+    // {
+    //     $('#notification-footer').removeClass('color-highlight');
+    //     $('#home-footer').addClass('active-nav');
+    //     $('#chat-footer').removeClass('active-nav');
+    //     $('#meet-footer').removeClass('active-nav');
+    //     $('#stream-footer').removeClass('active-nav');
+    //     $('#file-footer').removeClass('active-nav');
+    //     $('#setting-footer').removeClass('active-nav');
+    // }
+    if (window.location.href.indexOf("chat") > -1) 
     {
         $('#notification-footer').removeClass('color-highlight');
         $('#home-footer').removeClass('active-nav');
         $('#chat-footer').addClass('active-nav');
         $('#meet-footer').removeClass('active-nav');
+        $('#stream-footer').removeClass('active-nav');
         $('#file-footer').removeClass('active-nav');
         $('#setting-footer').removeClass('active-nav');
     }
@@ -25,6 +27,17 @@ if (document.querySelector('#footer-bar')) {
         $('#home-footer').removeClass('active-nav');
         $('#chat-footer').removeClass('active-nav');
         $('#meet-footer').addClass('active-nav');
+        $('#stream-footer').removeClass('active-nav');
+        $('#file-footer').removeClass('active-nav');
+        $('#setting-footer').removeClass('active-nav');
+    }
+    else if(window.location.href.indexOf("stream") > -1)
+    {
+        $('#notification-footer').removeClass('color-highlight');
+        $('#home-footer').removeClass('active-nav');
+        $('#chat-footer').removeClass('active-nav');
+        $('#meet-footer').removeClass('active-nav');
+        $('#stream-footer').addClass('active-nav');
         $('#file-footer').removeClass('active-nav');
         $('#setting-footer').removeClass('active-nav');
     }
@@ -34,6 +47,7 @@ if (document.querySelector('#footer-bar')) {
         $('#home-footer').removeClass('active-nav');
         $('#chat-footer').removeClass('active-nav');
         $('#meet-footer').removeClass('active-nav');
+        $('#stream-footer').removeClass('active-nav');
         $('#file-footer').addClass('active-nav');
         $('#setting-footer').removeClass('active-nav');
     }
@@ -43,18 +57,20 @@ if (document.querySelector('#footer-bar')) {
         $('#home-footer').removeClass('active-nav');
         $('#chat-footer').removeClass('active-nav');
         $('#meet-footer').removeClass('active-nav');
+        $('#stream-footer').removeClass('active-nav');
         $('#file-footer').removeClass('active-nav');
         $('#setting-footer').addClass('active-nav');
     }
-    else if(window.location.href.indexOf("notification") > -1)
-    {
-        $('#notification-footer').addClass('color-highlight');
-        $('#home-footer').removeClass('active-nav');
-        $('#chat-footer').removeClass('active-nav');
-        $('#meet-footer').removeClass('active-nav');
-        $('#file-footer').removeClass('active-nav');
-        $('#setting-footer').removeClass('active-nav');
-    }
+    // else if(window.location.href.indexOf("notification") > -1)
+    // {
+    //     $('#notification-footer').addClass('color-highlight');
+    //     $('#home-footer').removeClass('active-nav');
+    //     $('#chat-footer').removeClass('active-nav');
+    //     $('#meet-footer').removeClass('active-nav');
+    //     $('#stream-footer').removeClass('active-nav');
+    //     $('#file-footer').removeClass('active-nav');
+    //     $('#setting-footer').removeClass('active-nav');
+    // }
 }
 ///////////////////////////////////////////////////////////////////////
 
