@@ -57,26 +57,42 @@ class ChatController extends Controller
             ];
             return json_encode($data);
         }
-        
+
         $add = New Chat;
         $add->id_user = $request->id_user;
         $add->id_user_other = $request->id_user_other;
         $add->text = $request->text_message;
         $add->parent = 0;
-        $add->status = 'S';
+        $add->status_user = 'R';
+        if($request->id_user == $request->id_user_other){
+            $add->status_user_other = 'R';
+        }
+        else{
+            $add->status_user_other = 'S';
+        }
         $add->created_at = date('Y-m-d H:i:s');
         $add->save();
-
-        $unread_count = Chat::where('id_user' , $add->id_user)
-                            ->where('id_user_other' , $add->id_user_other)
-                            ->where('status' , 'S')
-                            ->orWhere('id_user' , $add->id_user_other)
-                            ->where('id_user_other' , $add->id_user)
-                            ->where('status' , 'S')
-                            ->get();
-                                
+    
         $chat = Chat::find($add->id);
-        $chat->unread_count = count($unread_count);
+       
+        if($add->id_user == $add->id_user_other){
+            $chat->unread_count_self = 0;
+            $chat->unread_count_other = 0;
+        }
+        else{
+            $unread_count_self = Chat::where('id_user' , $add->id_user)
+                                ->where('id_user_other' , $add->id_user_other)
+                                ->where('status_user_other' , 'S')
+                                ->get();
+            $chat->unread_count_self = count($unread_count_self);
+
+            $unread_count_other = Chat::where('id_user' , $add->id_user)
+                                ->where('id_user_other' , $add->id_user_other)
+                                ->where('status_user' , 'S')
+                                ->get();
+            $chat->unread_count_other = count($unread_count_other);
+        }
+       
 
         $data = [
             'status' => 'success', 
@@ -188,8 +204,20 @@ class ChatController extends Controller
 
             foreach ($user as $keyB => $chat) {
 
-                if($chat->id_user != auth()->user()->id){
-                    if($chat->status == "S"){
+                if($chat->id_user == $chat->id_user_other){
+                    if($chat->status_user == "S" || $chat->status_user_other == "S"){
+                        $unread_count++;
+                    }
+                }
+
+                if($chat->id_user == auth()->user()->id){
+                    if($chat->status_user == "S"){
+                        $unread_count++;
+                    }
+                }
+
+                if($chat->id_user_other == auth()->user()->id){
+                    if($chat->status_user_other == "S"){
                         $unread_count++;
                     }
                 }
@@ -246,4 +274,25 @@ class ChatController extends Controller
         ];
         return json_encode($data);
     }
+
+    public function updatechatstatus($id_user, $id_user_other){
+
+        $chats = Chat::where('id_user' , $id_user_other)
+                    ->where('id_user_other' , $id_user)
+                    ->where('status_user_other' , 'S')
+                    ->get();
+
+        foreach ($chats  as $key => $chat) {
+            $chat->status_user_other = "R";
+            $chat->save();
+        }
+
+        $data = [
+            'status' => 'success', 
+            'message' => 'Successfully update chat status.',
+        ];
+        return json_encode($data);
+
+    }
+
 }

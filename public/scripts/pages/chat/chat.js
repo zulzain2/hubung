@@ -1,31 +1,37 @@
-var url = new URL(window.location.href);
-var id_user = url.searchParams.get("id_user");
-
 function chatPreviewBuilder(data){
     $('#chat-preview').html('');
 
     if (data.chat && data.chat.length) {
         data.chat.map(chat => {
 
-            if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
-                $('#chat-preview').append(`
-                <a id="preview_${chat.user.id}" href="#" class="chat-preview-select" data-iduser="${chat.user.id}">
-                    <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
-                        class="preload-img img-fluid rounded-circle">
-
-                    <span>${chat.user.nick_name}</span>
-                    <strong style="display: -webkit-inline-box;
-                    -webkit-line-clamp: 1;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    width: 70%;">${chat.last_text}</strong>
-                    <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
-                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${chat.unread_count ? (chat.unread_count > 0 ? chat.unread_count : '') : ''}</span>
-                </a>
-            `);
+            if(document.querySelector('#chat-check')){
+                if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
+                    $('#chat-preview').append(`
+                    <a id="preview_${chat.user.id}" href="#" class="chat-preview-select" data-iduser="${chat.user.id}">
+                        <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
+                            class="preload-img img-fluid rounded-circle">
+    
+                        <span>${chat.user.nick_name}</span>
+                        <strong style="display: -webkit-inline-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        width: 70%;">${chat.last_text}</strong>
+                        <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
+                        <span class="unread_count badge rounded-pill bg-fade-highlight-light color-highlight">${chat.unread_count ? (chat.unread_count > 0 ? chat.unread_count : '') : ''}</span>
+                    </a>
+                `);
+                }  
+                else{
+                    mobileChatPreview(chat)
+                }
             }
             else
             {
+                mobileChatPreview(chat)
+            }
+
+            function mobileChatPreview(chat){
                 $('#chat-preview').append(`
                 <a id="preview_${chat.user.id}" href="chat/show?id_user=${chat.user.id}" class="">
                     <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
@@ -38,7 +44,7 @@ function chatPreviewBuilder(data){
                     overflow: hidden;
                     width: 70%;">${chat.last_text}</strong>
                     <span class="badge bg-dark-light mt-2">${moment(chat.last_created).format('h:mm a')}</span>
-                    <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${chat.unread_count ? (chat.unread_count > 0 ? chat.unread_count : '') : ''}</span>
+                    <span class="unread_count badge rounded-pill bg-fade-highlight-light color-highlight">${chat.unread_count ? (chat.unread_count > 0 ? chat.unread_count : '') : ''}</span>
                 </a>
             `);
             }
@@ -48,7 +54,7 @@ function chatPreviewBuilder(data){
     }
     else{
         $('#chat-preview').html(`
-            <table class="w-100" style="height:80vh;border:none;background-color: transparent!important;">
+            <table id="empty-chat-preview" class="w-100" style="height:80vh;border:none;background-color: transparent!important;">
                 <tr>
                     <td class="align-middle text-center" style="background-color: transparent!important">
                         <i class="fas fa-comments fa-7x mb-5"></i>
@@ -63,33 +69,19 @@ function chatPreviewBuilder(data){
 
 function chatSinglePreviewBuilder(data){
 
-   
+    $('#empty-chat-preview').remove();
     $(`#preview_${data.id_user}`).remove();
 
-    if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
-        $('#chat-preview').prepend(`
-        <a id="preview_${data.id_user}" href="#" class="chat-preview-select" data-iduser="${data.id_user}">
-            <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
-                class="preload-img img-fluid rounded-circle">
-
-            <span>${data.user}</span>
-            <strong style="display: -webkit-inline-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            width: 70%;">${data.last_text}</strong>
-            <span class="badge bg-dark-light mt-2">${data.last_created}</span>
-            <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${data.unread_count ? (data.unread_count > 0 ? data.unread_count : '') : ''}</span>
-        </a>
-    `);
-    }
-    else
-    {
-        $('#chat-preview').prepend(`
-        <a id="preview_${data.id_user}" href="chat/show?id_user=${data.id_user}" class="">
-            <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
-                class="preload-img img-fluid rounded-circle">
-
+console.log(data.unread_count_self , data.unread_count_other);
+console.log(data.id_user == $('meta[name="id_user"]').attr('content') ? (data.unread_count_other > 0 ? data.unread_count_other : '') : (data.unread_count_self > 0 ? data.unread_count_self : ''));
+    
+    if(document.querySelector('#chat-check')){
+        if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
+            $('#chat-preview').prepend(`
+            <a id="preview_${data.id_user}" href="#" class="chat-preview-select" data-iduser="${data.id_user}">
+                <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
+                    class="preload-img img-fluid rounded-circle">
+    
                 <span>${data.user}</span>
                 <strong style="display: -webkit-inline-box;
                 -webkit-line-clamp: 1;
@@ -97,20 +89,46 @@ function chatSinglePreviewBuilder(data){
                 overflow: hidden;
                 width: 70%;">${data.last_text}</strong>
                 <span class="badge bg-dark-light mt-2">${data.last_created}</span>
-                <span class="badge rounded-pill bg-fade-highlight-light color-highlight">${data.unread_count ? (data.unread_count > 0 ? data.unread_count : '') : ''}</span>
-        </a>
-    `);
+                <span class="unread_count badge rounded-pill bg-fade-highlight-light color-highlight">${data.id_user == $('meta[name="id_user"]').attr('content') ? (data.unread_count_other > 0 ? data.unread_count_other : '') : (data.unread_count_self > 0 ? data.unread_count_self : '')}</span>
+            </a>
+        `);
+        }
+        else{
+            mobileChatPreview(data)
+        }
+    }
+    else
+    {
+        mobileChatPreview(data)
     }
 
-    $(`#preview_${data.id_user}`).on('click' , function(e){
-        id_user = $(this).data('iduser');
+        function mobileChatPreview(data){
+            $('#chat-preview').prepend(`
+            <a id="preview_${data.id_user}" href="chat/show?id_user=${data.id_user}" class="">
+                <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
+                    class="preload-img img-fluid rounded-circle">
 
-        fetchChatContent();
+                    <span>${data.user}</span>
+                    <strong style="display: -webkit-inline-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    width: 70%;">${data.last_text}</strong>
+                    <span class="badge bg-dark-light mt-2">${data.last_created}</span>
+                    <span class="unread_count badge rounded-pill bg-fade-highlight-light color-highlight">${data.id_user == $('meta[name="id_user"]').attr('content') ? (data.unread_count_other > 0 ? data.unread_count_other : '') : (data.unread_count_self > 0 ? data.unread_count_self : '')}</span>
+            </a>
+        `);
+        }
+
+    $(`#preview_${data.id_user}`).on('click' , function(e){
+        var id_user = $(this).data('iduser');
+
+        fetchChatContent(id_user);
     });
 
 }
 
-function chatContentBuilder(data){
+function chatContentBuilder(data , id_user){
 
     $('#chat-content').html('');
 
@@ -200,7 +218,49 @@ function checkOtherUser(id_other_user){
     }  
 }
 
-function fetchChatContent(){
+function updateChatStatus(id_user){
+
+    var id_user_other = id_user;
+    var id_user = $('meta[name="id_user"]').attr('content');
+   
+    console.log('sdfsdfs' , id_user , id_user_other);
+    //  fetch fresh chat content
+     var networkUpdate = fetch(`/fetch/updatechatstatus/${id_user}/${id_user_other}`)
+     .then(function(response) { 
+         return response.json();
+     }).then(function(data){
+         networkDataReceived = true;
+
+         $(`#preview_${id_user_other}`).find(".unread_count").html('');
+
+     })
+     .catch(function(err) {
+         console.log('Error Chat Content: ' + err);
+     });
+
+
+    //  fetch cached chat content
+    //  caches.match(`/fetch/updatechatstatus/${id_user}/${id_user_other}`)
+    //  .then(function(response) {
+    //      if (!response) throw Error("No data");
+    //      return response.json();
+    //  }).then(function(data) {
+    //      // don't overwrite newer network data
+    //      if (!networkDataReceived) {
+
+
+    //      }
+    //  }).catch(function() {
+    //      // we didn't get cached data, the network is our last hope:
+    //      return networkUpdate;
+    //  }).catch(function(err) {
+    //      console.log('Error Chat Content: ' + err);
+    //  });
+    
+
+}
+
+function fetchChatContent(id_user){
     var networkDataReceived = false;
 
         if(id_user){
@@ -239,9 +299,9 @@ function fetchChatContent(){
                         $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:lightgray"></i>');
                     }
                 });
-
+             
                 
-                chatContentBuilder(data);
+                chatContentBuilder(data , id_user);
 
             })
             .catch(function(err) {
@@ -262,7 +322,7 @@ function fetchChatContent(){
                     $('#id_user').val(data.user.id);
                     $('#id_user_other').val(data.other_user.id);
 
-                    chatContentBuilder(data);
+                    chatContentBuilder(data , id_user);
 
                 }
             }).catch(function() {
@@ -291,142 +351,150 @@ function fetchChatContent(){
         }
 }
 
-        // Message from server
-        socket.on('previewMessage', (message) => {
 
-            var previewMessage_id_user = '';
-            var previewMessage_nickname = '';
-            var previewMessage_count = 0;
 
-            if(message.data.id_user === message.data.id_user_other){
-                previewMessage_id_user = message.data.id_user;
-                previewMessage_nickname = message.data.user.nick_name;
-            }
-            else if(message.data.id_user === $('#id_user').val() || `${message.data.id_user}` === $('#id_user').val()){
-                previewMessage_id_user = message.data.id_user_other;
-                previewMessage_nickname = message.data.user_other.nick_name;
-            }
-            else if(message.data.id_user_other === $('#id_user').val() || `${message.data.id_user_other}` === $('#id_user').val()){
-                previewMessage_id_user = message.data.id_user;
-                previewMessage_nickname = message.data.user.nick_name;
-            }
 
-          
-            var data = {
-                user : `${previewMessage_nickname}`, 
-                id_user : `${previewMessage_id_user}`, 
-                last_text: `${message.data.text}`, 
-                last_created: `${moment(message.data.created_at).format('h:mm a')}`, 
-                unread_count: message.data.unread_count
-            };
-      
-            chatSinglePreviewBuilder(data);
-      
-        });
 
-        ///////////////////////////////////////////////////////////////////////
-        //Leaves chat room between logged user and other user
-        $('#back-button').on('click' , () => {
-            socket.emit('leavemyroom', $('#id_user').val() , $('#id_user_other').val());
-        });
-        ///////////////////////////////////////////////////////////////////////
+// Message from server
+socket.on('previewMessage', (message) => {
 
-        ///////////////////////////////////////////////////////////////////////
-        //Socket IO for send chat
-        if (document.querySelector('#chat-form')) {
+    var previewMessage_id_user = '';
+    var previewMessage_nickname = '';
 
-            const chatForm = $('#chat-form');
-            const chatContent = document.querySelector('#chat-content');
+    if(message.data.id_user === message.data.id_user_other){
+        previewMessage_id_user = message.data.id_user;
+        previewMessage_nickname = message.data.user.nick_name;
+    }
+    else if(message.data.id_user === $('meta[name="id_user"]').attr('content') || `${message.data.id_user}` === $('meta[name="id_user"]').attr('content')){
+        previewMessage_id_user = message.data.id_user_other;
+        previewMessage_nickname = message.data.user_other.nick_name;
+    }
+    else if(message.data.id_user_other === $('meta[name="id_user"]').attr('content') || `${message.data.id_user_other}` === $('meta[name="id_user"]').attr('content')){
+        previewMessage_id_user = message.data.id_user;
+        previewMessage_nickname = message.data.user.nick_name;
+    }
+    
+    var data = {
+        user : `${previewMessage_nickname}`, 
+        id_user : `${previewMessage_id_user}`, 
+        last_text: `${message.data.text}`, 
+        last_created: `${moment(message.data.created_at).format('h:mm a')}`, 
+        unread_count_self: message.data.unread_count_self,
+        unread_count_other: message.data.unread_count_other,
+    };
 
-            // Message from server
-            socket.on('showMessage', (message) => {
+    chatSinglePreviewBuilder(data);
 
-                $('#chat-empty').remove();
+});
 
-                chatSingleContentBuilder(message);
+///////////////////////////////////////////////////////////////////////
+//Leaves chat room between logged user and other user
+$('#back-button').on('click' , () => {
+    socket.emit('leavemyroom', $('#id_user').val() , $('#id_user_other').val());
+});
+///////////////////////////////////////////////////////////////////////
 
-                // Scroll down
-                chatContent.scrollTop = chatContent.scrollHeight;
-            });
+///////////////////////////////////////////////////////////////////////
+//Socket IO for send chat
+if (document.querySelector('#chat-form')) {
 
-            //Message Submit
-            chatForm.on('submit' , (e) => {
-                
-                e.preventDefault();
+    const chatForm = $('#chat-form');
+    const chatContent = document.querySelector('#chat-content');
 
-                // Get message text
-                const msg = e.target.elements.msg.value;
-                const id_user = e.target.elements.id_user.value;
-                const id_user_other = e.target.elements.id_user_other.value;
-                // Emit message to server
-                socket.emit('chatMessage' , msg , id_user_other, id_user);
+    // Message from server
+    socket.on('showMessage', (message) => {
 
-                // Clear input
-                e.target.elements.msg.value = '';
-                e.target.elements.msg.focus();
-            });
-        }
+        $('#chat-empty').remove();
+
+        chatSingleContentBuilder(message);
+
+        // Scroll down
+        chatContent.scrollTop = chatContent.scrollHeight;
+    });
+
+    //Message Submit
+    chatForm.on('submit' , (e) => {
         
+        e.preventDefault();
 
-        ///////////////////////////////////////////////////////////////////////
-        //fetch data for chat content
-        if (document.querySelector('#chat-content')) {
+        // Get message text
+        const msg = e.target.elements.msg.value;
+        const id_user = e.target.elements.id_user.value;
+        const id_user_other = e.target.elements.id_user_other.value;
+        // Emit message to server
+        socket.emit('chatMessage' , msg , id_user_other, id_user);
+
+        // Clear input
+        e.target.elements.msg.value = '';
+        e.target.elements.msg.focus();
+    });
+}
+
+
+///////////////////////////////////////////////////////////////////////
+//fetch data for chat content
+if (document.querySelector('#chat-content')) {
+    
+    var url = new URL(window.location.href);
+    var id_user = url.searchParams.get("id_user");
+
+    fetchChatContent(id_user);
+
+};
+///////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////
+//fetch data for chat preview
+if (document.querySelector('#chat-preview')) {
+
+    var networkDataReceived = false;
+        
+        // fetch fresh chat preview
+        var networkUpdate = fetch(`/fetch/chatpreview`)
+        .then(function(response) {  
+            return response.json();
+        }).then(function(data){
+
+            networkDataReceived = true;
             
-            fetchChatContent();
+            chatPreviewBuilder(data);
 
-        };
-        ///////////////////////////////////////////////////////////////////////
-
-        ///////////////////////////////////////////////////////////////////////
-        //fetch data for chat preview
-        if (document.querySelector('#chat-preview')) {
-
-            var networkDataReceived = false;
-                
-                // fetch fresh chat preview
-                var networkUpdate = fetch(`/fetch/chatpreview`)
-                .then(function(response) { 
-                    return response.json();
-                }).then(function(data){
-
-                    networkDataReceived = true;
+        })
+        .then(function(){
+    
+                $('.chat-preview-select').on('click' , function(e){
+                    var id_user = $(this).data('iduser');
                     
-                    chatPreviewBuilder(data);
+                    updateChatStatus(id_user);
 
-                })
-                .then(function(){
+                    fetchChatContent(id_user);
+                });
+        
+        })
+        .catch(function(err) {
+            console.log('Error Chat Preview: ' + err);
+        });
+
+
+        // fetch cached chat preview
+        caches.match(`/fetch/chatpreview`)
+        .then(function(response) {
+            if (!response) throw Error("No data");
+            return response.json();
+        }).then(function(data) {
+            // don't overwrite newer network data
+            if (!networkDataReceived) {
             
-                        $('.chat-preview-select').on('click' , function(e){
-                            id_user = $(this).data('iduser');
-                    
-                            fetchChatContent();
-                        });
-                
-                })
-                .catch(function(err) {
-                    console.log('Error Chat Preview: ' + err);
-                });
+                chatPreviewBuilder(data);
 
+            }
+        }).catch(function() {
+            // we didn't get cached data, the network is our last hope:
+            return networkUpdate;
+        }).catch(function(err) {
+            console.log('Error Chat Preview: ' + err);
+        });
 
-                // fetch cached chat preview
-                caches.match(`/fetch/chatpreview`)
-                .then(function(response) {
-                    if (!response) throw Error("No data");
-                    return response.json();
-                }).then(function(data) {
-                    // don't overwrite newer network data
-                    if (!networkDataReceived) {
-                    
-                        chatPreviewBuilder(data);
-
-                    }
-                }).catch(function() {
-                    // we didn't get cached data, the network is our last hope:
-                    return networkUpdate;
-                }).catch(function(err) {
-                    console.log('Error Chat Preview: ' + err);
-                });
-
-        };
-        ///////////////////////////////////////////////////////////////////////
+};
+///////////////////////////////////////////////////////////////////////
 
