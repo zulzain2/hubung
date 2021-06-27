@@ -108,8 +108,21 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request)
     {
+ 
+        if($request->id_user && $request->id_user_other){
+            $chats = Chat::where('id_user' , $request->id_user)
+            ->where('id_user_other' , $request->id_user_other)
+            ->where('status_user_other' , 'S')
+            ->get();
+
+            foreach ($chats  as $key => $chat) {
+                $chat->status_user_other = "R";
+                $chat->save();
+            }
+        }
+
         return view('chat.show');
     }
 
@@ -227,6 +240,7 @@ class ChatController extends Controller
                     if($chat->id_user == $chat->id_user_other)
                     {
                         $user_other = User::find($chat->id_user);
+                        $user = User::find($chat->id_user_other);
                         $lasttext = $chat->text;
                         $lastcreated = $chat->created_at;
                     }
@@ -236,12 +250,14 @@ class ChatController extends Controller
                         if($chat->id_user == auth()->user()->id)
                         {
                             $user_other = User::find($chat->id_user_other);
+                            $user = User::find($chat->id_user);
                             $lasttext = $chat->text;
                             $lastcreated = $chat->created_at;
                         }
                         else
                         {
                             $user_other = User::find($chat->id_user);
+                            $user = User::find($chat->id_user_other);
                             $lasttext = $chat->text;
                             $lastcreated = $chat->created_at;
                         }
@@ -253,6 +269,7 @@ class ChatController extends Controller
             }
 
             $dataArr["user"] 	        = $user_other;
+            $dataArr["user_other"] 	    = $user;
             $dataArr["last_text"] 	    = $lasttext;
             $dataArr["last_created"] 	= $lastcreated;
             $dataArr["unread_count"] 	= $unread_count;

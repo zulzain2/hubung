@@ -26,14 +26,14 @@ function chatPreviewBuilder(data){
                     mobileChatPreview(chat)
                 }
             }
-            else
-            {
-                mobileChatPreview(chat)
-            }
+            // else
+            // {
+            //     mobileChatPreview(chat)
+            // }
 
             function mobileChatPreview(chat){
                 $('#chat-preview').append(`
-                <a id="preview_${chat.user.id}" href="chat/show?id_user=${chat.user.id}" class="">
+                <a id="preview_${chat.user.id}" href="chat/show?id_user=${chat.user.id}&id_user_other=${chat.user_other.id}" class="">
                     <img src="https://ui-avatars.com/api/?background=random&name=${chat.user.nick_name}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
                         class="preload-img img-fluid rounded-circle">
 
@@ -72,8 +72,8 @@ function chatSinglePreviewBuilder(data){
     $('#empty-chat-preview').remove();
     $(`#preview_${data.id_user}`).remove();
 
-console.log(data.unread_count_self , data.unread_count_other);
-console.log(data.id_user == $('meta[name="id_user"]').attr('content') ? (data.unread_count_other > 0 ? data.unread_count_other : '') : (data.unread_count_self > 0 ? data.unread_count_self : ''));
+// console.log(data.unread_count_self , data.unread_count_other);
+// console.log(data.id_user == $('meta[name="id_user"]').attr('content') ? (data.unread_count_other > 0 ? data.unread_count_other : '') : (data.unread_count_self > 0 ? data.unread_count_self : ''));
     
     if(document.querySelector('#chat-check')){
         if(window.getComputedStyle(document.getElementById('chat-check'), null).display === 'block'){
@@ -97,14 +97,14 @@ console.log(data.id_user == $('meta[name="id_user"]').attr('content') ? (data.un
             mobileChatPreview(data)
         }
     }
-    else
-    {
-        mobileChatPreview(data)
-    }
+    // else
+    // {
+    //     mobileChatPreview(data)
+    // }
 
         function mobileChatPreview(data){
             $('#chat-preview').prepend(`
-            <a id="preview_${data.id_user}" href="chat/show?id_user=${data.id_user}" class="">
+            <a id="preview_${data.id_user}" href="chat/show?id_user=${data.id_user}&id_user_other=${data.id_user_other}" class="">
                 <img src="https://ui-avatars.com/api/?background=random&name=${data.user}&bold=true&font-size=0.33&color=ffffff" style="width:40px !important;margin-right: 15px;"
                     class="preload-img img-fluid rounded-circle">
 
@@ -359,24 +359,29 @@ function fetchChatContent(id_user){
 socket.on('previewMessage', (message) => {
 
     var previewMessage_id_user = '';
+    var previewMessage_id_user_other = '';
     var previewMessage_nickname = '';
 
     if(message.data.id_user === message.data.id_user_other){
         previewMessage_id_user = message.data.id_user;
+        previewMessage_id_user_other = message.data.id_user_other;
         previewMessage_nickname = message.data.user.nick_name;
     }
     else if(message.data.id_user === $('meta[name="id_user"]').attr('content') || `${message.data.id_user}` === $('meta[name="id_user"]').attr('content')){
         previewMessage_id_user = message.data.id_user_other;
+        previewMessage_id_user_other = message.data.id_user;
         previewMessage_nickname = message.data.user_other.nick_name;
     }
     else if(message.data.id_user_other === $('meta[name="id_user"]').attr('content') || `${message.data.id_user_other}` === $('meta[name="id_user"]').attr('content')){
         previewMessage_id_user = message.data.id_user;
+        previewMessage_id_user_other = message.data.id_user_other;
         previewMessage_nickname = message.data.user.nick_name;
     }
     
     var data = {
         user : `${previewMessage_nickname}`, 
         id_user : `${previewMessage_id_user}`, 
+        id_user_other : `${previewMessage_id_user_other}`, 
         last_text: `${message.data.text}`, 
         last_created: `${moment(message.data.created_at).format('h:mm a')}`, 
         unread_count_self: message.data.unread_count_self,
