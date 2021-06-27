@@ -271,7 +271,7 @@ setTimeout(function() {
                                     else
                                     {
                                         swup.loadPage({
-                                            url: '/home', 
+                                            url: '/chat', 
                                             method: 'GET',
                                             customTransition: '' 
                                         });

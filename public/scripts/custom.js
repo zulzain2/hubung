@@ -116,7 +116,7 @@ if (document.querySelector('#footer-bar')) {
 
                 if(window.location.href.indexOf("splashscreen") > -1){
                     swup.loadPage({
-                        url: 'home',
+                        url: 'chat',
                         method: 'GET',
                         customTransition: '' 
                     });
