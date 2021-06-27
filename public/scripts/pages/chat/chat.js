@@ -289,14 +289,22 @@ function fetchChatContent(id_user){
                 socket.on('userOtherOnline', (userId) => {
                     console.log($('#id_user_other').val() , userId)
                     if( ''+$('#id_user_other').val()+'' === ''+userId+''){
-                        $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:#37bc9b"></i>');
+                        $('#chat-show-status').html(` <i class="fas fa-xs fa-circle" style="color:#37bc9b"></i> 
+                        <br> <small style="position: absolute;
+                        left: 40%;
+                        top: 15px;
+                        font-size: 10px;">online</small>`);
                     }
                 });
 
                 socket.on('userOtherOffline', (userId) => {
                     console.log($('#id_user_other').val() , userId)
                     if( ''+$('#id_user_other').val()+'' === ''+userId+''){
-                        $('#chat-show-status').html(' <i class="fas fa-xs fa-circle" style="color:lightgray"></i>');
+                        $('#chat-show-status').html(` <i class="fas fa-xs fa-circle" style="color:lightgray"></i>
+                        <br> <small style="position: absolute;
+                        left: 40%;
+                        top: 15px;
+                        font-size: 10px;">offline</small>`);
                     }
                 });
              
