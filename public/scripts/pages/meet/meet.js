@@ -179,9 +179,14 @@
                         },
                         interfaceConfigOverwrite: {
                             TOOLBAR_BUTTONS: [
+                                // 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                                // 'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                                // 'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                                // 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                                // 'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
                                 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                                 'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                                'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                                'etherpad', 'sharedvideo', 'settings', 'raisehand',
                                 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                                 'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
                             ],
@@ -236,6 +241,8 @@
                             .catch(function(err) {
                                 console.log(err);
                             });
+
+                            
 
                         },
                         participantRoleChanged: function(data) {
@@ -983,3 +990,6 @@
         ///////////////////////////////////////////////////////////////////////
 
     // }, 250);
+
+
+   
