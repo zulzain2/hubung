@@ -242,8 +242,6 @@
                                 console.log(err);
                             });
 
-                            
-
                         },
                         participantRoleChanged: function(data) {
                             if(data.role === 'moderator') {

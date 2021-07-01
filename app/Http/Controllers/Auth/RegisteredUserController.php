@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Mail\SendOTP;
 use App\Models\Notification;
 use Illuminate\Http\Request;
-use App\Models\UserTemporary;
 
+use App\Models\UserTemporary;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Response;
@@ -45,8 +47,10 @@ class RegisteredUserController extends Controller
         $validator = Validator::make($request->all(), [
             'nick_name' => 'required|string|max:255',
             'phone_number' => 'required|unique:users|string|max:64',
+            'email' => 'required|string|email|max:255|unique:users',
         ],[
-            'phone_number.unique' => 'Phone number already registered. Please login.'
+            'phone_number.unique' => 'Phone number already registered. Please login.',
+            'email.unique' => 'Email already registered. Please login or try another.',
         ]);
         
 
@@ -62,16 +66,23 @@ class RegisteredUserController extends Controller
      
         $otp = rand(1000,9999);
         $otp_expired = date("Y-m-d H:i:s", time() + 300);
-        
-        $content = "Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired))."";
-        Notification::notificationSMS($request->phone_number,$content);
 
         $user_temporary = UserTemporary::create([
             'nick_name' => $request->nick_name,
             'phone_number' => $request->phone_number,
+            'email' => $request->email,
             'otp' => $otp,
             'otp_expired' => $otp_expired,
         ]);
+                
+        $content = "Your verification code is ".$otp." and will expired on ".date('j F Y, g:i a' , strtotime($otp_expired))."";
+        Notification::notificationSMS($request->phone_number,$content);
+        try {
+            Mail::to($user_temporary)->send(new SendOTP($otp));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+       
 
         // $user = User::create([
         //     'name' => $request->name,
