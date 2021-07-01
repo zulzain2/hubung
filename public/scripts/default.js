@@ -3,12 +3,21 @@ var swup = {};
 var socket = io("https://socket.zulzayn.com/");
 
 //for preloader spinner
-setTimeout(function() {
-    var _0xce56x1 = document['getElementById']('preloader');
-    if (_0xce56x1) {
-        _0xce56x1['classList']['add']('preloader-hide')
-    }
-}, 150);
+// setTimeout(function() {
+//     var _0xce56x1 = document['getElementById']('preloader');
+//     if (_0xce56x1) {
+//         _0xce56x1['classList']['add']('preloader-hide')
+//     }
+// }, 150);
+
+window.onload = function() {
+    setTimeout(function() {
+        var _0xce56x1 = document['getElementById']('preloader');
+        if (_0xce56x1) {
+            _0xce56x1['classList']['add']('preloader-hide')
+        }
+    }, 150);
+};
 
 //to show/hide snackbar
 function snackbar(type , message) { //type : sucess , warning , error
