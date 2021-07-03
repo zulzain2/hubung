@@ -15,7 +15,7 @@ Just make sure that your Laragon run with below Environment
 
 ## INSTALLATION STEPS
 
-**_To Run Web System_** 
+### To Run Web System
 
 **1) Clone**
 - SSH : `git clone git@gitlab.com:zulwaqarzain96/hubung.git`
@@ -25,8 +25,30 @@ Just make sure that your Laragon run with below Environment
 
 **3) run - `npm install`**
 
-**4) Copy .env.example file** 
+**4) Copy .env.example file and rename to .env** 
+
+_For database:-_
 - change `DB_DATABASE=dev_hubung`
+
+_For Mailing we use SMTP so the attribute should looks like below:-_
+- `MAIL_MAILER=smtp`
+- `MAIL_HOST=smtp.gmail.com`
+- `MAIL_PORT=587`
+- `MAIL_USERNAME=test@test.com`
+- `MAIL_PASSWORD=test123`
+- `MAIL_ENCRYPTION=tls`
+- `MAIL_FROM_ADDRESS=test@test.com`
+- `MAIL_FROM_NAME="${APP_NAME}"`
+
+_For Firebase Cloud Messaging (FCM) the attribute should looks like below:-_
+   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relative or full path to the Service Account JSON file
+- `FIREBASE_CREDENTIALS=fcm-credential/test-2021-firebase-adminsdk-1111-111111111.json`
+
+   You can find the database URL for your project at https://console.firebase.google.com/project/_/database
+- `FIREBASE_DATABASE_URL=https://test-2021-default-rtdb.region-subregion1.firebasedatabase.app/`
+
+_Lastly, make sure your **APP_URL** is working for websocket to run locally._
 
 **5) run - `php artisan key:generate`**
 
@@ -36,10 +58,11 @@ Just make sure that your Laragon run with below Environment
 
 **8) run - `php artisan migrate`**
 
-**_To Run Websocket_** 
+### To Run Websocket
 
 **1) Navigate to - /socket/socket-chat**
 
 **2) Run - `npm install`**
 
 **3) Run - `npm run dev`**
+
