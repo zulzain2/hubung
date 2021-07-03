@@ -1,4 +1,4 @@
-<p align="center"><a href="https//hubung.zulzayn.com/"><img src="https://gitlab.com/zulwaqarzain96/hubung/-/raw/master/public/icons/192.png" width="170"></a></p>
+<p align="center"><a href="https://hubung.zulzayn.com/" target="_blank"><img src="https://gitlab.com/zulwaqarzain96/hubung/-/raw/master/public/icons/192.png" width="170"></a></p>
 
 <p align="center">
 <a href="https://gitlab.com/ImranShamm/hse-magicx/-/pipelines"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
