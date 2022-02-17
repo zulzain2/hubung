@@ -78,7 +78,10 @@
                                 <label class="custom-control-label" for="switch-dark-mode"></label>
                             </div>
                     
-                            <h1 class="text-center font-900 font-40 text-uppercase mb-0">Connect</h1>
+                            <h1 class="text-center font-900 font-40 text-uppercase mb-0"><a href="https://drive.google.com/file/d/1qTQxmdLUnN2pgZK14PKKBJ5AV0Z-LcAW/view?usp=sharing" style="color:unset"><i class="fab fa-android fa-lg"></a></i></h1>  <br>
+                            <h1 class="text-center font-900 font-40 text-uppercase mb-0">Connect </a></h1>  
+                     
+                       
 
                             <p class="bottom-0 text-center color-highlight font-11">Let's get you connect back</p>
 
@@ -141,8 +144,14 @@
             </tr>
         </table>
             
+ 
+
     </div>
+
+    
+
 </div>
+
 
 
 
